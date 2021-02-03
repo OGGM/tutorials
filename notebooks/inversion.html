@@ -1,0 +1,1737 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ice thickness inversion &#8212; OGGM notebook tutorials</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.da26317cf37e5c4af2fa3e6253912353.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Storing and compressing glacier directories for later use" href="store_and_compress_glacierdirs.html" />
+    <link rel="prev" title="Dealing with errors after a run" href="deal_with_errors.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">OGGM notebook tutorials</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="welcome.html">
+   Welcome to the OGGM tutorials!
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started.html">
+   Getting started with OGGM: a real case study, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_gcm.html">
+   Run OGGM with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing and compressing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
+   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="thickness_model.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="massbalance-calibration.html">
+   A quick look into the mass-balance calibration procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="where-are-the-flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Others
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyviz_intro.html">
+   Small overview of PyViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/inversion.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OGGM/tutorials"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/inversion.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OGGM/tutorials/edit/master/./notebooks/inversion.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/inversion.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        <a class="jupyterhub-button" href="https://mybinder.org/v2/gh/OGGM/binder/master/hub/user-redirect/git-pull?repo=https://github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/inversion.ipynb&branch=master"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch JupyterHub" data-toggle="tooltip"
+                data-placement="left"><img class="jupyterhub-button-logo"
+                    src="../_static/images/logo_jupyterhub.svg"
+                    alt="Interact on JupyterHub">JupyterHub</button></a>
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run">
+   Run
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-the-data">
+   Read the data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#results">
+   Results
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sensitivity-analysis">
+   Sensitivity analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#new-in-version-1-4-calibrate-to-match-the-consensus-estimate">
+   New in version 1.4: calibrate to match the consensus estimate
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#distributed-ice-thickness">
+   Distributed ice thickness
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-many-glaciers-on-a-map">
+   Plot many glaciers on a map
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-oggm">
+     Using OGGM
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#using-salem">
+     Using salem
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="ice-thickness-inversion">
+<h1>Ice thickness inversion<a class="headerlink" href="#ice-thickness-inversion" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to run the OGGM ice thickness inversion model
+with various ice parameters: the deformation parameter A and a sliding
+parameter.</p>
+<p>There is currently no “best” set of parameters for the ice thickness
+inversion model. As shown in
+<a class="reference external" href="https://www.geosci-model-dev.net/12/909/2019/">Maussion et al. (2019)</a>,
+the default parameter set results in global volume estimates which are a bit
+larger than previous values. For the consensus estimate of
+<a class="reference external" href="https://www.nature.com/articles/s41561-019-0300-3">Farinotti et al. (2019)</a>,
+OGGM participated with a deformation parameter 1.5 times larger than the
+generally accepted default value.</p>
+<p>There is no reason to think that the ice parameters are the same between
+neighboring glaciers. There is currently no “good” way to calibrate them,
+or at least no generaly accepted one.
+We won’t discuss the details here, but we provide a script to illustrate
+the sensitivity of the model to this choice.</p>
+<p><strong>New in version 1.4</strong>: we demonstrate how to apply a new global task in OGGM, <code class="docutils literal notranslate"><span class="pre">workflow.calibrate_inversion_from_consensus</span></code> to calibrate the A parameter to match the consensus estimate from <a class="reference external" href="https://www.nature.com/articles/s41561-019-0300-3">Farinotti et al. (2019)</a>.</p>
+<p>At the end of this tutorial, we show of the “flowline thicknesses” can be distrubed to the glacier map.</p>
+<div class="section" id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Libs</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+
+<span class="c1"># Locals</span>
+<span class="kn">import</span> <span class="nn">oggm.cfg</span> <span class="k">as</span> <span class="nn">cfg</span>
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
+
+<span class="c1"># Initialize OGGM and set up the default run parameters</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="n">rgi_region</span> <span class="o">=</span> <span class="s1">&#39;11&#39;</span>  <span class="c1"># Region Central Europe</span>
+
+<span class="c1"># Local working directory (where OGGM will write its output)</span>
+<span class="n">WORKING_DIR</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_Inversion&#39;</span><span class="p">)</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WORKING_DIR</span>
+
+<span class="c1"># RGI file</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_region_file</span><span class="p">(</span><span class="n">rgi_region</span><span class="p">)</span>
+<span class="n">rgidf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="c1"># Select the glaciers in the Pyrenees</span>
+<span class="n">rgidf</span> <span class="o">=</span> <span class="n">rgidf</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">rgidf</span><span class="p">[</span><span class="s1">&#39;O2Region&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2&#39;</span><span class="p">]</span>
+
+<span class="c1"># Sort for more efficient parallel computing</span>
+<span class="n">rgidf</span> <span class="o">=</span> <span class="n">rgidf</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;Area&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># Go - get the pre-processed glacier directories</span>
+<span class="c1"># We start at level 3, because we need all data for the inversion</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgidf</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Because of recent changes in OGGM not yet available in the preprocessed directories, </span>
+<span class="c1"># we re-run this task:</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">prepare_for_inversion</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">)</span>
+
+<span class="c1"># Default parameters</span>
+<span class="c1"># Deformation: from Cuffey and Patterson 2010</span>
+<span class="n">glen_a</span> <span class="o">=</span> <span class="mf">2.4e-24</span>
+<span class="c1"># Sliding: from Oerlemans 1997</span>
+<span class="n">fs</span> <span class="o">=</span> <span class="mf">5.7e-20</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-03 15:33:15: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-03 15:33:15: oggm.cfg: Multiprocessing switched ON according to the parameter file.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-03 15:33:15: oggm.cfg: Multiprocessing: using all available processors (N=8)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-03 15:33:16: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-03 15:33:16: oggm.workflow: Execute entity task gdir_from_prepro on 35 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-03 15:33:17: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">utils</span><span class="o">.</span><span class="n">DisableLogger</span><span class="p">():</span>  <span class="c1"># this scraps some output - to use with caution!!!</span>
+    
+    <span class="c1"># Correction factors</span>
+    <span class="n">factors</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">factors</span> <span class="o">+=</span> <span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">factors</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+    <span class="c1"># Run the inversions tasks with the given factors</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
+        <span class="c1"># Without sliding</span>
+        <span class="n">suf</span> <span class="o">=</span> <span class="s1">&#39;_</span><span class="si">{:03d}</span><span class="s1">_without_fs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">mass_conservation_inversion</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
+                                     <span class="n">glen_a</span><span class="o">=</span><span class="n">glen_a</span><span class="o">*</span><span class="n">f</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Store the results of the inversion only</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">compile_glacier_statistics</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">suf</span><span class="p">,</span>
+                                         <span class="n">inversion_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># With sliding</span>
+        <span class="n">suf</span> <span class="o">=</span> <span class="s1">&#39;_</span><span class="si">{:03d}</span><span class="s1">_with_fs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">mass_conservation_inversion</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
+                                     <span class="n">glen_a</span><span class="o">=</span><span class="n">glen_a</span><span class="o">*</span><span class="n">f</span><span class="p">,</span> <span class="n">fs</span><span class="o">=</span><span class="n">fs</span><span class="p">)</span>
+        <span class="c1"># Store the results of the inversion only</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">compile_glacier_statistics</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">suf</span><span class="p">,</span>
+                                         <span class="n">inversion_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="read-the-data">
+<h2>Read the data<a class="headerlink" href="#read-the-data" title="Permalink to this headline">¶</a></h2>
+<p>The data are stored as csv files in the working directory. The easiest way to read them is to use <a class="reference external" href="http://pandas.pydata.org/">pandas</a>!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">import</span> <span class="nn">os</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s read the output of the inversion with the default OGGM parameters first:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;glacier_statistics_011_without_fs.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rgi_region</th>
+      <th>rgi_subregion</th>
+      <th>name</th>
+      <th>cenlon</th>
+      <th>cenlat</th>
+      <th>rgi_area_km2</th>
+      <th>rgi_year</th>
+      <th>glacier_type</th>
+      <th>terminus_type</th>
+      <th>is_tidewater</th>
+      <th>...</th>
+      <th>inv_volume_km3</th>
+      <th>vas_volume_km3</th>
+      <th>inv_volume_bsl_km3</th>
+      <th>inv_volume_bwl_km3</th>
+      <th>dem_source</th>
+      <th>n_orig_centerlines</th>
+      <th>flowline_type</th>
+      <th>perc_invalid_flowline</th>
+      <th>inversion_glen_a</th>
+      <th>inversion_fs</th>
+    </tr>
+    <tr>
+      <th>rgi_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.03208</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Aneto</td>
+      <td>0.646032</td>
+      <td>42.641357</td>
+      <td>0.622</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.029854</td>
+      <td>0.017699</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>2</td>
+      <td>centerlines</td>
+      <td>0.205128</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03232</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Ossoue</td>
+      <td>-0.141222</td>
+      <td>42.771191</td>
+      <td>0.449</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.019636</td>
+      <td>0.011306</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03222</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Monte Perdido Lower</td>
+      <td>0.039655</td>
+      <td>42.679337</td>
+      <td>0.308</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.009120</td>
+      <td>0.006733</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>2</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03209</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Maladeta E</td>
+      <td>0.639343</td>
+      <td>42.648979</td>
+      <td>0.260</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.007672</td>
+      <td>0.005334</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03231</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Oulettes Du Gaube</td>
+      <td>-0.144215</td>
+      <td>42.779716</td>
+      <td>0.130</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.002747</td>
+      <td>0.002057</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03213</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Seil De La Baque E</td>
+      <td>0.494304</td>
+      <td>42.694481</td>
+      <td>0.105</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.002118</td>
+      <td>0.001533</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03239</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Jezerces Gl No1</td>
+      <td>19.807627</td>
+      <td>42.465839</td>
+      <td>0.097</td>
+      <td>2007</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.002538</td>
+      <td>0.001375</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.562500</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03229</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Gabietous</td>
+      <td>-0.057456</td>
+      <td>42.695129</td>
+      <td>0.087</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001720</td>
+      <td>0.001184</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03218</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Llardana</td>
+      <td>0.428193</td>
+      <td>42.653946</td>
+      <td>0.084</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001472</td>
+      <td>0.001128</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03228</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Taillon</td>
+      <td>-0.039683</td>
+      <td>42.695419</td>
+      <td>0.083</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001733</td>
+      <td>0.001110</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03205</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Tempestades</td>
+      <td>0.666092</td>
+      <td>42.626839</td>
+      <td>0.077</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001395</td>
+      <td>0.001001</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03206</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Barrancs</td>
+      <td>0.658785</td>
+      <td>42.632011</td>
+      <td>0.067</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001078</td>
+      <td>0.000827</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03217</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>La Paul</td>
+      <td>0.437356</td>
+      <td>42.661072</td>
+      <td>0.057</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000993</td>
+      <td>0.000662</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03221</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Monte Perdido Upper</td>
+      <td>0.033972</td>
+      <td>42.678589</td>
+      <td>0.054</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001139</td>
+      <td>0.000614</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03210</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Maladeta W</td>
+      <td>0.632566</td>
+      <td>42.652107</td>
+      <td>0.054</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000884</td>
+      <td>0.000614</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03233</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Infierno Central</td>
+      <td>-0.258849</td>
+      <td>42.783802</td>
+      <td>0.053</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000868</td>
+      <td>0.000599</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03225</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Astazou</td>
+      <td>0.034118</td>
+      <td>42.703136</td>
+      <td>0.052</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001376</td>
+      <td>0.000583</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03211</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Boum</td>
+      <td>0.555278</td>
+      <td>42.700157</td>
+      <td>0.050</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001101</td>
+      <td>0.000553</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03240</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Jezerces Gl No2</td>
+      <td>19.815450</td>
+      <td>42.447353</td>
+      <td>0.049</td>
+      <td>2007</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000666</td>
+      <td>0.000538</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03227</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Pailla W</td>
+      <td>0.015287</td>
+      <td>42.705482</td>
+      <td>0.046</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000711</td>
+      <td>0.000493</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03219</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Barroude</td>
+      <td>0.142224</td>
+      <td>42.726147</td>
+      <td>0.042</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000828</td>
+      <td>0.000435</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03220</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Munia</td>
+      <td>0.129816</td>
+      <td>42.717735</td>
+      <td>0.041</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000583</td>
+      <td>0.000421</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03212</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Portillon D Oo</td>
+      <td>0.511460</td>
+      <td>42.693188</td>
+      <td>0.040</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000549</td>
+      <td>0.000407</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03226</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Pailla E</td>
+      <td>0.021260</td>
+      <td>42.705322</td>
+      <td>0.035</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000639</td>
+      <td>0.000339</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03241</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>It4L30000001 Gh Del Calderone</td>
+      <td>13.566710</td>
+      <td>42.470540</td>
+      <td>0.033</td>
+      <td>1990</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000619</td>
+      <td>0.000312</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.250000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03230</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Petit Vignemale</td>
+      <td>-0.137718</td>
+      <td>42.775856</td>
+      <td>0.027</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000370</td>
+      <td>0.000237</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03215</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Gourgs Blancs</td>
+      <td>0.480293</td>
+      <td>42.700859</td>
+      <td>0.026</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000468</td>
+      <td>0.000225</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03234</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Las Neous</td>
+      <td>-0.286945</td>
+      <td>42.838642</td>
+      <td>0.025</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000465</td>
+      <td>0.000213</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03223</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Marbore</td>
+      <td>0.018435</td>
+      <td>42.693417</td>
+      <td>0.023</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000325</td>
+      <td>0.000190</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03224</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Cilindro</td>
+      <td>0.026603</td>
+      <td>42.689346</td>
+      <td>0.022</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000319</td>
+      <td>0.000179</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03204</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Valier</td>
+      <td>1.088501</td>
+      <td>42.798626</td>
+      <td>0.021</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000264</td>
+      <td>0.000168</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03214</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Seil De La Baque W</td>
+      <td>0.490498</td>
+      <td>42.696220</td>
+      <td>0.020</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000303</td>
+      <td>0.000157</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03238</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Debeli Namet Gl</td>
+      <td>19.067500</td>
+      <td>43.115000</td>
+      <td>0.019</td>
+      <td>2003</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000180</td>
+      <td>0.000146</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03207</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Coronas</td>
+      <td>0.654112</td>
+      <td>42.632977</td>
+      <td>0.015</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000259</td>
+      <td>0.000106</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03216</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Posets</td>
+      <td>0.438703</td>
+      <td>42.656570</td>
+      <td>0.010</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000130</td>
+      <td>0.000060</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>35 rows × 21 columns</p>
+</div></div></div>
+</div>
+<p>There are only 35 glaciers in the Pyrenees! That’s why the run was relatively fast.</p>
+</div>
+<div class="section" id="results">
+<h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
+<p>One way to visualize the output is to plot the volume as a function of area in a log-log plot, illustrating the well know volume-area relationship of mountain glaciers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;rgi_area_km2&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;inv_volume_km3&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogx</span><span class="p">();</span> <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">()</span>
+<span class="n">xlim</span><span class="p">,</span> <span class="n">ylim</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span> <span class="p">[</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As we can see, there is a clear relationship, but it is not perfect. Let’s fit a line to these data (the “volume-area scaling law”):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fit in log space </span>
+<span class="n">dfl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;inv_volume_km3&#39;</span><span class="p">,</span> <span class="s1">&#39;rgi_area_km2&#39;</span><span class="p">]])</span>
+<span class="n">slope</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">r_value</span><span class="p">,</span> <span class="n">p_value</span><span class="p">,</span> <span class="n">std_err</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linregress</span><span class="p">(</span><span class="n">dfl</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dfl</span><span class="o">.</span><span class="n">inv_volume_km3</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In their seminal paper, <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/97JB01696">Bahr et al. (1997)</a> describe this relationship as:</p>
+<div class="math notranslate nohighlight">
+\[V = \alpha S^{\gamma}\]</div>
+<p>With V the volume in km<span class="math notranslate nohighlight">\(^3\)</span>, S the area in km<span class="math notranslate nohighlight">\(^2\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\gamma\)</span> the scaling parameters (0.034 and 1.375, respectively). How does OGGM compare to these in the Pyrenees?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;power: </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">slope</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;slope: </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">intercept</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;rgi_area_km2&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;inv_volume_km3&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM glaciers&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xlim</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">intercept</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">xlim</span> <span class="o">**</span> <span class="n">slope</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fitted line&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">semilogx</span><span class="p">();</span> <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">);</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="sensitivity-analysis">
+<h2>Sensitivity analysis<a class="headerlink" href="#sensitivity-analysis" title="Permalink to this headline">¶</a></h2>
+<p>Now, let’s read the output files of each run separately, and compute the regional volume out of them:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dftot</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">factors</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">:</span>
+    <span class="c1"># Without sliding</span>
+    <span class="n">suf</span> <span class="o">=</span> <span class="s1">&#39;_</span><span class="si">{:03d}</span><span class="s1">_without_fs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">fpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;glacier_statistics</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">suf</span><span class="p">))</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">dftot</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;without_sliding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_df</span><span class="o">.</span><span class="n">inv_volume_km3</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    
+    <span class="c1"># With sliding</span>
+    <span class="n">suf</span> <span class="o">=</span> <span class="s1">&#39;_</span><span class="si">{:03d}</span><span class="s1">_with_fs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">f</span> <span class="o">*</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">fpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;glacier_statistics</span><span class="si">{}</span><span class="s1">.csv&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">suf</span><span class="p">))</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">dftot</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;with_sliding&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_df</span><span class="o">.</span><span class="n">inv_volume_km3</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And plot them:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dftot</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Factor of Glen A (default 1)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Regional volume (km$^3$)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As you can see, there is quite a difference between the solutions. In particular, close to the default value for Glen A, the regional estimates are very sensitive to small changes in A. The calibration of A is a problem that has yet to be resolved by global glacier models…</p>
+</div>
+<div class="section" id="new-in-version-1-4-calibrate-to-match-the-consensus-estimate">
+<h2>New in version 1.4: calibrate to match the consensus estimate<a class="headerlink" href="#new-in-version-1-4-calibrate-to-match-the-consensus-estimate" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cdf</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">calibrate_inversion_from_consensus</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">filter_inversion_output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cdf</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="distributed-ice-thickness">
+<h2>Distributed ice thickness<a class="headerlink" href="#distributed-ice-thickness" title="Permalink to this headline">¶</a></h2>
+<p>The OGGM inversion and dynamical models use the “1D” flowline assumption: for some applications, you might want to use OGGM to create distributed ice thickness maps. Currently, OGGM implements two ways to “distribute” the flowline thicknesses, but only <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.distribute_thickness_per_altitude.html">the simplest one</a> works robustly:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distribute</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">distribute_thickness_per_altitude</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We just created a new output of the model, which we can access in the <code class="docutils literal notranslate"><span class="pre">gridded_data</span></code> file:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># xarray is an awesome library! Did you know about it?</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;gridded_data&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">distributed_thickness</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plot-many-glaciers-on-a-map">
+<h2>Plot many glaciers on a map<a class="headerlink" href="#plot-many-glaciers-on-a-map" title="Permalink to this headline">¶</a></h2>
+<p>Let’s select a group of glaciers close to each other:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.0</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3205</span><span class="p">,</span> <span class="mi">3211</span><span class="p">)]</span>
+<span class="n">sel_gdirs</span> <span class="o">=</span> <span class="p">[</span><span class="n">gdir</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span> <span class="k">if</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span> <span class="ow">in</span> <span class="n">rgi_ids</span><span class="p">]</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_googlemap</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="using-oggm">
+<h3>Using OGGM<a class="headerlink" href="#using-oggm" title="Permalink to this headline">¶</a></h3>
+<p>Since <a class="reference external" href="https://github.com/OGGM/oggm/pull/1025">a recent PR (21.05.2020)</a>, OGGM can plot the thickness of a group of glaciers on a map:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_distributed_thickness</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is however not very useful because OGGM can only plot on a map as large as the local glacier map of the first glacier in the list. See <a class="reference external" href="https://github.com/OGGM/oggm/issues/1007">this issue</a> for a discussion about why.</p>
+</div>
+<div class="section" id="using-salem">
+<h3>Using salem<a class="headerlink" href="#using-salem" title="Permalink to this headline">¶</a></h3>
+<p>Under the hood, OGGM uses <a class="reference external" href="https://salem.readthedocs.io">salem</a> to make the plots. Let’s do that for our case: it requires some manual tweaking, but it should be possible to automatize this better in the future.</p>
+<p><em>Note: this also requires a very recent version of salem to work (21.05.2020)</em></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">salem</span>
+<span class="c1"># Make a grid covering the desired map extent</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">salem</span><span class="o">.</span><span class="n">mercator_grid</span><span class="p">(</span><span class="n">center_ll</span><span class="o">=</span><span class="p">(</span><span class="mf">0.65</span><span class="p">,</span> <span class="mf">42.64</span><span class="p">),</span> <span class="n">extent</span><span class="o">=</span><span class="p">(</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">))</span>
+<span class="c1"># Create a map out of it</span>
+<span class="n">smap</span> <span class="o">=</span> <span class="n">salem</span><span class="o">.</span><span class="n">Map</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">countries</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># Add the glaciers outlines</span>
+<span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">sel_gdirs</span><span class="p">:</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">center_grid</span>
+    <span class="n">geom</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;geometries&#39;</span><span class="p">)</span>
+    <span class="n">poly_pix</span> <span class="o">=</span> <span class="n">geom</span><span class="p">[</span><span class="s1">&#39;polygon_pix&#39;</span><span class="p">]</span>
+    <span class="n">smap</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">poly_pix</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=.</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">poly_pix</span><span class="o">.</span><span class="n">interiors</span><span class="p">:</span>
+        <span class="n">smap</span><span class="o">.</span><span class="n">set_geometry</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">smap</span><span class="o">.</span><span class="n">visualize</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now add the thickness data</span>
+<span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">sel_gdirs</span><span class="p">:</span>
+    <span class="n">grids_file</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;gridded_data&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">utils</span><span class="o">.</span><span class="n">ncDataset</span><span class="p">(</span><span class="n">grids_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">nc</span><span class="p">:</span>
+        <span class="n">vn</span> <span class="o">=</span> <span class="s1">&#39;distributed_thickness&#39;</span>
+        <span class="n">thick</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">vn</span><span class="p">][:]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s1">&#39;glacier_mask&#39;</span><span class="p">][:]</span>
+    <span class="n">thick</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">thick</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">)</span>
+    <span class="c1"># The &quot;overplot=True&quot; is key here</span>
+    <span class="c1"># this needs a recent version of salem to run properly</span>
+    <span class="n">smap</span><span class="o">.</span><span class="n">set_data</span><span class="p">(</span><span class="n">thick</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">center_grid</span><span class="p">,</span> <span class="n">overplot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set colorscale and other things</span>
+<span class="n">smap</span><span class="o">.</span><span class="n">set_cmap</span><span class="p">(</span><span class="n">graphics</span><span class="o">.</span><span class="n">OGGM_CMAPS</span><span class="p">[</span><span class="s1">&#39;glacier_thickness&#39;</span><span class="p">])</span>
+<span class="n">smap</span><span class="o">.</span><span class="n">set_plot_params</span><span class="p">(</span><span class="n">nlevels</span><span class="o">=</span><span class="mi">256</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">smap</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cbar_title</span><span class="o">=</span><span class="s1">&#39;Glacier thickness (m)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="deal_with_errors.html" title="previous page">Dealing with errors after a run</a>
+    <a class='right-next' id="next-link" href="store_and_compress_glacierdirs.html" title="next page">Storing and compressing glacier directories for later use</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By OGGM e.V. and OGGM Contributors<br/>
+        
+          <div class="extra_footer">
+            <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2020.
+</p>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-106829797-2', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>
