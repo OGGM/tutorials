@@ -56,7 +56,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Create local topography maps from different DEM sources with OGGM" href="dem_sources.html" />
+    <link rel="next" title="Run with a spinup and GCM data" href="run_with_a_spinup_and_gcm_data.html" />
     <link rel="prev" title="OGGM centerlines versus elevation-band flowlines: a quick comparison" href="elevation_bands_vs_centerlines.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -155,6 +155,11 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
   </a>
  </li>
  <li class="toctree-l1">
@@ -382,7 +387,8 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this can take some time</span>
+<span class="n">df</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">rgi_reg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">):</span>
     <span class="n">fpath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;glacier_statistics_</span><span class="si">{</span><span class="n">rgi_reg</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
@@ -416,6 +422,8 @@
 </div>
 </div>
 </div>
+<p>Most errors occur because the interpolation of tstar did not work.</p>
+<p>We now look at the errors that occur already before applying the climate tasks:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfe</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
@@ -437,7 +445,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/preprocessing_errors_11_0.png" src="../_images/preprocessing_errors_11_0.png" />
+<img alt="../_images/preprocessing_errors_12_0.png" src="../_images/preprocessing_errors_12_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -608,7 +616,7 @@
         <div class='prev-next-bottom'>
             
     <a class='left-prev' id="prev-link" href="elevation_bands_vs_centerlines.html" title="previous page">OGGM centerlines versus elevation-band flowlines: a quick comparison</a>
-    <a class='right-next' id="next-link" href="dem_sources.html" title="next page">Create local topography maps from different DEM sources with OGGM</a>
+    <a class='right-next' id="next-link" href="run_with_a_spinup_and_gcm_data.html" title="next page">Run with a spinup and GCM data</a>
 
         </div>
         

@@ -57,7 +57,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="A toy statistical model of ice thickness" href="thickness_model.html" />
-    <link rel="prev" title="Error analysis of the global pre-processing workflow" href="preprocessing_errors.html" />
+    <link rel="prev" title="Run with a spinup and GCM data" href="run_with_a_spinup_and_gcm_data.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -155,6 +155,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="preprocessing_errors.html">
    Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -341,8 +346,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-default">
-   The default
+  <a class="reference internal nav-link" href="#choose-a-dem-source-e-g-srtm">
+   Choose a DEM source (e.g. SRTM)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -400,9 +405,7 @@ It is also possible to use your own DEM data in OGGM.</p>
 <h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">oggm</span>
 <span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
@@ -413,16 +416,16 @@ It is also possible to use your own DEM data in OGGM.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:03:59: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:10:59: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:03:59: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:10:59: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:03:59: oggm.cfg: Multiprocessing: using all available processors (N=8)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:10:59: oggm.cfg: Multiprocessing: using all available processors (N=8)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:00: oggm.cfg: PARAMS[&#39;border&#39;] changed from `20` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:00: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
 </pre></div>
 </div>
 </div>
@@ -443,20 +446,22 @@ It is also possible to use your own DEM data in OGGM.</p>
 </div>
 </div>
 </div>
-<div class="section" id="the-default">
-<h2>The default<a class="headerlink" href="#the-default" title="Permalink to this headline">¶</a></h2>
-<p>If not specifying anything, OGGM will use it’s default settings, i.e. NASADEM mid- and low-latitudes:</p>
+<div class="section" id="choose-a-dem-source-e-g-srtm">
+<h2>Choose a DEM source (e.g. SRTM)<a class="headerlink" href="#choose-a-dem-source-e-g-srtm" title="Permalink to this headline">¶</a></h2>
+<p>If not specifying anything, OGGM will use it’s default settings, i.e. NASADEM for mid- and low-latitudes (60°S-60°N). However, this needs registration at <a class="reference external" href="https://urs.earthdata.nasa.gov/">NASA Earthdata</a> (see below). Here,
+we choose the <strong>SRTM</strong> source as example DEM (no registration necessary).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s make a working directory for this DEM </span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">entity</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;SRTM&#39;</span><span class="p">)</span>
+<span class="c1"># if not yet installed, you have to install rasterio</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:01: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:00: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -499,22 +504,28 @@ It is also possible to use your own DEM data in OGGM.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NASADEM Merged DEM Global
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SRTM V4
 
-Original resolution: 1 arcsec (~30m)
+Original resolution: 3 arcsec (~90m)
 Date of acquisition: February 2000
 Date range: 2000-2000
 
 # Data Citation
 
-NASADEM Merged DEM Global 1 arc second - NASADEM_HGT
-NASA JPL (2020). NASADEM Merged DEM Global 1 arc second V001 [Data set]. NASA
-EOSDIS Land Processes DAAC. Accessed YYYY-MM-DD from
-https://doi.org/10.5067/MEaSUREs/NASADEM/NASADEM_HGT.001
+We kindly ask  any users to  cite this data  in any published  material
+produced using this data, and if possible link web pages to the CIAT-CSI
+SRTM website (http://srtm.csi.cgiar.org).
+
+Citations should be made as follows:
+
+Jarvis A., H.I. Reuter, A.  Nelson, E. Guevara, 2008, Hole-filled seamless SRTM
+data V4, International  Centre for Tropical  Agriculture (CIAT), available
+from http://srtm.csi.cgiar.org,
+
 
 # Data files
 
-n46e010.hgt
+srtm_39_03.tif
 </pre></div>
 </div>
 </div>
@@ -549,30 +560,30 @@ NASADEM   : NASADEM Merged DEM Global
 </div>
 </div>
 </div>
-<p>At the moment three of these sources, <strong>TanDEM-X</strong>, <strong>COPDEM</strong> and <strong>ASTGTMV3</strong> reqire a user account to download data. You need to register at <a class="reference external" href="https://urs.earthdata.nasa.gov/">NASA Earthdata</a> for ASTGTMV3, at <a class="reference external" href="https://sso.eoc.dlr.de/tdm90/selfservice/">DLR</a> for TanDEM-X, and at <a class="reference external" href="https://spacedata.copernicus.eu">spacedata.copernicus.eu/</a> for COP-DEM.</p>
-<p>After that you can use the command line functionality <code class="docutils literal notranslate"><span class="pre">oggm_netrc_credentials</span></code> to store your user credentials in a local <code class="docutils literal notranslate"><span class="pre">~/.netrc</span></code> file.
-Your user credentials are only stored locally and are only used by the download function for authentification with the original DEM source. <strong>Credentials are not needed if you use the RGI-TOPO data (see below).</strong></p>
+<p>The default DEM source for low and mid-latitudes (60°S-60°N), <strong>NASADEM</strong>, requires a user account to download data, so you need to register at <a class="reference external" href="https://urs.earthdata.nasa.gov/">NASA Earthdata</a>. There are other DEM sources where a registration is necessary; for <strong>ASTGTMV3</strong> at <a class="reference external" href="https://urs.earthdata.nasa.gov/">NASA Earthdata</a>, for <strong>TanDEM-X</strong> at <a class="reference external" href="https://sso.eoc.dlr.de/tdm90/selfservice/">DLR</a>, and for <strong>COPDEM</strong> at <a class="reference external" href="https://spacedata.copernicus.eu">spacedata.copernicus.eu</a>.</p>
+<p>After that you can use the command line functionality <code class="docutils literal notranslate"><span class="pre">oggm_netrc_credentials</span></code> to store your user credentials in a local <code class="docutils literal notranslate"><span class="pre">~/.netrc</span></code> file. Your user credentials are only stored locally and are only used by the download function for authentification with the original DEM source. <strong>Credentials are not needed if you use the RGI-TOPO data (see below).</strong></p>
 </div>
 <div class="section" id="use-pre-processed-dems-from-rgi-topo">
 <h2>Use pre-processed DEMs from RGI-TOPO<a class="headerlink" href="#use-pre-processed-dems-from-rgi-topo" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference external" href="https://rgitools.readthedocs.io/en/latest/dems.html">RGI-TOPO</a> dataset is an RGI-provided dataset in beta release. These data are available for everyone, and where created with OGGM. Of course you can easily use these data in OGGM as well:</p>
+<p>The <a class="reference external" href="https://rgitools.readthedocs.io/en/latest/dems.html">RGI-TOPO</a> dataset is an RGI-provided dataset in beta release. These data are available for everyone, and were created with OGGM. Of course you can easily use these data in OGGM as well:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">rgitopo</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># use NASADEM, the default DEM for low and mid-latitudes in OGGM, you can also change to e.g. &#39;COPDEM&#39;</span>
+<span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">rgitopo</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;rgitopo&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">gdir</span> <span class="o">=</span> <span class="n">rgitopo</span><span class="o">.</span><span class="n">init_glacier_directories_from_rgitopo</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">],</span> <span class="n">dem_source</span><span class="o">=</span><span class="s1">&#39;COPDEM&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">rgitopo</span><span class="o">.</span><span class="n">init_glacier_directories_from_rgitopo</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">],</span> <span class="n">dem_source</span><span class="o">=</span><span class="s1">&#39;NASADEM&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">graphics</span><span class="o">.</span><span class="n">plot_domain</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:02: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:02: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:02: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:02: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:02: oggm.workflow: Execute entity task select_dem_from_dir on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:02: oggm.workflow: Execute entity task select_dem_from_dir on 1 glaciers
 </pre></div>
 </div>
 <img alt="../_images/dem_sources_23_3.png" src="../_images/dem_sources_23_3.png" />
@@ -581,7 +592,7 @@ Your user credentials are only stored locally and are only used by the download 
 </div>
 <div class="section" id="use-another-dem-source">
 <h2>Use another DEM source<a class="headerlink" href="#use-another-dem-source" title="Permalink to this headline">¶</a></h2>
-<p>Using RGI-TOPO dems is by far the easiest since all data is prepared for you and ready to use. But if you really want, you can go back to the original data sources:</p>
+<p>Using RGI-TOPO DEMs is by far the easiest since all data is prepared for you and ready to use. But if you really want, you can go back to the original data sources:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s make a working directory for this DEM </span>
@@ -595,7 +606,7 @@ Your user credentials are only stored locally and are only used by the download 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:03: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:03: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -674,10 +685,10 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:04: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:04: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:05: oggm.core.gis: Source: GIMP may not be available for glacier RGI60-11.00897 with border 10
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:05: oggm.core.gis: Source: GIMP may not be available for glacier RGI60-11.00897 with border 10
 </pre></div>
 </div>
 </div>
@@ -716,7 +727,7 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:05: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:05: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -738,9 +749,21 @@ L32.tif
 </div>
 <div class="section" id="the-border-value-or-how-to-chose-the-size-of-the-topographic-map">
 <h2>The border value, or how to chose the size of the topographic map<a class="headerlink" href="#the-border-value-or-how-to-chose-the-size-of-the-topographic-map" title="Permalink to this headline">¶</a></h2>
-<p>It is possible to specify the extent of the local topographic map. All maps are centered on the glacier and the size of the map is determined in grid points arount the glacier. The default number of grid points, which was also used in the examples above is 20.
-But depending on your study you might need a larger topographic map. Or if you only need the glacier extent and want to save storage and traffic you can also reduce it.</p>
-<p>OGGM’s <a class="reference external" href="https://docs.oggm.org/en/latest/input-data.html#pre-processed-directories">pre-processed directories</a> come in 4 border sizes: 10, 80, 160 and 250. But if you process the topography yourself you can chose every value.</p>
+<p>It is possible to specify the extent of the local topographic map. All maps are centered on the glacier and the size of the map is determined in grid points around the glacier. The number of grid points that was used in this example are 10 in order to save storage. But depending on your study you might need a larger topographic map.</p>
+<p>OGGM’s <a class="reference external" href="https://docs.oggm.org/en/latest/input-data.html#pre-processed-directories">pre-processed directories</a> come in 4 border sizes: 10, 40, 80 and 160. But if you process the topography yourself you can chose every value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># print the currently used number of gridpoints around a glacier</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10
+</pre></div>
+</div>
+</div>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -748,7 +771,7 @@ But depending on your study you might need a larger topographic map. Or if you o
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:06: oggm.cfg: PARAMS[&#39;border&#39;] changed from `10` to `1`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:06: oggm.cfg: PARAMS[&#39;border&#39;] changed from `10` to `1`.
 </pre></div>
 </div>
 </div>
@@ -768,10 +791,10 @@ But depending on your study you might need a larger topographic map. Or if you o
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:06: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:06: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
 </pre></div>
 </div>
-<img alt="../_images/dem_sources_46_1.png" src="../_images/dem_sources_46_1.png" />
+<img alt="../_images/dem_sources_47_1.png" src="../_images/dem_sources_47_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -781,7 +804,7 @@ But depending on your study you might need a larger topographic map. Or if you o
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:07: oggm.cfg: PARAMS[&#39;border&#39;] changed from `1` to `100`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:07: oggm.cfg: PARAMS[&#39;border&#39;] changed from `1` to `100`.
 </pre></div>
 </div>
 </div>
@@ -801,10 +824,10 @@ But depending on your study you might need a larger topographic map. Or if you o
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:04:07: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:11:07: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
 </pre></div>
 </div>
-<img alt="../_images/dem_sources_48_1.png" src="../_images/dem_sources_48_1.png" />
+<img alt="../_images/dem_sources_49_1.png" src="../_images/dem_sources_49_1.png" />
 </div>
 </div>
 </div>
@@ -842,7 +865,7 @@ But depending on your study you might need a larger topographic map. Or if you o
         
         <div class='prev-next-bottom'>
             
-    <a class='left-prev' id="prev-link" href="preprocessing_errors.html" title="previous page">Error analysis of the global pre-processing workflow</a>
+    <a class='left-prev' id="prev-link" href="run_with_a_spinup_and_gcm_data.html" title="previous page">Run with a spinup and GCM data</a>
     <a class='right-next' id="next-link" href="thickness_model.html" title="next page">A toy statistical model of ice thickness</a>
 
         </div>
