@@ -398,14 +398,14 @@
 <h1>Ice thickness inversion<a class="headerlink" href="#ice-thickness-inversion" title="Permalink to this headline">¶</a></h1>
 <p>This example shows how to run the OGGM ice thickness inversion model
 with various ice parameters: the deformation parameter A and a sliding
-parameter.</p>
+parameter (fs).</p>
 <p>There is currently no “best” set of parameters for the ice thickness
 inversion model. As shown in
 <a class="reference external" href="https://www.geosci-model-dev.net/12/909/2019/">Maussion et al. (2019)</a>,
 the default parameter set results in global volume estimates which are a bit
 larger than previous values. For the consensus estimate of
 <a class="reference external" href="https://www.nature.com/articles/s41561-019-0300-3">Farinotti et al. (2019)</a>,
-OGGM participated with a deformation parameter 1.5 times larger than the
+OGGM participated with a deformation parameter A that is 1.5 times larger than the
 generally accepted default value.</p>
 <p>There is no reason to think that the ice parameters are the same between
 neighboring glaciers. There is currently no “good” way to calibrate them,
@@ -413,7 +413,7 @@ or at least no generaly accepted one.
 We won’t discuss the details here, but we provide a script to illustrate
 the sensitivity of the model to this choice.</p>
 <p><strong>New in version 1.4</strong>: we demonstrate how to apply a new global task in OGGM, <code class="docutils literal notranslate"><span class="pre">workflow.calibrate_inversion_from_consensus</span></code> to calibrate the A parameter to match the consensus estimate from <a class="reference external" href="https://www.nature.com/articles/s41561-019-0300-3">Farinotti et al. (2019)</a>.</p>
-<p>At the end of this tutorial, we show of the “flowline thicknesses” can be distrubed to the glacier map.</p>
+<p>At the end of this tutorial, we show how to distribute the “flowline thicknesses” on a glacier map.</p>
 <div class="section" id="run">
 <h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
@@ -464,25 +464,25 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:05:43: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:12: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:05:43: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:12: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:05:43: oggm.cfg: Multiprocessing: using all available processors (N=8)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:12: oggm.cfg: Multiprocessing: using all available processors (N=8)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:05:44: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:12: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:05:44: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:12: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:05:44: oggm.workflow: Execute entity task gdir_from_prepro on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:13: oggm.workflow: Execute entity task gdir_from_prepro on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:05:45: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:13: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -1456,7 +1456,7 @@ the sensitivity of the model to this choice.</p>
 </div>
 <div class="section" id="results">
 <h2>Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
-<p>One way to visualize the output is to plot the volume as a function of area in a log-log plot, illustrating the well know volume-area relationship of mountain glaciers:</p>
+<p>One way to visualize the output is to plot the volume as a function of area in a log-log plot, illustrating the well known volume-area relationship of mountain glaciers:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;scatter&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;rgi_area_km2&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;inv_volume_km3&#39;</span><span class="p">)</span>
@@ -1551,6 +1551,7 @@ slope: 0.045
 </div>
 <div class="section" id="new-in-version-1-4-calibrate-to-match-the-consensus-estimate">
 <h2>New in version 1.4: calibrate to match the consensus estimate<a class="headerlink" href="#new-in-version-1-4-calibrate-to-match-the-consensus-estimate" title="Permalink to this headline">¶</a></h2>
+<p>Here, a “best Glen A” is found in order that the total inverted volume of the glaciers of gdirs fits to the 2019 consensus estimate.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cdf</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">calibrate_inversion_from_consensus</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">filter_inversion_output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1558,76 +1559,76 @@ slope: 0.045
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Consensus estimate optimisation with A factor: 9.927344372640782 and fs: 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Consensus estimate optimisation with A factor: 9.927344372640782 and fs: 0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Consensus estimate optimisation with A factor: 9.503932371199765 and fs: 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Consensus estimate optimisation with A factor: 9.503932371199765 and fs: 0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Consensus estimate optimisation with A factor: 9.551452033056764 and fs: 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Consensus estimate optimisation with A factor: 9.551452033056764 and fs: 0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: calibrate_inversion_from_consensus converged after 4 iterations and fs=0. The resulting Glen A factor is 9.503932371199765.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: calibrate_inversion_from_consensus converged after 4 iterations and fs=0. The resulting Glen A factor is 9.503932371199765.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:42: oggm.workflow: Execute entity task prepare_for_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:43: oggm.workflow: Execute entity task mass_conservation_inversion on 35 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:43: oggm.workflow: Execute entity task get_inversion_volume on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -1647,6 +1648,67 @@ dtype: float64
 </div>
 </div>
 </div>
+<p>Note that here we calibrate the Glen A parameter to a value that is equal for all glaciers of gdirs (here <span class="math notranslate nohighlight">\(A \sim 9.504\cdot A_0\)</span>), i.e. we calibrate to match the total volume of all glaciers and not to match them individually.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cdf</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>vol_itmix_m3</th>
+      <th>vol_bsl_itmix_m3</th>
+      <th>vol_oggm_m3</th>
+    </tr>
+    <tr>
+      <th>RGIId</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.03208</th>
+      <td>1.564802e+07</td>
+      <td>0.0</td>
+      <td>1.972692e+07</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03232</th>
+      <td>1.422478e+07</td>
+      <td>0.0</td>
+      <td>1.340392e+07</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03222</th>
+      <td>5.158277e+06</td>
+      <td>0.0</td>
+      <td>6.604405e+06</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><em>just as a side note, “vol_bsl_itmix_m3” means volume below sea level and is therefore zero for these Alpine glaciers!</em></p>
 </div>
 <div class="section" id="distributed-ice-thickness">
 <h2>Distributed ice thickness<a class="headerlink" href="#distributed-ice-thickness" title="Permalink to this headline">¶</a></h2>
@@ -1659,7 +1721,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:06:15: oggm.workflow: Execute entity task distribute_thickness_per_altitude on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:46:43: oggm.workflow: Execute entity task distribute_thickness_per_altitude on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -1681,7 +1743,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/inversion_33_0.png" src="../_images/inversion_33_0.png" />
+<img alt="../_images/inversion_36_0.png" src="../_images/inversion_36_0.png" />
 </div>
 </div>
 </div>
@@ -1693,11 +1755,12 @@ dtype: float64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.0</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3205</span><span class="p">,</span> <span class="mi">3211</span><span class="p">)]</span>
 <span class="n">sel_gdirs</span> <span class="o">=</span> <span class="p">[</span><span class="n">gdir</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span> <span class="k">if</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span> <span class="ow">in</span> <span class="n">rgi_ids</span><span class="p">]</span>
 <span class="n">graphics</span><span class="o">.</span><span class="n">plot_googlemap</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">)</span>
+<span class="c1"># you might need to install motionless if it is not yet in your environment</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/inversion_36_0.png" src="../_images/inversion_36_0.png" />
+<img alt="../_images/inversion_39_0.png" src="../_images/inversion_39_0.png" />
 </div>
 </div>
 <div class="section" id="using-oggm">
@@ -1710,7 +1773,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/inversion_39_0.png" src="../_images/inversion_39_0.png" />
+<img alt="../_images/inversion_42_0.png" src="../_images/inversion_42_0.png" />
 </div>
 </div>
 <p>This is however not very useful because OGGM can only plot on a map as large as the local glacier map of the first glacier in the list. See <a class="reference external" href="https://github.com/OGGM/oggm/issues/1007">this issue</a> for a discussion about why.</p>
@@ -1740,7 +1803,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/inversion_43_0.png" src="../_images/inversion_43_0.png" />
+<img alt="../_images/inversion_46_0.png" src="../_images/inversion_46_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1772,7 +1835,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/inversion_45_0.png" src="../_images/inversion_45_0.png" />
+<img alt="../_images/inversion_48_0.png" src="../_images/inversion_48_0.png" />
 </div>
 </div>
 </div>

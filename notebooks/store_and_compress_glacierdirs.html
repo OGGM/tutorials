@@ -374,12 +374,12 @@
                 
   <div class="section" id="storing-and-compressing-glacier-directories-for-later-use">
 <h1>Storing and compressing glacier directories for later use<a class="headerlink" href="#storing-and-compressing-glacier-directories-for-later-use" title="Permalink to this headline">¶</a></h1>
-<p>“Glacier directories” are the fundamental data structure used by OGGM. They can be confusing at times, and can contain a high number of files, maling them hard to move between clusters or computers. This notebook explains how these directories are structured and how to store them for move and later use.</p>
+<p>“Glacier directories” are the fundamental data structure used by OGGM. They can be confusing at times, and can contain a high number of files, making them hard to move between clusters or computers. This notebook explains how these directories are structured and how to store them for move and later use.</p>
 <p>The main use-case documented by this notebook is the following workflow:</p>
 <ul class="simple">
 <li><p>pre-process a number of glacier directories</p></li>
 <li><p>stop working, and then re-start again from them at the same location</p></li>
-<li><p>stop working, store them and copy them to another storage, or movie them to another machine</p></li>
+<li><p>stop working, store them and copy them to another storage, or move them to another machine</p></li>
 <li><p>re-start from them on another machine / instance</p></li>
 </ul>
 <div class="cell docutils container">
@@ -419,27 +419,27 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:06: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:49: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:06: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:49: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:06: oggm.cfg: Multiprocessing: using all available processors (N=8)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:49: oggm.cfg: Multiprocessing: using all available processors (N=8)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:07: oggm.cfg: PARAMS[&#39;border&#39;] changed from `20` to `80`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:49: oggm.cfg: PARAMS[&#39;border&#39;] changed from `20` to `80`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:07: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:50: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:07: oggm.workflow: Execute entity task gdir_from_prepro on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:50: oggm.workflow: Execute entity task gdir_from_prepro on 2 glaciers
 </pre></div>
 </div>
 </div>
 </div>
-<p>OGGM downloaded the pre-processed directories stored the tar files in your cache, and extracted them in your working directory. But how is this working directory structured? Let’s have a look:</p>
+<p>OGGM downloaded the pre-processed directories, stored the tar files in your cache, and extracted them in your working directory. But how is this working directory structured? Let’s have a look:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">file_tree_print</span><span class="p">(</span><span class="n">prepro_dir</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -475,7 +475,7 @@
 </div>
 </div>
 <p>OK, so from the <code class="docutils literal notranslate"><span class="pre">WORKING_DIR</span></code>, OGGM creates a <code class="docutils literal notranslate"><span class="pre">per_glacier</span></code> folder (always)  where the glacier directories are stored. In order to avoid a large cluttering of the folder (and for other reasons which become apparent later), the directories are organised in regional (here <code class="docutils literal notranslate"><span class="pre">RGI60-16</span></code>) and then in  folders containing up to 1000 glaciers (here <code class="docutils literal notranslate"><span class="pre">RGI60-16.02</span></code>, i.e. for ids <code class="docutils literal notranslate"><span class="pre">RGI60-16.020000</span></code> to <code class="docutils literal notranslate"><span class="pre">RGI60-16.029999</span></code>).</p>
-<p>Our files are located in the final folders of this tree (not shown in the tree). Fore example:</p>
+<p>Our files are located in the final folders of this tree (not shown in the tree). For example:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;WORKING_DIR&#39;</span><span class="p">)</span>
@@ -499,7 +499,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:07: oggm.workflow: Execute entity task run_from_climate_data on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:50: oggm.workflow: Execute entity task run_from_climate_data on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -524,7 +524,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:08: oggm.workflow: init_glacier_directories by parsing all available folders (this takes time: if possible, provide rgidf instead).
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:51: oggm.workflow: init_glacier_directories by parsing all available folders (this takes time: if possible, provide rgidf instead).
 </pre></div>
 </div>
 </div>
@@ -538,12 +538,12 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:09: oggm.workflow: Execute entity task GlacierDirectory on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:52: oggm.workflow: Execute entity task GlacierDirectory on 2 glaciers
 </pre></div>
 </div>
 </div>
 </div>
-<p><strong>!!!CAREFUL!!!</strong>* do <strong>not</strong> start from a preprocessed level (or from a tar file), or your local directories (which may contain new data) will be overwritten. I.e. <code class="docutils literal notranslate"><span class="pre">workflow.init_glacier_directories(rgi_ids,</span> <span class="pre">from_prepro_level=3)</span></code> will always start from the pre-processed, fresh state.</p>
+<p><strong>!!!CAREFUL!!!</strong> do <strong>not</strong> start from a preprocessed level (or from a tar file), or your local directories (which may contain new data) will be overwritten, i.e. <code class="docutils literal notranslate"><span class="pre">workflow.init_glacier_directories(rgi_ids,</span> <span class="pre">from_prepro_level=3)</span></code> will always start from the pre-processed, fresh state.</p>
 </div>
 <div class="section" id="store-the-single-glacier-directories-into-tar-files">
 <h2>Store the single glacier directories into tar files<a class="headerlink" href="#store-the-single-glacier-directories-into-tar-files" title="Permalink to this headline">¶</a></h2>
@@ -563,7 +563,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:10: oggm.workflow: Execute entity task gdir_to_tar on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:53: oggm.workflow: Execute entity task gdir_to_tar on 2 glaciers
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
@@ -587,7 +587,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:11: oggm.workflow: Execute entity task gdir_to_tar on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:53: oggm.workflow: Execute entity task gdir_to_tar on 2 glaciers
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
@@ -610,7 +610,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:11: oggm.workflow: Execute entity task GlacierDirectory on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:53: oggm.workflow: Execute entity task GlacierDirectory on 2 glaciers
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
@@ -647,7 +647,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:11: oggm.workflow: Execute entity task gdir_to_tar on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:53: oggm.workflow: Execute entity task gdir_to_tar on 2 glaciers
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
@@ -667,7 +667,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:11: oggm.workflow: Execute entity task GlacierDirectory on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:53: oggm.workflow: Execute entity task GlacierDirectory on 2 glaciers
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
@@ -707,13 +707,13 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:11: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:54: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:11: oggm.workflow: Execute entity task gdir_from_prepro on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:54: oggm.workflow: Execute entity task gdir_from_prepro on 2 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:11: oggm.workflow: Execute entity task gdir_to_tar on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:54: oggm.workflow: Execute entity task gdir_to_tar on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -731,7 +731,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:11:11: oggm.workflow: Execute entity task gdir_from_tar on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:47:54: oggm.workflow: Execute entity task gdir_from_tar on 2 glaciers
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/

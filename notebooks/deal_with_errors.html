@@ -331,13 +331,86 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-run">
-   The run
+  <a class="reference internal nav-link" href="#run-with-cfg-params-continue-on-error-true">
+   Run with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     cfg.PARAMS['continue_on_error']
+    </span>
+    <span class="pre">
+     =
+    </span>
+    <span class="pre">
+     True
+    </span>
+   </code>
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run-output">
-   Run output
+  <a class="reference internal nav-link" href="#error-diagnostics">
+   Error diagnostics
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#error-solving">
+   Error solving
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#runtimeerror-glacier-exceeds-domain-boundaries-at-year-98-08333333333333">
+     RuntimeError:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Glacier
+      </span>
+      <span class="pre">
+       exceeds
+      </span>
+      <span class="pre">
+       domain
+      </span>
+      <span class="pre">
+       boundaries,
+      </span>
+      <span class="pre">
+       at
+      </span>
+      <span class="pre">
+       year:
+      </span>
+      <span class="pre">
+       98.08333333333333
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#error-need-a-valid-model-flowlines-file">
+     Error:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       Need
+      </span>
+      <span class="pre">
+       a
+      </span>
+      <span class="pre">
+       valid
+      </span>
+      <span class="pre">
+       model_flowlines
+      </span>
+      <span class="pre">
+       file.
+      </span>
+     </code>
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ignoring-those-glaciers-with-errors-that-we-can-t-solve">
+   Ignoring those glaciers with errors that we can’t solve
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -361,14 +434,19 @@
 <h1>Dealing with errors after a run<a class="headerlink" href="#dealing-with-errors-after-a-run" title="Permalink to this headline">¶</a></h1>
 <p>In this example, we run the model on a list of three glaciers:
 two of them will end with errors: one because it already failed at
-preprocessing (i.e. prior to this run), and one during the run. We show how to recover from these errors and analyze them.</p>
-<div class="section" id="the-run">
-<h2>The run<a class="headerlink" href="#the-run" title="Permalink to this headline">¶</a></h2>
+preprocessing (i.e. prior to this run), and one during the run. We show how to analyze theses erros and solve (some) of them, as described in the OGGM documentation under <a class="reference external" href="https://docs.oggm.org/en/latest/faq.html?highlight=border#troubleshooting">troubleshooting</a>.</p>
+<div class="section" id="run-with-cfg-params-continue-on-error-true">
+<h2>Run with <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS['continue_on_error']</span> <span class="pre">=</span> <span class="pre">True</span></code><a class="headerlink" href="#run-with-cfg-params-continue-on-error-true" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Locals</span>
 <span class="kn">import</span> <span class="nn">oggm.cfg</span> <span class="k">as</span> <span class="nn">cfg</span>
 <span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
+
+<span class="c1"># Libs</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="c1"># Initialize OGGM and set up the default run parameters</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
@@ -378,6 +456,9 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to r
 <span class="c1"># We make it small because we want the model to error because</span>
 <span class="c1"># of flowing out of the domain</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
+
+<span class="c1"># This is useful since we have three glaciers</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
 <span class="c1"># This is the important bit!</span>
 <span class="c1"># We tell OGGM to continue despite of errors</span>
@@ -399,57 +480,1178 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to r
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
                              <span class="n">nyears</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                              <span class="n">temperature_bias</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="c1"># Write the compiled output</span>
-<span class="n">utils</span><span class="o">.</span><span class="n">compile_glacier_statistics</span><span class="p">(</span><span class="n">gdirs</span><span class="p">);</span>
-<span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:02:53: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:23: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:02:53: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:23: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:02:53: oggm.cfg: Multiprocessing: using all available processors (N=8)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:23: oggm.cfg: Multiprocessing: using all available processors (N=8)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:02:54: oggm.cfg: PARAMS[&#39;border&#39;] changed from `20` to `80`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:24: oggm.cfg: PARAMS[&#39;border&#39;] changed from `20` to `80`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:02:54: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:24: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:02:54: oggm.workflow: init_glacier_directories from prepro level 4 on 3 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:24: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:02:54: oggm.workflow: Execute entity task gdir_from_prepro on 3 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:24: oggm.workflow: init_glacier_directories from prepro level 4 on 3 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:02:55: oggm.workflow: Execute entity task run_random_climate on 3 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:24: oggm.workflow: Execute entity task gdir_from_prepro on 3 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-09 14:03:02: oggm.core.flowline: RuntimeError occurred during task flowline_model_run on RGI60-11.00897: Glacier exceeds domain boundaries, at year: 98.08333333333333
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:25: oggm.workflow: Execute entity task run_random_climate on 3 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:25: oggm.core.flowline: InvalidWorkflowError occurred during task run_random_climate on RGI60-11.03295: Need a valid `model_flowlines` file. If you explicitly want to use `inversion_flowlines`, set use_inversion_flowlines=True.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:45:31: oggm.core.flowline: RuntimeError occurred during task flowline_model_run on RGI60-11.00897: Glacier exceeds domain boundaries, at year: 98.08333333333333
 </pre></div>
 </div>
 </div>
 </div>
 </div>
-<div class="section" id="run-output">
-<h2>Run output<a class="headerlink" href="#run-output" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="error-diagnostics">
+<h2>Error diagnostics<a class="headerlink" href="#error-diagnostics" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write the compiled output</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">compile_glacier_statistics</span><span class="p">(</span><span class="n">gdirs</span><span class="p">);</span>  <span class="c1"># saved as glacier_statistics.csv in the WORKING_DIR folder</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">);</span>  <span class="c1"># saved as run_output.nc in the WORKING_DIR folder</span>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read it</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;run_output.nc&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">df_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;glacier_statistics.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># all possible statistics about the glaciers</span>
+<span class="n">df_stats</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rgi_region</th>
+      <th>rgi_subregion</th>
+      <th>name</th>
+      <th>cenlon</th>
+      <th>cenlat</th>
+      <th>rgi_area_km2</th>
+      <th>rgi_year</th>
+      <th>glacier_type</th>
+      <th>terminus_type</th>
+      <th>is_tidewater</th>
+      <th>...</th>
+      <th>perc_invalid_flowline</th>
+      <th>inversion_glen_a</th>
+      <th>inversion_fs</th>
+      <th>error_task</th>
+      <th>error_msg</th>
+      <th>t_star</th>
+      <th>mu_star_glacierwide</th>
+      <th>mu_star_flowline_avg</th>
+      <th>mu_star_allsame</th>
+      <th>mb_bias</th>
+    </tr>
+    <tr>
+      <th>rgi_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.00897</th>
+      <td>11</td>
+      <td>11-01</td>
+      <td>Hintereisferner</td>
+      <td>10.75840</td>
+      <td>46.8003</td>
+      <td>8.036</td>
+      <td>2003</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.172727</td>
+      <td>1.322172e-23</td>
+      <td>0.0</td>
+      <td>flowline_model_run</td>
+      <td>RuntimeError: Glacier exceeds domain boundarie...</td>
+      <td>1974.0</td>
+      <td>221.276187</td>
+      <td>221.276187</td>
+      <td>True</td>
+      <td>4.685993</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.01450</th>
+      <td>11</td>
+      <td>11-01</td>
+      <td></td>
+      <td>8.01919</td>
+      <td>46.5028</td>
+      <td>82.206</td>
+      <td>2003</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>1.322172e-23</td>
+      <td>0.0</td>
+      <td>None</td>
+      <td>None</td>
+      <td>1929.0</td>
+      <td>294.283491</td>
+      <td>294.283491</td>
+      <td>True</td>
+      <td>7.271712</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03295</th>
+      <td>11</td>
+      <td>11-01</td>
+      <td>Fr4N01146B09 De Rosolin</td>
+      <td>6.84300</td>
+      <td>45.4170</td>
+      <td>0.600</td>
+      <td>2003</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>glacier_masks</td>
+      <td>InvalidGeometryError: This glacier geometry is...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 24 columns</p>
+</div></div></div>
+</div>
+<ul class="simple">
+<li><p>in the column <em>error_task</em>, we can see whether an error occurred, and if yes during which task</p></li>
+<li><p><em>error_msg</em> describes the actual error message</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_stats</span><span class="p">[[</span><span class="s1">&#39;error_task&#39;</span><span class="p">,</span> <span class="s1">&#39;error_msg&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>error_task</th>
+      <th>error_msg</th>
+    </tr>
+    <tr>
+      <th>rgi_id</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.00897</th>
+      <td>flowline_model_run</td>
+      <td>RuntimeError: Glacier exceeds domain boundarie...</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.01450</th>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03295</th>
+      <td>glacier_masks</td>
+      <td>InvalidGeometryError: This glacier geometry is...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can also check which glacier failed at which task by using <a class="reference external" href="%27https://docs.oggm.org/en/latest/generated/oggm.utils.compile_task_log.html#oggm.utils.compile_task_log%27">compile_task_log</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># also saved as task_log.csv in the WORKING_DIR folder - &quot;append=False&quot; replaces the existing one</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">compile_task_log</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">task_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;glacier_masks&#39;</span><span class="p">,</span> <span class="s1">&#39;compute_centerlines&#39;</span><span class="p">,</span> <span class="s1">&#39;flowline_model_run&#39;</span><span class="p">],</span> <span class="n">append</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>glacier_masks</th>
+      <th>compute_centerlines</th>
+      <th>flowline_model_run</th>
+    </tr>
+    <tr>
+      <th>rgi_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.00897</th>
+      <td>SUCCESS</td>
+      <td>SUCCESS</td>
+      <td>RuntimeError: Glacier exceeds domain boundarie...</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.01450</th>
+      <td>SUCCESS</td>
+      <td>SUCCESS</td>
+      <td>SUCCESS</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03295</th>
+      <td>InvalidGeometryError: This glacier geometry is...</td>
+      <td>FileNotFoundError: [Errno 2] No such file or d...</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="error-solving">
+<h2>Error solving<a class="headerlink" href="#error-solving" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="runtimeerror-glacier-exceeds-domain-boundaries-at-year-98-08333333333333">
+<h3>RuntimeError: <code class="docutils literal notranslate"><span class="pre">Glacier</span> <span class="pre">exceeds</span> <span class="pre">domain</span> <span class="pre">boundaries,</span> <span class="pre">at</span> <span class="pre">year:</span> <span class="pre">98.08333333333333</span></code><a class="headerlink" href="#runtimeerror-glacier-exceeds-domain-boundaries-at-year-98-08333333333333" title="Permalink to this headline">¶</a></h3>
+<p>To remove this error just increase the domain boundary <strong>before</strong> running <code class="docutils literal notranslate"><span class="pre">init_glacier_directories</span></code> ! Attention, this means that more data has to be downloaded and the run takes more time. The available options for <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS['border']</span></code> are <strong>10, 40, 80 or 160</strong> at the moment; the unit is number of grid points outside the glacier boundaries. More about that in the OGGM documentation under <a class="reference external" href="https://docs.oggm.org/en/latest/input-data.html#pre-processed-directories">preprocessed files</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reset to recompute statistics</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># increase the amount of gridpoints outside the glacier</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">160</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
+                             <span class="n">nyears</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                             <span class="n">temperature_bias</span><span class="o">=-</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="c1"># recompute the output</span>
+<span class="c1"># we can also get the run output directly from the methods</span>
+<span class="n">df_stats</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_glacier_statistics</span><span class="p">(</span><span class="n">gdirs</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 10:00:37: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `160`.
+2021-02-10 10:00:37: oggm.workflow: init_glacier_directories from prepro level 4 on 3 glaciers.
+2021-02-10 10:00:37: oggm.workflow: Execute entity task gdir_from_prepro on 3 glaciers
+100% of  24.6 MiB |######################| Elapsed Time: 0:00:10 Time:  0:00:10
+100% of  24.4 MiB |######################| Elapsed Time: 0:00:05 Time:  0:00:05
+100% of  22.7 MiB |######################| Elapsed Time: 0:00:04 Time:  0:00:04
+2021-02-10 10:00:59: oggm.workflow: Execute entity task run_random_climate on 3 glaciers
+2021-02-10 10:01:52: oggm.core.flowline: InvalidWorkflowError occurred during task run_random_climate on RGI60-11.03295: Need a valid `model_flowlines` file. If you explicitly want to use `inversion_flowlines`, set use_inversion_flowlines=True.
+2021-02-10 10:01:52: oggm.workflow: Execute entity task glacier_statistics on 3 glaciers
+2021-02-10 10:01:52: oggm.utils: Applying compile_run_output on 3 gdirs.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check again</span>
+<span class="n">df_stats</span><span class="p">[[</span><span class="s1">&#39;error_task&#39;</span><span class="p">,</span> <span class="s1">&#39;error_msg&#39;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>error_task</th>
+      <th>error_msg</th>
+    </tr>
+    <tr>
+      <th>rgi_id</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.00897</th>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.01450</th>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03295</th>
+      <td>glacier_masks</td>
+      <td>InvalidGeometryError: This glacier geometry is...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now <code class="docutils literal notranslate"><span class="pre">RGI60-11.00897</span></code> runs without errors!</p>
+</div>
+<div class="section" id="error-need-a-valid-model-flowlines-file">
+<h3>Error: <code class="docutils literal notranslate"><span class="pre">Need</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">model_flowlines</span> <span class="pre">file.</span></code><a class="headerlink" href="#error-need-a-valid-model-flowlines-file" title="Permalink to this headline">¶</a></h3>
+<p>This error message in the log is misleading: it does not really describe the source of the error, which happened earlier in the processing chain. Therefore we can look instead into the glacier_statistics via <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.utils.compile_glacier_statistics.html">compile_glacier_statistics</a> or into the log output via <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.utils.compile_task_log.html#oggm.utils.compile_task_log">compile_task_log</a>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;error_task: </span><span class="si">{}</span><span class="s1">, error_msg: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df_stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;RGI60-11.03295&#39;</span><span class="p">][</span><span class="s1">&#39;error_task&#39;</span><span class="p">],</span>
+                                             <span class="n">df_stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;RGI60-11.03295&#39;</span><span class="p">][</span><span class="s1">&#39;error_msg&#39;</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>error_task: glacier_masks, error_msg: InvalidGeometryError: This glacier geometry is not valid for OGGM.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we have a better understanding of the error:</p>
+<ul class="simple">
+<li><p>OGGM can not work with this geometry of this glacier and could therefore not make a gridded mask of the glacier outlines.</p></li>
+<li><p>there is no way to prevent this except you find a better way to pre-process the geometry of this glacier</p></li>
+<li><p>these glaciers have to be ignored! Less than 0.5% of glacier area globally have errors during the geometry processing or failures in computing certain topographical properties by e.g. invalid DEM, see <a class="reference external" href="https://gmd.copernicus.org/articles/12/909/2019/#section4">Sect. 4.2 Invalid Glaciers of the OGGM paper (Maussion et al., 2019)</a> and <a class="reference internal" href="preprocessing_errors.html"><span class="doc std std-doc">this tutorial</span></a> for more up-to-date numbers</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="ignoring-those-glaciers-with-errors-that-we-can-t-solve">
+<h2>Ignoring those glaciers with errors that we can’t solve<a class="headerlink" href="#ignoring-those-glaciers-with-errors-that-we-can-t-solve" title="Permalink to this headline">¶</a></h2>
+<p>In the run_output, you can for example just use <code class="docutils literal notranslate"><span class="pre">*.dropna</span></code> to remove these. For other applications (e.g. quantitative mass change evaluation), more will be needed (not available yet in the OGGM codebase):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">)</span>  <span class="c1"># here we can e.g. find the volume evolution</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2 {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
+Dimensions:         (rgi_id: 2, time: 151)
+Coordinates:
+  * time            (time) float64 0.0 1.0 2.0 3.0 ... 147.0 148.0 149.0 150.0
+  * rgi_id          (rgi_id) object &#x27;RGI60-11.00897&#x27; &#x27;RGI60-11.01450&#x27;
+    hydro_year      (time) int64 0 1 2 3 4 5 6 7 ... 144 145 146 147 148 149 150
+    hydro_month     (time) int64 1 1 1 1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1 1 1 1
+    calendar_year   (time) int64 -1 0 1 2 3 4 5 ... 143 144 145 146 147 148 149
+    calendar_month  (time) int64 10 10 10 10 10 10 10 ... 10 10 10 10 10 10 10
+Data variables:
+    volume          (time, rgi_id) float32 6.424e+08 1.285e+10 ... 1.676e+10
+    volume_bsl      (time, rgi_id) float32 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    volume_bwl      (time, rgi_id) float32 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    area            (time, rgi_id) float32 8.036e+06 8.221e+07 ... 9.301e+07
+    length          (time, rgi_id) float32 6.9e+03 2.329e+04 ... 3.178e+04
+    calving         (time, rgi_id) float32 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    calving_rate    (time, rgi_id) float32 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    water_level     (rgi_id) float32 0.0 0.0
+    glen_a          (rgi_id) float32 1.324e-23 1.324e-23
+    fs              (rgi_id) float32 0.0 0.0
+Attributes:
+    description:    OGGM model output
+    oggm_version:   1.3.2.dev142+g5fe880a
+    calendar:       365-day no leap
+    creation_date:  2021-02-10 09:01:52</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-ad4e7ccf-d62a-48ca-a45c-475abafe240e' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-ad4e7ccf-d62a-48ca-a45c-475abafe240e' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>rgi_id</span>: 2</li><li><span class='xr-has-index'>time</span>: 151</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-f5091f52-2fde-4ad2-a2a3-3ae210d32962' class='xr-section-summary-in' type='checkbox'  checked><label for='section-f5091f52-2fde-4ad2-a2a3-3ae210d32962' class='xr-section-summary' >Coordinates: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 2.0 ... 148.0 149.0 150.0</div><input id='attrs-8ad21912-4bd9-46ba-99ff-949d0a99a075' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8ad21912-4bd9-46ba-99ff-949d0a99a075' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-722218ea-6bbe-42d5-814b-57765a4de292' class='xr-var-data-in' type='checkbox'><label for='data-722218ea-6bbe-42d5-814b-57765a4de292' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.,  11.,
+        12.,  13.,  14.,  15.,  16.,  17.,  18.,  19.,  20.,  21.,  22.,  23.,
+        24.,  25.,  26.,  27.,  28.,  29.,  30.,  31.,  32.,  33.,  34.,  35.,
+        36.,  37.,  38.,  39.,  40.,  41.,  42.,  43.,  44.,  45.,  46.,  47.,
+        48.,  49.,  50.,  51.,  52.,  53.,  54.,  55.,  56.,  57.,  58.,  59.,
+        60.,  61.,  62.,  63.,  64.,  65.,  66.,  67.,  68.,  69.,  70.,  71.,
+        72.,  73.,  74.,  75.,  76.,  77.,  78.,  79.,  80.,  81.,  82.,  83.,
+        84.,  85.,  86.,  87.,  88.,  89.,  90.,  91.,  92.,  93.,  94.,  95.,
+        96.,  97.,  98.,  99., 100., 101., 102., 103., 104., 105., 106., 107.,
+       108., 109., 110., 111., 112., 113., 114., 115., 116., 117., 118., 119.,
+       120., 121., 122., 123., 124., 125., 126., 127., 128., 129., 130., 131.,
+       132., 133., 134., 135., 136., 137., 138., 139., 140., 141., 142., 143.,
+       144., 145., 146., 147., 148., 149., 150.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rgi_id</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>&#x27;RGI60-11.00897&#x27; &#x27;RGI60-11.01450&#x27;</div><input id='attrs-7465b84d-6e72-469c-af90-86f0b9036163' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7465b84d-6e72-469c-af90-86f0b9036163' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a8fb28b8-e633-4b06-8cc0-f80ab9be9479' class='xr-var-data-in' type='checkbox'><label for='data-a8fb28b8-e633-4b06-8cc0-f80ab9be9479' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>RGI glacier identifier</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;RGI60-11.00897&#x27;, &#x27;RGI60-11.01450&#x27;], dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 146 147 148 149 150</div><input id='attrs-95799427-4e99-4c15-9ea7-f0d61376743e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-95799427-4e99-4c15-9ea7-f0d61376743e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a18c04d0-c6d4-422b-a2ca-3cb539ef6fdc' class='xr-var-data-in' type='checkbox'><label for='data-a18c04d0-c6d4-422b-a2ca-3cb539ef6fdc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
+        13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,
+        26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,
+        39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,
+        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,  63,  64,
+        65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  75,  76,  77,
+        78,  79,  80,  81,  82,  83,  84,  85,  86,  87,  88,  89,  90,
+        91,  92,  93,  94,  95,  96,  97,  98,  99, 100, 101, 102, 103,
+       104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
+       117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
+       130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142,
+       143, 144, 145, 146, 147, 148, 149, 150])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-31cb9108-95c7-4197-8424-a33767230e36' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-31cb9108-95c7-4197-8424-a33767230e36' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ffec82f8-b584-4c72-a27e-1b912a6d0cfa' class='xr-var-data-in' type='checkbox'><label for='data-ffec82f8-b584-4c72-a27e-1b912a6d0cfa' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological month</dd></dl></div><div class='xr-var-data'><pre>array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>-1 0 1 2 3 ... 145 146 147 148 149</div><input id='attrs-517b4bd4-f694-47b0-9749-86cf0b7c6375' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-517b4bd4-f694-47b0-9749-86cf0b7c6375' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-51851b8c-9484-4b9c-ab65-a0c64c849726' class='xr-var-data-in' type='checkbox'><label for='data-51851b8c-9484-4b9c-ab65-a0c64c849726' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar year</dd></dl></div><div class='xr-var-data'><pre>array([ -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,
+        12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,
+        25,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,
+        38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,
+        51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,  63,
+        64,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  75,  76,
+        77,  78,  79,  80,  81,  82,  83,  84,  85,  86,  87,  88,  89,
+        90,  91,  92,  93,  94,  95,  96,  97,  98,  99, 100, 101, 102,
+       103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115,
+       116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128,
+       129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141,
+       142, 143, 144, 145, 146, 147, 148, 149])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>10 10 10 10 10 ... 10 10 10 10 10</div><input id='attrs-0f880fb5-c54b-4739-96e6-18f85261b6db' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0f880fb5-c54b-4739-96e6-18f85261b6db' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0fc0a9ca-322b-4146-9dcd-398bb0588110' class='xr-var-data-in' type='checkbox'><label for='data-0fc0a9ca-322b-4146-9dcd-398bb0588110' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar month</dd></dl></div><div class='xr-var-data'><pre>array([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-87496207-2c16-4bfc-9c68-c8dde0c4cfeb' class='xr-section-summary-in' type='checkbox'  checked><label for='section-87496207-2c16-4bfc-9c68-c8dde0c4cfeb' class='xr-section-summary' >Data variables: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>volume</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>6.424e+08 1.285e+10 ... 1.676e+10</div><input id='attrs-efa7c832-9656-4b77-a72c-ca18efb1b307' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-efa7c832-9656-4b77-a72c-ca18efb1b307' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8807dee9-fcc3-4f63-b89f-cdf3a843145c' class='xr-var-data-in' type='checkbox'><label for='data-8807dee9-fcc3-4f63-b89f-cdf3a843145c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier volume</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[6.42406400e+08, 1.28549222e+10],
+       [6.44706368e+08, 1.29917297e+10],
+       [6.56256320e+08, 1.29772780e+10],
+       [6.69462720e+08, 1.30470308e+10],
+       [6.74812864e+08, 1.32828928e+10],
+       [6.87300672e+08, 1.33664481e+10],
+       [6.92665024e+08, 1.35171246e+10],
+       [7.05254592e+08, 1.35999119e+10],
+       [7.22326592e+08, 1.34914601e+10],
+       [7.41077632e+08, 1.35692431e+10],
+       [7.61064576e+08, 1.36125716e+10],
+       [7.74948928e+08, 1.36760689e+10],
+       [8.01190528e+08, 1.36836393e+10],
+       [8.08345472e+08, 1.38367252e+10],
+       [8.07612480e+08, 1.39400970e+10],
+       [8.34660928e+08, 1.41360507e+10],
+       [8.34481344e+08, 1.41883003e+10],
+       [8.34094400e+08, 1.42382336e+10],
+       [8.36456320e+08, 1.43602237e+10],
+       [8.35781760e+08, 1.46116936e+10],
+...
+       [1.39096742e+09, 1.63294556e+10],
+       [1.41338778e+09, 1.62448425e+10],
+       [1.40783846e+09, 1.63215237e+10],
+       [1.40485709e+09, 1.64973486e+10],
+       [1.40482010e+09, 1.65368535e+10],
+       [1.39634458e+09, 1.63555164e+10],
+       [1.40112090e+09, 1.63301632e+10],
+       [1.39809242e+09, 1.64997294e+10],
+       [1.38963482e+09, 1.66288681e+10],
+       [1.39095526e+09, 1.66971873e+10],
+       [1.39085235e+09, 1.67269919e+10],
+       [1.39837798e+09, 1.64895048e+10],
+       [1.40385510e+09, 1.64483267e+10],
+       [1.41482995e+09, 1.64297206e+10],
+       [1.40812800e+09, 1.65648691e+10],
+       [1.39982592e+09, 1.66872822e+10],
+       [1.42236032e+09, 1.65845350e+10],
+       [1.41833306e+09, 1.65877606e+10],
+       [1.40332723e+09, 1.67560888e+10],
+       [1.38721370e+09, 1.67573402e+10]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bsl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-21666cad-08b3-493a-b148-62d4a5ae0efa' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-21666cad-08b3-493a-b148-62d4a5ae0efa' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-66b9d42c-47e3-46e8-a089-2caecbf7f875' class='xr-var-data-in' type='checkbox'><label for='data-66b9d42c-47e3-46e8-a089-2caecbf7f875' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below sea-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+...
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bwl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-90a94287-ad81-492c-b91f-7686ac4f5f0d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-90a94287-ad81-492c-b91f-7686ac4f5f0d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ce819ce0-2833-481b-ba47-0c0e3cc10813' class='xr-var-data-in' type='checkbox'><label for='data-ce819ce0-2833-481b-ba47-0c0e3cc10813' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below water-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+...
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>8.036e+06 8.221e+07 ... 9.301e+07</div><input id='attrs-bd6e292e-1034-40f4-aab1-28eda3cc2f44' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bd6e292e-1034-40f4-aab1-28eda3cc2f44' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9f08ae3e-979e-44f7-a0f6-35dcb436cdc5' class='xr-var-data-in' type='checkbox'><label for='data-9f08ae3e-979e-44f7-a0f6-35dcb436cdc5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([[ 8036000. , 82206000. ],
+       [ 8033585. , 82167070. ],
+       [ 8047591. , 82100280. ],
+       [ 8065134. , 82206140. ],
+       [ 8075902.5, 82473840. ],
+       [ 8108952.5, 82607620. ],
+       [ 8125907. , 82868450. ],
+       [ 8161772. , 83049380. ],
+       [ 8198309. , 83099560. ],
+       [ 8245194.5, 83340950. ],
+       [ 8299521. , 83528540. ],
+       [ 8346804. , 83729256. ],
+       [ 8417007. , 83921590. ],
+       [ 8460131. , 84237390. ],
+       [ 8497081. , 84489400. ],
+       [ 8577423. , 84831030. ],
+       [ 8622313. , 85057576. ],
+       [ 8667698. , 85268070. ],
+       [ 8720015. , 85544230. ],
+       [ 8761664. , 85939016. ],
+...
+       [12260720. , 91649170. ],
+       [12297477. , 91635940. ],
+       [12287157. , 91758070. ],
+       [12283767. , 91989384. ],
+       [12286297. , 92070080. ],
+       [12268204. , 91966760. ],
+       [12278795. , 91990300. ],
+       [12274026. , 92222050. ],
+       [12255297. , 92393260. ],
+       [12260296. , 92495610. ],
+       [12260126. , 92555740. ],
+       [12264499. , 92398850. ],
+       [12274148. , 92383540. ],
+       [12289325. , 92436500. ],
+       [12277783. , 92577560. ],
+       [12259582. , 92714860. ],
+       [12294961. , 92703144. ],
+       [12285167. , 92774810. ],
+       [12258659. , 92968560. ],
+       [12225574. , 93008390. ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>length</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>6.9e+03 2.329e+04 ... 3.178e+04</div><input id='attrs-40e49edc-f561-40da-a17a-548da6cfaba5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-40e49edc-f561-40da-a17a-548da6cfaba5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f8a3e4f7-ed67-4773-acc2-3185cda09b8f' class='xr-var-data-in' type='checkbox'><label for='data-f8a3e4f7-ed67-4773-acc2-3185cda09b8f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier length</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[ 6900., 23290.],
+       [ 7000., 23564.],
+       [ 7000., 22742.],
+       [ 6900., 22742.],
+       [ 6800., 22742.],
+       [ 6800., 23016.],
+       [ 6800., 23290.],
+       [ 6800., 23290.],
+       [ 6800., 23290.],
+       [ 6800., 23290.],
+       [ 6800., 23564.],
+       [ 6900., 23838.],
+       [ 6900., 23838.],
+       [ 7000., 24386.],
+       [ 7100., 24660.],
+       [ 7200., 24660.],
+       [ 7200., 24660.],
+       [ 7300., 24934.],
+       [ 7300., 25482.],
+       [ 7400., 25482.],
+...
+       [12400., 30962.],
+       [12500., 30688.],
+       [12500., 30688.],
+       [12400., 30962.],
+       [12500., 30962.],
+       [12400., 30962.],
+       [12500., 30962.],
+       [12500., 31236.],
+       [12400., 31236.],
+       [12400., 31236.],
+       [12400., 31236.],
+       [12500., 31510.],
+       [12500., 31510.],
+       [12500., 31510.],
+       [12400., 31510.],
+       [12400., 31784.],
+       [12400., 31784.],
+       [12400., 31784.],
+       [12400., 31784.],
+       [12500., 31784.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-e4939fb3-1aa4-45fc-b8f0-cfe30d62fe7c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e4939fb3-1aa4-45fc-b8f0-cfe30d62fe7c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-155197fc-b5a8-4173-afd7-ba21fe0f4d15' class='xr-var-data-in' type='checkbox'><label for='data-155197fc-b5a8-4173-afd7-ba21fe0f4d15' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total accumulated calving flux</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+...
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_rate</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-6e9b31cf-d683-49fc-9ae7-1f5d3ba10e44' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6e9b31cf-d683-49fc-9ae7-1f5d3ba10e44' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0b94df8c-c95a-4dda-80c2-58931fdaf337' class='xr-var-data-in' type='checkbox'><label for='data-0b94df8c-c95a-4dda-80c2-58931fdaf337' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving rate</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+...
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>water_level</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-35f947cb-e6eb-4b46-bfdc-5cd5085d0833' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-35f947cb-e6eb-4b46-bfdc-5cd5085d0833' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-37a69cc0-772f-46a8-b733-38c38e137ea3' class='xr-var-data-in' type='checkbox'><label for='data-37a69cc0-772f-46a8-b733-38c38e137ea3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving water level</dd><dt><span>units :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([0., 0.], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glen_a</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.324e-23 1.324e-23</div><input id='attrs-e3574560-00d2-4ee7-b473-37a41a6b57a3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e3574560-00d2-4ee7-b473-37a41a6b57a3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3580a28b-27b6-4ee3-a298-15bab4a214ce' class='xr-var-data-in' type='checkbox'><label for='data-3580a28b-27b6-4ee3-a298-15bab4a214ce' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation Glen A</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([1.3239874e-23, 1.3239874e-23], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>fs</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-d4418851-f5cc-4ebd-a3a7-409f078cad57' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d4418851-f5cc-4ebd-a3a7-409f078cad57' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-39da058c-eda7-4972-8967-037fd76fc9eb' class='xr-var-data-in' type='checkbox'><label for='data-39da058c-eda7-4972-8967-037fd76fc9eb' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation sliding parameter</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([0., 0.], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-02907f63-0312-46b6-b860-2a35e3bcf2cb' class='xr-section-summary-in' type='checkbox'  checked><label for='section-02907f63-0312-46b6-b860-2a35e3bcf2cb' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>OGGM model output</dd><dt><span>oggm_version :</span></dt><dd>1.3.2.dev142+g5fe880a</dd><dt><span>calendar :</span></dt><dd>365-day no leap</dd><dt><span>creation_date :</span></dt><dd>2021-02-10 09:01:52</dd></dl></div></li></ul></div></div></div></div>
 </div>
 </div>
 <div class="section" id="what-s-next">
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li><p>read about <a class="reference internal" href="preprocessing_errors.html"><span class="doc std std-doc">preprocessing errors</span></a></p></li>
 <li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
 <li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
 </ul>
