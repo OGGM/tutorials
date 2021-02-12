@@ -111,6 +111,16 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
+   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="plot_mass_balance.html">
    Plotting the OGGM surface mass-balance
   </a>
@@ -136,13 +146,8 @@
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="store_and_compress_glacierdirs.html">
-   Storing and compressing glacier directories for later use
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
-   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
   </a>
  </li>
 </ul>
@@ -200,11 +205,6 @@
  <li class="toctree-l1">
   <a class="reference internal" href="where_are_the_flowlines.html">
    OGGM flowlines: where are they?
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="oggm_shop.html">
-   OGGM-Shop and Glacier Directories in OGGM
   </a>
  </li>
 </ul>
@@ -387,15 +387,13 @@
 <p>OGGM initializes glaciers based on <a class="reference external" href="https://www.glims.org/RGI/">RGI outlines</a> which allows for fully automated simulations starting from a recent global glacier state. OGGM also treats every glacier as entity which basically means that individual glaciers do not know about each other even if they are modelled within one specific run.</p>
 <p>This is a good approach for current and future simulations in a warming climate where we mainly expect glacier retreat. But if we want to look at colder climates, either from the past or in a synthetic way, we might have to adjust this glacier centric view and take the influence of neighbouring glaciers into account.</p>
 <p>In this notebook we show how OGGM can merge several neighbouring glaciers into one coupled glacier system. The general approach for this is to view the surrounding glaciers in the same way as tributary <a class="reference external" href="https://docs.oggm.org/en/latest/flowlines.html">flowlines</a> to an existing glacier entity.</p>
-<p><strong>But before using this method please be aware of its limitations:</strong> We are only able to merge glaciers which are present in the Randolph Glacier Inventory. This limits the time we can go back into the past as we are not able to <em>create</em> a glacier with OGGM at a place where there is no glacier today. The merging procedure was developed with typcial Alpine valley glaciers and their extends around the Little Ice Age in mind. We did not develop this with glacial time scales in mind and <a class="reference external" href="https://docs.oggm.org/en/latest/faq.html#can-i-use-oggm-to-simulate-long-term-glacier-evolution">this statement about long term glacier evolution</a> still holds up.</p>
+<p><strong>But before using this method please be aware of its limitations:</strong> We are only able to merge glaciers which are present in the Randolph Glacier Inventory. This limits the time we can go back into the past as we are not able to <em>create</em> a glacier with OGGM at a place where there is no glacier today. The merging procedure was developed with typcial Alpine valley glaciers and their extensions around the Little Ice Age in mind. We did not develop this with glacial time scales in mind and <a class="reference external" href="https://docs.oggm.org/en/latest/faq.html#can-i-use-oggm-to-simulate-long-term-glacier-evolution">this statement about long term glacier evolution</a> still holds up.</p>
 <div class="section" id="set-up">
 <h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h2>
 <p>These are the usual OGGM workflow commands.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
@@ -418,19 +416,19 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:07: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:42: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:07: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:42: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:07: oggm.cfg: Multiprocessing: using all available processors (N=8)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:42: oggm.cfg: Multiprocessing: using all available processors (N=8)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:08: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:42: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:08: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:42: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
 </div>
@@ -446,10 +444,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:08: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:42: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:08: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:42: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -499,13 +497,13 @@ For the Mont Mine example we provide a subset, containing the surrounding glacie
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:10: oggm.workflow: init_glacier_directories from prepro level 3 on 16 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:44: oggm.workflow: init_glacier_directories from prepro level 3 on 16 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:10: oggm.workflow: Execute entity task gdir_from_prepro on 16 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:44: oggm.workflow: Execute entity task gdir_from_prepro on 16 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:11: oggm.workflow: Execute entity task init_present_time_glacier on 16 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:45: oggm.workflow: Execute entity task init_present_time_glacier on 16 glaciers
 </pre></div>
 </div>
 </div>
@@ -526,72 +524,76 @@ If as second argument a specific RGI ID is provided as string, this will be used
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_intersects&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">gdirs_merged</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">merge_glacier_tasks</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">,</span> <span class="n">return_all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">)</span>
+<span class="n">gdirs_merged</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">merge_glacier_tasks</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">main_rgi_id</span><span class="o">=</span><span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">,</span> <span class="n">return_all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                                            <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">,</span> <span class="n">dem_source</span><span class="o">=</span><span class="s1">&#39;SRTM&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:11: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:45: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:13: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:45: oggm.workflow: Applying global task merge_glacier_tasks on 16 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:13: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `52.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:48: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:14: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:48: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `52.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:14: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `52.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:49: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:15: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:49: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `52.0` to `50.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:15: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `17.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:50: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:15: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:50: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `17.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:15: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `17.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:50: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:16: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:50: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `17.0` to `50.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:16: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `55.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:51: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:17: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:51: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `55.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:17: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `55.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:52: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:18: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:52: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `55.0` to `50.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:18: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `13.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:53: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:19: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:53: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `13.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:19: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `13.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:53: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:20: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:53: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `13.0` to `50.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:20: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `15.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:54: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:21: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:54: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `15.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-10 23:15:21: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `15.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:54: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:13:54: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `15.0` to `50.0`.
 </pre></div>
 </div>
 </div>
@@ -603,12 +605,12 @@ If as second argument a specific RGI ID is provided as string, this will be used
 <span class="n">graphics</span><span class="o">.</span><span class="n">plot_centerlines</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">use_model_flowlines</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 <span class="n">graphics</span><span class="o">.</span><span class="n">plot_centerlines</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">use_model_flowlines</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 <span class="n">basin</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
-<span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
-    
-<span class="k">for</span> <span class="n">rgiid</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.02772&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02789&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02756&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02778&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02779&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02768&#39;</span><span class="p">]:</span>
-    <span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="n">rgiid</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">);</span>    
+<span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
 
-<span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="s1">&#39;RGI60-11.02701&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">);</span>
+<span class="k">for</span> <span class="n">rgiid</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.02772&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02789&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02756&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02778&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02779&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02768&#39;</span><span class="p">]:</span>
+    <span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="n">rgiid</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+
+<span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="s1">&#39;RGI60-11.02701&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
 </pre></div>
 </div>
@@ -642,6 +644,20 @@ If as second argument a specific RGI ID is provided as string, this will be used
 <span class="c1"># model the merged glacier and complile the output</span>
 <span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged&#39;</span><span class="p">,</span> <span class="n">temperature_bias</span><span class="o">=</span><span class="n">tbias</span><span class="p">,</span> <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">)</span>
 <span class="n">ds_merged</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">([</span><span class="n">gdirs_merged</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:14:53: oggm.utils: Applying global task compile_run_output on 1 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:14:53: oggm.utils: Applying compile_run_output on 1 gdirs.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:16:51: oggm.utils: Applying global task compile_run_output on 1 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:16:51: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>
@@ -695,7 +711,10 @@ For this we first try to grow the entity glacier to the same length as the merge
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-03 13:53:23: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:18:08: oggm.utils: Applying global task compile_run_output on 1 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:18:08: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>
@@ -743,8 +762,16 @@ For this we use the simulated glacier extends from the previous runs and then ap
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-03 13:54:51: oggm.utils: Applying compile_run_output on 1 gdirs.
-2021-02-03 13:56:16: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:18:37: oggm.utils: Applying global task compile_run_output on 1 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:18:37: oggm.utils: Applying compile_run_output on 1 gdirs.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:19:51: oggm.utils: Applying global task compile_run_output on 1 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-12 17:19:51: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>
