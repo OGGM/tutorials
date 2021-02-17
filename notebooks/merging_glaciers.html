@@ -386,8 +386,8 @@
 <h1>Merging glaciers for past climate simulations<a class="headerlink" href="#merging-glaciers-for-past-climate-simulations" title="Permalink to this headline">¶</a></h1>
 <p>OGGM initializes glaciers based on <a class="reference external" href="https://www.glims.org/RGI/">RGI outlines</a> which allows for fully automated simulations starting from a recent global glacier state. OGGM also treats every glacier as entity which basically means that individual glaciers do not know about each other even if they are modelled within one specific run.</p>
 <p>This is a good approach for current and future simulations in a warming climate where we mainly expect glacier retreat. But if we want to look at colder climates, either from the past or in a synthetic way, we might have to adjust this glacier centric view and take the influence of neighbouring glaciers into account.</p>
-<p>In this notebook we show how OGGM can merge several neighbouring glaciers into one coupled glacier system. The general approach for this is to view the surrounding glaciers in the same way as tributary <a class="reference external" href="https://docs.oggm.org/en/latest/flowlines.html">flowlines</a> to an existing glacier entity.</p>
-<p><strong>But before using this method please be aware of its limitations:</strong> We are only able to merge glaciers which are present in the Randolph Glacier Inventory. This limits the time we can go back into the past as we are not able to <em>create</em> a glacier with OGGM at a place where there is no glacier today. The merging procedure was developed with typcial Alpine valley glaciers and their extensions around the Little Ice Age in mind. We did not develop this with glacial time scales in mind and <a class="reference external" href="https://docs.oggm.org/en/latest/faq.html#can-i-use-oggm-to-simulate-long-term-glacier-evolution">this statement about long term glacier evolution</a> still holds up.</p>
+<p>In this notebook we show how OGGM can merge several neighbouring glaciers into one coupled glacier system. The general approach for this is to view the surrounding glaciers in the same way as tributary <a class="reference external" href="https://docs.oggm.org/en/stable/flowlines.html">flowlines</a> to an existing glacier entity.</p>
+<p><strong>But before using this method please be aware of its limitations:</strong> We are only able to merge glaciers which are present in the Randolph Glacier Inventory. This limits the time we can go back into the past as we are not able to <em>create</em> a glacier with OGGM at a place where there is no glacier today. The merging procedure was developed with typcial Alpine valley glaciers and their extensions around the Little Ice Age in mind. We did not develop this with glacial time scales in mind and <a class="reference external" href="https://docs.oggm.org/en/stable/faq.html#can-i-use-oggm-to-simulate-long-term-glacier-evolution">this statement about long term glacier evolution</a> still holds up.</p>
 <div class="section" id="set-up">
 <h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h2>
 <p>These are the usual OGGM workflow commands.</p>
@@ -416,19 +416,19 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:11: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:35: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:11: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:35: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:11: oggm.cfg: Multiprocessing: using all available processors (N=8)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:35: oggm.cfg: Multiprocessing: using all available processors (N=8)
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:11: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:35: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:11: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:35: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
 </div>
@@ -444,10 +444,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:11: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:36: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:11: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:36: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -465,7 +465,7 @@
 </div>
 <p>At the moment it is not possible to automatically search for tributary glaciers but this is planed for a later release.</p>
 <p>Right now we have to provide all <strong>possible</strong> tributary glaciers as OGGM GlacierDirectories. “Possible” because OGGM will check if the provided glaciers will actually flow together with the main glacier by intersecting their downstream flowlines. If a “false” glacier is provided, it will not be merged.</p>
-<p>The easiest way to obtain the GlacierDirectories is by using <a class="reference external" href="http://docs.oggm.org/en/latest/input-data.html#pre-processed-directories">preprocessed glacier directories</a>, initialized with a list of RGI-IDs. The list of RGI-IDs can be manually made. Another way, more suitable for larger glacier complexes would be to extract the RGI-IDs directly from a RGI shapefile.
+<p>The easiest way to obtain the GlacierDirectories is by using <a class="reference external" href="http://docs.oggm.org/en/stable/input-data.html#pre-processed-directories">preprocessed glacier directories</a>, initialized with a list of RGI-IDs. The list of RGI-IDs can be manually made. Another way, more suitable for larger glacier complexes would be to extract the RGI-IDs directly from a RGI shapefile.
 For the Mont Mine example we provide a subset, containing the surrounding glaciers.</p>
 <p>That way it is possible to select and extract a region of interest from the RGI within a GIS software. OGGM will then test and merge all glacieres of this subset and use the feasible ones.</p>
 <div class="cell docutils container">
@@ -497,13 +497,13 @@ For the Mont Mine example we provide a subset, containing the surrounding glacie
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:13: oggm.workflow: init_glacier_directories from prepro level 3 on 16 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:38: oggm.workflow: init_glacier_directories from prepro level 3 on 16 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:13: oggm.workflow: Execute entity task gdir_from_prepro on 16 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:38: oggm.workflow: Execute entity task gdir_from_prepro on 16 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:14: oggm.workflow: Execute entity task init_present_time_glacier on 16 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:40: oggm.workflow: Execute entity task init_present_time_glacier on 16 glaciers
 </pre></div>
 </div>
 </div>
@@ -514,7 +514,7 @@ For the Mont Mine example we provide a subset, containing the surrounding glacie
 <p>The merging process is fully automated done with the function <code class="docutils literal notranslate"><span class="pre">workflow.merge_glacier_tasks</span></code>.
 It needs at least a list of OGGM GlacierDirectories, which contains all possible tributaries <strong>and</strong> the main glacier.
 If as second argument a specific RGI ID is provided as string, this will be used to identify the main glacier of interest and all tributary glaciers are merged to this one. If no RGI ID is provided, OGGM will use the largest glacier as the main one. In the latter case the return value of the function is not a single GlacierDirectory but a list of GlacierDirectories containing all remaining glaciers, merged as much as possible.</p>
-<p>This function also takes additional arguments to use custom climate data. The procedure for this would be to first run the necessary climate tasks on the individual glaciers and afterwards merge the glaciers to one complex. See the <a class="reference external" href="http://docs.oggm.org/en/latest/generated/oggm.workflow.merge_glacier_tasks.html">API</a> for details.</p>
+<p>This function also takes additional arguments to use custom climate data. The procedure for this would be to first run the necessary climate tasks on the individual glaciers and afterwards merge the glaciers to one complex. See the <a class="reference external" href="http://docs.oggm.org/en/stable/generated/oggm.workflow.merge_glacier_tasks.html">API</a> for details.</p>
 <p><code class="docutils literal notranslate"><span class="pre">workflow.merge_glacier_tasks</span></code> performs three important tasks:</p>
 <ol class="simple">
 <li><p>Starting from either the main or the largest glacier it checks if its downstream flowline intersects with the downstream flowlines of all other glaciers provided within the list.</p></li>
@@ -530,70 +530,70 @@ If as second argument a specific RGI ID is provided as string, this will be used
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:14: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:40: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:14: oggm.workflow: Applying global task merge_glacier_tasks on 16 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:40: oggm.workflow: Applying global task merge_glacier_tasks on 16 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:17: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:44: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:17: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `52.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:44: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `52.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:17: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:44: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:17: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `52.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:44: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `52.0` to `50.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:18: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:46: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:18: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `17.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:46: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `17.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:18: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:47: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:18: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `17.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:47: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `17.0` to `50.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:19: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:48: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:19: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `55.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:48: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `55.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:20: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:48: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:20: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `55.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:48: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `55.0` to `50.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:21: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:50: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:21: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `13.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:50: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `13.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:21: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:51: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:21: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `13.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:51: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `13.0` to `50.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:22: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:51: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `square` to `fixed`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:22: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `15.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:51: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `50.0` to `15.0`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:22: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:52: oggm.cfg: PARAMS[&#39;grid_dx_method&#39;] changed from `fixed` to `square`.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:15:22: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `15.0` to `50.0`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:13:52: oggm.cfg: PARAMS[&#39;fixed_dx&#39;] changed from `15.0` to `50.0`.
 </pre></div>
 </div>
 </div>
@@ -648,16 +648,16 @@ If as second argument a specific RGI ID is provided as string, this will be used
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:16:17: oggm.utils: Applying global task compile_run_output on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:14:59: oggm.utils: Applying global task compile_run_output on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:16:17: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:14:59: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:18:12: oggm.utils: Applying global task compile_run_output on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:17:09: oggm.utils: Applying global task compile_run_output on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:18:12: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:17:09: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>
@@ -711,10 +711,10 @@ For this we first try to grow the entity glacier to the same length as the merge
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:19:33: oggm.utils: Applying global task compile_run_output on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:18:40: oggm.utils: Applying global task compile_run_output on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:19:33: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:18:40: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>
@@ -762,16 +762,16 @@ For this we use the simulated glacier extends from the previous runs and then ap
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:20:03: oggm.utils: Applying global task compile_run_output on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:19:15: oggm.utils: Applying global task compile_run_output on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:20:03: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:19:15: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:21:19: oggm.utils: Applying global task compile_run_output on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:20:42: oggm.utils: Applying global task compile_run_output on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-14 16:21:19: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-02-17 22:20:42: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>
