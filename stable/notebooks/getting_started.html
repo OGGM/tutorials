@@ -1,0 +1,2372 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting started with OGGM: a real case study, step by step &#8212; OGGM tutorials</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.da26317cf37e5c4af2fa3e6253912353.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Working with the RGI files" href="working_with_rgi.html" />
+    <link rel="prev" title="Welcome to the OGGM tutorials!" href="welcome.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="welcome.html">
+   Welcome to the OGGM tutorials!
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Getting started with OGGM: a real case study, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
+   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_gcm.html">
+   Run OGGM with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="thickness_model.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="massbalance_calibration.html">
+   A quick look into the mass-balance calibration procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Others
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/getting_started.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OGGM/tutorials"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/getting_started.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OGGM/tutorials/edit/master/./notebooks/getting_started.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OGGM/binder/master?urlpath=git-pull?repo=https://github.com/OGGM/tutorials%26amp%3Bbranch=master%26amp%3Burlpath=lab/tree/tutorials/./notebooks/getting_started.ipynb%3Fautodecode"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        <a class="jupyterhub-button" href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https://github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/getting_started.ipynb&branch=master"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch JupyterHub" data-toggle="tooltip"
+                data-placement="left"><img class="jupyterhub-button-logo"
+                    src="../_static/images/logo_jupyterhub.svg"
+                    alt="Interact on JupyterHub">JupyterHub</button></a>
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set-up
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#input-data-folders">
+     Input data folders
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cfg-initialize-and-cfg-params">
+     cfg.initialize() and cfg.PARAMS
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#workflow">
+   Workflow
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#working-directory">
+     Working directory
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-glaciers-for-the-run">
+     Define the glaciers for the run
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#glacier-directories">
+     Glacier directories
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#tasks">
+     Tasks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#other-preprocessing-tasks">
+     Other preprocessing tasks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#climate-tasks">
+     Climate tasks
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computing-the-ice-thickness-inversion">
+     Computing the ice thickness (“inversion”)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#simulations">
+   Simulations
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sensitivity-to-temperature">
+     Sensitivity to temperature
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="getting-started-with-oggm-a-real-case-study-step-by-step">
+<h1>Getting started with OGGM: a real case study, step by step<a class="headerlink" href="#getting-started-with-oggm-a-real-case-study-step-by-step" title="Permalink to this headline">¶</a></h1>
+<p>The OGGM workflow is best explained with an example. In the following, we will show how to apply the standard <a class="reference external" href="http://docs.oggm.org/en/stable/introduction.html">OGGM workflow</a> to a list of glaciers. This example is meant to guide you through a first-time setup step-by-step. If you prefer not to install OGGM on your computer, you can always run this notebook in <a class="reference external" href="https://edu.oggm.org">OGGM-Edu</a> instead!</p>
+<div class="section" id="set-up">
+<h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="input-data-folders">
+<h3>Input data folders<a class="headerlink" href="#input-data-folders" title="Permalink to this headline">¶</a></h3>
+<p><strong>If you are using your own computer</strong>: before you start, make sure that you have set-up the <a class="reference external" href="https://docs.oggm.org/en/stable/input-data.html">input data configuration file</a> at your wish.</p>
+<p>In the course of this tutorial, we will need to download data needed for each glacier (a couple of mb at max, depending on the chosen glaciers), so make sure you have an internet connection.</p>
+</div>
+<div class="section" id="cfg-initialize-and-cfg-params">
+<h3>cfg.initialize() and cfg.PARAMS<a class="headerlink" href="#cfg-initialize-and-cfg-params" title="Permalink to this headline">¶</a></h3>
+<p>An OGGM simulation script will always start with the following commands:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:02:48: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:02:48: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:02:48: oggm.cfg: Multiprocessing: using all available processors (N=2)
+</pre></div>
+</div>
+</div>
+</div>
+<p>A call to <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.cfg.initialize.html">cfg.initialize()</a> will read the default parameter file (or any user-provided file) and make them available to all other OGGM tools via the <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS</span></code> dictionary. Here are some examples of these parameters:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_scaling_factor&#39;</span><span class="p">],</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">],</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;continue_on_error&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2.5, 900.0, False)
+</pre></div>
+</div>
+</div>
+</div>
+<p>See <a class="reference external" href="https://github.com/OGGM/oggm/blob/master/oggm/params.cfg">here</a> for the default parameter file and a description of their role and default value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># You can try with or without multiprocessing: with two glaciers, OGGM could run on two processors</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:02:48: oggm.cfg: Multiprocessing switched ON after user settings.
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we will explain the fundamental concepts of the OGGM workflow:</p>
+<ul class="simple">
+<li><p>Working directories</p></li>
+<li><p>Glacier directories</p></li>
+<li><p>Tasks</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">workflow</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="working-directory">
+<h3>Working directory<a class="headerlink" href="#working-directory" title="Permalink to this headline">¶</a></h3>
+<p>Each OGGM run needs a <strong>single folder</strong> where to store the results of the computations for all glaciers. This is called a “working directory” and needs to be specified before each run. Here we create a temporary folder for you:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGM-GettingStarted&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/tmp/OGGM/OGGM-GettingStarted&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use a temporary directory for this example, but in practice you will set this working directory yourself (for example: <code class="docutils literal notranslate"><span class="pre">/home/john/OGGM_output</span></code>. The size of this directory will depend on how many glaciers you’ll simulate!</p>
+<p><strong>This working directory is meant to be persistent</strong>, i.e. you can stop your processing workflow after any task, and restart from an existing working directory at a later stage.</p>
+</div>
+<div class="section" id="define-the-glaciers-for-the-run">
+<h3>Define the glaciers for the run<a class="headerlink" href="#define-the-glaciers-for-the-run" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.01328&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can provide any number of glacier identifiers to OGGM. In this case, we chose:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.01328</span></code>: <a class="reference external" href="https://en.wikipedia.org/wiki/Unteraargletscher">Unteraar Glacier</a> in the Swiss Alps</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.00897</span></code>: <a class="reference external" href="http://acinn.uibk.ac.at/research/ice-and-climate/projects/hintereisferner">Hintereisferner</a> in the Austrian Alps.</p></li>
+</ul>
+<p>Here is a list of other glaciers you might want to try out:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-18.02342</span></code>: Tasman Glacier in New Zealand</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.00787</span></code>: <a class="reference external" href="https://de.wikipedia.org/wiki/Kesselwandferner">Kesselwandferner</a> in the Austrian Alps</p></li>
+<li><p>… or any other glacier identifier! You can find other glacier identifiers by exploring the <a class="reference external" href="https://www.glims.org/maps/glims">GLIMS viewer</a>.</p></li>
+</ul>
+<p>For an operational run on an RGI region, you might want to download the <a class="reference external" href="https://www.glims.org/RGI/">Randolph Glacier Inventory</a> dataset instead, and start a run from it. This case is covered in the <a class="reference internal" href="working_with_rgi.html"><span class="doc std std-doc">working with the RGI</span></a> tutorial.</p>
+</div>
+<div class="section" id="glacier-directories">
+<h3>Glacier directories<a class="headerlink" href="#glacier-directories" title="Permalink to this headline">¶</a></h3>
+<p>The OGGM workflow is organized as a list of <strong>tasks</strong> that have to be applied to a list of glaciers. The vast majority of tasks are called <strong>entity tasks</strong>: they are standalone operations to be realized on one single glacier entity. These tasks are executed sequentially (one after another): they often need input generated by the previous task(s): for example, the climate calibration needs the glacier flowlines, which can be only computed after the topography data has been processed, and so on.</p>
+<p>To handle this situation, OGGM uses a workflow based on data persistence on disk: instead of passing data as python variables from one task to another, each task will read the data from disk and then write the computation results back to the disk, making these new data available for the next task in the queue.</p>
+<p>These glacier specific data are located in <a class="reference external" href="https://docs.oggm.org/en/stable/glacierdir.html#glacier-directories">glacier directories</a>. In the model, these directories are initialized with the following command (this can take a little while on the first call, as OGGM needs to download some data):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Where to fetch the pre-processed directories</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:02:49: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:02:49: oggm.workflow: Execute entity task gdir_from_prepro on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N/A% of 189.1 MiB |                      | Elapsed Time: 0:00:00 ETA:  --:--:--
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0% of 189.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:07:21
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0% of 189.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:04:05
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0% of 189.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:01:50
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1% of 189.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:01:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1% of 189.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:00:43
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3% of 189.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:00:26
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4% of 189.1 MiB |#                     | Elapsed Time: 0:00:00 ETA:   0:00:19
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6% of 189.1 MiB |#                     | Elapsed Time: 0:00:01 ETA:   0:00:16
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7% of 189.1 MiB |#                     | Elapsed Time: 0:00:01 ETA:   0:00:15
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8% of 189.1 MiB |#                     | Elapsed Time: 0:00:01 ETA:   0:00:13
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10% of 189.1 MiB |##                    | Elapsed Time: 0:00:01 ETA:   0:00:11
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 11% of 189.1 MiB |##                    | Elapsed Time: 0:00:01 ETA:   0:00:10
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13% of 189.1 MiB |##                    | Elapsed Time: 0:00:01 ETA:   0:00:10
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15% of 189.1 MiB |###                   | Elapsed Time: 0:00:01 ETA:   0:00:09
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16% of 189.1 MiB |###                   | Elapsed Time: 0:00:01 ETA:   0:00:09
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 17% of 189.1 MiB |###                   | Elapsed Time: 0:00:01 ETA:   0:00:08
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19% of 189.1 MiB |####                  | Elapsed Time: 0:00:01 ETA:   0:00:08
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20% of 189.1 MiB |####                  | Elapsed Time: 0:00:02 ETA:   0:00:07
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22% of 189.1 MiB |####                  | Elapsed Time: 0:00:02 ETA:   0:00:07
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 23% of 189.1 MiB |#####                 | Elapsed Time: 0:00:02 ETA:   0:00:06
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 25% of 189.1 MiB |#####                 | Elapsed Time: 0:00:02 ETA:   0:00:06
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 27% of 189.1 MiB |#####                 | Elapsed Time: 0:00:02 ETA:   0:00:05
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28% of 189.1 MiB |######                | Elapsed Time: 0:00:02 ETA:   0:00:05
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30% of 189.1 MiB |######                | Elapsed Time: 0:00:02 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 31% of 189.1 MiB |######                | Elapsed Time: 0:00:02 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 33% of 189.1 MiB |#######               | Elapsed Time: 0:00:02 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34% of 189.1 MiB |#######               | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36% of 189.1 MiB |########              | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38% of 189.1 MiB |########              | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 39% of 189.1 MiB |########              | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41% of 189.1 MiB |#########             | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42% of 189.1 MiB |#########             | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44% of 189.1 MiB |#########             | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 45% of 189.1 MiB |##########            | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 47% of 189.1 MiB |##########            | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48% of 189.1 MiB |##########            | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50% of 189.1 MiB |###########           | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52% of 189.1 MiB |###########           | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 53% of 189.1 MiB |###########           | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 55% of 189.1 MiB |############          | Elapsed Time: 0:00:04 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56% of 189.1 MiB |############          | Elapsed Time: 0:00:04 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 58% of 189.1 MiB |############          | Elapsed Time: 0:00:04 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 59% of 189.1 MiB |#############         | Elapsed Time: 0:00:04 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 61% of 189.1 MiB |#############         | Elapsed Time: 0:00:04 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62% of 189.1 MiB |#############         | Elapsed Time: 0:00:04 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64% of 189.1 MiB |##############        | Elapsed Time: 0:00:04 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 65% of 189.1 MiB |##############        | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 67% of 189.1 MiB |##############        | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68% of 189.1 MiB |###############       | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 69% of 189.1 MiB |###############       | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70% of 189.1 MiB |###############       | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72% of 189.1 MiB |###############       | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 73% of 189.1 MiB |################      | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74% of 189.1 MiB |################      | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75% of 189.1 MiB |################      | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 77% of 189.1 MiB |################      | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78% of 189.1 MiB |#################     | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 79% of 189.1 MiB |#################     | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 81% of 189.1 MiB |#################     | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 83% of 189.1 MiB |##################    | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84% of 189.1 MiB |##################    | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86% of 189.1 MiB |##################    | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 87% of 189.1 MiB |###################   | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 89% of 189.1 MiB |###################   | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 90% of 189.1 MiB |####################  | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 92% of 189.1 MiB |####################  | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94% of 189.1 MiB |####################  | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 95% of 189.1 MiB |##################### | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 97% of 189.1 MiB |##################### | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98% of 189.1 MiB |##################### | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100% of 189.1 MiB |######################| Elapsed Time: 0:00:07 Time:  0:00:07
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N/A% of 194.1 MiB |                      | Elapsed Time: 0:00:00 ETA:  --:--:--
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0% of 194.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:07:36
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0% of 194.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:03:25
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0% of 194.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:02:10
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0% of 194.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:01:15
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1% of 194.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:00:41
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3% of 194.1 MiB |                      | Elapsed Time: 0:00:00 ETA:   0:00:25
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4% of 194.1 MiB |#                     | Elapsed Time: 0:00:01 ETA:   0:00:19
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6% of 194.1 MiB |#                     | Elapsed Time: 0:00:01 ETA:   0:00:18
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  7% of 194.1 MiB |#                     | Elapsed Time: 0:00:01 ETA:   0:00:13
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  9% of 194.1 MiB |##                    | Elapsed Time: 0:00:01 ETA:   0:00:12
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10% of 194.1 MiB |##                    | Elapsed Time: 0:00:01 ETA:   0:00:11
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12% of 194.1 MiB |##                    | Elapsed Time: 0:00:01 ETA:   0:00:10
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 13% of 194.1 MiB |###                   | Elapsed Time: 0:00:01 ETA:   0:00:10
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 15% of 194.1 MiB |###                   | Elapsed Time: 0:00:01 ETA:   0:00:09
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16% of 194.1 MiB |###                   | Elapsed Time: 0:00:01 ETA:   0:00:08
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18% of 194.1 MiB |####                  | Elapsed Time: 0:00:01 ETA:   0:00:08
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 19% of 194.1 MiB |####                  | Elapsed Time: 0:00:02 ETA:   0:00:08
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 21% of 194.1 MiB |####                  | Elapsed Time: 0:00:02 ETA:   0:00:07
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22% of 194.1 MiB |#####                 | Elapsed Time: 0:00:02 ETA:   0:00:07
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24% of 194.1 MiB |#####                 | Elapsed Time: 0:00:02 ETA:   0:00:06
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 25% of 194.1 MiB |#####                 | Elapsed Time: 0:00:02 ETA:   0:00:05
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26% of 194.1 MiB |#####                 | Elapsed Time: 0:00:02 ETA:   0:00:05
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28% of 194.1 MiB |######                | Elapsed Time: 0:00:02 ETA:   0:00:05
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 29% of 194.1 MiB |######                | Elapsed Time: 0:00:02 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 31% of 194.1 MiB |######                | Elapsed Time: 0:00:02 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 32% of 194.1 MiB |#######               | Elapsed Time: 0:00:02 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34% of 194.1 MiB |#######               | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 35% of 194.1 MiB |#######               | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 37% of 194.1 MiB |########              | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38% of 194.1 MiB |########              | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40% of 194.1 MiB |########              | Elapsed Time: 0:00:03 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 41% of 194.1 MiB |#########             | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 43% of 194.1 MiB |#########             | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44% of 194.1 MiB |#########             | Elapsed Time: 0:00:03 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 46% of 194.1 MiB |##########            | Elapsed Time: 0:00:04 ETA:   0:00:04
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48% of 194.1 MiB |##########            | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 49% of 194.1 MiB |##########            | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50% of 194.1 MiB |###########           | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52% of 194.1 MiB |###########           | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 54% of 194.1 MiB |###########           | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 55% of 194.1 MiB |############          | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 57% of 194.1 MiB |############          | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 58% of 194.1 MiB |############          | Elapsed Time: 0:00:04 ETA:   0:00:03
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60% of 194.1 MiB |#############         | Elapsed Time: 0:00:04 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 61% of 194.1 MiB |#############         | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 63% of 194.1 MiB |#############         | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64% of 194.1 MiB |##############        | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 65% of 194.1 MiB |##############        | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 67% of 194.1 MiB |##############        | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68% of 194.1 MiB |###############       | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 69% of 194.1 MiB |###############       | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70% of 194.1 MiB |###############       | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72% of 194.1 MiB |###############       | Elapsed Time: 0:00:05 ETA:   0:00:02
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 73% of 194.1 MiB |################      | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74% of 194.1 MiB |################      | Elapsed Time: 0:00:05 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 75% of 194.1 MiB |################      | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 77% of 194.1 MiB |#################     | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78% of 194.1 MiB |#################     | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80% of 194.1 MiB |#################     | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 81% of 194.1 MiB |##################    | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 83% of 194.1 MiB |##################    | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84% of 194.1 MiB |##################    | Elapsed Time: 0:00:06 ETA:   0:00:01
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86% of 194.1 MiB |###################   | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88% of 194.1 MiB |###################   | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 89% of 194.1 MiB |###################   | Elapsed Time: 0:00:06 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 91% of 194.1 MiB |####################  | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 92% of 194.1 MiB |####################  | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94% of 194.1 MiB |####################  | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 95% of 194.1 MiB |##################### | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 97% of 194.1 MiB |##################### | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98% of 194.1 MiB |##################### | Elapsed Time: 0:00:07 ETA:   0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100% of 194.1 MiB |######################| Elapsed Time: 0:00:08 Time:  0:00:08
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">from_prepro_level</span></code> indicates that we will start from <a class="reference external" href="https://docs.oggm.org/en/stable/input-data.html#pre-processed-directories">pre-processed directories</a>, i.e. data that are already pre-processed for the model users. In many cases you will want to start from level 3, 4 or 5. Here we start from level 3 and rerun some of the processing in order to demonstrate the OGGM workflow.</p></li>
+<li><p>the <code class="docutils literal notranslate"><span class="pre">prepro_border</span></code> keyword indicates the number of DEM grid points which we’d like to add to each side of the glacier for the local map: the larger the glacier will grow, the larger the border parameter should be. The available pre-processed border values are: <strong>10, 80, 160</strong> (depending on the model set-ups there might be more or less options). These are the fixed map sizes we prepared for you - any other map size will require a full processing (see the <a class="reference internal" href="dem_sources.html"><span class="doc std std-doc">alternative DEM example</span></a> for a tutorial).</p></li>
+</ul>
+<p>The <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.workflow.init_glacier_directories.html#oggm.workflow.init_glacier_directories">init_glacier_directories</a> task will allways be the very first task to call for all your OGGM experiments. Let’s see what it gives us back:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">gdirs</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(list, oggm.utils._workflow.GlacierDirectory)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">gdirs</span></code> is a list of <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.GlacierDirectory.html#oggm.GlacierDirectory">GlacierDirectory</a> objects (one for each glacier). <strong>Glacier directories are used by OGGM as “file and attribute manager”</strong> for single glaciers. For example, the model now knows where to find the topography data file for this glacier:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># take Unteraar glacier</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Path to the DEM:&#39;</span><span class="p">,</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Path to the DEM: /tmp/OGGM/OGGM-GettingStarted/per_glacier/RGI60-11/RGI60-11.01/RGI60-11.01328/dem.tif
+</pre></div>
+</div>
+</div>
+</div>
+<p>And we can also access some attributes of this glacier:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;oggm.GlacierDirectory&gt;
+  RGI id: RGI60-11.01328
+  Region: 11: Central Europe
+  Subregion: 11-01: Alps                            
+  Glacier type: Glacier
+  Terminus type: Land-terminating
+  Status: Glacier or ice cap
+  Area: 23.825 km2
+  Lon, Lat: (8.2193, 46.5642)
+  Grid (nx, ny): (299, 274)
+  Grid (dx, dy): (78.0, -78.0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span>  <span class="c1"># date at which the outlines are valid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2003
+</pre></div>
+</div>
+</div>
+</div>
+<p>The advantage of this Glacier Directory data model is that it simplifies greatly the data transfer between tasks. <strong>The single mandatory argument of all entity tasks will allways be a glacier directory</strong>. With the glacier directory, each task will find the input it needs: for example, both the glacier’s topography and outlines are needed for the next plotting function, and both are available via the <code class="docutils literal notranslate"><span class="pre">gdir</span></code> argument:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">graphics</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_domain</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_34_0.png" src="../_images/getting_started_34_0.png" />
+</div>
+</div>
+<p>Another advantage of glacier directories is their persistence on disk: once created, <strong>they can be recovered from the same location</strong> by using <code class="docutils literal notranslate"><span class="pre">init_glacier_directories</span></code> again, but without keyword arguments:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch the LOCAL pre-processed directories - note that no arguments are used!</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:09: oggm.workflow: Execute entity task GlacierDirectory on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>See the <a class="reference internal" href="store_and_compress_glacierdirs.html"><span class="doc std std-doc">store_and_compress_glacierdirs</span></a> tutorial for more information on glacier directories.</p>
+</div>
+<div class="section" id="tasks">
+<h3>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline">¶</a></h3>
+<p>There are two different types of “<a class="reference external" href="http://docs.oggm.org/en/stable/api.html#entity-tasks">tasks</a>”:</p>
+<p><strong>Entity Tasks</strong>:
+Standalone operations to be realized on one single glacier entity,
+independently from the others. The majority of OGGM
+tasks are entity tasks. They are parallelisable: the same task can run on
+several glaciers in parallel.</p>
+<p><strong>Global Task</strong>:
+Tasks which require to work on several glacier entities
+at the same time. Model parameter calibration or the
+compilation of several glaciers’ output are examples
+of global tasks.</p>
+<p>OGGM implements a simple mechanism to run a specific task on a list of <code class="docutils literal notranslate"><span class="pre">GlacierDirectory</span></code> objects:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">tasks</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># run the glacier_masks task on all gdirs</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">glacier_masks</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:09: oggm.workflow: Execute entity task glacier_masks on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>The task we just applied to our list of glaciers is <a class="reference external" href="http://docs.oggm.org/en/stable/generated/oggm.tasks.glacier_masks.html#oggm.tasks.glacier_masks">glacier_masks</a>. It wrote a new file in our glacier directory, providing raster masks of the glacier (among other things):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Path to the masks:&#39;</span><span class="p">,</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;gridded_data&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Path to the masks: /tmp/OGGM/OGGM-GettingStarted/per_glacier/RGI60-11/RGI60-11.01/RGI60-11.01328/gridded_data.nc
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is also possible to apply several tasks sequentially (i.e. one after an other) on our glacier list:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_talks</span> <span class="o">=</span> <span class="p">[</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">compute_centerlines</span><span class="p">,</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">initialize_flowlines</span><span class="p">,</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">compute_downstream_line</span><span class="p">,</span>
+         <span class="p">]</span>
+<span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">list_talks</span><span class="p">:</span>
+    <span class="c1"># The order matters!</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:11: oggm.workflow: Execute entity task compute_centerlines on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:11: oggm.workflow: Execute entity task initialize_flowlines on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:11: oggm.workflow: Execute entity task compute_downstream_line on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">execute_task</span></code> can run a task on different glaciers at the same time, if the <code class="docutils literal notranslate"><span class="pre">use_multiprocessing</span></code> option is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> in the configuration file.</p>
+<p>Among other things, we computed the glacier flowlines and the glacier’s downstream line. We can now plot them:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_centerlines</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">use_flowlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">add_downstream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_48_0.png" src="../_images/getting_started_48_0.png" />
+</div>
+</div>
+<p>As a result, the glacier directories now store many more files. If you are interested, you can have a look:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">dir</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;inversion_flowlines.pkl&#39;, &#39;flowline_catchments.tar.gz&#39;, &#39;dem_source.txt&#39;, &#39;dem.tif&#39;, &#39;model_flowlines.pkl&#39;, &#39;centerlines.pkl&#39;, &#39;downstream_line.pkl&#39;, &#39;inversion_output.pkl&#39;, &#39;log.txt&#39;, &#39;diagnostics.json&#39;, &#39;local_mustar.json&#39;, &#39;outlines.tar.gz&#39;, &#39;gridded_data.nc&#39;, &#39;geometries.pkl&#39;, &#39;climate_historical.nc&#39;, &#39;catchments_intersects.tar.gz&#39;, &#39;intersects.tar.gz&#39;, &#39;inversion_input.pkl&#39;, &#39;climate_info.json&#39;, &#39;glacier_grid.json&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>For a short explanation of what these files are, see the <a class="reference external" href="https://docs.oggm.org/en/stable/api.html#cfg-basenames">glacier directory documentation</a>. In practice, however, you will only rarely need to access these files yourself.</p>
+</div>
+<div class="section" id="other-preprocessing-tasks">
+<h3>Other preprocessing tasks<a class="headerlink" href="#other-preprocessing-tasks" title="Permalink to this headline">¶</a></h3>
+<p>Let’s continue with the other preprocessing tasks:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_talks</span> <span class="o">=</span> <span class="p">[</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">catchment_area</span><span class="p">,</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">catchment_width_geom</span><span class="p">,</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">catchment_width_correction</span><span class="p">,</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">compute_downstream_bedshape</span>
+         <span class="p">]</span>
+<span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">list_talks</span><span class="p">:</span>
+    <span class="c1"># The order matters!</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:15: oggm.workflow: Execute entity task catchment_area on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:18: oggm.workflow: Execute entity task catchment_width_geom on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:21: oggm.workflow: Execute entity task catchment_width_correction on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:22: oggm.workflow: Execute entity task compute_downstream_bedshape on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>We just computed the catchment areas of each flowline (the colors are arbitrary):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_catchment_areas</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_56_0.png" src="../_images/getting_started_56_0.png" />
+</div>
+</div>
+<p>Each flowline now knows what area will contribute to its surface mass-balance and ice flow. Accordingly, it is possible to compute each glacier cross-section’s width, and correct it so that the total glacier area and elevation distribution is conserved:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_catchment_width</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">corrected</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_58_0.png" src="../_images/getting_started_58_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="climate-tasks">
+<h3>Climate tasks<a class="headerlink" href="#climate-tasks" title="Permalink to this headline">¶</a></h3>
+<p>The glacier directories we downloaded already contains the climate timeseries for each glacier (<code class="docutils literal notranslate"><span class="pre">from_prepro_level=3</span></code>). Let’s have a look at them:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="n">fpath</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span>
+<span class="c1"># Data is in hydrological years</span>
+<span class="c1"># -&gt; let&#39;s just ignore the first and last calendar years</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;AS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_61_0.png" src="../_images/getting_started_61_0.png" />
+</div>
+</div>
+<p>This climate data is called the “baseline climate” for this glacier. It will be used for the mass-balance model calibration, and at the end of this tutorial also to generate the random climate to drive a simulation. When running OGGM with GCM data, the GCM timeseries will be computed as anomalies to this baseline timeseries, hence the name.</p>
+<p>Here we are using CRU, but OGGM-Shop also allows to use ERA5 and CERA as baseline.</p>
+<p>Now, let’s calibrate the mass-balance model for this glacier. The calibration procedure of OGGM is … original, but is also quite powerful. Read the <a class="reference external" href="https://docs.oggm.org/en/stable/mass-balance.html">doc page</a> or the <a class="reference external" href="https://www.geosci-model-dev-discuss.net/gmd-2018-9/">GMD paper</a> for more details, and you can also follow the <a class="reference internal" href="massbalance_calibration.html"><span class="doc std std-doc">mass-balance calibration tutorial</span></a> explaining some of the model internals.</p>
+<p>The default calibration process is automated (see also <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.local_t_star.html#oggm.tasks.local_t_star">local_t_star</a>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fetch the reference t* list and associated model parameters</span>
+<span class="n">params_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/ref_mb_params/oggm_v1.4/RGIV62/CRU/centerlines/qc3/pcp2.5&#39;</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">download_ref_tstars</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">params_url</span><span class="p">)</span>
+
+<span class="c1"># Now calibrate</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">local_t_star</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">mu_star_calibration</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N/A% of  15.4 KiB |                      | Elapsed Time: 0:00:00 ETA:  --:--:--
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100% of  15.4 KiB |######################| Elapsed Time: 0:00:00 ETA:  00:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100% of  15.4 KiB |######################| Elapsed Time: 0:00:00 Time:  0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N/A% of 149.0 B |                        | Elapsed Time: 0:00:00 ETA:  --:--:--
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100% of 149.0 B |########################| Elapsed Time: 0:00:00 Time:  0:00:00
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:39: oggm.workflow: Execute entity task local_t_star on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:39: oggm.workflow: Execute entity task mu_star_calibration on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>¡Important!</strong> The calibration of the mass-balance model is automated only for certain parameter combinations of the model - any change in the mass-balance model settings (e.g. the melt threshold, the precipitation correction factor, etc.) will require a re-calibration of the model (see the <a class="reference internal" href="massbalance_calibration.html"><span class="doc std std-doc">mass-balance calibration tutorial</span></a> for an introduction to this topic).</p>
+<p>From there, OGGM can now compute the mass-balance for these glaciers. For example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm.core.massbalance</span> <span class="kn">import</span> <span class="n">MultipleFlowlineMassBalance</span>
+<span class="n">gdir_hef</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">mbmod</span> <span class="o">=</span> <span class="n">MultipleFlowlineMassBalance</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span> <span class="n">use_inversion_flowlines</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">years</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1902</span><span class="p">,</span> <span class="mi">2017</span><span class="p">)</span>
+<span class="n">mb_ts</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">years</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">mb_ts</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;SMB (mm yr$^{-1}$)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_67_0.png" src="../_images/getting_started_67_0.png" />
+</div>
+</div>
+<p>For the Hintereiferner (not for Unteraar where no observational data is available), we can also compare our computed mass-balance to the measured one:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbdf</span> <span class="o">=</span> <span class="n">gdir_hef</span><span class="o">.</span><span class="n">get_ref_mb_data</span><span class="p">()</span>
+<span class="n">mbdf</span><span class="p">[</span><span class="s1">&#39;OGGM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">year</span><span class="o">=</span><span class="n">mbdf</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">mbdf</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;SMB (mm yr$^{-1}$)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_69_0.png" src="../_images/getting_started_69_0.png" />
+</div>
+</div>
+<p>This graphic is interesting because it shows an effect often observed when comparing the computed mass balance to the observed one: since (in this case) the OGGM geometry is fixed with time, the modelled specific mass-balance series are likely to have a stronger trend than the observed ones.</p>
+<p>To assess the results of the OGGM mass-balance model for all WGMS glaciers worldwide, visit the <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/ref_mb_params/oggm_v1.4/RGIV62/CRU/centerlines/qc3/pcp2.5/_scores/">score summary</a> for this particular model settings.</p>
+</div>
+<div class="section" id="computing-the-ice-thickness-inversion">
+<h3>Computing the ice thickness (“inversion”)<a class="headerlink" href="#computing-the-ice-thickness-inversion" title="Permalink to this headline">¶</a></h3>
+<p>With the computed mass-balance and the flowlines, OGGM can now compute the ice thickness, based on the principles of <a class="reference external" href="http://docs.oggm.org/en/stable/inversion.html">mass conservation and ice dynamics</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_talks</span> <span class="o">=</span> <span class="p">[</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">prepare_for_inversion</span><span class="p">,</span>  <span class="c1"># This is a preprocessing task</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">mass_conservation_inversion</span><span class="p">,</span>  <span class="c1"># This does the actual job</span>
+         <span class="n">tasks</span><span class="o">.</span><span class="n">filter_inversion_output</span>  <span class="c1"># This smoothes the thicknesses at the tongue a little</span>
+         <span class="p">]</span>
+<span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">list_talks</span><span class="p">:</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:40: oggm.workflow: Execute entity task prepare_for_inversion on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:40: oggm.workflow: Execute entity task mass_conservation_inversion on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:40: oggm.workflow: Execute entity task filter_inversion_output on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>The ice thickness is computed for all sections along the flowline, and can be displayed with the help of OGGM’s graphics module:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_inversion</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_75_0.png" src="../_images/getting_started_75_0.png" />
+</div>
+</div>
+<p>The inversion is realized with the default parameter settings: it must be noted that the model is sensitive to the choice of some of them, most notably the creep parameter A:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;inversion_glen_a&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.4e-24
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a_factor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">volume</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">a_factor</span><span class="p">:</span>
+    <span class="c1"># Recompute the volume without overwriting the previous computations</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">mass_conservation_inversion</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">glen_a</span><span class="o">=</span><span class="n">f</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;inversion_glen_a&#39;</span><span class="p">],</span> <span class="n">write</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">volume</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">a_factor</span><span class="p">,</span> <span class="n">volume</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Unteraar total volume&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Volume (km$^3$)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Glen A factor (1 = default)&#39;</span><span class="p">);</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_78_0.png" src="../_images/getting_started_78_0.png" />
+</div>
+</div>
+<p>There is no simple way to find the best A for each individual glacier. It can easily vary by a factor of 10 (or more) from one glacier to another. At the global scale, the “best” A is close to the default value (possibly between 1 and 1.5 times larger). The default parameter a good choice in a first step but be aware that reconstructions based on this default parameter might be very uncertain! See our <a class="reference internal" href="inversion.html"><span class="doc std std-doc">ice thickness inversion tutorial</span></a> for a more in-depth discussion.</p>
+</div>
+</div>
+<div class="section" id="simulations">
+<h2>Simulations<a class="headerlink" href="#simulations" title="Permalink to this headline">¶</a></h2>
+<p>For most applications, this is where the fun starts! With climate data and an estimate of the ice thickness, we can now start transient simulations. For this tutorial, we will show how to realize idealized experiments based on the baseline climate only, but it is also possible to drive OGGM with real GCM data.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the flowlines to a &quot;glacier&quot; for the ice dynamics module</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:54: oggm.workflow: Execute entity task init_present_time_glacier on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s start a run driven by a the climate of the last 31 years, shuffled randomly for 200 years. This can be seen as a “commitment” simulation, i.e. how much glaciers will change even without further climate change:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                             <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_2000&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:03:54: oggm.workflow: Execute entity task run_random_climate on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>The output of this simulation is stored in two separate files: a diagnostic file (which contains time series variables such as length, volume, ELA, etc.) and a full model output file, which is larger but allows to reproduce the full glacier geometry changes during the run.</p>
+<p>In practice, the diagnostic files are often compiled for the entire list of glaciers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds2000</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_2000&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:04:16: oggm.utils: Applying global task compile_run_output on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/oggm/utils/_workflow.py:822: FutureWarning: The `filesuffix` kwarg is deprecated for compile_* tasks. Use input_filesuffix from now on.
+  warnings.warn(&#39;The `filesuffix` kwarg is deprecated for &#39;
+2021-05-10 11:04:16: oggm.utils: Applying compile_run_output on 2 gdirs.
+</pre></div>
+</div>
+</div>
+</div>
+<p>This dataset is also stored on disk (in the working directory) as NetCDF file for later use. Here we can access it directly:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds2000</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2 {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
+Dimensions:         (rgi_id: 2, time: 201)
+Coordinates:
+  * time            (time) float64 0.0 1.0 2.0 3.0 ... 197.0 198.0 199.0 200.0
+  * rgi_id          (rgi_id) &lt;U14 &#x27;RGI60-11.01328&#x27; &#x27;RGI60-11.00897&#x27;
+    hydro_year      (time) int64 0 1 2 3 4 5 6 7 ... 194 195 196 197 198 199 200
+    hydro_month     (time) int64 1 1 1 1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1 1 1 1
+    calendar_year   (time) int64 -1 0 1 2 3 4 5 ... 193 194 195 196 197 198 199
+    calendar_month  (time) int64 10 10 10 10 10 10 10 ... 10 10 10 10 10 10 10
+Data variables:
+    volume          (time, rgi_id) float64 3.577e+09 8.976e+08 ... 2.285e+08
+    volume_bsl      (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    volume_bwl      (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    area            (time, rgi_id) float64 2.382e+07 8.036e+06 ... 4.167e+06
+    length          (time, rgi_id) float64 1.342e+04 6.9e+03 ... 1.4e+03
+    calving         (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    calving_rate    (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    water_level     (rgi_id) float64 0.0 0.0
+    glen_a          (rgi_id) float64 2.4e-24 2.4e-24
+    fs              (rgi_id) float64 0.0 0.0
+Attributes:
+    description:    OGGM model output
+    oggm_version:   1.4.1.dev23+ga8b7922
+    calendar:       365-day no leap
+    creation_date:  2021-05-10 11:04:16</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-fcefd743-acee-4c13-842c-63f4de8486c4' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-fcefd743-acee-4c13-842c-63f4de8486c4' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>rgi_id</span>: 2</li><li><span class='xr-has-index'>time</span>: 201</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-b37c9316-de8d-4114-b8b6-19b3569e0a84' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b37c9316-de8d-4114-b8b6-19b3569e0a84' class='xr-section-summary' >Coordinates: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 2.0 ... 198.0 199.0 200.0</div><input id='attrs-e6894bbe-e4a4-45fc-951d-b90af84010ac' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e6894bbe-e4a4-45fc-951d-b90af84010ac' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7c3bd96b-744b-4c42-902d-9b667c3d1b56' class='xr-var-data-in' type='checkbox'><label for='data-7c3bd96b-744b-4c42-902d-9b667c3d1b56' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   1.,   2., ..., 198., 199., 200.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rgi_id</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>&lt;U14</div><div class='xr-var-preview xr-preview'>&#x27;RGI60-11.01328&#x27; &#x27;RGI60-11.00897&#x27;</div><input id='attrs-b25b9ff2-1c85-41a1-85b1-0ca4739c2949' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b25b9ff2-1c85-41a1-85b1-0ca4739c2949' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1d78bbef-c7fc-44d7-b9b4-6a95391d2ece' class='xr-var-data-in' type='checkbox'><label for='data-1d78bbef-c7fc-44d7-b9b4-6a95391d2ece' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>RGI glacier identifier</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;RGI60-11.01328&#x27;, &#x27;RGI60-11.00897&#x27;], dtype=&#x27;&lt;U14&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 196 197 198 199 200</div><input id='attrs-7e36cc7e-16c1-4262-b9ea-348ca2d07a30' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7e36cc7e-16c1-4262-b9ea-348ca2d07a30' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-19e1c536-619b-4dce-80d9-4238fa897afc' class='xr-var-data-in' type='checkbox'><label for='data-19e1c536-619b-4dce-80d9-4238fa897afc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
+        13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,
+        26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,
+        39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,
+        52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,  63,  64,
+        65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  75,  76,  77,
+        78,  79,  80,  81,  82,  83,  84,  85,  86,  87,  88,  89,  90,
+        91,  92,  93,  94,  95,  96,  97,  98,  99, 100, 101, 102, 103,
+       104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
+       117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
+       130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142,
+       143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155,
+       156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168,
+       169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181,
+       182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194,
+       195, 196, 197, 198, 199, 200])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-bebf2497-1d0a-4db5-b4a6-99c68ec9233d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-bebf2497-1d0a-4db5-b4a6-99c68ec9233d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-03dc8d68-617b-4c85-9aa0-6598d7a5b3cc' class='xr-var-data-in' type='checkbox'><label for='data-03dc8d68-617b-4c85-9aa0-6598d7a5b3cc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological month</dd></dl></div><div class='xr-var-data'><pre>array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       1, 1, 1])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>-1 0 1 2 3 ... 195 196 197 198 199</div><input id='attrs-32977cf7-5985-446d-a673-dba77cc0a3c5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-32977cf7-5985-446d-a673-dba77cc0a3c5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-454e9595-1588-4e4b-85eb-7351d3def3f0' class='xr-var-data-in' type='checkbox'><label for='data-454e9595-1588-4e4b-85eb-7351d3def3f0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar year</dd></dl></div><div class='xr-var-data'><pre>array([ -1,   0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,
+        12,  13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,
+        25,  26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,
+        38,  39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,
+        51,  52,  53,  54,  55,  56,  57,  58,  59,  60,  61,  62,  63,
+        64,  65,  66,  67,  68,  69,  70,  71,  72,  73,  74,  75,  76,
+        77,  78,  79,  80,  81,  82,  83,  84,  85,  86,  87,  88,  89,
+        90,  91,  92,  93,  94,  95,  96,  97,  98,  99, 100, 101, 102,
+       103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115,
+       116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128,
+       129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141,
+       142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154,
+       155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167,
+       168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180,
+       181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193,
+       194, 195, 196, 197, 198, 199])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>10 10 10 10 10 ... 10 10 10 10 10</div><input id='attrs-59f1893e-2ffa-46ec-899e-2cb7d677f747' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-59f1893e-2ffa-46ec-899e-2cb7d677f747' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-58d848d9-65c9-45ef-a413-0302705c4ed5' class='xr-var-data-in' type='checkbox'><label for='data-58d848d9-65c9-45ef-a413-0302705c4ed5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar month</dd></dl></div><div class='xr-var-data'><pre>array([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
+       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-20d47200-1e31-4287-9fa3-0744d471462d' class='xr-section-summary-in' type='checkbox'  checked><label for='section-20d47200-1e31-4287-9fa3-0744d471462d' class='xr-section-summary' >Data variables: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>volume</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.577e+09 8.976e+08 ... 2.285e+08</div><input id='attrs-3f02bde8-4fd7-4f73-b59f-d7b8dd3d355e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3f02bde8-4fd7-4f73-b59f-d7b8dd3d355e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-288e93ca-1b1e-45e7-97dc-bc7432f2a288' class='xr-var-data-in' type='checkbox'><label for='data-288e93ca-1b1e-45e7-97dc-bc7432f2a288' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier volume</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[3.57666144e+09, 8.97550063e+08],
+       [3.57097529e+09, 8.79976889e+08],
+       [3.55899863e+09, 8.67941258e+08],
+       [3.55621757e+09, 8.56256016e+08],
+       [3.55275817e+09, 8.38787924e+08],
+       [3.53259491e+09, 8.26859654e+08],
+       [3.52344578e+09, 8.17762294e+08],
+       [3.51021544e+09, 7.99317227e+08],
+       [3.50290378e+09, 7.90086343e+08],
+       [3.48978421e+09, 7.76294719e+08],
+       [3.46475906e+09, 7.68807687e+08],
+       [3.44888950e+09, 7.61832680e+08],
+       [3.44711435e+09, 7.59754440e+08],
+       [3.41485694e+09, 7.47411568e+08],
+       [3.39975083e+09, 7.40948898e+08],
+       [3.36763731e+09, 7.32018900e+08],
+       [3.35878072e+09, 7.22764608e+08],
+       [3.33881099e+09, 7.08858981e+08],
+       [3.30893248e+09, 6.95369951e+08],
+       [3.29201002e+09, 6.80524782e+08],
+...
+       [1.79835064e+09, 2.17988123e+08],
+       [1.80080530e+09, 2.21578075e+08],
+       [1.79739712e+09, 2.23101883e+08],
+       [1.79632457e+09, 2.23112186e+08],
+       [1.79046053e+09, 2.25294773e+08],
+       [1.79326059e+09, 2.26219873e+08],
+       [1.79595356e+09, 2.24336965e+08],
+       [1.79355121e+09, 2.25254187e+08],
+       [1.78582484e+09, 2.23688807e+08],
+       [1.78009733e+09, 2.25931215e+08],
+       [1.77446280e+09, 2.27891787e+08],
+       [1.77296947e+09, 2.25891841e+08],
+       [1.76832448e+09, 2.26377528e+08],
+       [1.76851698e+09, 2.25342108e+08],
+       [1.76152241e+09, 2.27750435e+08],
+       [1.75994118e+09, 2.24899341e+08],
+       [1.76695858e+09, 2.21969287e+08],
+       [1.75866755e+09, 2.26621916e+08],
+       [1.75424115e+09, 2.29399825e+08],
+       [1.75863959e+09, 2.28500632e+08]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bsl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-9ccdf556-f555-4394-a9e3-586e2d19dbb1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9ccdf556-f555-4394-a9e3-586e2d19dbb1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7e82cc94-4bb9-4222-a310-35b0b3c72399' class='xr-var-data-in' type='checkbox'><label for='data-7e82cc94-4bb9-4222-a310-35b0b3c72399' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below sea-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+...
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bwl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-d24f70b1-bfea-4d0b-ab5b-3a002f5f9020' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d24f70b1-bfea-4d0b-ab5b-3a002f5f9020' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8e28ddb5-a5c9-43c6-98ff-dd29191843da' class='xr-var-data-in' type='checkbox'><label for='data-8e28ddb5-a5c9-43c6-98ff-dd29191843da' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below water-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+...
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.382e+07 8.036e+06 ... 4.167e+06</div><input id='attrs-e8741156-1285-4d9c-afa7-f4eb770bdb52' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e8741156-1285-4d9c-afa7-f4eb770bdb52' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8302c331-b985-4f46-817f-da305c334e54' class='xr-var-data-in' type='checkbox'><label for='data-8302c331-b985-4f46-817f-da305c334e54' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([[23825000.        ,  8036000.        ],
+       [23749050.75329728,  7982829.17444821],
+       [23711219.95985783,  7950158.85134081],
+       [23685386.20494163,  7931639.48403749],
+       [23679603.09000522,  7906175.78584065],
+       [23636936.88340772,  7891394.97876539],
+       [23624072.80382991,  7876872.93759217],
+       [23602234.90978086,  7849459.08914009],
+       [23585031.82068409,  7832250.48212584],
+       [23556276.07554292,  7802002.39886257],
+       [23499888.19529155,  7773868.6840481 ],
+       [23470069.29465126,  7751405.73559696],
+       [23463253.33314219,  7734552.8056588 ],
+       [23408726.99530389,  7705521.21811063],
+       [23389038.1316721 ,  7683050.83893947],
+       [23335907.7140079 ,  7660757.89477086],
+       [23323369.29347194,  7644693.36581734],
+       [23301052.06725201,  7616383.43666538],
+       [23252581.89747048,  7583653.94028798],
+       [23226483.16402392,  7547987.40767632],
+...
+       [18073568.63001207,  4166538.43947485],
+       [17992724.19577532,  4166538.43947485],
+       [17984936.28197376,  4166538.43947485],
+       [17978796.68911238,  4179550.99294121],
+       [17965789.88062222,  4166538.43947485],
+       [17965121.50037394,  4166538.43947485],
+       [17964222.89726125,  4166538.43947485],
+       [17957875.21760786,  4166538.43947485],
+       [17939051.76287189,  4177627.89359395],
+       [17923052.94266691,  4166538.43947485],
+       [17911596.20533255,  4166538.43947485],
+       [17889750.00623205,  4166538.43947485],
+       [17865005.28838253,  4166538.43947485],
+       [17853527.89515174,  4166538.43947485],
+       [17835104.99784692,  4166538.43947485],
+       [17830600.25052287,  4166538.43947485],
+       [17847493.287335  ,  4166538.43947485],
+       [17831943.07106119,  4167269.54284786],
+       [17820565.41344681,  4166538.43947485],
+       [17820828.99127464,  4166538.43947485]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>length</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.342e+04 6.9e+03 ... 1.4e+03</div><input id='attrs-78dffcac-55af-4964-a34b-1eea92e6f169' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-78dffcac-55af-4964-a34b-1eea92e6f169' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e2cd34c7-17c2-4c98-b279-c81ce7301e48' class='xr-var-data-in' type='checkbox'><label for='data-e2cd34c7-17c2-4c98-b279-c81ce7301e48' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier length</dd><dt><span>unit :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([[13416.,  6900.],
+       [13728.,  6900.],
+       [13728.,  6800.],
+       [13572.,  6600.],
+       [13572.,  6700.],
+       [13416.,  6600.],
+       [13416.,  6600.],
+       [13416.,  6700.],
+       [13416.,  6700.],
+       [13416.,  6500.],
+       [13104.,  6500.],
+       [13104.,  6500.],
+       [13104.,  6500.],
+       [13104.,  6500.],
+       [13104.,  6500.],
+       [13104.,  6400.],
+       [13104.,  6400.],
+       [13104.,  6400.],
+       [13104.,  6400.],
+       [13104.,  6400.],
+...
+       [ 8892.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8736.,  1400.],
+       [ 8580.,  1400.],
+       [ 8580.,  1400.],
+       [ 8580.,  1400.],
+       [ 8580.,  1400.],
+       [ 8580.,  1400.],
+       [ 8580.,  1400.],
+       [ 8580.,  1400.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-a2410a7e-2608-4f39-9536-096a9a26260a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a2410a7e-2608-4f39-9536-096a9a26260a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-db16cd12-e250-452a-b76a-87e724df87bc' class='xr-var-data-in' type='checkbox'><label for='data-db16cd12-e250-452a-b76a-87e724df87bc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total accumulated calving flux</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+...
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_rate</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-1ea5bef5-01e5-4acc-9f3d-9f661effed87' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1ea5bef5-01e5-4acc-9f3d-9f661effed87' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-65f21b40-9d40-444c-bf24-d44ffe51c9db' class='xr-var-data-in' type='checkbox'><label for='data-65f21b40-9d40-444c-bf24-d44ffe51c9db' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving rate</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+...
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>water_level</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-c1ffc5b2-bd43-4c87-86ea-a5121a75bcad' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c1ffc5b2-bd43-4c87-86ea-a5121a75bcad' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8e7a0b2d-6165-4b30-a529-653bbc68b29c' class='xr-var-data-in' type='checkbox'><label for='data-8e7a0b2d-6165-4b30-a529-653bbc68b29c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving water level</dd><dt><span>units :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glen_a</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.4e-24 2.4e-24</div><input id='attrs-6009c17f-3005-484c-a3ce-f588cab25c5b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6009c17f-3005-484c-a3ce-f588cab25c5b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-06fdc691-52d1-4a4b-8a54-d2a838b2f001' class='xr-var-data-in' type='checkbox'><label for='data-06fdc691-52d1-4a4b-8a54-d2a838b2f001' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation Glen A</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([2.4e-24, 2.4e-24])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>fs</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-0fb3a251-d031-4058-9f86-8a873d3ab5dd' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0fb3a251-d031-4058-9f86-8a873d3ab5dd' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c905ac7c-b5c9-4d76-b582-d957c292eda2' class='xr-var-data-in' type='checkbox'><label for='data-c905ac7c-b5c9-4d76-b582-d957c292eda2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation sliding parameter</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-50746be1-6b86-4285-a043-4bef2ab65605' class='xr-section-summary-in' type='checkbox'  checked><label for='section-50746be1-6b86-4285-a043-4bef2ab65605' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>OGGM model output</dd><dt><span>oggm_version :</span></dt><dd>1.4.1.dev23+ga8b7922</dd><dt><span>calendar :</span></dt><dd>365-day no leap</dd><dt><span>creation_date :</span></dt><dd>2021-05-10 11:04:16</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<p>We opened the file with <a class="reference external" href="http://xarray.pydata.org">xarray</a>, a very useful data analysis library based on <a class="reference external" href="http://pandas.pydata.org/">pandas</a>. For example, we can plot the volume and length evolution of both glaciers with time:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ds2000</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
+<span class="n">ds2000</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_90_0.png" src="../_images/getting_started_90_0.png" />
+</div>
+</div>
+<p>The full model output files can be used for plots:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_map</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_2000&#39;</span><span class="p">,</span> <span class="n">modelyr</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">350</span><span class="p">)</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_map</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_2000&#39;</span><span class="p">,</span> <span class="n">modelyr</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">350</span><span class="p">)</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_map</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_2000&#39;</span><span class="p">,</span> <span class="n">modelyr</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">350</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_92_0.png" src="../_images/getting_started_92_0.png" />
+</div>
+</div>
+<div class="section" id="sensitivity-to-temperature">
+<h3>Sensitivity to temperature<a class="headerlink" href="#sensitivity-to-temperature" title="Permalink to this headline">¶</a></h3>
+<p>Now repeat our simulations with a +0.5°C and -0.5°C temperature bias, which for a glacier is quite a lot!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                             <span class="n">temperature_bias</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                             <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_p05&#39;</span><span class="p">);</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+                             <span class="n">temperature_bias</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span>
+                             <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_m05&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:05:11: oggm.workflow: Execute entity task run_random_climate on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:05:31: oggm.workflow: Execute entity task run_random_climate on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_p05&#39;</span><span class="p">)</span>
+<span class="n">dsm</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_m05&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:05:54: oggm.utils: Applying global task compile_run_output on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/oggm/utils/_workflow.py:822: FutureWarning: The `filesuffix` kwarg is deprecated for compile_* tasks. Use input_filesuffix from now on.
+  warnings.warn(&#39;The `filesuffix` kwarg is deprecated for &#39;
+2021-05-10 11:05:54: oggm.utils: Applying compile_run_output on 2 gdirs.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:05:54: oggm.utils: Applying global task compile_run_output on 2 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-05-10 11:05:54: oggm.utils: Applying compile_run_output on 2 gdirs.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">rgi_id</span> <span class="o">=</span> <span class="s1">&#39;RGI60-11.01328&#39;</span>
+<span class="n">ds2000</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Commitment&#39;</span><span class="p">);</span>
+<span class="n">ds2000</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
+<span class="n">ds2000</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
+<span class="n">dsp</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$+$ 0.5°C&#39;</span><span class="p">);</span>
+<span class="n">dsp</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
+<span class="n">dsp</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
+<span class="n">dsm</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$-$ 0.5°C&#39;</span><span class="p">);</span>
+<span class="n">dsm</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
+<span class="n">dsm</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="n">rgi_id</span><span class="p">)</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/getting_started_97_0.png" src="../_images/getting_started_97_0.png" />
+</div>
+</div>
+<p>From this experiment, we learn that a climate that is -0.5° colder than today (i.e. mean climate of 1985-2015) would barely be enough to maintain the Unteraar glacier in its present day geometry.</p>
+</div>
+</div>
+<div class="section" id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="welcome.html" title="previous page">Welcome to the OGGM tutorials!</a>
+    <a class='right-next' id="next-link" href="working_with_rgi.html" title="next page">Working with the RGI files</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By OGGM e.V. and OGGM Contributors<br/>
+        
+          <div class="extra_footer">
+            <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-106829797-2', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>
