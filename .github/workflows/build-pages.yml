@@ -1,0 +1,40 @@
+name: Build Pages
+
+on:
+  push:
+    branches:
+      - master
+      - stable
+  pull_request:
+    branches:
+      - master
+      - stable
+
+jobs:
+  build_pages:
+    name: Build Pages
+    runs-on: ubuntu-latest
+    container: oggm/oggm:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          ${PIP} install --upgrade pip setuptools wheel
+          ${PIP} install -r requirements.txt
+      - name: Build Book
+        run: |
+          jupyter-book build .
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-output
+          path: _build/
+      - name: Push Book
+        if: github.event_name != 'pull_request'
+        run: |
+          ${PIP} install ghp-import
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@bots.github.com"
+          git fetch origin gh-pages
+          ghp-import -n -p -f -b gh-pages -x "${GITHUB_REF##*/}" -m "Update ${GITHUB_REF##*/} docs from ${GITHUB_SHA}" _build/html
