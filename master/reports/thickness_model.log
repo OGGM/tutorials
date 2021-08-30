@@ -1,0 +1,90 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/nbclient/client.py", line 1117, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/nbclient/util.py", line 78, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/nbclient/util.py", line 57, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.8.11/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/nbclient/client.py", line 558, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/nbclient/client.py", line 862, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/nbclient/client.py", line 765, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Select
+for vn in vns:
+    df_agg[vn] = ds[vn].isel(x=('z', df_agg.i), y=('z', df_agg.j))
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+[0;32m/tmp/ipykernel_1310/743934350.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      1[0m [0;31m# Select[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      2[0m [0;32mfor[0m [0mvn[0m [0;32min[0m [0mvns[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 3[0;31m     [0mdf_agg[0m[0;34m[[0m[0mvn[0m[0;34m][0m [0;34m=[0m [0mds[0m[0;34m[[0m[0mvn[0m[0;34m][0m[0;34m.[0m[0misel[0m[0;34m([0m[0mx[0m[0;34m=[0m[0;34m([0m[0;34m'z'[0m[0;34m,[0m [0mdf_agg[0m[0;34m.[0m[0mi[0m[0;34m)[0m[0;34m,[0m [0my[0m[0;34m=[0m[0;34m([0m[0;34m'z'[0m[0;34m,[0m [0mdf_agg[0m[0;34m.[0m[0mj[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+[0;32m/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/xarray/core/dataarray.py[0m in [0;36misel[0;34m(self, indexers, drop, missing_dims, **indexers_kwargs)[0m
+[1;32m   1181[0m [0;34m[0m[0m
+[1;32m   1182[0m         [0;32mif[0m [0many[0m[0;34m([0m[0mis_fancy_indexer[0m[0;34m([0m[0midx[0m[0;34m)[0m [0;32mfor[0m [0midx[0m [0;32min[0m [0mindexers[0m[0;34m.[0m[0mvalues[0m[0;34m([0m[0;34m)[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1183[0;31m             ds = self._to_temp_dataset()._isel_fancy(
+[0m[1;32m   1184[0m                 [0mindexers[0m[0;34m,[0m [0mdrop[0m[0;34m=[0m[0mdrop[0m[0;34m,[0m [0mmissing_dims[0m[0;34m=[0m[0mmissing_dims[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1185[0m             )
+
+[0;32m/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/xarray/core/dataset.py[0m in [0;36m_isel_fancy[0;34m(self, indexers, drop, missing_dims)[0m
+[1;32m   2381[0m [0;34m[0m[0m
+[1;32m   2382[0m             [0;32mif[0m [0mname[0m [0;32min[0m [0mself[0m[0;34m.[0m[0mxindexes[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 2383[0;31m                 new_var, new_index = isel_variable_and_index(
+[0m[1;32m   2384[0m                     [0mname[0m[0;34m,[0m [0mvar[0m[0;34m,[0m [0mself[0m[0;34m.[0m[0mxindexes[0m[0;34m[[0m[0mname[0m[0;34m][0m[0;34m,[0m [0mvar_indexers[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   2385[0m                 )
+
+[0;32m/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/xarray/core/indexes.py[0m in [0;36misel_variable_and_index[0;34m(name, variable, index, indexers)[0m
+[1;32m    505[0m         )
+[1;32m    506[0m [0;34m[0m[0m
+[0;32m--> 507[0;31m     [0mnew_variable[0m [0;34m=[0m [0mvariable[0m[0;34m.[0m[0misel[0m[0;34m([0m[0mindexers[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    508[0m [0;34m[0m[0m
+[1;32m    509[0m     [0;32mif[0m [0mnew_variable[0m[0;34m.[0m[0mdims[0m [0;34m!=[0m [0;34m([0m[0mname[0m[0;34m,[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/xarray/core/variable.py[0m in [0;36misel[0;34m(self, indexers, missing_dims, **indexers_kwargs)[0m
+[1;32m   1154[0m [0;34m[0m[0m
+[1;32m   1155[0m         [0mkey[0m [0;34m=[0m [0mtuple[0m[0;34m([0m[0mindexers[0m[0;34m.[0m[0mget[0m[0;34m([0m[0mdim[0m[0;34m,[0m [0mslice[0m[0;34m([0m[0;32mNone[0m[0;34m)[0m[0;34m)[0m [0;32mfor[0m [0mdim[0m [0;32min[0m [0mself[0m[0;34m.[0m[0mdims[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1156[0;31m         [0;32mreturn[0m [0mself[0m[0;34m[[0m[0mkey[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m   1157[0m [0;34m[0m[0m
+[1;32m   1158[0m     [0;32mdef[0m [0msqueeze[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mdim[0m[0;34m=[0m[0;32mNone[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/xarray/core/variable.py[0m in [0;36m__getitem__[0;34m(self, key)[0m
+[1;32m    774[0m         [0marray[0m[0;31m [0m[0;31m`[0m[0mx[0m[0;34m.[0m[0mvalues[0m[0;31m`[0m [0mdirectly[0m[0;34m.[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    775[0m         """
+[0;32m--> 776[0;31m         [0mdims[0m[0;34m,[0m [0mindexer[0m[0;34m,[0m [0mnew_order[0m [0;34m=[0m [0mself[0m[0;34m.[0m[0m_broadcast_indexes[0m[0;34m([0m[0mkey[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    777[0m         [0mdata[0m [0;34m=[0m [0mas_indexable[0m[0;34m([0m[0mself[0m[0;34m.[0m[0m_data[0m[0;34m)[0m[0;34m[[0m[0mindexer[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+[1;32m    778[0m         [0;32mif[0m [0mnew_order[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/xarray/core/variable.py[0m in [0;36m_broadcast_indexes[0;34m(self, key)[0m
+[1;32m    635[0m                 [0mdims[0m[0;34m.[0m[0mappend[0m[0;34m([0m[0md[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    636[0m         [0;32mif[0m [0mlen[0m[0;34m([0m[0mset[0m[0;34m([0m[0mdims[0m[0;34m)[0m[0;34m)[0m [0;34m==[0m [0mlen[0m[0;34m([0m[0mdims[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 637[0;31m             [0;32mreturn[0m [0mself[0m[0;34m.[0m[0m_broadcast_indexes_outer[0m[0;34m([0m[0mkey[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    638[0m [0;34m[0m[0m
+[1;32m    639[0m         [0;32mreturn[0m [0mself[0m[0;34m.[0m[0m_broadcast_indexes_vectorized[0m[0;34m([0m[0mkey[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/xarray/core/variable.py[0m in [0;36m_broadcast_indexes_outer[0;34m(self, key)[0m
+[1;32m    696[0m             [0mnew_key[0m[0;34m.[0m[0mappend[0m[0;34m([0m[0mk[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    697[0m [0;34m[0m[0m
+[0;32m--> 698[0;31m         [0;32mreturn[0m [0mdims[0m[0;34m,[0m [0mOuterIndexer[0m[0;34m([0m[0mtuple[0m[0;34m([0m[0mnew_key[0m[0;34m)[0m[0;34m)[0m[0;34m,[0m [0;32mNone[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    699[0m [0;34m[0m[0m
+[1;32m    700[0m     [0;32mdef[0m [0m_nonzero[0m[0;34m([0m[0mself[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/xarray/core/indexing.py[0m in [0;36m__init__[0;34m(self, key)[0m
+[1;32m    266[0m             [0;32melif[0m [0misinstance[0m[0;34m([0m[0mk[0m[0;34m,[0m [0mnp[0m[0;34m.[0m[0mndarray[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    267[0m                 [0;32mif[0m [0;32mnot[0m [0mnp[0m[0;34m.[0m[0missubdtype[0m[0;34m([0m[0mk[0m[0;34m.[0m[0mdtype[0m[0;34m,[0m [0mnp[0m[0;34m.[0m[0minteger[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 268[0;31m                     raise TypeError(
+[0m[1;32m    269[0m                         [0;34mf"invalid indexer array, does not have integer dtype: {k!r}"[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    270[0m                     )
+
+[0;31mTypeError[0m: invalid indexer array, does not have integer dtype: array([24., 25., 25., ..., 77., 77., 77.])
+TypeError: invalid indexer array, does not have integer dtype: array([24., 25., 25., ..., 77., 77., 77.])
+
