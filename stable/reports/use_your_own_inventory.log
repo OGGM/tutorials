@@ -1,0 +1,65 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/nbclient/client.py", line 1117, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/nbclient/util.py", line 78, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/nbclient/util.py", line 57, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.8.10/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/nbclient/client.py", line 558, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/nbclient/client.py", line 862, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/nbclient/client.py", line 765, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Let's get the sample CGI2 glacier inventory and see what it looks like
+from oggm import utils
+import geopandas as gpd
+cgidf = gpd.read_file(utils.get_demo_file('cgi2.shp'))
+cgidf
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mAttributeError[0m                            Traceback (most recent call last)
+[0;32m/tmp/ipykernel_1313/1581494357.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      2[0m [0;32mfrom[0m [0moggm[0m [0;32mimport[0m [0mutils[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      3[0m [0;32mimport[0m [0mgeopandas[0m [0;32mas[0m [0mgpd[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 4[0;31m [0mcgidf[0m [0;34m=[0m [0mgpd[0m[0;34m.[0m[0mread_file[0m[0;34m([0m[0mutils[0m[0;34m.[0m[0mget_demo_file[0m[0;34m([0m[0;34m'cgi2.shp'[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      5[0m [0mcgidf[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/geopandas/io/file.py[0m in [0;36m_read_file[0;34m(filename, bbox, mask, rows, **kwargs)[0m
+[1;32m    158[0m [0;34m[0m[0m
+[1;32m    159[0m     [0;32mwith[0m [0mfiona_env[0m[0;34m([0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 160[0;31m         [0;32mwith[0m [0mreader[0m[0;34m([0m[0mpath_or_bytes[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m [0;32mas[0m [0mfeatures[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    161[0m [0;34m[0m[0m
+[1;32m    162[0m             [0;31m# In a future Fiona release the crs attribute of features will[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/fiona/env.py[0m in [0;36mwrapper[0;34m(*args, **kwargs)[0m
+[1;32m    406[0m     [0;32mdef[0m [0mwrapper[0m[0;34m([0m[0;34m*[0m[0margs[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    407[0m         [0;32mif[0m [0mlocal[0m[0;34m.[0m[0m_env[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 408[0;31m             [0;32mreturn[0m [0mf[0m[0;34m([0m[0;34m*[0m[0margs[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    409[0m         [0;32melse[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    410[0m             [0;32mif[0m [0misinstance[0m[0;34m([0m[0margs[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m,[0m [0mstr[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/fiona/__init__.py[0m in [0;36mopen[0;34m(fp, mode, driver, schema, crs, encoding, layer, vfs, enabled_drivers, crs_wkt, **kwargs)[0m
+[1;32m    251[0m             [0mpath[0m [0;34m=[0m [0mParsedPath[0m[0;34m([0m[0mpath[0m[0;34m,[0m [0marchive[0m[0;34m,[0m [0mscheme[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    252[0m         [0;32melse[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 253[0;31m             [0mpath[0m [0;34m=[0m [0mparse_path[0m[0;34m([0m[0mfp[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    254[0m [0;34m[0m[0m
+[1;32m    255[0m         [0;32mif[0m [0mmode[0m [0;32min[0m [0;34m([0m[0;34m'a'[0m[0;34m,[0m [0;34m'r'[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.10/lib/python3.8/site-packages/fiona/path.py[0m in [0;36mparse_path[0;34m(path)[0m
+[1;32m    130[0m         [0;32mreturn[0m [0mUnparsedPath[0m[0;34m([0m[0mpath[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    131[0m [0;34m[0m[0m
+[0;32m--> 132[0;31m     [0;32melif[0m [0mpath[0m[0;34m.[0m[0mstartswith[0m[0;34m([0m[0;34m'/vsi'[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    133[0m         [0;32mreturn[0m [0mUnparsedPath[0m[0;34m([0m[0mpath[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    134[0m [0;34m[0m[0m
+
+[0;31mAttributeError[0m: 'NoneType' object has no attribute 'startswith'
+AttributeError: 'NoneType' object has no attribute 'startswith'
+
