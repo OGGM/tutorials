@@ -344,8 +344,8 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#where-is-the-terminus">
-   Where is the terminus?
+  <a class="reference internal nav-link" href="#where-is-the-terminus-of-the-rgi-glacier">
+   Where is the terminus of the RGI glacier?
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -379,6 +379,18 @@
     </span>
    </code>
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#location-of-the-terminus-over-time">
+     Location of the terminus over time
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comments-on-elevation-band-flowlines">
+   Comments on “elevation band flowlines”
+  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#what-s-next">
@@ -408,6 +420,7 @@
 <span class="kn">import</span> <span class="nn">salem</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
@@ -421,13 +434,13 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 07:52:17: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:21: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 07:52:17: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:21: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 07:52:17: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:21: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -448,10 +461,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 07:52:17: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:22: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 07:52:17: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:22: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;oggm.GlacierDirectory&gt;
@@ -471,8 +484,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="where-is-the-terminus">
-<h2>Where is the terminus?<a class="headerlink" href="#where-is-the-terminus" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="where-is-the-terminus-of-the-rgi-glacier">
+<h2>Where is the terminus of the RGI glacier?<a class="headerlink" href="#where-is-the-terminus-of-the-rgi-glacier" title="Permalink to this headline">¶</a></h2>
 <p>There are several ways to get the terminus, depending on what you want. They are also not necessarily exact same:</p>
 <div class="section" id="terminus-as-the-lowest-point-on-the-glacier">
 <h3>Terminus as the lowest point on the glacier<a class="headerlink" href="#terminus-as-the-lowest-point-on-the-glacier" title="Permalink to this headline">¶</a></h3>
@@ -514,12 +527,14 @@
 <span class="n">terminus</span> <span class="o">=</span> <span class="n">topo_ext</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">topo_ext</span><span class="o">==</span><span class="n">topo_ext</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># Project its coordinates from the local UTM to WGS-84</span>
 <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span> <span class="o">=</span> <span class="n">salem</span><span class="o">.</span><span class="n">transform_proj</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">proj</span><span class="p">,</span> <span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span> <span class="n">terminus</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">terminus</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lon, lat:&#39;</span><span class="p">,</span> <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;google link:&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;https://www.google.com/maps/place/</span><span class="si">{</span><span class="n">t_lat</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">t_lon</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10.802746863388563 46.818900914354266
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>lon, lat: 10.802746863388563 46.818900914354266
+google link: https://www.google.com/maps/place/46.818900914354266,10.802746863388563
 </pre></div>
 </div>
 </div>
@@ -536,12 +551,14 @@
 <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="c1"># These coords are in glacier grid coordinates. Let&#39;s convert them to lon, lat:</span>
 <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ij_to_crs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
-<span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lon, lat:&#39;</span><span class="p">,</span> <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;google link:&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;https://www.google.com/maps/place/</span><span class="si">{</span><span class="n">t_lat</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">t_lon</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10.802746863955196, 46.818901155282155)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>lon, lat: 10.802746863955196 46.818901155282155
+google link: https://www.google.com/maps/place/46.818901155282155,10.802746863955196
 </pre></div>
 </div>
 </div>
@@ -559,12 +576,14 @@
 <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="c1"># These coords are in glacier grid coordinates. Let&#39;s convert them to lon, lat:</span>
 <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ij_to_crs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
-<span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lon, lat:&#39;</span><span class="p">,</span> <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;google link:&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;https://www.google.com/maps/place/</span><span class="si">{</span><span class="n">t_lat</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">t_lon</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(10.802746777546085, 46.818796056851475)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>lon, lat: 10.802746777546085 46.818796056851475
+google link: https://www.google.com/maps/place/46.818796056851475,10.802746777546085
 </pre></div>
 </div>
 </div>
@@ -574,35 +593,61 @@
 <h3>Bonus: convert the centerlines to a shapefile<a class="headerlink" href="#bonus-convert-the-centerlines-to-a-shapefile" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;out.shp&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;centerlines.shp&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 07:52:19: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:24: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 07:52:19: oggm.utils: write_centerlines_to_shape on out.shp ...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:24: oggm.utils: write_centerlines_to_shape on centerlines.shp ...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 07:52:19: oggm.workflow: Execute entity task _get_centerline_lonlat on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:24: oggm.workflow: Execute entity task _get_centerline_lonlat on 1 glaciers
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.8.11/lib/python3.8/site-packages/pyproj/crs/crs.py:68: FutureWarning: &#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. When making the change, be mindful of axis order changes: https://pyproj4.github.io/pyproj/stable/gotchas.html#axis-order-changes-in-proj-6
-  return _prepare_from_string(&quot; &quot;.join(pjargs))
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/pyproj/crs/crs.py:131: FutureWarning: &#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. When making the change, be mindful of axis order changes: https://pyproj4.github.io/pyproj/stable/gotchas.html#axis-order-changes-in-proj-6
+  in_crs_string = _prepare_from_proj_string(in_crs_string)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;out.shp&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;centerlines.shp&#39;</span><span class="p">)</span>
 <span class="n">sh</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/where_are_the_flowlines_20_0.png" src="../_images/where_are_the_flowlines_20_0.png" />
+</div>
+</div>
+<p>Remember: the “centerlines” are not the same things as “flowlines” in OGGM. The later objects undergo further quality checks, such as the impossibility for ice to “climb”, i.e. have negative slopes. The flowlines are therefore sometimes shorter than the centerlines:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;flowlines.shp&#39;</span><span class="p">,</span> <span class="n">flowlines_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;flowlines.shp&#39;</span><span class="p">)</span>
+<span class="n">sh</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:24: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:24: oggm.utils: write_centerlines_to_shape on flowlines.shp ...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-09-15 10:43:24: oggm.workflow: Execute entity task _get_centerline_lonlat on 1 glaciers
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/pyproj/crs/crs.py:131: FutureWarning: &#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. When making the change, be mindful of axis order changes: https://pyproj4.github.io/pyproj/stable/gotchas.html#axis-order-changes-in-proj-6
+  in_crs_string = _prepare_from_proj_string(in_crs_string)
+</pre></div>
+</div>
+<img alt="../_images/where_are_the_flowlines_22_4.png" src="../_images/where_are_the_flowlines_22_4.png" />
 </div>
 </div>
 </div>
@@ -635,7 +680,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_27_0.png" src="../_images/where_are_the_flowlines_27_0.png" />
+<img alt="../_images/where_are_the_flowlines_29_0.png" src="../_images/where_are_the_flowlines_29_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -646,7 +691,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_28_0.png" src="../_images/where_are_the_flowlines_28_0.png" />
+<img alt="../_images/where_are_the_flowlines_30_0.png" src="../_images/where_are_the_flowlines_30_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -657,7 +702,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_29_0.png" src="../_images/where_are_the_flowlines_29_0.png" />
+<img alt="../_images/where_are_the_flowlines_31_0.png" src="../_images/where_are_the_flowlines_31_0.png" />
 </div>
 </div>
 <p>OK, now create a table of the main flowline’s grid points location and bed altitude (this does not change with time):</p>
@@ -677,7 +722,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_31_0.png" src="../_images/where_are_the_flowlines_31_0.png" />
+<img alt="../_images/where_are_the_flowlines_33_0.png" src="../_images/where_are_the_flowlines_33_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -687,28 +732,21 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_32_0.png" src="../_images/where_are_the_flowlines_32_0.png" />
+<img alt="../_images/where_are_the_flowlines_34_0.png" src="../_images/where_are_the_flowlines_34_0.png" />
 </div>
 </div>
 <p>Now store a time varying array of ice thickness, surface elevation along this line:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_thick</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df_coords</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-<span class="n">df_surf_h</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df_coords</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">years</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">df_thick</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df_coords</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">df_surf_h</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df_coords</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 <span class="n">df_bed_h</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
     <span class="n">fmod</span><span class="o">.</span><span class="n">run_until</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
     <span class="n">fl</span> <span class="o">=</span> <span class="n">fmod</span><span class="o">.</span><span class="n">fls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">df_thick</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">thick</span>
     <span class="n">df_surf_h</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">surface_h</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1368/979320066.py:7: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead.  To get a de-fragmented frame, use `newframe = frame.copy()`
-  df_thick[year] = fl.thick
-/tmp/ipykernel_1368/979320066.py:8: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead.  To get a de-fragmented frame, use `newframe = frame.copy()`
-  df_surf_h[year] = fl.surface_h
 </pre></div>
 </div>
 </div>
@@ -721,7 +759,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_35_0.png" src="../_images/where_are_the_flowlines_35_0.png" />
+<img alt="../_images/where_are_the_flowlines_37_0.png" src="../_images/where_are_the_flowlines_37_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -729,14 +767,77 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">df_surf_h</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
 <span class="n">df_coords</span><span class="p">[</span><span class="s1">&#39;bed_elevation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ice thickness at three points in time&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Glacier elevation at three points in time&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_36_0.png" src="../_images/where_are_the_flowlines_36_0.png" />
+<img alt="../_images/where_are_the_flowlines_38_0.png" src="../_images/where_are_the_flowlines_38_0.png" />
 </div>
 </div>
+<div class="section" id="location-of-the-terminus-over-time">
+<h3>Location of the terminus over time<a class="headerlink" href="#location-of-the-terminus-over-time" title="Permalink to this headline">¶</a></h3>
+<p>Let’s find the indices where the terminus is (i.e. the last point where ice is thicker than 1m), and link these to the lon, lat positions along the flowlines.</p>
+<p>The first method uses fancy pandas functions but may be more cryptic for less experienced pandas users:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nice trick from https://stackoverflow.com/questions/34384349/find-index-of-last-true-value-in-pandas-series-or-dataframe</span>
+<span class="n">dis_term</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_thick</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+
+<span class="c1"># Select the terminus coordinates at these locations</span>
+<span class="n">loc_over_time</span> <span class="o">=</span> <span class="n">df_coords</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dis_term</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">dis_term</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="c1"># Plot them over time</span>
+<span class="n">loc_over_time</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">loc_over_time</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Location of the terminus over time&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/where_are_the_flowlines_41_0.png" src="../_images/where_are_the_flowlines_41_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot them on a google image - you need an API key for this</span>
+<span class="c1"># api_key = &#39;&#39;</span>
+<span class="c1"># from motionless import DecoratedMap, LatLonMarker</span>
+<span class="c1"># dmap = DecoratedMap(maptype=&#39;satellite&#39;, key=api_key)</span>
+<span class="c1"># for y in [0, 20, 40, 60, 80, 100]:</span>
+<span class="c1">#     tmp = loc_over_time.loc[y]</span>
+<span class="c1">#     dmap.add_marker(LatLonMarker(tmp.lat, tmp.lon, ))</span>
+<span class="c1"># print(dmap.generate_url())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<img src='https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDWG_aTgfU7CeErtIzWfdGxpStTlvDXV_o&maptype=satellite&format=png&scale=1&size=400x400&sensor=false&language=en&markers=%7C46.818796056851475%2C10.802746777546085%7C46.81537664036365%2C10.793672904092187%7C46.80792268953582%2C10.777563608554978%7C46.7953190811109%2C10.766412086223571%7C46.79236232808986%2C10.75236937607986%7C46.79236232808986%2C10.75236937607986'><p>And now, method 2: less fancy but maybe easier to read?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">]:</span>
+    <span class="c1"># Find the last index of the terminus</span>
+    <span class="n">p_term</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">df_thick</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Print the location of the terminus</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Terminus pos at year </span><span class="si">{</span><span class="n">yr</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df_coords</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">p_term</span><span class="p">][[</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Terminus pos at year 0 [10.80274678 46.81879606]
+Terminus pos at year 20 [10.7936729  46.81537664]
+Terminus pos at year 40 [10.77756361 46.80792269]
+Terminus pos at year 60 [10.76641209 46.79531908]
+Terminus pos at year 80 [10.75236938 46.79236233]
+Terminus pos at year 100 [10.75236938 46.79236233]
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="comments-on-elevation-band-flowlines">
+<h2>Comments on “elevation band flowlines”<a class="headerlink" href="#comments-on-elevation-band-flowlines" title="Permalink to this headline">¶</a></h2>
+<p>If you use elevation band flowlines, the location of the flowlines is not known: indeed, the glacier is an even more simplified representation of the real world one. In this case, if you are interested in tracking the terminus position, you may need to use tricks, such as using the retreat from the terminus with time, or similar.</p>
 </div>
 <div class="section" id="what-s-next">
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
