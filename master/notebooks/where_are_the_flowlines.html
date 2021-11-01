@@ -51,7 +51,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Small overview of HoloViz capability of data exploration" href="holoviz_intro.html" />
+    <link rel="next" title="Ingest gridded products such as ice velocity into OGGM (and compare them with model output)" href="ingest_gridded_data_on_flowlines.html" />
     <link rel="prev" title="A quick look into the mass-balance calibration procedure" href="massbalance_calibration.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -224,6 +224,11 @@
    OGGM flowlines: where are they?
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM (and compare them with model output)
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -386,8 +391,13 @@
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#flowline-geometry-after-a-run-with-the-new-flowline-diagnostics-new-in-v1-6-0">
+   Flowline geometry after a run: with the new flowline diagnostics (new in v1.6.0!!)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#flowline-geometry-after-a-run-with-filemodel">
-   Flowline geometry after a run with
+   Flowline geometry after a run: with
    <code class="docutils literal notranslate">
     <span class="pre">
      FileModel
@@ -448,9 +458,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-10-20 14:26:07: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2021-10-20 14:26:07: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2021-10-20 14:26:07: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-11-01 19:13:02: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2021-11-01 19:13:02: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2021-11-01 19:13:02: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -471,8 +481,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-10-20 14:26:07: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2021-10-20 14:26:08: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-11-01 19:13:03: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2021-11-01 19:13:03: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;oggm.GlacierDirectory&gt;
@@ -601,14 +611,15 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 <h3>Bonus: convert the centerlines to a shapefile<a class="headerlink" href="#bonus-convert-the-centerlines-to-a-shapefile" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;centerlines.shp&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_dir</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;outputs&#39;</span><span class="p">)</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/centerlines.shp&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-10-20 14:26:09: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
-2021-10-20 14:26:09: oggm.utils: write_centerlines_to_shape on centerlines.shp ...
-2021-10-20 14:26:09: oggm.workflow: Execute entity tasks [_get_centerline_lonlat] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-11-01 19:13:05: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
+2021-11-01 19:13:05: oggm.utils: write_centerlines_to_shape on outputs/centerlines.shp ...
+2021-11-01 19:13:05: oggm.workflow: Execute entity tasks [_get_centerline_lonlat] on 1 glaciers
 /usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/pyproj/crs/crs.py:131: FutureWarning: &#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. When making the change, be mindful of axis order changes: https://pyproj4.github.io/pyproj/stable/gotchas.html#axis-order-changes-in-proj-6
   in_crs_string = _prepare_from_proj_string(in_crs_string)
 </pre></div>
@@ -617,7 +628,7 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;centerlines.shp&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/centerlines.shp&#39;</span><span class="p">)</span>
 <span class="n">sh</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
 </div>
@@ -629,16 +640,16 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 <p>Remember: the “centerlines” are not the same things as “flowlines” in OGGM. The later objects undergo further quality checks, such as the impossibility for ice to “climb”, i.e. have negative slopes. The flowlines are therefore sometimes shorter than the centerlines:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s1">&#39;flowlines.shp&#39;</span><span class="p">,</span> <span class="n">flowlines_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;flowlines.shp&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/flowlines.shp&#39;</span><span class="p">,</span> <span class="n">flowlines_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/flowlines.shp&#39;</span><span class="p">)</span>
 <span class="n">sh</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-10-20 14:26:10: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
-2021-10-20 14:26:10: oggm.utils: write_centerlines_to_shape on flowlines.shp ...
-2021-10-20 14:26:10: oggm.workflow: Execute entity tasks [_get_centerline_lonlat] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-11-01 19:13:05: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
+2021-11-01 19:13:05: oggm.utils: write_centerlines_to_shape on outputs/flowlines.shp ...
+2021-11-01 19:13:05: oggm.workflow: Execute entity tasks [_get_centerline_lonlat] on 1 glaciers
 /usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/pyproj/crs/crs.py:131: FutureWarning: &#39;+init=&lt;authority&gt;:&lt;code&gt;&#39; syntax is deprecated. &#39;&lt;authority&gt;:&lt;code&gt;&#39; is the preferred initialization method. When making the change, be mindful of axis order changes: https://pyproj4.github.io/pyproj/stable/gotchas.html#axis-order-changes-in-proj-6
   in_crs_string = _prepare_from_proj_string(in_crs_string)
 </pre></div>
@@ -648,13 +659,30 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 </div>
+<div class="section" id="flowline-geometry-after-a-run-with-the-new-flowline-diagnostics-new-in-v1-6-0">
+<h2>Flowline geometry after a run: with the new flowline diagnostics (new in v1.6.0!!)<a class="headerlink" href="#flowline-geometry-after-a-run-with-the-new-flowline-diagnostics-new-in-v1-6-0" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO!!! Based on https://github.com/OGGM/oggm/pull/1308</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 <div class="section" id="flowline-geometry-after-a-run-with-filemodel">
-<h2>Flowline geometry after a run with <code class="docutils literal notranslate"><span class="pre">FileModel</span></code><a class="headerlink" href="#flowline-geometry-after-a-run-with-filemodel" title="Permalink to this headline">¶</a></h2>
+<h2>Flowline geometry after a run: with <code class="docutils literal notranslate"><span class="pre">FileModel</span></code><a class="headerlink" href="#flowline-geometry-after-a-run-with-filemodel" title="Permalink to this headline">¶</a></h2>
 <p>Let’s do a run first:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># We want to get back to it later</span>
+
+<span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 <span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-11-01 19:13:06: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -676,7 +704,255 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_29_0.png" src="../_images/where_are_the_flowlines_29_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/salem/graphics.py:1196: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  a = np.asarray(poly.exterior)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/descartes/patch.py:63: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  concatenate([asarray(t.exterior)[:, :2]] +
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/descartes/patch.py:64: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  [asarray(r)[:, :2] for r in t.interiors])
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+</pre></div>
+</div>
+<img alt="../_images/where_are_the_flowlines_31_1.png" src="../_images/where_are_the_flowlines_31_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -687,7 +963,255 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_30_0.png" src="../_images/where_are_the_flowlines_30_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/salem/graphics.py:1196: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  a = np.asarray(poly.exterior)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/descartes/patch.py:63: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  concatenate([asarray(t.exterior)[:, :2]] +
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/descartes/patch.py:64: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  [asarray(r)[:, :2] for r in t.interiors])
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/graphics.py:674: ShapelyDeprecationWarning: The array interface is deprecated and will no longer work in Shapely 2.0. Convert the &#39;.coords&#39; to a numpy array instead.
+  smap.plot(ax)
+</pre></div>
+</div>
+<img alt="../_images/where_are_the_flowlines_32_1.png" src="../_images/where_are_the_flowlines_32_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -698,7 +1222,7 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_31_0.png" src="../_images/where_are_the_flowlines_31_0.png" />
+<img alt="../_images/where_are_the_flowlines_33_0.png" src="../_images/where_are_the_flowlines_33_0.png" />
 </div>
 </div>
 <p>OK, now create a table of the main flowline’s grid points location and bed altitude (this does not change with time):</p>
@@ -718,7 +1242,7 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_33_0.png" src="../_images/where_are_the_flowlines_33_0.png" />
+<img alt="../_images/where_are_the_flowlines_35_0.png" src="../_images/where_are_the_flowlines_35_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -728,7 +1252,7 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_34_0.png" src="../_images/where_are_the_flowlines_34_0.png" />
+<img alt="../_images/where_are_the_flowlines_36_0.png" src="../_images/where_are_the_flowlines_36_0.png" />
 </div>
 </div>
 <p>Now store a time varying array of ice thickness, surface elevation along this line:</p>
@@ -755,7 +1279,7 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_37_0.png" src="../_images/where_are_the_flowlines_37_0.png" />
+<img alt="../_images/where_are_the_flowlines_39_0.png" src="../_images/where_are_the_flowlines_39_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -768,7 +1292,7 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_38_0.png" src="../_images/where_are_the_flowlines_38_0.png" />
+<img alt="../_images/where_are_the_flowlines_40_0.png" src="../_images/where_are_the_flowlines_40_0.png" />
 </div>
 </div>
 <div class="section" id="location-of-the-terminus-over-time">
@@ -790,7 +1314,7 @@ google link: https://www.google.com/maps/place/46.818796056851475,10.80274677754
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/where_are_the_flowlines_41_0.png" src="../_images/where_are_the_flowlines_41_0.png" />
+<img alt="../_images/where_are_the_flowlines_43_0.png" src="../_images/where_are_the_flowlines_43_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -876,10 +1400,10 @@ Terminus pos at year 100 [10.75236938 46.79236233]
             <p class="prev-next-title">A quick look into the mass-balance calibration procedure</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="holoviz_intro.html" title="next page">
+    <a class='right-next' id="next-link" href="ingest_gridded_data_on_flowlines.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Small overview of HoloViz capability of data exploration</p>
+        <p class="prev-next-title">Ingest gridded products such as ice velocity into OGGM (and compare them with model output)</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

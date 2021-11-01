@@ -224,6 +224,11 @@
    OGGM flowlines: where are they?
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM (and compare them with model output)
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -457,14 +462,16 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGM-ref-mb&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-10-20 14:22:30: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2021-10-20 14:22:30: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2021-10-20 14:22:30: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2021-10-20 14:22:30: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-11-01 19:08:16: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2021-11-01 19:08:16: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2021-11-01 19:08:16: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2021-11-01 19:08:16: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+2021-11-01 19:08:16: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -478,8 +485,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-10-20 14:22:30: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2021-10-20 14:22:30: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-11-01 19:08:17: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2021-11-01 19:08:17: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -697,7 +704,7 @@ Calendar dates
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specific MB over time (i.e. with changing geometry feedbacks)</span>
-<span class="n">smb</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> 
+<span class="n">smb</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
 <span class="n">smb</span> <span class="o">=</span> <span class="n">smb</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">]</span>  <span class="c1"># in mm</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">time</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">smb</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM (dynamics)&#39;</span><span class="p">);</span> 
 <span class="c1"># The SMB from WGMS and fixed geometry we already have</span>
@@ -759,7 +766,7 @@ Calendar dates
 <h4>Compute the MB during the simulation<a class="headerlink" href="#compute-the-mb-during-the-simulation" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO - also based on the new outputs</span>
 </pre></div>
 </div>
 </div>
