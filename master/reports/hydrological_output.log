@@ -1,0 +1,93 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/nbclient/client.py", line 1117, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/nbclient/util.py", line 78, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/nbclient/util.py", line 57, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.8.12/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/nbclient/client.py", line 558, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/nbclient/client.py", line 862, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/nbclient/client.py", line 765, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+for rcp in ['rcp26', 'rcp45', 'rcp60', 'rcp85']:
+    rid = '_CCSM4_{}'.format(rcp)
+    tasks.run_with_hydro(gdir, run_task=tasks.run_from_climate_data,
+                         climate_filename='gcm_data',  # use gcm_data, not climate_historical
+                         climate_input_filesuffix=rid,  # use the chosen scenario
+                         init_model_filesuffix='_hist_hydro',  # this is important! Start from 2020 glacier
+                         ref_geometry_filesuffix='_hist_hydro',  # also use this as area reference
+                         ref_area_from_y0=True,  # and keep the same reference area as for the historical simulations
+                         output_filesuffix=rid,  # recognize the run for later
+                         store_monthly_hydro=True,  # add monthly diagnostics
+                         );
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+[0;32m/tmp/ipykernel_1043/2081387750.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      1[0m [0;32mfor[0m [0mrcp[0m [0;32min[0m [0;34m[[0m[0;34m'rcp26'[0m[0;34m,[0m [0;34m'rcp45'[0m[0;34m,[0m [0;34m'rcp60'[0m[0;34m,[0m [0;34m'rcp85'[0m[0;34m][0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      2[0m     [0mrid[0m [0;34m=[0m [0;34m'_CCSM4_{}'[0m[0;34m.[0m[0mformat[0m[0;34m([0m[0mrcp[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 3[0;31m     tasks.run_with_hydro(gdir, run_task=tasks.run_from_climate_data,
+[0m[1;32m      4[0m                          [0mclimate_filename[0m[0;34m=[0m[0;34m'gcm_data'[0m[0;34m,[0m  [0;31m# use gcm_data, not climate_historical[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m                          [0mclimate_input_filesuffix[0m[0;34m=[0m[0mrid[0m[0;34m,[0m  [0;31m# use the chosen scenario[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/utils/_workflow.py[0m in [0;36m_entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    488[0m                     [0msignal[0m[0;34m.[0m[0malarm[0m[0;34m([0m[0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    489[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 490[0;31m                 [0mout[0m [0;34m=[0m [0mtask_func[0m[0;34m([0m[0mgdir[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    491[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m [0;34m-[0m [0mex_t[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    492[0m                 [0;32mif[0m [0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m [0;34m>[0m [0;36m0[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/core/flowline.py[0m in [0;36mrun_with_hydro[0;34m(gdir, run_task, store_monthly_hydro, fixed_geometry_spinup_yr, ref_area_from_y0, **kwargs)[0m
+[1;32m   3328[0m                                  "for now.")
+[1;32m   3329[0m [0;34m[0m[0m
+[0;32m-> 3330[0;31m     out = run_task(gdir, fixed_geometry_spinup_yr=fixed_geometry_spinup_yr,
+[0m[1;32m   3331[0m                    **kwargs)
+[1;32m   3332[0m     [0;32mif[0m [0mout[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/utils/_workflow.py[0m in [0;36m_entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    488[0m                     [0msignal[0m[0;34m.[0m[0malarm[0m[0;34m([0m[0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    489[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 490[0;31m                 [0mout[0m [0;34m=[0m [0mtask_func[0m[0;34m([0m[0mgdir[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    491[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m [0;34m-[0m [0mex_t[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    492[0m                 [0;32mif[0m [0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m [0;34m>[0m [0;36m0[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/core/flowline.py[0m in [0;36mrun_from_climate_data[0;34m(gdir, ys, ye, min_ys, max_ys, fixed_geometry_spinup_yr, store_monthly_step, store_model_geometry, store_fl_diagnostics, climate_filename, climate_input_filesuffix, output_filesuffix, init_model_filesuffix, init_model_yr, init_model_fls, zero_initial_glacier, bias, temperature_bias, precipitation_factor, **kwargs)[0m
+[1;32m   3265[0m         [0mye[0m [0;34m=[0m [0mmb[0m[0;34m.[0m[0mflowline_mb_models[0m[0;34m[[0m[0;36m0[0m[0;34m][0m[0;34m.[0m[0mye[0m [0;34m+[0m [0;36m1[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   3266[0m [0;34m[0m[0m
+[0;32m-> 3267[0;31m     return flowline_model_run(gdir, output_filesuffix=output_filesuffix,
+[0m[1;32m   3268[0m                               [0mmb_model[0m[0;34m=[0m[0mmb[0m[0;34m,[0m [0mys[0m[0;34m=[0m[0mys[0m[0;34m,[0m [0mye[0m[0;34m=[0m[0mye[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   3269[0m                               [0mstore_monthly_step[0m[0;34m=[0m[0mstore_monthly_step[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/utils/_workflow.py[0m in [0;36m_entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    488[0m                     [0msignal[0m[0;34m.[0m[0malarm[0m[0;34m([0m[0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    489[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 490[0;31m                 [0mout[0m [0;34m=[0m [0mtask_func[0m[0;34m([0m[0mgdir[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    491[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m [0;34m-[0m [0mex_t[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    492[0m                 [0;32mif[0m [0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m [0;34m>[0m [0;36m0[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/core/flowline.py[0m in [0;36mflowline_model_run[0;34m(gdir, output_filesuffix, mb_model, ys, ye, zero_initial_glacier, init_model_fls, store_monthly_step, fixed_geometry_spinup_yr, store_model_geometry, store_fl_diagnostics, water_level, evolution_model, stop_criterion, init_model_filesuffix, init_model_yr, **kwargs)[0m
+[1;32m   2896[0m                                        'to prevent this error.')
+[1;32m   2897[0m [0;34m[0m[0m
+[0;32m-> 2898[0;31m     model = evolution_model(fls, mb_model=mb_model, y0=ys,
+[0m[1;32m   2899[0m                            [0minplace[0m[0;34m=[0m[0;32mTrue[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   2900[0m                            [0mis_tidewater[0m[0;34m=[0m[0mgdir[0m[0;34m.[0m[0mis_tidewater[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.8.12/lib/python3.8/site-packages/oggm/core/flowline.py[0m in [0;36m__init__[0;34m(self, flowlines, mb_model, y0, glen_a, fs, inplace, fixed_dt, cfl_number, min_dt, flux_gate_thickness, flux_gate, flux_gate_build_up, do_kcalving, calving_k, calving_use_limiter, calving_limiter_frac, water_level, **kwargs)[0m
+[1;32m   1493[0m             `flowline_model_run` does for you)
+[1;32m   1494[0m         """
+[0;32m-> 1495[0;31m         super(FluxBasedModel, self).__init__(flowlines, mb_model=mb_model,
+[0m[1;32m   1496[0m                                              [0my0[0m[0;34m=[0m[0my0[0m[0;34m,[0m [0mglen_a[0m[0;34m=[0m[0mglen_a[0m[0;34m,[0m [0mfs[0m[0;34m=[0m[0mfs[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1497[0m                                              [0minplace[0m[0;34m=[0m[0minplace[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mTypeError[0m: __init__() got an unexpected keyword argument 'ref_geometry_filesuffix'
+TypeError: __init__() got an unexpected keyword argument 'ref_geometry_filesuffix'
+
