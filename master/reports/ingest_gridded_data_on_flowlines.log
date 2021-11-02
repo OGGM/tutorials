@@ -17,22 +17,35 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-f, ax = plt.subplots(figsize=(9, 9))
-smap.set_data(ds.consensus_ice_thickness)
+# get the axes ready
+f, ax = plt.subplots(figsize=(12, 12))
+
+# Quiver only every 3rd grid point
+us = u[1::5, 1::5]
+vs = v[1::5, 1::5]
+
+smap.set_data(ws)
 smap.set_cmap('Blues')
 smap.plot(ax=ax)
-smap.append_colorbar(ax=ax, label='ice thickness (m)');
+smap.append_colorbar(ax=ax, label = 'ice velocity (m yr$^{-1}$)')
+
+# transform their coordinates to the map reference system and plot the arrows
+xx, yy = smap.grid.transform(us.x.values, us.y.values, crs=gdir.grid.proj)
+xx, yy = np.meshgrid(xx, yy)
+qu = ax.quiver(xx, yy, us.values, vs.values)
+qk = ax.quiverkey(qu, 0.82, 0.97, 100, '100 m yr$^{-1}$',
+                   labelpos='E', coordinates='axes')
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-[0;32m/tmp/ipykernel_1035/2144386927.py[0m in [0;36m<module>[0;34m[0m
-[0;32m----> 1[0;31m [0mf[0m[0;34m,[0m [0max[0m [0;34m=[0m [0mplt[0m[0;34m.[0m[0msubplots[0m[0;34m([0m[0mfigsize[0m[0;34m=[0m[0;34m([0m[0;36m9[0m[0;34m,[0m [0;36m9[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[0m[1;32m      2[0m [0msmap[0m[0;34m.[0m[0mset_data[0m[0;34m([0m[0mds[0m[0;34m.[0m[0mconsensus_ice_thickness[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      3[0m [0msmap[0m[0;34m.[0m[0mset_cmap[0m[0;34m([0m[0;34m'Blues'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      4[0m [0msmap[0m[0;34m.[0m[0mplot[0m[0;34m([0m[0max[0m[0;34m=[0m[0max[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
-[1;32m      5[0m [0msmap[0m[0;34m.[0m[0mappend_colorbar[0m[0;34m([0m[0max[0m[0;34m=[0m[0max[0m[0;34m,[0m [0mlabel[0m[0;34m=[0m[0;34m'ice thickness (m)'[0m[0;34m)[0m[0;34m;[0m[0;34m[0m[0;34m[0m[0m
+[0;32m/tmp/ipykernel_1039/1850124271.py[0m in [0;36m<module>[0;34m[0m
+[1;32m     13[0m [0;31m# transform their coordinates to the map reference system and plot the arrows[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     14[0m [0mxx[0m[0;34m,[0m [0myy[0m [0;34m=[0m [0msmap[0m[0;34m.[0m[0mgrid[0m[0;34m.[0m[0mtransform[0m[0;34m([0m[0mus[0m[0;34m.[0m[0mx[0m[0;34m.[0m[0mvalues[0m[0;34m,[0m [0mus[0m[0;34m.[0m[0my[0m[0;34m.[0m[0mvalues[0m[0;34m,[0m [0mcrs[0m[0;34m=[0m[0mgdir[0m[0;34m.[0m[0mgrid[0m[0;34m.[0m[0mproj[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 15[0;31m [0mxx[0m[0;34m,[0m [0myy[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mmeshgrid[0m[0;34m([0m[0mxx[0m[0;34m,[0m [0myy[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     16[0m [0mqu[0m [0;34m=[0m [0max[0m[0;34m.[0m[0mquiver[0m[0;34m([0m[0mxx[0m[0;34m,[0m [0myy[0m[0;34m,[0m [0mus[0m[0;34m.[0m[0mvalues[0m[0;34m,[0m [0mvs[0m[0;34m.[0m[0mvalues[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     17[0m qk = ax.quiverkey(qu, 0.82, 0.97, 100, '100 m yr$^{-1}$',
 
-[0;31mNameError[0m: name 'plt' is not defined
-NameError: name 'plt' is not defined
+[0;31mNameError[0m: name 'np' is not defined
+NameError: name 'np' is not defined
 
