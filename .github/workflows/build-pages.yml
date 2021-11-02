@@ -18,6 +18,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Cache
+        uses: TimoRoth/cache@re-eval-key
+        with:
+          path: /github/home/OGGM/download_cache
+          key: oggm-download-cache-${{ hashFiles('dl_file_list.txt') }}
+          restore-keys: |
+            oggm-download-cache-
+          reeval-key: true
       - name: Install Dependencies
         run: |
           ${PIP} install --upgrade pip setuptools wheel
@@ -39,3 +47,13 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@bots.github.com"
           git fetch origin gh-pages
           ghp-import -n -p -f -b gh-pages -x "${GITHUB_REF##*/}" -m "Update ${GITHUB_REF##*/} docs from ${GITHUB_SHA}" _build/html
+      - name: Shrink download cache
+        shell: bash
+        run: |
+          set +o pipefail
+          while [[ "$(du -sm /github/home/OGGM/download_cache | cut -f1)" -gt "5000" ]]; do
+            FF="$(find /github/home/OGGM/download_cache -type f -exec du -a {} + | sort -nr | head -n1 | cut -f2)"
+            echo "Deleting $FF"
+            rm "$FF"
+          done
+          find /github/home/OGGM/download_cache -type f > "$GITHUB_WORKSPACE"/dl_file_list.txt
