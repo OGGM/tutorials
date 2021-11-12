@@ -1,0 +1,92 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/client.py", line 1093, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/client.py", line 559, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/client.py", line 854, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/client.py", line 756, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# some model settings
+years = 125
+tbias = -1.5
+
+# model Mont Mine glacier as entity and complile the output
+tasks.run_constant_climate(montmine, nyears=years, output_filesuffix='_entity', temperature_bias=tbias)
+ds_entity = utils.compile_run_output([montmine], path=False, input_filesuffix='_entity')
+
+# model the merged glacier and complile the output
+tasks.run_constant_climate(gdirs_merged, nyears=years, output_filesuffix='_merged', temperature_bias=tbias, climate_filename='climate_historical')
+ds_merged = utils.compile_run_output([gdirs_merged], path=False, input_filesuffix='_merged')
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mRuntimeError[0m                              Traceback (most recent call last)
+[0;32m/tmp/ipykernel_1260/1971228778.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      8[0m [0;34m[0m[0m
+[1;32m      9[0m [0;31m# model the merged glacier and complile the output[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 10[0;31m [0mtasks[0m[0;34m.[0m[0mrun_constant_climate[0m[0;34m([0m[0mgdirs_merged[0m[0;34m,[0m [0mnyears[0m[0;34m=[0m[0myears[0m[0;34m,[0m [0moutput_filesuffix[0m[0;34m=[0m[0;34m'_merged'[0m[0;34m,[0m [0mtemperature_bias[0m[0;34m=[0m[0mtbias[0m[0;34m,[0m [0mclimate_filename[0m[0;34m=[0m[0;34m'climate_historical'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     11[0m [0mds_merged[0m [0;34m=[0m [0mutils[0m[0;34m.[0m[0mcompile_run_output[0m[0;34m([0m[0;34m[[0m[0mgdirs_merged[0m[0;34m][0m[0;34m,[0m [0mpath[0m[0;34m=[0m[0;32mFalse[0m[0;34m,[0m [0minput_filesuffix[0m[0;34m=[0m[0;34m'_merged'[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/utils/_workflow.py[0m in [0;36m_entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    488[0m                     [0msignal[0m[0;34m.[0m[0malarm[0m[0;34m([0m[0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    489[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 490[0;31m                 [0mout[0m [0;34m=[0m [0mtask_func[0m[0;34m([0m[0mgdir[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    491[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m [0;34m-[0m [0mex_t[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    492[0m                 [0;32mif[0m [0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m [0;34m>[0m [0;36m0[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/core/flowline.py[0m in [0;36mrun_constant_climate[0;34m(gdir, nyears, y0, halfsize, bias, temperature_bias, precipitation_factor, store_monthly_step, store_model_geometry, store_fl_diagnostics, init_model_filesuffix, init_model_yr, output_filesuffix, climate_filename, climate_input_filesuffix, init_model_fls, zero_initial_glacier, use_avg_climate, **kwargs)[0m
+[1;32m   3119[0m         [0mmb[0m[0;34m.[0m[0mprcp_fac[0m [0;34m=[0m [0mprecipitation_factor[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   3120[0m [0;34m[0m[0m
+[0;32m-> 3121[0;31m     return flowline_model_run(gdir, output_filesuffix=output_filesuffix,
+[0m[1;32m   3122[0m                               [0mmb_model[0m[0;34m=[0m[0mmb[0m[0;34m,[0m [0mys[0m[0;34m=[0m[0;36m0[0m[0;34m,[0m [0mye[0m[0;34m=[0m[0mnyears[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   3123[0m                               [0mstore_monthly_step[0m[0;34m=[0m[0mstore_monthly_step[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/utils/_workflow.py[0m in [0;36m_entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    488[0m                     [0msignal[0m[0;34m.[0m[0malarm[0m[0;34m([0m[0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    489[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 490[0;31m                 [0mout[0m [0;34m=[0m [0mtask_func[0m[0;34m([0m[0mgdir[0m[0;34m,[0m [0;34m**[0m[0mkwargs[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    491[0m                 [0mex_t[0m [0;34m=[0m [0mtime[0m[0;34m.[0m[0mtime[0m[0;34m([0m[0;34m)[0m [0;34m-[0m [0mex_t[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    492[0m                 [0;32mif[0m [0mcfg[0m[0;34m.[0m[0mPARAMS[0m[0;34m[[0m[0;34m'task_timeout'[0m[0;34m][0m [0;34m>[0m [0;36m0[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/core/flowline.py[0m in [0;36mflowline_model_run[0;34m(gdir, output_filesuffix, mb_model, ys, ye, zero_initial_glacier, init_model_fls, store_monthly_step, fixed_geometry_spinup_yr, store_model_geometry, store_fl_diagnostics, water_level, evolution_model, stop_criterion, init_model_filesuffix, init_model_yr, **kwargs)[0m
+[1;32m   2906[0m         [0;31m# For operational runs we ignore the warnings[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   2907[0m         [0mnp[0m[0;34m.[0m[0mwarnings[0m[0;34m.[0m[0mfilterwarnings[0m[0;34m([0m[0;34m'ignore'[0m[0;34m,[0m [0mcategory[0m[0;34m=[0m[0mRuntimeWarning[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 2908[0;31m         model.run_until_and_store(ye,
+[0m[1;32m   2909[0m                                   [0mgeom_path[0m[0;34m=[0m[0mgeom_path[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   2910[0m                                   [0mdiag_path[0m[0;34m=[0m[0mdiag_path[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/core/flowline.py[0m in [0;36mrun_until_and_store[0;34m(self, y1, diag_path, fl_diag_path, geom_path, store_monthly_step, stop_criterion, fixed_geometry_spinup_yr)[0m
+[1;32m   1205[0m                 [0;31m# Here we model run - otherwize (for spinup) we[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1206[0m                 [0;31m# constantly store the same data[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1207[0;31m                 [0mself[0m[0;34m.[0m[0mrun_until[0m[0;34m([0m[0myr[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m   1208[0m [0;34m[0m[0m
+[1;32m   1209[0m             [0;31m# Glacier geometry[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/core/flowline.py[0m in [0;36mrun_until[0;34m(self, y1)[0m
+[1;32m    883[0m             [0;31m# lets run the steps until we reach our desired date[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    884[0m             [0;32mwhile[0m [0mself[0m[0;34m.[0m[0mt[0m [0;34m<[0m [0mt[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 885[0;31m                 [0mself[0m[0;34m.[0m[0mstep[0m[0;34m([0m[0mt[0m [0;34m-[0m [0mself[0m[0;34m.[0m[0mt[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    886[0m [0;34m[0m[0m
+[1;32m    887[0m             [0;31m# Check for domain bounds[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/core/flowline.py[0m in [0;36mstep[0;34m(self, dt)[0m
+[1;32m   1693[0m                     [0mdt[0m [0;34m=[0m [0mcfl_dt[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1694[0m                     [0;32mif[0m [0mcfl_dt[0m [0;34m<[0m [0mself[0m[0;34m.[0m[0mmin_dt[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1695[0;31m                         raise RuntimeError(
+[0m[1;32m   1696[0m                             [0;34m'CFL error: required time step smaller '[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1697[0m                             [0;34m'than the minimum allowed: '[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mRuntimeError[0m: CFL error: required time step smaller than the minimum allowed: 5.0s vs 60.0s. Happening at simulation year 0.0, fl_id 4, bin_id 9 and max_u 5024682.499 m yr-1.
+RuntimeError: CFL error: required time step smaller than the minimum allowed: 5.0s vs 60.0s. Happening at simulation year 0.0, fl_id 4, bin_id 9 and max_u 5024682.499 m yr-1.
+
