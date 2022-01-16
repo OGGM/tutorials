@@ -369,6 +369,11 @@
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-error-comparison">
+   Example error comparison
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#what-s-next">
    What’s next?
   </a>
@@ -386,7 +391,7 @@
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="error-analysis-of-the-global-pre-processing-workflow">
 <h1>Error analysis of the global pre-processing workflow<a class="headerlink" href="#error-analysis-of-the-global-pre-processing-workflow" title="Permalink to this headline">¶</a></h1>
-<p>Here we reproduce the error analysis shown in <a class="reference external" href="https://www.geosci-model-dev.net/12/909/2019/">Maussion et al. (2019)</a> <strong>for the pre-processing part only, and for the new glacier directories (version 1.4)</strong>. The error analysis of user runs needs a separate handling, see the <a class="reference internal" href="deal_with_errors.html"><span class="doc std std-doc">deal_with_errors</span></a> notebook for more information.</p>
+<p>Here we reproduce the error analysis shown in <a class="reference external" href="https://www.geosci-model-dev.net/12/909/2019/">Maussion et al. (2019)</a> <strong>for the pre-processing part only, and for the glacier directories (version 1.4)</strong>. The error analysis of user runs needs a separate handling, see the <a class="reference internal" href="deal_with_errors.html"><span class="doc std std-doc">deal_with_errors</span></a> notebook for more information.</p>
 <div class="section" id="get-the-files">
 <h2>Get the files<a class="headerlink" href="#get-the-files" title="Permalink to this headline">¶</a></h2>
 <p>We download the <code class="docutils literal notranslate"><span class="pre">glacier_statistics</span></code> files from the preprocessed directories folders, at the level 5. That is, we are going to count all errors that happened during the pre-processing chain.</p>
@@ -603,9 +608,78 @@
 </div></div></div>
 </div>
 </div>
+<div class="section" id="example-error-comparison">
+<h2>Example error comparison<a class="headerlink" href="#example-error-comparison" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>CRU vs ERA5</strong>:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ERA5 uses a different precipitation factor </span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/ERA5/centerlines/qc3/pcp1.6/no_match/RGI62/b_040/L5/summary/&#39;</span>
+<span class="c1"># this can take some time</span>
+<span class="n">df_era5</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># we don&#39;t look at RGI19 (Antarctic glaciers), because no climate available for CRU</span>
+<span class="k">for</span> <span class="n">rgi_reg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">):</span>
+    <span class="n">fpath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;glacier_statistics_</span><span class="si">{</span><span class="n">rgi_reg</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
+    <span class="n">df_era5</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">df_era5</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_era5</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;</span><span class="si">% a</span><span class="s2">rea errors all sources for ERA5 is </span><span class="si">{:.2f}% c</span><span class="s2">ompared to CRU (</span><span class="si">{:.2f}</span><span class="s2">%)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df_era5</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_era5</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df_era5</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                                                                              <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors all sources for ERA5 is 0.92% compared to CRU (3.24%)&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>more than three times less errors from the climate tasks occur when using ERA5 than when using CRU</em> !</p>
+<ul class="simple">
+<li><p><strong>centerlines vs elevation bands</strong>:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CRU elevation bands</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/elev_bands/qc3/pcp2.5/no_match/RGI62/b_040/L5/summary/&#39;</span>
+<span class="c1"># this can take some time</span>
+<span class="n">df_elev</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># we don&#39;t look at RGI19 (Antarctic glaciers), because no climate available for CRU</span>
+<span class="k">for</span> <span class="n">rgi_reg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">):</span>
+    <span class="n">fpath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;glacier_statistics_</span><span class="si">{</span><span class="n">rgi_reg</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
+    <span class="n">df_elev</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">df_elev</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_elev</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;</span><span class="si">% a</span><span class="s2">rea errors all sources for elevation band flowlines is </span><span class="si">{:.2f}% c</span><span class="s2">ompared to centerlines (</span><span class="si">{:.2f}</span><span class="s2">%) with CRU&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df_elev</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_elev</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df_elev</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+                                                                              <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors all sources for elevation band flowlines is 2.46% compared to centerlines (3.24%) with CRU&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p><em>less errors occur when using elevation band flowlines than when using centerlines !</em></p>
+</div>
 <div class="section" id="what-s-next">
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
+<li><p>A more detailed analysis about the type, amount and relative failing glacier area (in total and per RGI region) can be found in <a class="reference external" href="https://nbviewer.org/urls/cluster.klima.uni-bremen.de/~lschuster/error_analysis/error_analysis_v1.ipynb?flush_cache=true">this error analysis jupyter notebook</a>. It also includes an error analysis for different <a class="reference external" href="https://nbviewer.org/urls/cluster.klima.uni-bremen.de/~lschuster/error_analysis/error_analysis_v1.ipynb?flush_cache=true#Analysis-for-Level-5-pre-processing-directories%21">MB calibration and climate quality check methods</a>.</p></li>
+<li><p>If you are interested in how the “common” non-failing glaciers differ in terms of historical volume change, total mass change and specific mass balance between different pre-processed glacier directories, you can check out <a class="reference external" href="https://nbviewer.org/urls/cluster.klima.uni-bremen.de/~lschuster/error_analysis/working_glacier_gdirs_comparison.ipynb?flush_cache=true">this jupyter notebook</a>.</p></li>
 <li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
 <li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
 </ul>
