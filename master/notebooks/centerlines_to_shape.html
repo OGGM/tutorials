@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Compute smoother centerlines &#8212; OGGM tutorials</title>
+    <title>Compute smoother centerlines for shapefile output &#8212; OGGM tutorials</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,6 +51,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="OGGM flowlines: where are they?" href="where_are_the_flowlines.html" />
+    <link rel="prev" title="A quick look into the mass-balance calibration procedure" href="massbalance_calibration.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -171,7 +173,7 @@
   Advanced tutorials
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="preprocessing_errors.html">
    Error analysis of the global pre-processing workflow
@@ -215,6 +217,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="massbalance_calibration.html">
    A quick look into the mass-balance calibration procedure
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Compute smoother centerlines for shapefile output
   </a>
  </li>
  <li class="toctree-l1">
@@ -392,8 +399,8 @@
         
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="compute-smoother-centerlines">
-<h1>Compute smoother centerlines<a class="headerlink" href="#compute-smoother-centerlines" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="compute-smoother-centerlines-for-shapefile-output">
+<h1>Compute smoother centerlines for shapefile output<a class="headerlink" href="#compute-smoother-centerlines-for-shapefile-output" title="Permalink to this headline">¶</a></h1>
 <p>This notebook describes how to compute centerlines with OGGM and write them to disk. It is meant for users who are mostly interested in the centerlines, not so much the rest of the OGGM model.</p>
 <p>We use an example of a user-provided glacier inventory and DEM (thanks to <a class="reference external" href="https://www.nve.no/hydrology/our-researchers/liss-marie-andreassen/">Liss Andreassen</a> for providing the data).</p>
 <div class="cell docutils container">
@@ -403,20 +410,6 @@
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_756</span><span class="o">/</span><span class="mf">3858369431.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rioxr</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> 
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;rioxarray&#39;
 </pre></div>
 </div>
 </div>
@@ -444,11 +437,19 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/centerlines_to_shape_7_0.png" src="../_images/centerlines_to_shape_7_0.png" />
+</div>
 </div>
 <p>The resolution of the DEM is 10m:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">((</span><span class="n">dem</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dem</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10.0
 </pre></div>
 </div>
 </div>
@@ -459,6 +460,9 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inventory</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">inventory</span><span class="o">.</span><span class="n">is_valid</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/centerlines_to_shape_11_0.png" src="../_images/centerlines_to_shape_11_0.png" />
 </div>
 </div>
 <p>Let’s correct it:</p>
@@ -510,6 +514,19 @@
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:09:23: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-02-06 14:09:23: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-02-06 14:09:23: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-02-06 14:09:23: oggm.cfg: Multiprocessing switched ON after user settings.
+2022-02-06 14:09:23: oggm.cfg: PARAMS[&#39;use_rgi_area&#39;] changed from `True` to `False`.
+2022-02-06 14:09:23: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+2022-02-06 14:09:23: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
+2022-02-06 14:09:23: oggm.cfg: PARAMS[&#39;d1&#39;] changed from `14.0` to `7`.
+2022-02-06 14:09:23: oggm.cfg: PARAMS[&#39;d2&#39;] changed from `10.0` to `5`.
+</pre></div>
+</div>
+</div>
 </div>
 <p>Now the workflow:</p>
 <div class="cell docutils container">
@@ -520,6 +537,14 @@
 
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">glacier_masks</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">compute_centerlines</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:09:23: oggm.workflow: Execute entity tasks [GlacierDirectory] on 102 glaciers
+2022-02-06 14:09:25: oggm.workflow: Execute entity tasks [define_glacier_region] on 102 glaciers
+2022-02-06 14:09:44: oggm.workflow: Execute entity tasks [glacier_masks] on 102 glaciers
+2022-02-06 14:09:56: oggm.workflow: Execute entity tasks [compute_centerlines] on 102 glaciers
 </pre></div>
 </div>
 </div>
@@ -539,6 +564,30 @@
                            <span class="n">to_crs</span><span class="o">=</span><span class="n">inventory</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>  <span class="c1"># Write into the projection of the original inventory</span>
                            <span class="n">keep_main_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Write only the main flowline and discard the tributaries</span>
                           <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:09:57: oggm.utils: Applying global task write_centerlines_to_shape on 102 glaciers
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_770</span><span class="o">/</span><span class="mf">3745174353.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">oggm.utils</span> <span class="kn">import</span> <span class="n">write_centerlines_to_shape</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> 
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span>  <span class="c1"># The glaciers to process</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                            <span class="n">path</span><span class="o">=</span><span class="s1">&#39;outputs/Norway_Centerlines.shp&#39;</span><span class="p">,</span>  <span class="c1"># The output file</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                            <span class="n">to_tar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># set to True to put everything into one single tar file</span>
+
+<span class="nn">/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/utils/_workflow.py</span> in <span class="ni">_global_task</span><span class="nt">(gdirs, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">546</span> 
+<span class="g g-Whitespace">    </span><span class="mi">547</span>             <span class="c1"># Run the task</span>
+<span class="ne">--&gt; </span><span class="mi">548</span>             <span class="k">return</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">549</span> 
+<span class="g g-Whitespace">    </span><span class="mi">550</span>         <span class="n">_global_task</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;is_global_task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="ne">TypeError</span>: write_centerlines_to_shape() got an unexpected keyword argument &#39;to_crs&#39;
 </pre></div>
 </div>
 </div>
@@ -656,7 +705,21 @@ which works on the underlying glacier grid. Each vertice (point) in the line cor
               
         
             <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="massbalance_calibration.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">A quick look into the mass-balance calibration procedure</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="where_are_the_flowlines.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">OGGM flowlines: where are they?</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
         
         </div>
