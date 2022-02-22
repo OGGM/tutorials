@@ -37,20 +37,22 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="A quick look into the mass-balance calibration procedure" href="massbalance_calibration.html" />
@@ -184,6 +186,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
    Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -487,9 +494,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:44:12: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-02-06 14:44:12: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-02-06 14:44:12: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 22:08:51: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-02-22 22:08:51: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-02-22 22:08:51: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -715,10 +722,70 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:44:14: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 22:08:52: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
+2022-02-22 22:09:42: oggm.utils: Downloading http://www.glims.org/RGI/rgi60_files/00_rgi60.zip failed.
 </pre></div>
 </div>
-<img alt="../_images/use_your_own_inventory_14_1.png" src="../_images/use_your_own_inventory_14_1.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">ipykernel_1596</span><span class="o">/</span><span class="mf">3365820552.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># Get the HEF geometry and plot it</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">gl</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_glacier_entities</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">gl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span>
+
+<span class="nn">/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/utils/_downloads.py</span> in <span class="ni">get_rgi_glacier_entities</span><span class="nt">(rgi_ids, version)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1932</span>     <span class="n">selection</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1933</span>     <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">regions</span><span class="p">)):</span>
+<span class="ne">-&gt; </span><span class="mi">1934</span>         <span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">get_rgi_region_file</span><span class="p">(</span><span class="n">reg</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1935</span>         <span class="n">selection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sh</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sh</span><span class="o">.</span><span class="n">RGIId</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">)])</span>
+<span class="g g-Whitespace">   </span><span class="mi">1936</span> 
+
+<span class="nn">/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/utils/_downloads.py</span> in <span class="ni">get_rgi_region_file</span><span class="nt">(region, version, reset)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1903</span>     <span class="s2">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1904</span><span class="s2"> </span>
+<span class="ne">-&gt; </span><span class="mi">1905</span><span class="s2">     rgi_dir = get_rgi_dir(version=version, reset=reset)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1906</span><span class="s2">     f = list(glob.glob(rgi_dir + &quot;/*/</span><span class="si">{}</span><span class="s2">_*.shp&quot;.format(region)))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1907</span><span class="s2">     assert len(f) == 1</span>
+
+<span class="nn">/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/utils/_downloads.py</span> in <span class="ni">get_rgi_dir</span><span class="nt">(version, reset)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1828</span><span class="s2"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1829</span><span class="s2">     with get_lock():</span>
+<span class="ne">-&gt; </span><span class="mi">1830</span><span class="s2">         return _get_rgi_dir_unlocked(version=version, reset=reset)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1831</span><span class="s2"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1832</span><span class="s2"> </span>
+
+<span class="nn">/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/utils/_downloads.py</span> in <span class="ni">_get_rgi_dir_unlocked</span><span class="nt">(version, reset)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1864</span><span class="s2">         ofile = file_downloader(dfile, reset=reset)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1865</span><span class="s2">         # Extract root</span>
+<span class="ne">-&gt; </span><span class="mi">1866</span><span class="s2">         with zipfile.ZipFile(ofile) as zf:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1867</span><span class="s2">             zf.extractall(rgi_dir)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1868</span><span class="s2">         # Extract subdirs</span>
+
+<span class="nn">/usr/local/pyenv/versions/3.9.8/lib/python3.9/zipfile.py</span> in <span class="ni">__init__</span><span class="nt">(self, file, mode, compression, allowZip64, compresslevel, strict_timestamps)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1255</span><span class="s2">         try:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1256</span><span class="s2">             if mode == &#39;r&#39;:</span>
+<span class="ne">-&gt; </span><span class="mi">1257</span><span class="s2">                 self._RealGetContents()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1258</span><span class="s2">             elif mode in (&#39;w&#39;, &#39;x&#39;):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1259</span><span class="s2">                 # set the modified flag so central directory gets written</span>
+
+<span class="nn">/usr/local/pyenv/versions/3.9.8/lib/python3.9/zipfile.py</span> in <span class="ni">_RealGetContents</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1318</span><span class="s2">         fp = self.fp</span>
+<span class="g g-Whitespace">   </span><span class="mi">1319</span><span class="s2">         try:</span>
+<span class="ne">-&gt; </span><span class="mi">1320</span><span class="s2">             endrec = _EndRecData(fp)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1321</span><span class="s2">         except OSError:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1322</span><span class="s2">             raise BadZipFile(&quot;File is not a zip file&quot;)</span>
+
+<span class="nn">/usr/local/pyenv/versions/3.9.8/lib/python3.9/zipfile.py</span> in <span class="ni">_EndRecData</span><span class="nt">(fpin)</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span><span class="s2"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span><span class="s2">     # Determine file size</span>
+<span class="ne">--&gt; </span><span class="mi">263</span><span class="s2">     fpin.seek(0, 2)</span>
+<span class="g g-Whitespace">    </span><span class="mi">264</span><span class="s2">     filesize = fpin.tell()</span>
+<span class="g g-Whitespace">    </span><span class="mi">265</span><span class="s2"> </span>
+
+<span class="ne">AttributeError</span>: &#39;NoneType&#39; object has no attribute &#39;seek&#39;
+</pre></div>
+</div>
 </div>
 </div>
 <p>Obviously, the two smaller tongues used to flow in the main one but this is not the case anymore today. We need updated geometries.</p>
@@ -734,53 +801,12 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>1</th>
-      <td>POLYGON ((10.74505 46.80376, 10.74610 46.80293...</td>
-    </tr>
-    <tr>
-      <th>93</th>
-      <td>POLYGON ((10.74860 46.80493, 10.74717 46.80529...</td>
-    </tr>
-    <tr>
-      <th>94</th>
-      <td>POLYGON ((10.74602 46.80561, 10.74717 46.80529...</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">divides</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/use_your_own_inventory_19_0.png" src="../_images/use_your_own_inventory_19_0.png" />
 </div>
 </div>
 <p>Now we use the RGI entity as template - it’s good to use the same attributes as the original RGI glacier, because most of them are already correct:</p>
@@ -791,125 +817,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>RGIId</th>
-      <th>GLIMSId</th>
-      <th>BgnDate</th>
-      <th>EndDate</th>
-      <th>CenLon</th>
-      <th>CenLat</th>
-      <th>O1Region</th>
-      <th>O2Region</th>
-      <th>Area</th>
-      <th>Zmin</th>
-      <th>...</th>
-      <th>Aspect</th>
-      <th>Lmax</th>
-      <th>Status</th>
-      <th>Connect</th>
-      <th>Form</th>
-      <th>TermType</th>
-      <th>Surging</th>
-      <th>Linkages</th>
-      <th>Name</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>RGI60-11.00897</td>
-      <td>G010758E46800N</td>
-      <td>20030799</td>
-      <td>20030999</td>
-      <td>10.7584</td>
-      <td>46.8003</td>
-      <td>11</td>
-      <td>1</td>
-      <td>8.036</td>
-      <td>2430</td>
-      <td>...</td>
-      <td>71</td>
-      <td>7178</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>9</td>
-      <td>1</td>
-      <td>Hintereisferner</td>
-      <td>POLYGON ((10.75085 46.81381, 10.75112 46.81397...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>RGI60-11.00897</td>
-      <td>G010758E46800N</td>
-      <td>20030799</td>
-      <td>20030999</td>
-      <td>10.7584</td>
-      <td>46.8003</td>
-      <td>11</td>
-      <td>1</td>
-      <td>8.036</td>
-      <td>2430</td>
-      <td>...</td>
-      <td>71</td>
-      <td>7178</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>9</td>
-      <td>1</td>
-      <td>Hintereisferner</td>
-      <td>POLYGON ((10.75085 46.81381, 10.75112 46.81397...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>RGI60-11.00897</td>
-      <td>G010758E46800N</td>
-      <td>20030799</td>
-      <td>20030999</td>
-      <td>10.7584</td>
-      <td>46.8003</td>
-      <td>11</td>
-      <td>1</td>
-      <td>8.036</td>
-      <td>2430</td>
-      <td>...</td>
-      <td>71</td>
-      <td>7178</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>9</td>
-      <td>1</td>
-      <td>Hintereisferner</td>
-      <td>POLYGON ((10.75085 46.81381, 10.75112 46.81397...</td>
-    </tr>
-  </tbody>
-</table>
-<p>3 rows × 23 columns</p>
-</div></div></div>
 </div>
 <p>We change the important ones:</p>
 <div class="cell docutils container">
@@ -937,9 +844,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/use_your_own_inventory_24_0.png" src="../_images/use_your_own_inventory_24_0.png" />
-</div>
 </div>
 <p>Save it:</p>
 <div class="cell docutils container">
@@ -962,46 +866,6 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>RGIId_1</th>
-      <th>RGIId_2</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>119</th>
-      <td>RGI60-11.00846</td>
-      <td>RGI60-11.00897</td>
-      <td>LINESTRING (10.74826 46.81077, 10.74840 46.810...</td>
-    </tr>
-    <tr>
-      <th>143</th>
-      <td>RGI60-11.00897</td>
-      <td>RGI60-11.00846</td>
-      <td>LINESTRING (10.72557 46.79781, 10.72557 46.797...</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <p>Ok, we can now create a file which has all the glaciers we need to compute the relevant intersects (note that we could also use the full standard RGI with just HEF replaced):</p>
 <div class="cell docutils container">
@@ -1012,63 +876,12 @@
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/use_your_own_inventory_31_0.png" src="../_images/use_your_own_inventory_31_0.png" />
-</div>
 </div>
 <p>Good! Let’s use <a class="reference external" href="https://rgitools.readthedocs.io">rgitools</a> to compute the intersects for this new situation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rgitools.funcs</span> <span class="kn">import</span> <span class="n">compute_intersects</span>
 <span class="n">new_intersects</span> <span class="o">=</span> <span class="n">compute_intersects</span><span class="p">(</span><span class="n">for_intersects</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:252: ShapelyDeprecationWarning: __len__ for multi-part geometries is deprecated and will be removed in Shapely 2.0. Check the length of the `geoms` property instead to get the  number of parts of a multi-part geometry.
-  if len(mult_intersect) == 0:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:254: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  mult_intersect = [m for m in mult_intersect if
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:268: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  for line in mult_intersect:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:252: ShapelyDeprecationWarning: __len__ for multi-part geometries is deprecated and will be removed in Shapely 2.0. Check the length of the `geoms` property instead to get the  number of parts of a multi-part geometry.
-  if len(mult_intersect) == 0:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:254: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  mult_intersect = [m for m in mult_intersect if
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:252: ShapelyDeprecationWarning: __len__ for multi-part geometries is deprecated and will be removed in Shapely 2.0. Check the length of the `geoms` property instead to get the  number of parts of a multi-part geometry.
-  if len(mult_intersect) == 0:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:254: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  mult_intersect = [m for m in mult_intersect if
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:268: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  for line in mult_intersect:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:252: ShapelyDeprecationWarning: __len__ for multi-part geometries is deprecated and will be removed in Shapely 2.0. Check the length of the `geoms` property instead to get the  number of parts of a multi-part geometry.
-  if len(mult_intersect) == 0:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:254: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  mult_intersect = [m for m in mult_intersect if
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:268: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  for line in mult_intersect:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:252: ShapelyDeprecationWarning: __len__ for multi-part geometries is deprecated and will be removed in Shapely 2.0. Check the length of the `geoms` property instead to get the  number of parts of a multi-part geometry.
-  if len(mult_intersect) == 0:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:254: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  mult_intersect = [m for m in mult_intersect if
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:268: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  for line in mult_intersect:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:252: ShapelyDeprecationWarning: __len__ for multi-part geometries is deprecated and will be removed in Shapely 2.0. Check the length of the `geoms` property instead to get the  number of parts of a multi-part geometry.
-  if len(mult_intersect) == 0:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:254: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  mult_intersect = [m for m in mult_intersect if
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:268: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  for line in mult_intersect:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:252: ShapelyDeprecationWarning: __len__ for multi-part geometries is deprecated and will be removed in Shapely 2.0. Check the length of the `geoms` property instead to get the  number of parts of a multi-part geometry.
-  if len(mult_intersect) == 0:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:254: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  mult_intersect = [m for m in mult_intersect if
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:252: ShapelyDeprecationWarning: __len__ for multi-part geometries is deprecated and will be removed in Shapely 2.0. Check the length of the `geoms` property instead to get the  number of parts of a multi-part geometry.
-  if len(mult_intersect) == 0:
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:254: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  mult_intersect = [m for m in mult_intersect if
-/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/rgitools/funcs.py:268: ShapelyDeprecationWarning: Iteration over multi-part geometries is deprecated and will be removed in Shapely 2.0. Use the `geoms` property to access the constituent parts of a multi-part geometry.
-  for line in mult_intersect:
 </pre></div>
 </div>
 </div>
@@ -1082,9 +895,6 @@ and also <a class="reference external" href="https://networkx.org/documentation/
 <span class="n">new_intersects</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/use_your_own_inventory_35_0.png" src="../_images/use_your_own_inventory_35_0.png" />
 </div>
 </div>
 <p>Good! We can store our intersects to use them with OGGM afterwards:</p>
@@ -1118,12 +928,6 @@ and also <a class="reference external" href="https://networkx.org/documentation/
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>PARAMS[&#39;use_rgi_area&#39;] changed from `True` to `False`.
-Execute entity tasks [GlacierDirectory] on 3 glaciers
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1137,17 +941,6 @@ Execute entity tasks [GlacierDirectory] on 3 glaciers
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Execute entity tasks [define_glacier_region] on 3 glaciers
-Execute entity tasks [glacier_masks] on 3 glaciers
-Execute entity tasks [compute_centerlines] on 3 glaciers
-Execute entity tasks [initialize_flowlines] on 3 glaciers
-Execute entity tasks [catchment_area] on 3 glaciers
-Execute entity tasks [catchment_width_geom] on 3 glaciers
-Execute entity tasks [catchment_width_correction] on 3 glaciers
-</pre></div>
-</div>
-</div>
 </div>
 <p>If you get “NameError ‘skdraw’ is not defined”, you have to install the python image processing package <a class="reference external" href="https://scikit-image.org/docs/stable/install.html#installation-via-pip-and-conda">scikit-image</a> first (e.g. via <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">scikit-image</span></code>)</p>
 <div class="cell docutils container">
@@ -1155,9 +948,6 @@ Execute entity tasks [catchment_width_correction] on 3 glaciers
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_catchment_width</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">add_intersects</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">corrected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/use_your_own_inventory_42_0.png" src="../_images/use_your_own_inventory_42_0.png" />
 </div>
 </div>
 <p>It works!</p>
@@ -1196,17 +986,6 @@ Execute entity tasks [catchment_width_correction] on 3 glaciers
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:44:52: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-02-06 14:44:52: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-02-06 14:44:52: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-02-06 14:44:52: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
-2022-02-06 14:44:53: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2022-02-06 14:44:53: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
-</pre></div>
-</div>
-<img alt="../_images/use_your_own_inventory_51_6.png" src="../_images/use_your_own_inventory_51_6.png" />
-</div>
 </div>
 <p>The upper glacier map is a zoom version of the plot below.
 They share the same glaciers terminus. Therefore, to estimate a calving flux for these glaciers we need them connected.</p>
@@ -1220,9 +999,6 @@ They share the same glaciers terminus. Therefore, to estimate a calving flux for
 <span class="n">merged</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/use_your_own_inventory_54_0.png" src="../_images/use_your_own_inventory_54_0.png" />
 </div>
 </div>
 </div>
@@ -1252,12 +1028,6 @@ They share the same glaciers terminus. Therefore, to estimate a calving flux for
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3889    275.739
-Name: Area, dtype: float64
-</pre></div>
-</div>
-</div>
 </div>
 <p>In <a class="reference external" href="https://www.the-cryosphere.net/13/2657/2019/tc-13-2657-2019.html">Recinos et al., (2019)</a> we wanted to estimate a frontal ablation flux for this new outline and compare it with previous estimates found in the literature for the Sawyer Glacier (<a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1002/2014JF003276">McNabb et al., 2015</a>).</p>
 <p>For this reason we kept the Sawyer glacier attributes to the following variables:
@@ -1282,13 +1052,6 @@ We recommend doing this if you have to make several model runs. You can also int
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:44:56: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-02-06 14:44:56: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-02-06 14:44:56: oggm.cfg: Multiprocessing: using all available processors (N=2)
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 <div class="section" id="run-oggm-with-this-new-glacier">
@@ -1309,25 +1072,6 @@ We recommend doing this if you have to make several model runs. You can also int
 <span class="n">rgidf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;merged.shp&#39;</span><span class="p">))</span>
 <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgidf</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">gdirs</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:44:56: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
-2022-02-06 14:44:56: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
-2022-02-06 14:44:56: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.GlacierDirectory&gt;
-   RGI id: RGI60-01.03890
-   Region: 01: Alaska
-   Subregion: 01-06: N Coast Ranges                  
-   Name: Sawyer Glacier Merged With Rgi60-01.23664
-   Glacier type: Glacier
-   Terminus type: Marine-terminating
-   Status: Glacier or ice cap
-   Area: 275.739 km2
-   Lon, Lat: (-133.00381863880597, 57.939250464000054)]
 </pre></div>
 </div>
 </div>
@@ -1355,29 +1099,6 @@ We recommend doing this if you have to make several model runs. You can also int
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:44:57: oggm.workflow: Execute entity tasks [define_glacier_region] on 1 glaciers
-2022-02-06 14:44:57: oggm.core.gis: (RGI60-01.03890) define_glacier_region
-2022-02-06 14:44:57: oggm.utils: Downloading http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_10_01.zip to /github/home/OGGM/download_cache/srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_10_01.zip...
-2022-02-06 14:45:06: oggm.utils: /github/home/OGGM/download_cache/srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_10_01.zip verified successfully.
-2022-02-06 14:45:06: oggm.workflow: Execute entity tasks [glacier_masks] on 1 glaciers
-2022-02-06 14:45:06: oggm.core.gis: (RGI60-01.03890) glacier_masks
-2022-02-06 14:45:06: oggm.core.gis: (RGI60-01.03890) process_dem
-2022-02-06 14:45:07: oggm.core.gis: RGI60-01.03890: DEM needed interpolation.
-2022-02-06 14:45:08: oggm.workflow: Execute entity tasks [compute_centerlines] on 1 glaciers
-2022-02-06 14:45:08: oggm.core.centerlines: (RGI60-01.03890) compute_centerlines
-2022-02-06 14:45:08: oggm.workflow: Execute entity tasks [initialize_flowlines] on 1 glaciers
-2022-02-06 14:45:08: oggm.core.centerlines: (RGI60-01.03890) initialize_flowlines
-2022-02-06 14:45:08: oggm.workflow: Execute entity tasks [catchment_area] on 1 glaciers
-2022-02-06 14:45:08: oggm.core.centerlines: (RGI60-01.03890) catchment_area
-2022-02-06 14:45:16: oggm.workflow: Execute entity tasks [catchment_width_geom] on 1 glaciers
-2022-02-06 14:45:16: oggm.core.centerlines: (RGI60-01.03890) catchment_width_geom
-2022-02-06 14:45:18: oggm.workflow: Execute entity tasks [catchment_width_correction] on 1 glaciers
-2022-02-06 14:45:18: oggm.core.centerlines: (RGI60-01.03890) catchment_width_correction
-2022-02-06 14:45:18: oggm.core.centerlines: (RGI60-01.03890) chosen binsize 315
-</pre></div>
-</div>
-</div>
 </div>
 <p>note that we used in <code class="docutils literal notranslate"><span class="pre">tasks.define_glacier_region</span></code> SRTM as DEM source which is not the default one in OGGM.
 The default one is NASADEM, but for that you have to register at <a class="reference external" href="https://urs.earthdata.nasa.gov/">NASA Earthdata</a>
@@ -1388,18 +1109,12 @@ more info in <a class="reference external" href="dem_sources.ipynb#register">dem
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/use_your_own_inventory_69_0.png" src="../_images/use_your_own_inventory_69_0.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_catchment_width</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">corrected</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/use_your_own_inventory_70_0.png" src="../_images/use_your_own_inventory_70_0.png" />
 </div>
 </div>
 <p><a id='case3'></a></p>
@@ -1418,173 +1133,6 @@ more info in <a class="reference external" href="dem_sources.ipynb#register">dem
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Glc_Name</th>
-      <th>Drng_Code</th>
-      <th>FCGI_ID</th>
-      <th>GLIMS_ID</th>
-      <th>Mtn_Name</th>
-      <th>Pref_Name</th>
-      <th>Glc_Long</th>
-      <th>Glc_Lati</th>
-      <th>Glc_Area</th>
-      <th>Abs_Accu</th>
-      <th>...</th>
-      <th>Mean_Slp</th>
-      <th>Mean_Asp</th>
-      <th>Prm_Image</th>
-      <th>Aux_Image</th>
-      <th>Rep_Date</th>
-      <th>Elev_Src</th>
-      <th>Elev_Date</th>
-      <th>Compiler</th>
-      <th>Verifier</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>None</td>
-      <td>5X043P</td>
-      <td>5X043P0038</td>
-      <td>G084892E43502N</td>
-      <td>天山</td>
-      <td>新疆维吾尔自治区伊犁哈萨克自治州</td>
-      <td>84.892252</td>
-      <td>43.502473</td>
-      <td>4410738.3</td>
-      <td>154881.40</td>
-      <td>...</td>
-      <td>15.1</td>
-      <td>247.5</td>
-      <td>Landsat:P144R030,TM,2009-08-08</td>
-      <td>None</td>
-      <td>2009年8月8日</td>
-      <td>SRTM V4</td>
-      <td>Feb, 2000</td>
-      <td>李萍</td>
-      <td>魏俊锋</td>
-      <td>POLYGON ((-1597545.625 4858570.500, -1597500.1...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>None</td>
-      <td>5Y533B</td>
-      <td>5Y533B0022</td>
-      <td>G094299E35672N</td>
-      <td>昆仑山</td>
-      <td>青海省海西蒙古族藏族自治州</td>
-      <td>94.299430</td>
-      <td>35.671728</td>
-      <td>2569748.4</td>
-      <td>80390.42</td>
-      <td>...</td>
-      <td>25.6</td>
-      <td>27.3</td>
-      <td>Landsat:P136R035,TM,2006-07-23</td>
-      <td>Landsat:P136R035,TM,2010-04-29;P136R035,ETM+,2...</td>
-      <td>2006年7月23日</td>
-      <td>SRTM V4</td>
-      <td>Feb, 2000</td>
-      <td>李萍</td>
-      <td>郭万钦</td>
-      <td>POLYGON ((-950552.062 3862119.750, -950515.125...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>None</td>
-      <td>5O282A</td>
-      <td>5O282A0750</td>
-      <td>G096290E29880N</td>
-      <td>念青唐古拉山</td>
-      <td>西藏自治区林芝地区</td>
-      <td>96.289832</td>
-      <td>29.879834</td>
-      <td>320096.7</td>
-      <td>33721.87</td>
-      <td>...</td>
-      <td>27.2</td>
-      <td>96.5</td>
-      <td>Landsat:P134R039,TM,2005-09-08</td>
-      <td>None</td>
-      <td>2005年9月8日</td>
-      <td>SRTM V4</td>
-      <td>Feb, 2000</td>
-      <td>李萍</td>
-      <td>李刚</td>
-      <td>POLYGON ((-830689.750 3194922.500, -830685.250...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>None</td>
-      <td>5K441M</td>
-      <td>5K441M0100</td>
-      <td>G092234E32782N</td>
-      <td>唐古拉山</td>
-      <td>青海省海西蒙古族藏族自治州</td>
-      <td>92.234420</td>
-      <td>32.781958</td>
-      <td>969356.4</td>
-      <td>43823.40</td>
-      <td>...</td>
-      <td>15.2</td>
-      <td>101.3</td>
-      <td>Landsat:P137R037,TM,2007-09-19</td>
-      <td>None</td>
-      <td>2007年9月19日</td>
-      <td>SRTM V4</td>
-      <td>Feb, 2000</td>
-      <td>李萍</td>
-      <td>盖春梅</td>
-      <td>POLYGON ((-1173462.875 3559676.750, -1173507.2...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>None</td>
-      <td>5O291B</td>
-      <td>5O291B0528</td>
-      <td>G097340E29195N</td>
-      <td>横断山</td>
-      <td>西藏自治区林芝地区</td>
-      <td>97.340135</td>
-      <td>29.195439</td>
-      <td>839757.2</td>
-      <td>47341.39</td>
-      <td>...</td>
-      <td>14.3</td>
-      <td>329.4</td>
-      <td>Landsat:P134R040,TM,2005-09-08</td>
-      <td>None</td>
-      <td>2005年9月8日</td>
-      <td>SRTM V4</td>
-      <td>Feb, 2000</td>
-      <td>李萍</td>
-      <td>李刚</td>
-      <td>POLYGON ((-735850.625 3109206.750, -735851.312...</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 30 columns</p>
-</div></div></div>
 </div>
 <p>Ha! There are some Chinese characters! But it should not influence our work. Now, let’s try with the simplest case:</p>
 <div class="cell docutils container">
@@ -1594,173 +1142,6 @@ more info in <a class="reference external" href="dem_sources.ipynb#register">dem
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>RGIId</th>
-      <th>CenLon</th>
-      <th>CenLat</th>
-      <th>GLIMSId</th>
-      <th>BgnDate</th>
-      <th>EndDate</th>
-      <th>O1Region</th>
-      <th>O2Region</th>
-      <th>Area</th>
-      <th>Zmin</th>
-      <th>...</th>
-      <th>Lmax</th>
-      <th>Status</th>
-      <th>Connect</th>
-      <th>Form</th>
-      <th>TermType</th>
-      <th>Surging</th>
-      <th>Linkages</th>
-      <th>check_geom</th>
-      <th>Name</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>RGI60-13.00001</td>
-      <td>84.897508</td>
-      <td>43.504834</td>
-      <td></td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>-9999.0</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((84.88765 43.51793, 84.88820 43.51803...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>RGI60-13.00002</td>
-      <td>94.301049</td>
-      <td>35.673427</td>
-      <td></td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>-9999.0</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((94.28628 35.67243, 94.28669 35.67247...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>RGI60-13.00003</td>
-      <td>96.293274</td>
-      <td>29.880223</td>
-      <td></td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>-9999.0</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((96.28739 29.88241, 96.28744 29.88235...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>RGI60-13.00004</td>
-      <td>92.233827</td>
-      <td>32.781994</td>
-      <td></td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>-9999.0</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((92.23549 32.77855, 92.23501 32.77851...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>RGI60-13.00005</td>
-      <td>97.340065</td>
-      <td>29.196493</td>
-      <td></td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>-9999.0</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((97.34704 29.18993, 97.34703 29.18993...</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 24 columns</p>
-</div></div></div>
 </div>
 <p>In this case, we fake all of the columns values except for <code class="docutils literal notranslate"><span class="pre">geometry</span></code>. With this <code class="docutils literal notranslate"><span class="pre">rgidf_simple</span></code>, we can handle most of the OGGM procedure after set <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS['use_rgi_area']</span> <span class="pre">=</span> <span class="pre">False</span></code>. Let’s have a try:</p>
 <div class="cell docutils container">
@@ -1783,157 +1164,6 @@ more info in <a class="reference external" href="dem_sources.ipynb#register">dem
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:45:21: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-02-06 14:45:21: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-02-06 14:45:21: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-02-06 14:45:21: oggm.cfg: PARAMS[&#39;use_rgi_area&#39;] changed from `True` to `False`.
-2022-02-06 14:45:21: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
-2022-02-06 14:45:21: oggm.workflow: Execute entity tasks [GlacierDirectory] on 5 glaciers
-2022-02-06 14:45:21: oggm.workflow: WARNING: you are trying to run an entity task on 5 glaciers with multiprocessing turned off. OGGM will run faster with multiprocessing turned on.
-2022-02-06 14:45:22: oggm.utils: Applying global task compile_glacier_statistics on 5 glaciers
-2022-02-06 14:45:22: oggm.workflow: Execute entity tasks [glacier_statistics] on 5 glaciers
-2022-02-06 14:45:22: oggm.workflow: WARNING: you are trying to run an entity task on 5 glaciers with multiprocessing turned off. OGGM will run faster with multiprocessing turned on.
-2022-02-06 14:45:22: oggm.utils: (RGI60-13.00001) glacier_statistics
-2022-02-06 14:45:22: oggm.utils: (RGI60-13.00002) glacier_statistics
-2022-02-06 14:45:22: oggm.utils: (RGI60-13.00003) glacier_statistics
-2022-02-06 14:45:22: oggm.utils: (RGI60-13.00004) glacier_statistics
-2022-02-06 14:45:22: oggm.utils: (RGI60-13.00005) glacier_statistics
-</pre></div>
-</div>
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>rgi_region</th>
-      <th>rgi_subregion</th>
-      <th>name</th>
-      <th>cenlon</th>
-      <th>cenlat</th>
-      <th>rgi_area_km2</th>
-      <th>rgi_year</th>
-      <th>glacier_type</th>
-      <th>terminus_type</th>
-      <th>is_tidewater</th>
-      <th>status</th>
-      <th>error_task</th>
-      <th>error_msg</th>
-    </tr>
-    <tr>
-      <th>rgi_id</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>RGI60-13.00001</th>
-      <td>13</td>
-      <td>13-01</td>
-      <td></td>
-      <td>84.897508</td>
-      <td>43.504834</td>
-      <td>4.407</td>
-      <td>2000</td>
-      <td>Glacier</td>
-      <td>Land-terminating</td>
-      <td>False</td>
-      <td>Glacier or ice cap</td>
-      <td>None</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <th>RGI60-13.00002</th>
-      <td>13</td>
-      <td>13-01</td>
-      <td></td>
-      <td>94.301049</td>
-      <td>35.673427</td>
-      <td>2.568</td>
-      <td>2000</td>
-      <td>Glacier</td>
-      <td>Land-terminating</td>
-      <td>False</td>
-      <td>Glacier or ice cap</td>
-      <td>None</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <th>RGI60-13.00003</th>
-      <td>13</td>
-      <td>13-01</td>
-      <td></td>
-      <td>96.293274</td>
-      <td>29.880223</td>
-      <td>0.320</td>
-      <td>2000</td>
-      <td>Glacier</td>
-      <td>Land-terminating</td>
-      <td>False</td>
-      <td>Glacier or ice cap</td>
-      <td>None</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <th>RGI60-13.00004</th>
-      <td>13</td>
-      <td>13-01</td>
-      <td></td>
-      <td>92.233827</td>
-      <td>32.781994</td>
-      <td>0.969</td>
-      <td>2000</td>
-      <td>Glacier</td>
-      <td>Land-terminating</td>
-      <td>False</td>
-      <td>Glacier or ice cap</td>
-      <td>None</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <th>RGI60-13.00005</th>
-      <td>13</td>
-      <td>13-01</td>
-      <td></td>
-      <td>97.340065</td>
-      <td>29.196493</td>
-      <td>0.839</td>
-      <td>2000</td>
-      <td>Glacier</td>
-      <td>Land-terminating</td>
-      <td>False</td>
-      <td>Glacier or ice cap</td>
-      <td>None</td>
-      <td>None</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <p>Sometimes, the information in the original glacier inventory also covered what RGI need, but with different name. For example, both CGI2 and RGI include Lon-lat coordinate to indicate the location of the glacier but with different names. CGI2 used <code class="docutils literal notranslate"><span class="pre">Glc_Long</span></code> and <code class="docutils literal notranslate"><span class="pre">Glc_Lati</span></code>, while RGI6 used <code class="docutils literal notranslate"><span class="pre">CenLon</span></code> and <code class="docutils literal notranslate"><span class="pre">CenLat</span></code>. Also, CGI2 include glacier area information with name <code class="docutils literal notranslate"><span class="pre">Glc_Area</span></code>, while RGI named glacier area as <code class="docutils literal notranslate"><span class="pre">Area</span></code>. If we want to keep those values but rename them following RGI, we can use the <code class="docutils literal notranslate"><span class="pre">assign_column_values</span></code> keyword argument:</p>
 <div class="cell docutils container">
@@ -1943,189 +1173,12 @@ more info in <a class="reference external" href="dem_sources.ipynb#register">dem
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>RGIId</th>
-      <th>CenLon</th>
-      <th>CenLat</th>
-      <th>GLIMSId</th>
-      <th>BgnDate</th>
-      <th>EndDate</th>
-      <th>O1Region</th>
-      <th>O2Region</th>
-      <th>Area</th>
-      <th>Zmin</th>
-      <th>...</th>
-      <th>Lmax</th>
-      <th>Status</th>
-      <th>Connect</th>
-      <th>Form</th>
-      <th>TermType</th>
-      <th>Surging</th>
-      <th>Linkages</th>
-      <th>check_geom</th>
-      <th>Name</th>
-      <th>geometry</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>RGI60-13.00001</td>
-      <td>84.892252</td>
-      <td>43.502473</td>
-      <td>G084892E43502N</td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>4410738.3</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((84.88765 43.51793, 84.88820 43.51803...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>RGI60-13.00002</td>
-      <td>94.299430</td>
-      <td>35.671728</td>
-      <td>G094299E35672N</td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>2569748.4</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((94.28628 35.67243, 94.28669 35.67247...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>RGI60-13.00003</td>
-      <td>96.289832</td>
-      <td>29.879834</td>
-      <td>G096290E29880N</td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>320096.7</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((96.28739 29.88241, 96.28744 29.88235...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>RGI60-13.00004</td>
-      <td>92.234420</td>
-      <td>32.781958</td>
-      <td>G092234E32782N</td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>969356.4</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((92.23549 32.77855, 92.23501 32.77851...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>RGI60-13.00005</td>
-      <td>97.340135</td>
-      <td>29.195439</td>
-      <td>G097340E29195N</td>
-      <td>20009999</td>
-      <td>9999999</td>
-      <td>13</td>
-      <td>01</td>
-      <td>839757.2</td>
-      <td>-9999.0</td>
-      <td>...</td>
-      <td>-9999</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-      <td>None</td>
-      <td></td>
-      <td>POLYGON ((97.34704 29.18993, 97.34703 29.18993...</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 24 columns</p>
-</div></div></div>
 </div>
 <p>Seems perfect! However, the glacier area in CGI2 is in <span class="math notranslate nohighlight">\(m^2\)</span>, but it is in <span class="math notranslate nohighlight">\(km^2\)</span> for RGI. So, we need to correct the <code class="docutils literal notranslate"><span class="pre">Area</span></code> values right:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgidf_save_columns</span><span class="p">[</span><span class="s1">&#39;Area&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rgidf_save_columns</span><span class="o">.</span><span class="n">Area</span> <span class="o">*</span> <span class="mf">1e-6</span>
 <span class="n">rgidf_save_columns</span><span class="o">.</span><span class="n">Area</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    4.410738
-1    2.569748
-2    0.320097
-3    0.969356
-4    0.839757
-Name: Area, dtype: float64
 </pre></div>
 </div>
 </div>

@@ -37,17 +37,19 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -182,6 +184,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
    Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -462,9 +469,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:39:34: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-02-06 14:39:34: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-02-06 14:39:34: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 22:03:43: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-02-22 22:03:43: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-02-22 22:03:43: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -577,8 +584,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:39:34: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
-2022-02-06 14:39:34: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 22:03:44: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+2022-02-22 22:03:44: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -692,9 +699,9 @@ Available DEM sources: [&#39;ASTER&#39;, &#39;ARCTICDEM&#39;, &#39;TANDEM&#39;, 
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1442/562201134.py:8: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1429/562201134.py:8: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
   with xr.open_rasterio(demfile) as ds:
-/tmp/ipykernel_1442/562201134.py:15: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+/tmp/ipykernel_1429/562201134.py:15: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
   with xr.open_rasterio(gdir.get_filepath(&#39;glacier_mask&#39;)) as ds:
 </pre></div>
 </div>
@@ -780,9 +787,9 @@ Currently the only data downloaded is the 120m composite for both
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:39:45: oggm.workflow: Execute entity tasks [select_dem_from_dir] on 1 glaciers
-2022-02-06 14:39:45: oggm.workflow: Execute entity tasks [glacier_masks] on 1 glaciers
-2022-02-06 14:39:46: oggm.workflow: Execute entity tasks [velocity_to_gdir] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 22:03:55: oggm.workflow: Execute entity tasks [select_dem_from_dir] on 1 glaciers
+2022-02-22 22:03:55: oggm.workflow: Execute entity tasks [glacier_masks] on 1 glaciers
+2022-02-22 22:03:56: oggm.workflow: Execute entity tasks [velocity_to_gdir] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1172,7 +1179,7 @@ Attributes:
     max_h_dem:      2159.736
     min_h_dem:      0.0
     max_h_glacier:  2097.7734
-    min_h_glacier:  0.0</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-84e3c596-2d5f-46fb-882c-4da8d753a4ee' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-84e3c596-2d5f-46fb-882c-4da8d753a4ee' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>x</span>: 176</li><li><span class='xr-has-index'>y</span>: 158</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-2833b0f1-a80f-417e-8583-12b83f861b0d' class='xr-section-summary-in' type='checkbox'  checked><label for='section-2833b0f1-a80f-417e-8583-12b83f861b0d' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x</span></div><div class='xr-var-dims'>(x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-1.828e+04 -1.808e+04 ... 1.672e+04</div><input id='attrs-f38c1d2d-5759-4f43-acbb-bc9d04f66826' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f38c1d2d-5759-4f43-acbb-bc9d04f66826' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0bee4cd5-2727-4510-b512-84ce1c6f45bc' class='xr-var-data-in' type='checkbox'><label for='data-0bee4cd5-2727-4510-b512-84ce1c6f45bc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>x coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_x_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([-18283.69   , -18083.69   , -17883.69   , -17683.69   , -17483.69   ,
+    min_h_glacier:  0.0</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-036f42fd-4e13-4f84-8ab2-4274913579e8' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-036f42fd-4e13-4f84-8ab2-4274913579e8' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>x</span>: 176</li><li><span class='xr-has-index'>y</span>: 158</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-c4da3b44-0d08-4941-a7b7-7ea99b636da8' class='xr-section-summary-in' type='checkbox'  checked><label for='section-c4da3b44-0d08-4941-a7b7-7ea99b636da8' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x</span></div><div class='xr-var-dims'>(x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-1.828e+04 -1.808e+04 ... 1.672e+04</div><input id='attrs-08a94b51-7652-4441-bebd-3f82ccdd2f10' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-08a94b51-7652-4441-bebd-3f82ccdd2f10' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0f80fe92-bab4-44a4-a6b2-7f740f466890' class='xr-var-data-in' type='checkbox'><label for='data-0f80fe92-bab4-44a4-a6b2-7f740f466890' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>x coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_x_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([-18283.69   , -18083.69   , -17883.69   , -17683.69   , -17483.69   ,
        -17283.69   , -17083.69   , -16883.69   , -16683.69   , -16483.69   ,
        -16283.689  , -16083.689  , -15883.689  , -15683.689  , -15483.689  ,
        -15283.689  , -15083.689  , -14883.689  , -14683.689  , -14483.689  ,
@@ -1207,7 +1214,7 @@ Attributes:
         13716.311  ,  13916.311  ,  14116.311  ,  14316.311  ,  14516.311  ,
         14716.311  ,  14916.311  ,  15116.311  ,  15316.311  ,  15516.311  ,
         15716.311  ,  15916.311  ,  16116.311  ,  16316.311  ,  16516.31   ,
-        16716.31   ], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y</span></div><div class='xr-var-dims'>(y)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>7.344e+06 7.344e+06 ... 7.312e+06</div><input id='attrs-772ddbdb-ad54-4195-8966-9b46a101c6e4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-772ddbdb-ad54-4195-8966-9b46a101c6e4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-38172331-9ffa-4efd-81f7-1412743cc2a4' class='xr-var-data-in' type='checkbox'><label for='data-38172331-9ffa-4efd-81f7-1412743cc2a4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>y coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_y_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([7343714., 7343514., 7343314., 7343114., 7342914., 7342714., 7342514.,
+        16716.31   ], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y</span></div><div class='xr-var-dims'>(y)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>7.344e+06 7.344e+06 ... 7.312e+06</div><input id='attrs-b55bdab9-66df-48c0-9367-acdc5b771fe2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b55bdab9-66df-48c0-9367-acdc5b771fe2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0d1391e3-cfba-40ed-8bc6-39b359d32931' class='xr-var-data-in' type='checkbox'><label for='data-0d1391e3-cfba-40ed-8bc6-39b359d32931' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>y coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_y_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([7343714., 7343514., 7343314., 7343114., 7342914., 7342714., 7342514.,
        7342314., 7342114., 7341914., 7341714., 7341514., 7341314., 7341114.,
        7340914., 7340714., 7340514., 7340314., 7340114., 7339914., 7339714.,
        7339514., 7339314., 7339114., 7338914., 7338714., 7338514., 7338314.,
@@ -1229,7 +1236,7 @@ Attributes:
        7317114., 7316914., 7316714., 7316514., 7316314., 7316114., 7315914.,
        7315714., 7315514., 7315314., 7315114., 7314914., 7314714., 7314514.,
        7314314., 7314114., 7313914., 7313714., 7313514., 7313314., 7313114.,
-       7312914., 7312714., 7312514., 7312314.], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-23c8b4eb-1342-46aa-9d2a-733ba911521c' class='xr-section-summary-in' type='checkbox'  checked><label for='section-23c8b4eb-1342-46aa-9d2a-733ba911521c' class='xr-section-summary' >Data variables: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>topo</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.56e+03 1.576e+03 ... 675.4 634.6</div><input id='attrs-83412c61-ecec-44b2-8f4c-2f5e45747a45' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-83412c61-ecec-44b2-8f4c-2f5e45747a45' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e1c0fe61-b3e2-4c10-a423-d6e41c5b8a21' class='xr-var-data-in' type='checkbox'><label for='data-e1c0fe61-b3e2-4c10-a423-d6e41c5b8a21' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography</dd></dl></div><div class='xr-var-data'><pre>array([[1559.9685 , 1576.0101 , 1596.1437 , ..., 1635.7552 , 1634.1139 ,
+       7312914., 7312714., 7312514., 7312314.], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-fba610f6-2a1f-4119-b3a8-786422119694' class='xr-section-summary-in' type='checkbox'  checked><label for='section-fba610f6-2a1f-4119-b3a8-786422119694' class='xr-section-summary' >Data variables: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>topo</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.56e+03 1.576e+03 ... 675.4 634.6</div><input id='attrs-368016b0-f4fc-4f76-bcd6-e6cc4356511c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-368016b0-f4fc-4f76-bcd6-e6cc4356511c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-44564198-d143-42c4-b430-0de2e83a46b7' class='xr-var-data-in' type='checkbox'><label for='data-44564198-d143-42c4-b430-0de2e83a46b7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography</dd></dl></div><div class='xr-var-data'><pre>array([[1559.9685 , 1576.0101 , 1596.1437 , ..., 1635.7552 , 1634.1139 ,
         1631.9781 ],
        [1555.8754 , 1569.4413 , 1587.9323 , ..., 1644.9546 , 1642.1221 ,
         1639.3105 ],
@@ -1241,7 +1248,7 @@ Attributes:
        [ 583.3742 ,  631.0298 ,  643.98315, ...,  682.8188 ,  657.583  ,
          620.7182 ],
        [ 397.87878,  454.5713 ,  499.87976, ...,  689.34955,  675.3821 ,
-         634.56604]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_smoothed</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.562e+03 1.576e+03 ... 666.6 640.1</div><input id='attrs-54223529-c0db-45b9-892d-860611756fdb' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-54223529-c0db-45b9-892d-860611756fdb' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b1b9739c-c12c-4e13-932d-2a77574e8e97' class='xr-var-data-in' type='checkbox'><label for='data-b1b9739c-c12c-4e13-932d-2a77574e8e97' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography smoothed with radius: 3e+02 m</dd></dl></div><div class='xr-var-data'><pre>array([[1562.3899 , 1575.5225 , 1595.2311 , ..., 1636.1016 , 1635.7295 ,
+         634.56604]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_smoothed</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.562e+03 1.576e+03 ... 666.6 640.1</div><input id='attrs-e990e63f-062b-4242-9d7d-5b8971369eb3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e990e63f-062b-4242-9d7d-5b8971369eb3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-13240b42-a1bf-462d-a051-c8c8c0518a9c' class='xr-var-data-in' type='checkbox'><label for='data-13240b42-a1bf-462d-a051-c8c8c0518a9c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography smoothed with radius: 3e+02 m</dd></dl></div><div class='xr-var-data'><pre>array([[1562.3899 , 1575.5225 , 1595.2311 , ..., 1636.1016 , 1635.7295 ,
         1634.0154 ],
        [1556.8356 , 1568.0334 , 1585.9905 , ..., 1642.8981 , 1642.0519 ,
         1640.1488 ],
@@ -1253,25 +1260,25 @@ Attributes:
        [ 584.9133 ,  620.1594 ,  637.7927 , ...,  683.28156,  654.1354 ,
          626.2491 ],
        [ 448.80246,  488.51   ,  523.30054, ...,  690.9097 ,  666.60297,
-         640.1041 ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_valid_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-b4ef5a82-dc77-4726-9694-85bfabb7b7ba' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b4ef5a82-dc77-4726-9694-85bfabb7b7ba' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4c87f939-d8eb-4ce9-8c6f-2d45674b7da0' class='xr-var-data-in' type='checkbox'><label for='data-4c87f939-d8eb-4ce9-8c6f-2d45674b7da0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>DEM validity mask according to geotiff input (1-0)</dd></dl></div><div class='xr-var-data'><pre>array([[1, 1, 1, ..., 1, 1, 1],
+         640.1041 ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_valid_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-0d3ea54e-c7bc-4617-b582-b0b1823fb644' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0d3ea54e-c7bc-4617-b582-b0b1823fb644' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-49db54fb-901e-4c8a-b727-424328ad0fdd' class='xr-var-data-in' type='checkbox'><label for='data-49db54fb-901e-4c8a-b727-424328ad0fdd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>DEM validity mask according to geotiff input (1-0)</dd></dl></div><div class='xr-var-data'><pre>array([[1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
        ...,
        [1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
-       [1, 1, 1, ..., 1, 1, 1]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-c20392b3-35f9-4a99-a220-b03784f79397' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c20392b3-35f9-4a99-a220-b03784f79397' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cb737cb5-1661-40b0-8b34-674b327eb8df' class='xr-var-data-in' type='checkbox'><label for='data-cb737cb5-1661-40b0-8b34-674b327eb8df' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier mask</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
+       [1, 1, 1, ..., 1, 1, 1]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-fda12741-b28f-481a-a8eb-08c2a52d8c32' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-fda12741-b28f-481a-a8eb-08c2a52d8c32' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-561fe384-c4da-42cc-a996-03d8b10fe0ed' class='xr-var-data-in' type='checkbox'><label for='data-561fe384-c4da-42cc-a996-03d8b10fe0ed' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier mask</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        ...,
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
-       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_ext</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-baaaee34-d3df-45b6-85f9-4bd28e63eecb' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-baaaee34-d3df-45b6-85f9-4bd28e63eecb' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fd74a60f-6863-493b-a6f1-9de436e143ec' class='xr-var-data-in' type='checkbox'><label for='data-fd74a60f-6863-493b-a6f1-9de436e143ec' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier external boundaries</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_ext</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-d8a068e2-ba5a-40cd-b6c0-bb05c784a5df' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d8a068e2-ba5a-40cd-b6c0-bb05c784a5df' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b9131966-e159-435d-9178-34f355cd15ec' class='xr-var-data-in' type='checkbox'><label for='data-b9131966-e159-435d-9178-34f355cd15ec' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier external boundaries</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        ...,
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
-       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>obs_icevel_x</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.1185 0.1567 ... 5.996 4.791</div><input id='attrs-be2b569c-7e3d-47b4-9345-9a4caa4e350b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-be2b569c-7e3d-47b4-9345-9a4caa4e350b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f3cd02ba-789c-4719-bfb6-3cc4b2bbe974' class='xr-var-data-in' type='checkbox'><label for='data-f3cd02ba-789c-4719-bfb6-3cc4b2bbe974' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m yr-1</dd><dt><span>long_name :</span></dt><dd>ITS LIVE velocity data in x map direction</dd></dl></div><div class='xr-var-data'><pre>array([[ 0.11848804,  0.15672402,  0.1676761 , ..., -3.611141  ,
+       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>obs_icevel_x</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>0.1185 0.1567 ... 5.996 4.791</div><input id='attrs-2ad00e4e-87cc-4331-a69d-d9357f7ccaaa' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2ad00e4e-87cc-4331-a69d-d9357f7ccaaa' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-346b81e4-535c-4cd9-aeb6-f73497a22e05' class='xr-var-data-in' type='checkbox'><label for='data-346b81e4-535c-4cd9-aeb6-f73497a22e05' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m yr-1</dd><dt><span>long_name :</span></dt><dd>ITS LIVE velocity data in x map direction</dd></dl></div><div class='xr-var-data'><pre>array([[ 0.11848804,  0.15672402,  0.1676761 , ..., -3.611141  ,
         -3.760553  , -3.6730022 ],
        [ 0.56412727,  0.66713625,  0.6472863 , ..., -1.8328778 ,
         -1.9028624 , -1.8890616 ],
@@ -1283,7 +1290,7 @@ Attributes:
        [13.317044  , 12.784773  ,  9.83638   , ...,  7.119299  ,
          5.9328203 ,  4.7705607 ],
        [ 7.593328  ,  9.6364    ,  7.0203457 , ...,  7.448215  ,
-         5.996424  ,  4.790665  ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>obs_icevel_y</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.509 0.8505 0.5083 ... 5.952 3.744</div><input id='attrs-0b4340d4-0ff0-4286-bef4-c05a93d251ea' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0b4340d4-0ff0-4286-bef4-c05a93d251ea' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-af2e9652-7ac6-499c-b20f-2211fae67cbc' class='xr-var-data-in' type='checkbox'><label for='data-af2e9652-7ac6-499c-b20f-2211fae67cbc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m yr-1</dd><dt><span>long_name :</span></dt><dd>ITS LIVE velocity data in y map direction</dd></dl></div><div class='xr-var-data'><pre>array([[  1.5092185 ,   0.85045826,   0.5083212 , ...,  -7.437274  ,
+         5.996424  ,  4.790665  ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>obs_icevel_y</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.509 0.8505 0.5083 ... 5.952 3.744</div><input id='attrs-2f92200d-8eb1-4e61-ba14-864e54a7589b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2f92200d-8eb1-4e61-ba14-864e54a7589b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-eb439388-790c-4868-b596-0c6976fd506c' class='xr-var-data-in' type='checkbox'><label for='data-eb439388-790c-4868-b596-0c6976fd506c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m yr-1</dd><dt><span>long_name :</span></dt><dd>ITS LIVE velocity data in y map direction</dd></dl></div><div class='xr-var-data'><pre>array([[  1.5092185 ,   0.85045826,   0.5083212 , ...,  -7.437274  ,
          -7.5707464 ,  -5.826358  ],
        [  1.3472883 ,   0.7037182 ,   0.32918996, ..., -10.173233  ,
         -10.328931  ,  -8.146098  ],
@@ -1295,7 +1302,7 @@ Attributes:
        [ 15.883765  ,  15.469172  ,  11.790064  , ...,   7.0543294 ,
           5.51023   ,   3.8219392 ],
        [  9.263445  ,  11.766118  ,   8.174723  , ...,   7.9282246 ,
-          5.952441  ,   3.7444026 ]], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5466f848-271b-49d8-b3a6-7549728a7643' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5466f848-271b-49d8-b3a6-7549728a7643' class='xr-section-summary' >Attributes: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>author :</span></dt><dd>OGGM</dd><dt><span>author_info :</span></dt><dd>Open Global Glacier Model</dd><dt><span>pyproj_srs :</span></dt><dd>+proj=tmerc +lat_0=0 +lon_0=-52.141 +k=0.9996 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</dd><dt><span>max_h_dem :</span></dt><dd>2159.736</dd><dt><span>min_h_dem :</span></dt><dd>0.0</dd><dt><span>max_h_glacier :</span></dt><dd>2097.7734</dd><dt><span>min_h_glacier :</span></dt><dd>0.0</dd></dl></div></li></ul></div></div></div></div>
+          5.952441  ,   3.7444026 ]], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7b53cd34-94b2-4def-8dce-307cd9166ce4' class='xr-section-summary-in' type='checkbox'  checked><label for='section-7b53cd34-94b2-4def-8dce-307cd9166ce4' class='xr-section-summary' >Attributes: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>author :</span></dt><dd>OGGM</dd><dt><span>author_info :</span></dt><dd>Open Global Glacier Model</dd><dt><span>pyproj_srs :</span></dt><dd>+proj=tmerc +lat_0=0 +lon_0=-52.141 +k=0.9996 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</dd><dt><span>max_h_dem :</span></dt><dd>2159.736</dd><dt><span>min_h_dem :</span></dt><dd>0.0</dd><dt><span>max_h_glacier :</span></dt><dd>2097.7734</dd><dt><span>min_h_glacier :</span></dt><dd>0.0</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1363,7 +1370,7 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:40:43: oggm.workflow: Execute entity tasks [add_consensus_thickness] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 22:04:42: oggm.workflow: Execute entity tasks [add_consensus_thickness] on 1 glaciers
 </pre></div>
 </div>
 </div>

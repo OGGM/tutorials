@@ -37,17 +37,19 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -181,6 +183,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
    Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -515,10 +522,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:11:07: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-02-06 14:11:07: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-02-06 14:11:07: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-02-06 14:11:07: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 21:40:27: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-02-22 21:40:27: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-02-22 21:40:27: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-02-22 21:40:27: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
 </pre></div>
 </div>
 </div>
@@ -538,10 +545,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:11:08: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
-2022-02-06 14:11:08: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2022-02-06 14:11:08: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/rgitopo/RGI62/b_010/L1/RGI60-11/RGI60-11.00.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/rgitopo/RGI62/b_010/L1/RGI60-11/RGI60-11.00.tar...
-2022-02-06 14:11:11: oggm.utils: /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/rgitopo/RGI62/b_010/L1/RGI60-11/RGI60-11.00.tar verified successfully.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 21:40:27: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+2022-02-22 21:40:27: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2022-02-22 21:40:27: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/rgitopo/RGI62/b_010/L1/RGI60-11/RGI60-11.00.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/rgitopo/RGI62/b_010/L1/RGI60-11/RGI60-11.00.tar...
+2022-02-22 21:40:31: oggm.utils: /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/rgitopo/RGI62/b_010/L1/RGI60-11/RGI60-11.00.tar verified successfully.
 </pre></div>
 </div>
 </div>
@@ -592,11 +599,11 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/outputs/RGI60-11.00897
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_969/682396704.py:5: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_900/682396704.py:5: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
   with xr.open_rasterio(demfile) as ds:
-/tmp/ipykernel_969/682396704.py:5: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+/tmp/ipykernel_900/682396704.py:5: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
   with xr.open_rasterio(demfile) as ds:
-/tmp/ipykernel_969/682396704.py:12: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+/tmp/ipykernel_900/682396704.py:12: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
   with xr.open_rasterio(gdir.get_filepath(&#39;glacier_mask&#39;)) as ds:
 </pre></div>
 </div>

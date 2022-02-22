@@ -37,17 +37,19 @@
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script>
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -182,6 +184,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
    Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -437,15 +444,15 @@
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading salem-sample-data...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:08:51: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-02-06 14:08:51: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-02-06 14:08:51: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-02-06 14:08:51: oggm.utils: Downloading https://github.com/OGGM/oggm-sample-data/archive/6a4e0601448d7fb8e0bab3a189a0211490ee7f9c.zip to /github/home/OGGM/download_cache/github.com/OGGM/oggm-sample-data/archive/6a4e0601448d7fb8e0bab3a189a0211490ee7f9c.zip...
-2022-02-06 14:08:53: oggm.utils: Checking the download verification file checksum...
-2022-02-06 14:08:54: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/data/downloads.sha256.hdf to /github/home/.oggm/downloads.sha256.hdf...
-2022-02-06 14:08:56: oggm.utils: Done downloading.
-2022-02-06 14:08:56: oggm.utils: Checking the download verification file checksum...
-2022-02-06 14:08:57: oggm.utils: No known hash for github.com/OGGM/oggm-sample-data/archive/6a4e0601448d7fb8e0bab3a189a0211490ee7f9c.zip
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 21:38:41: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-02-22 21:38:41: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-02-22 21:38:41: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-02-22 21:38:41: oggm.utils: Downloading https://github.com/OGGM/oggm-sample-data/archive/6a4e0601448d7fb8e0bab3a189a0211490ee7f9c.zip to /github/home/OGGM/download_cache/github.com/OGGM/oggm-sample-data/archive/6a4e0601448d7fb8e0bab3a189a0211490ee7f9c.zip...
+2022-02-22 21:38:44: oggm.utils: Checking the download verification file checksum...
+2022-02-22 21:38:44: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/data/downloads.sha256.hdf to /github/home/.oggm/downloads.sha256.hdf...
+2022-02-22 21:38:47: oggm.utils: Done downloading.
+2022-02-22 21:38:47: oggm.utils: Checking the download verification file checksum...
+2022-02-22 21:38:48: oggm.utils: No known hash for github.com/OGGM/oggm-sample-data/archive/6a4e0601448d7fb8e0bab3a189a0211490ee7f9c.zip
 </pre></div>
 </div>
 </div>
@@ -477,10 +484,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:08:57: oggm.workflow: init_glacier_directories from prepro level 4 on 1 glaciers.
-2022-02-06 14:08:57: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2022-02-06 14:08:57: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar...
-2022-02-06 14:08:59: oggm.utils: /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar verified successfully.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 21:38:49: oggm.workflow: init_glacier_directories from prepro level 4 on 1 glaciers.
+2022-02-22 21:38:49: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2022-02-22 21:38:49: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar...
+2022-02-22 21:38:51: oggm.utils: /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar verified successfully.
 </pre></div>
 </div>
 </div>
@@ -499,9 +506,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:08:59: oggm.workflow: Execute entity tasks [run_random_climate] on 1 glaciers
-2022-02-06 14:08:59: oggm.core.flowline: (RGI60-11.00787) run_random_climate_commitment
-2022-02-06 14:09:00: oggm.core.flowline: (RGI60-11.00787) flowline_model_run_commitment
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 21:38:51: oggm.workflow: Execute entity tasks [run_random_climate] on 1 glaciers
+2022-02-22 21:38:51: oggm.core.flowline: (RGI60-11.00787) run_random_climate_commitment
+2022-02-22 21:38:51: oggm.core.flowline: (RGI60-11.00787) flowline_model_run_commitment
 </pre></div>
 </div>
 </div>
@@ -517,10 +524,10 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-06 14:09:03: oggm.utils: Applying global task compile_run_output on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-02-22 21:38:54: oggm.utils: Applying global task compile_run_output on 1 glaciers
 /usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/oggm/utils/_workflow.py:822: FutureWarning: The `filesuffix` kwarg is deprecated for compile_* tasks. Use input_filesuffix from now on.
   warnings.warn(&#39;The `filesuffix` kwarg is deprecated for &#39;
-2022-02-06 14:09:03: oggm.utils: Applying compile_run_output on 1 gdirs.
+2022-02-22 21:38:54: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>

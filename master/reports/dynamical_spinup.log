@@ -1,0 +1,52 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/pyenv/versions/3.9.8/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# New! The dynamic spinup
+tasks.run_dynamic_spinup(gdir,
+                         spinup_start_yr=spinup_start_yr,  # When to start the spinup
+                         minimise_for='area',  # what target to match at the RGI date
+                         output_filesuffix='_spinup_dynamic',  # Where to write the output - this is needed to stitch the runs together afterwards
+                         );
+
+# This is the same as before - the only difference is that we use the end of the spinup as starting geometry
+tasks.run_from_climate_data(gdir,
+                            init_model_filesuffix='_spinup_dynamic',  # Which initial geometry to use (from the spinup here: default is from the inversion)
+                            output_filesuffix='_hist_spinup_dynamic',  # Where to write the output
+                            );
+
+# New: stich the output together for analysis
+ds_spinup_dynamic = tasks.merge_consecutive_run_outputs(gdir,
+                                                        input_filesuffix_1='_spinup_dynamic',  # File 1
+                                                        input_filesuffix_2='_hist_spinup_dynamic',  # File 2
+                                                        output_filesuffix='_merged_spinup_dynamic',  # Output file (optional)
+                                                        )
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mAttributeError[0m                            Traceback (most recent call last)
+[0;32m/tmp/ipykernel_949/3351645676.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      1[0m [0;31m# New! The dynamic spinup[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 2[0;31m tasks.run_dynamic_spinup(gdir,
+[0m[1;32m      3[0m                          [0mspinup_start_yr[0m[0;34m=[0m[0mspinup_start_yr[0m[0;34m,[0m  [0;31m# When to start the spinup[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m                          [0mminimise_for[0m[0;34m=[0m[0;34m'area'[0m[0;34m,[0m  [0;31m# what target to match at the RGI date[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m                          [0moutput_filesuffix[0m[0;34m=[0m[0;34m'_spinup_dynamic'[0m[0;34m,[0m  [0;31m# Where to write the output - this is needed to stitch the runs together afterwards[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mAttributeError[0m: module 'oggm.tasks' has no attribute 'run_dynamic_spinup'
+AttributeError: module 'oggm.tasks' has no attribute 'run_dynamic_spinup'
+
