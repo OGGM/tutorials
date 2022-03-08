@@ -425,7 +425,22 @@ const thebe_selector_output = ".output, .cell_output"
 <p>In fact, reconstructing the past states of glaciers turns out to be a really difficult task, and OGGM team member Julia Eis spent her entire PhD thesis doing just that (see <a class="reference external" href="https://tc.copernicus.org/articles/13/3317/2019">this paper</a> for the theory and <a class="reference external" href="https://www.frontiersin.org/articles/10.3389/feart.2021.595755/full">this one</a> for the application).</p>
 <p>However, running simulations in the recent past can be quite useful for model validation. Another very useful use case is to release a strong assumption in OGGM default settings: that glaciers are in dynamical equilibrium at the glacier outline date (an assumption required for the ice thickness inversion).</p>
 <p>In recent PRs (<a class="reference external" href="https://github.com/OGGM/oggm/pull/1342">GH1342</a>, <a class="reference external" href="https://github.com/OGGM/oggm/pull/1232">GH1232</a> and <a class="reference external" href="https://github.com/OGGM/oggm/pull/1361">GH1361</a>), we have released a new run task in OGGM that helps with these issues.</p>
-<p><strong>TODO:</strong> high level explanation of how the method works.</p>
+<p><strong>High level explanation of how the method works:</strong></p>
+<p>The dynamic spinup iteratively tries to find an initial glacier state in the past (t_start) that match the area or the volume at the glacier outline date (t_end) under the historical climate forcing. To create changing initial glacier states, a constant mass balance is used (mb_spinup) together with a changing temperature bias. This mass balance defines an average mass balance between t_start and t_end. Afterwards, for the actual run, the method uses the OGGM default mass balance model (mb_historical). One iteration of the dynamic spinup looks like this:</p>
+<ul class="simple">
+<li><p>Apply a temperature bias to mb_spinup.</p></li>
+<li><p>Start with the glacier geometry after the ice thickness inversion and let the model evolve using mb_spinup for the same amount of time as the following historical run (= t_end - t_start).</p></li>
+<li><p>The resulting glacier geometry is defined as the initial glacier state at t_start.</p></li>
+<li><p>Now, let the glacier evolve using mb_historical from t_start until t_end</p></li>
+<li><p>Get the model area or volume of the glacier at t_end.</p></li>
+<li><p>Compare the model value to the reference value we want to meet.</p></li>
+<li><p>If the difference is inside a given precision (<code class="docutils literal notranslate"><span class="pre">precision_percent</span></code>) stop the procedure and save the glacier evolution of this run (between t_start and t_end).</p></li>
+<li><p>If the difference is outside a given precision, change the temperature bias for mb_spinup and start over again.</p></li>
+</ul>
+<p>To start, the first guess temperature bias is used (<code class="docutils literal notranslate"><span class="pre">first_guess_t_bias</span></code>) and evaluated. If by chance, the mismatch is fitting, the algorithm stops already. Otherwise, the second guess depends on the calculated mismatch. If the first resulting area or volume is smaller (larger) than the searched one, the second temperature bias will be colder (warmer). Because a colder (warmer) temperature leads to a larger (smaller) initial glacier state at t_start. If still unsuccessful, the previous value pairs (temperature bias, mismatch in per cent) are used to determine the next guess. For this, a stepwise linear function is fitted to these pairs and afterwards, the mismatch is set to 0 to get the following temperature bias (this method is similar to the one described in <a class="reference external" href="https://tc.copernicus.org/articles/13/1125/2019/">Zekollari et al. 2019</a> Appendix A).
+Moreover, a maximum step length between two guesses is defined with <code class="docutils literal notranslate"><span class="pre">t_bias_max_step_length</span></code> as too large step sizes could lead to one of the two main problems explained below.</p>
+<p><strong>Two main problems why the dynamic spinup could not work:</strong></p>
+<p>The resulting glacier is too large, even when we start from a completely ice-free initial glacier state. Or the resulting glacier is too small and the algorithm tries to let the glacier grow outside the domain boundaries. The second problem could be met with a larger domain boundary (if available and enough memory resources available). But for the first problem, no such solution is possible. To still try to cope with these two issues the dynamic spinup function tries to shorten the spinup period two times. The idea is with a shorter evolution time the glacier has less amount of time to grow/shrink and maybe do not encounter one of the two extremes. The minimum length of the spinup can be defined with <code class="docutils literal notranslate"><span class="pre">min_spinup_period</span></code> (default 10 years). If nothing helps and there is still an error (and if <code class="docutils literal notranslate"><span class="pre">ignore_errors</span> <span class="pre">=</span> <span class="pre">True</span></code>) the glacier geometry without a dynamic spinup is saved (= the glacier geometry after the ice thickness inversion).</p>
 <p><strong>¡Careful!</strong> This method is still a bit experimental. A few things to remember when using it:</p>
 <ul class="simple">
 <li><p>because of how the method works, glacier area and volume are not strictly the same at the glacier inventory date than after the inversion. We have checked that the errors are random: if you simulate many glaciers this should be fine (global plots on this point will follow soon).</p></li>
@@ -466,9 +481,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-04 16:24:09: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-03-04 16:24:09: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-03-04 16:24:09: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-08 14:45:55: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-03-08 14:45:55: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-03-08 14:45:55: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -481,7 +496,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">rgi_id</span> <span class="o">=</span> <span class="s1">&#39;RGI60-11.00897&#39;</span>
 
 <span class="c1"># Baltoro</span>
-<span class="c1"># rgi_id = &#39;RGI60-11.00897&#39;</span>
+<span class="c1"># rgi_id = &#39;RGI60-14.06794&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -504,10 +519,10 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-04 16:24:09: oggm.cfg: PARAMS[&#39;prcp_scaling_factor&#39;] changed from `2.5` to `1.6`.
-2022-03-04 16:24:09: oggm.cfg: PARAMS[&#39;climate_qc_months&#39;] changed from `3` to `0`.
-2022-03-04 16:24:09: oggm.cfg: PARAMS[&#39;hydro_month_nh&#39;] changed from `10` to `1`.
-2022-03-04 16:24:09: oggm.cfg: PARAMS[&#39;hydro_month_sh&#39;] changed from `4` to `1`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-08 14:45:55: oggm.cfg: PARAMS[&#39;prcp_scaling_factor&#39;] changed from `2.5` to `1.6`.
+2022-03-08 14:45:55: oggm.cfg: PARAMS[&#39;climate_qc_months&#39;] changed from `3` to `0`.
+2022-03-08 14:45:55: oggm.cfg: PARAMS[&#39;hydro_month_nh&#39;] changed from `10` to `1`.
+2022-03-08 14:45:55: oggm.cfg: PARAMS[&#39;hydro_month_sh&#39;] changed from `4` to `1`.
 </pre></div>
 </div>
 </div>
@@ -520,8 +535,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-04 16:24:10: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
-2022-03-04 16:24:10: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-08 14:45:55: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
+2022-03-08 14:45:55: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -649,7 +664,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-04 16:24:13: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-08 14:45:57: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>

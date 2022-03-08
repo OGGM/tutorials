@@ -1,144 +1,116 @@
 Traceback (most recent call last):
-  File "/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+  File "/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
     executenb(
-  File "/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+  File "/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+  File "/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
     return just_run(coro(*args, **kwargs))
-  File "/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+  File "/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
     return loop.run_until_complete(coro)
-  File "/usr/local/pyenv/versions/3.10.2/lib/python3.10/asyncio/base_events.py", line 641, in run_until_complete
+  File "/usr/local/pyenv/versions/3.9.10/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
     return future.result()
-  File "/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+  File "/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
     await self.async_execute_cell(
-  File "/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+  File "/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+  File "/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-cfg.PARAMS['use_intersects'] = False
-gdirs_merged = workflow.merge_glacier_tasks(gdirs, main_rgi_id='RGI60-11.02709', return_all=False, 
-                                            filename='climate_historical', dem_source='SRTM')
+# some model settings
+years = 125
+tbias = -1.5
+
+# model Mont Mine glacier as entity and complile the output
+tasks.run_constant_climate(montmine, nyears=years, output_filesuffix='_entity', temperature_bias=tbias)
+ds_entity = utils.compile_run_output([montmine], path=False, input_filesuffix='_entity')
+
+# model the merged glacier and complile the output
+tasks.run_constant_climate(gdirs_merged, nyears=years, output_filesuffix='_merged', temperature_bias=tbias, climate_filename='climate_historical')
+ds_merged = utils.compile_run_output([gdirs_merged], path=False, input_filesuffix='_merged')
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mAttributeError[0m                            Traceback (most recent call last)
-Input [0;32mIn [7][0m, in [0;36m<cell line: 2>[0;34m()[0m
-[1;32m      1[0m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124muse_intersects[39m[38;5;124m'[39m] [38;5;241m=[39m [38;5;28;01mFalse[39;00m
-[0;32m----> 2[0m gdirs_merged [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43mmerge_glacier_tasks[49m[43m([49m[43mgdirs[49m[43m,[49m[43m [49m[43mmain_rgi_id[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mRGI60-11.02709[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mreturn_all[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m,[49m[43m [49m
-[1;32m      3[0m [43m                                            [49m[43mfilename[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mclimate_historical[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mdem_source[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mSRTM[39;49m[38;5;124;43m'[39;49m[43m)[49m
+[0;31mRuntimeError[0m                              Traceback (most recent call last)
+Input [0;32mIn [9][0m, in [0;36m<cell line: 10>[0;34m()[0m
+[1;32m      7[0m ds_entity [38;5;241m=[39m utils[38;5;241m.[39mcompile_run_output([montmine], path[38;5;241m=[39m[38;5;28;01mFalse[39;00m, input_filesuffix[38;5;241m=[39m[38;5;124m'[39m[38;5;124m_entity[39m[38;5;124m'[39m)
+[1;32m      9[0m [38;5;66;03m# model the merged glacier and complile the output[39;00m
+[0;32m---> 10[0m [43mtasks[49m[38;5;241;43m.[39;49m[43mrun_constant_climate[49m[43m([49m[43mgdirs_merged[49m[43m,[49m[43m [49m[43mnyears[49m[38;5;241;43m=[39;49m[43myears[49m[43m,[49m[43m [49m[43moutput_filesuffix[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43m_merged[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[43mtemperature_bias[49m[38;5;241;43m=[39;49m[43mtbias[49m[43m,[49m[43m [49m[43mclimate_filename[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mclimate_historical[39;49m[38;5;124;43m'[39;49m[43m)[49m
+[1;32m     11[0m ds_merged [38;5;241m=[39m utils[38;5;241m.[39mcompile_run_output([gdirs_merged], path[38;5;241m=[39m[38;5;28;01mFalse[39;00m, input_filesuffix[38;5;241m=[39m[38;5;124m'[39m[38;5;124m_merged[39m[38;5;124m'[39m)
 
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/utils/_workflow.py:549[0m, in [0;36mglobal_task.__call__.<locals>._global_task[0;34m(gdirs, **kwargs)[0m
-[1;32m    545[0m [38;5;28mself[39m[38;5;241m.[39mlog[38;5;241m.[39mworkflow([38;5;124m'[39m[38;5;124mApplying global task [39m[38;5;132;01m%s[39;00m[38;5;124m on [39m[38;5;132;01m%s[39;00m[38;5;124m glaciers[39m[38;5;124m'[39m,
-[1;32m    546[0m                   task_func[38;5;241m.[39m[38;5;18m__name__[39m, [38;5;28mlen[39m(gdirs))
-[1;32m    548[0m [38;5;66;03m# Run the task[39;00m
-[0;32m--> 549[0m [38;5;28;01mreturn[39;00m [43mtask_func[49m[43m([49m[43mgdirs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+File [0;32m/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/oggm/utils/_workflow.py:491[0m, in [0;36mentity_task.__call__.<locals>._entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    489[0m     signal[38;5;241m.[39malarm(cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m])
+[1;32m    490[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime()
+[0;32m--> 491[0m out [38;5;241m=[39m [43mtask_func[49m[43m([49m[43mgdir[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+[1;32m    492[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime() [38;5;241m-[39m ex_t
+[1;32m    493[0m [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m] [38;5;241m>[39m [38;5;241m0[39m:
 
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/workflow.py:1049[0m, in [0;36mmerge_glacier_tasks[0;34m(gdirs, main_rgi_id, return_all, buffer, **kwargs)[0m
-[1;32m   1046[0m [38;5;28;01mwhile[39;00m [38;5;28mlen[39m(gdirs) [38;5;241m>[39m [38;5;241m1[39m:
-[1;32m   1047[0m     [38;5;66;03m# main glacier is always the first: either given or the largest one[39;00m
-[1;32m   1048[0m     gdir_main [38;5;241m=[39m gdirs[38;5;241m.[39mpop([38;5;241m0[39m)
-[0;32m-> 1049[0m     gdir_merged, gdirs [38;5;241m=[39m [43m_recursive_merging[49m[43m([49m[43mgdirs[49m[43m,[49m[43m [49m[43mgdir_main[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
-[1;32m   1050[0m     merged_gdirs[38;5;241m.[39mappend(gdir_merged)
-[1;32m   1052[0m [38;5;66;03m# now we have gdirs which contain all the necessary flowlines,[39;00m
-[1;32m   1053[0m [38;5;66;03m# time to clean them up[39;00m
+File [0;32m/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/oggm/core/flowline.py:3171[0m, in [0;36mrun_constant_climate[0;34m(gdir, nyears, y0, halfsize, bias, temperature_bias, precipitation_factor, store_monthly_step, store_model_geometry, store_fl_diagnostics, init_model_filesuffix, init_model_yr, output_filesuffix, climate_filename, climate_input_filesuffix, init_model_fls, zero_initial_glacier, use_avg_climate, **kwargs)[0m
+[1;32m   3168[0m [38;5;28;01mif[39;00m precipitation_factor [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m:
+[1;32m   3169[0m     mb[38;5;241m.[39mprcp_fac [38;5;241m=[39m precipitation_factor
+[0;32m-> 3171[0m [38;5;28;01mreturn[39;00m [43mflowline_model_run[49m[43m([49m[43mgdir[49m[43m,[49m[43m [49m[43moutput_filesuffix[49m[38;5;241;43m=[39;49m[43moutput_filesuffix[49m[43m,[49m
+[1;32m   3172[0m [43m                          [49m[43mmb_model[49m[38;5;241;43m=[39;49m[43mmb[49m[43m,[49m[43m [49m[43mys[49m[38;5;241;43m=[39;49m[38;5;241;43m0[39;49m[43m,[49m[43m [49m[43mye[49m[38;5;241;43m=[39;49m[43mnyears[49m[43m,[49m
+[1;32m   3173[0m [43m                          [49m[43mstore_monthly_step[49m[38;5;241;43m=[39;49m[43mstore_monthly_step[49m[43m,[49m
+[1;32m   3174[0m [43m                          [49m[43mstore_model_geometry[49m[38;5;241;43m=[39;49m[43mstore_model_geometry[49m[43m,[49m
+[1;32m   3175[0m [43m                          [49m[43mstore_fl_diagnostics[49m[38;5;241;43m=[39;49m[43mstore_fl_diagnostics[49m[43m,[49m
+[1;32m   3176[0m [43m                          [49m[43minit_model_filesuffix[49m[38;5;241;43m=[39;49m[43minit_model_filesuffix[49m[43m,[49m
+[1;32m   3177[0m [43m                          [49m[43minit_model_yr[49m[38;5;241;43m=[39;49m[43minit_model_yr[49m[43m,[49m
+[1;32m   3178[0m [43m                          [49m[43minit_model_fls[49m[38;5;241;43m=[39;49m[43minit_model_fls[49m[43m,[49m
+[1;32m   3179[0m [43m                          [49m[43mzero_initial_glacier[49m[38;5;241;43m=[39;49m[43mzero_initial_glacier[49m[43m,[49m
+[1;32m   3180[0m [43m                          [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
 
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/workflow.py:1109[0m, in [0;36m_recursive_merging[0;34m(gdirs, gdir_main, glcdf, dem_source, filename, input_filesuffix)[0m
-[1;32m   1105[0m gdirs_to_merge [38;5;241m=[39m []
-[1;32m   1107[0m [38;5;28;01mfor[39;00m trib [38;5;129;01min[39;00m tributaries:
-[1;32m   1108[0m     [38;5;66;03m# for each tributary: check if we can merge additional glaciers to it[39;00m
-[0;32m-> 1109[0m     merged, gdirs [38;5;241m=[39m [43m_recursive_merging[49m[43m([49m[43mgdirs[49m[43m,[49m[43m [49m[43mtrib[49m[43m,[49m[43m [49m[43mglcdf[49m[38;5;241;43m=[39;49m[43mglcdf[49m[43m,[49m
-[1;32m   1110[0m [43m                                       [49m[43mfilename[49m[38;5;241;43m=[39;49m[43mfilename[49m[43m,[49m
-[1;32m   1111[0m [43m                                       [49m[43minput_filesuffix[49m[38;5;241;43m=[39;49m[43minput_filesuffix[49m[43m,[49m
-[1;32m   1112[0m [43m                                       [49m[43mdem_source[49m[38;5;241;43m=[39;49m[43mdem_source[49m[43m)[49m
-[1;32m   1113[0m     gdirs_to_merge[38;5;241m.[39mappend(merged)
-[1;32m   1115[0m [38;5;66;03m# create merged glacier directory[39;00m
+File [0;32m/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/oggm/utils/_workflow.py:491[0m, in [0;36mentity_task.__call__.<locals>._entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    489[0m     signal[38;5;241m.[39malarm(cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m])
+[1;32m    490[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime()
+[0;32m--> 491[0m out [38;5;241m=[39m [43mtask_func[49m[43m([49m[43mgdir[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+[1;32m    492[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime() [38;5;241m-[39m ex_t
+[1;32m    493[0m [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m] [38;5;241m>[39m [38;5;241m0[39m:
 
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/workflow.py:1116[0m, in [0;36m_recursive_merging[0;34m(gdirs, gdir_main, glcdf, dem_source, filename, input_filesuffix)[0m
-[1;32m   1113[0m     gdirs_to_merge[38;5;241m.[39mappend(merged)
-[1;32m   1115[0m [38;5;66;03m# create merged glacier directory[39;00m
-[0;32m-> 1116[0m gdir_merged [38;5;241m=[39m [43mutils[49m[38;5;241;43m.[39;49m[43minitialize_merged_gdir[49m[43m([49m
-[1;32m   1117[0m [43m    [49m[43mgdir_main[49m[43m,[49m[43m [49m[43mtribs[49m[38;5;241;43m=[39;49m[43mgdirs_to_merge[49m[43m,[49m[43m [49m[43mglcdf[49m[38;5;241;43m=[39;49m[43mglcdf[49m[43m,[49m[43m [49m[43mfilename[49m[38;5;241;43m=[39;49m[43mfilename[49m[43m,[49m
-[1;32m   1118[0m [43m    [49m[43minput_filesuffix[49m[38;5;241;43m=[39;49m[43minput_filesuffix[49m[43m,[49m[43m [49m[43mdem_source[49m[38;5;241;43m=[39;49m[43mdem_source[49m[43m)[49m
-[1;32m   1120[0m flowline[38;5;241m.[39mmerge_to_one_glacier(gdir_merged, gdirs_to_merge,
-[1;32m   1121[0m                               filename[38;5;241m=[39mfilename,
-[1;32m   1122[0m                               input_filesuffix[38;5;241m=[39minput_filesuffix)
-[1;32m   1124[0m [38;5;28;01mreturn[39;00m gdir_merged, gdirs
+File [0;32m/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/oggm/core/flowline.py:2958[0m, in [0;36mflowline_model_run[0;34m(gdir, output_filesuffix, mb_model, ys, ye, zero_initial_glacier, init_model_fls, store_monthly_step, fixed_geometry_spinup_yr, store_model_geometry, store_fl_diagnostics, water_level, evolution_model, stop_criterion, init_model_filesuffix, init_model_yr, **kwargs)[0m
+[1;32m   2955[0m [38;5;28;01mwith[39;00m np[38;5;241m.[39mwarnings[38;5;241m.[39mcatch_warnings():
+[1;32m   2956[0m     [38;5;66;03m# For operational runs we ignore the warnings[39;00m
+[1;32m   2957[0m     np[38;5;241m.[39mwarnings[38;5;241m.[39mfilterwarnings([38;5;124m'[39m[38;5;124mignore[39m[38;5;124m'[39m, category[38;5;241m=[39m[38;5;167;01mRuntimeWarning[39;00m)
+[0;32m-> 2958[0m     [43mmodel[49m[38;5;241;43m.[39;49m[43mrun_until_and_store[49m[43m([49m[43mye[49m[43m,[49m
+[1;32m   2959[0m [43m                              [49m[43mgeom_path[49m[38;5;241;43m=[39;49m[43mgeom_path[49m[43m,[49m
+[1;32m   2960[0m [43m                              [49m[43mdiag_path[49m[38;5;241;43m=[39;49m[43mdiag_path[49m[43m,[49m
+[1;32m   2961[0m [43m                              [49m[43mfl_diag_path[49m[38;5;241;43m=[39;49m[43mfl_diag_path[49m[43m,[49m
+[1;32m   2962[0m [43m                              [49m[43mstore_monthly_step[49m[38;5;241;43m=[39;49m[43mstore_monthly_step[49m[43m,[49m
+[1;32m   2963[0m [43m                              [49m[43mfixed_geometry_spinup_yr[49m[38;5;241;43m=[39;49m[43mfixed_geometry_spinup_yr[49m[43m,[49m
+[1;32m   2964[0m [43m                              [49m[43mstop_criterion[49m[38;5;241;43m=[39;49m[43mstop_criterion[49m[43m)[49m
+[1;32m   2966[0m [38;5;28;01mreturn[39;00m model
 
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/utils/_workflow.py:3681[0m, in [0;36minitialize_merged_gdir[0;34m(main, tribs, glcdf, filename, input_filesuffix, dem_source)[0m
-[1;32m   3677[0m [38;5;66;03m# ------------------------------[39;00m
-[1;32m   3678[0m [38;5;66;03m# 0. create the new GlacierDirectory from main glaciers GeoDataFrame[39;00m
-[1;32m   3679[0m [38;5;66;03m# Should be passed along, if not download it[39;00m
-[1;32m   3680[0m [38;5;28;01mif[39;00m glcdf [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
-[0;32m-> 3681[0m     glcdf [38;5;241m=[39m [43mget_rgi_glacier_entities[49m[43m([49m[43m[[49m[43mmain[49m[38;5;241;43m.[39;49m[43mrgi_id[49m[43m][49m[43m)[49m
-[1;32m   3682[0m [38;5;66;03m# Get index location of the specific glacier[39;00m
-[1;32m   3683[0m idx [38;5;241m=[39m glcdf[38;5;241m.[39mloc[glcdf[38;5;241m.[39mRGIId [38;5;241m==[39m main[38;5;241m.[39mrgi_id][38;5;241m.[39mindex
+File [0;32m/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/oggm/core/flowline.py:1237[0m, in [0;36mFlowlineModel.run_until_and_store[0;34m(self, y1, diag_path, fl_diag_path, geom_path, store_monthly_step, stop_criterion, fixed_geometry_spinup_yr)[0m
+[1;32m   1232[0m [38;5;28;01mfor[39;00m i, (yr, mo) [38;5;129;01min[39;00m [38;5;28menumerate[39m([38;5;28mzip[39m(monthly_time, months)):
+[1;32m   1234[0m     [38;5;28;01mif[39;00m yr [38;5;241m>[39m [38;5;28mself[39m[38;5;241m.[39myr:
+[1;32m   1235[0m         [38;5;66;03m# Here we model run - otherwise (for spinup) we[39;00m
+[1;32m   1236[0m         [38;5;66;03m# constantly store the same data[39;00m
+[0;32m-> 1237[0m         [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mrun_until[49m[43m([49m[43myr[49m[43m)[49m
+[1;32m   1239[0m     [38;5;66;03m# Glacier geometry[39;00m
+[1;32m   1240[0m     [38;5;28;01mif[39;00m (do_geom [38;5;129;01mor[39;00m do_fl_diag) [38;5;129;01mand[39;00m mo [38;5;241m==[39m [38;5;241m1[39m:
 
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/utils/_downloads.py:1952[0m, in [0;36mget_rgi_glacier_entities[0;34m(rgi_ids, version)[0m
-[1;32m   1950[0m selection [38;5;241m=[39m []
-[1;32m   1951[0m [38;5;28;01mfor[39;00m reg [38;5;129;01min[39;00m [38;5;28msorted[39m(np[38;5;241m.[39munique(regions)):
-[0;32m-> 1952[0m     sh [38;5;241m=[39m gpd[38;5;241m.[39mread_file([43mget_rgi_region_file[49m[43m([49m[43mreg[49m[43m,[49m[43m [49m[43mversion[49m[38;5;241;43m=[39;49m[43mversion[49m[43m)[49m)
-[1;32m   1953[0m     selection[38;5;241m.[39mappend(sh[38;5;241m.[39mloc[sh[38;5;241m.[39mRGIId[38;5;241m.[39misin(rgi_ids)])
-[1;32m   1955[0m [38;5;66;03m# Make a new dataframe of those[39;00m
+File [0;32m/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/oggm/core/flowline.py:915[0m, in [0;36mFlowlineModel.run_until[0;34m(self, y1)[0m
+[1;32m    912[0m [38;5;66;03m# because of CFL, step() doesn't ensure that the end date is met[39;00m
+[1;32m    913[0m [38;5;66;03m# lets run the steps until we reach our desired date[39;00m
+[1;32m    914[0m [38;5;28;01mwhile[39;00m [38;5;28mself[39m[38;5;241m.[39mt [38;5;241m<[39m t:
+[0;32m--> 915[0m     [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mstep[49m[43m([49m[43mt[49m[43m [49m[38;5;241;43m-[39;49m[43m [49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mt[49m[43m)[49m
+[1;32m    917[0m [38;5;66;03m# Check for domain bounds[39;00m
+[1;32m    918[0m [38;5;28;01mif[39;00m [38;5;28mself[39m[38;5;241m.[39mcheck_for_boundaries:
 
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/utils/_downloads.py:1923[0m, in [0;36mget_rgi_region_file[0;34m(region, version, reset)[0m
-[1;32m   1903[0m [38;5;28;01mdef[39;00m [38;5;21mget_rgi_region_file[39m(region, version[38;5;241m=[39m[38;5;28;01mNone[39;00m, reset[38;5;241m=[39m[38;5;28;01mFalse[39;00m):
-[1;32m   1904[0m     [38;5;124;03m"""Path to the RGI region file.[39;00m
-[1;32m   1905[0m 
-[1;32m   1906[0m [38;5;124;03m    If the RGI files are not present, download them.[39;00m
-[0;32m   (...)[0m
-[1;32m   1920[0m [38;5;124;03m        path to the RGI shapefile[39;00m
-[1;32m   1921[0m [38;5;124;03m    """[39;00m
-[0;32m-> 1923[0m     rgi_dir [38;5;241m=[39m [43mget_rgi_dir[49m[43m([49m[43mversion[49m[38;5;241;43m=[39;49m[43mversion[49m[43m,[49m[43m [49m[43mreset[49m[38;5;241;43m=[39;49m[43mreset[49m[43m)[49m
-[1;32m   1924[0m     f [38;5;241m=[39m [38;5;28mlist[39m(glob[38;5;241m.[39mglob(rgi_dir [38;5;241m+[39m [38;5;124m"[39m[38;5;124m/*/[39m[38;5;132;01m{}[39;00m[38;5;124m_*.shp[39m[38;5;124m"[39m[38;5;241m.[39mformat(region)))
-[1;32m   1925[0m     [38;5;28;01massert[39;00m [38;5;28mlen[39m(f) [38;5;241m==[39m [38;5;241m1[39m
+File [0;32m/usr/local/pyenv/versions/3.9.10/lib/python3.9/site-packages/oggm/core/flowline.py:1744[0m, in [0;36mFluxBasedModel.step[0;34m(self, dt)[0m
+[1;32m   1742[0m         dt [38;5;241m=[39m cfl_dt
+[1;32m   1743[0m         [38;5;28;01mif[39;00m cfl_dt [38;5;241m<[39m [38;5;28mself[39m[38;5;241m.[39mmin_dt:
+[0;32m-> 1744[0m             [38;5;28;01mraise[39;00m [38;5;167;01mRuntimeError[39;00m(
+[1;32m   1745[0m                 [38;5;124m'[39m[38;5;124mCFL error: required time step smaller [39m[38;5;124m'[39m
+[1;32m   1746[0m                 [38;5;124m'[39m[38;5;124mthan the minimum allowed: [39m[38;5;124m'[39m
+[1;32m   1747[0m                 [38;5;124m'[39m[38;5;132;01m{:.1f}[39;00m[38;5;124ms vs [39m[38;5;132;01m{:.1f}[39;00m[38;5;124ms. Happening at [39m[38;5;124m'[39m
+[1;32m   1748[0m                 [38;5;124m'[39m[38;5;124msimulation year [39m[38;5;132;01m{:.1f}[39;00m[38;5;124m, fl_id [39m[38;5;132;01m{}[39;00m[38;5;124m, [39m[38;5;124m'[39m
+[1;32m   1749[0m                 [38;5;124m'[39m[38;5;124mbin_id [39m[38;5;132;01m{}[39;00m[38;5;124m and max_u [39m[38;5;132;01m{:.3f}[39;00m[38;5;124m m yr-1.[39m[38;5;124m'[39m
+[1;32m   1750[0m                 [38;5;124m'[39m[38;5;124m'[39m[38;5;241m.[39mformat(cfl_dt, [38;5;28mself[39m[38;5;241m.[39mmin_dt, [38;5;28mself[39m[38;5;241m.[39myr, fl_id,
+[1;32m   1751[0m                           np[38;5;241m.[39margmax(np[38;5;241m.[39mabs(u_stag)),
+[1;32m   1752[0m                           maxu [38;5;241m*[39m cfg[38;5;241m.[39mSEC_IN_YEAR))
+[1;32m   1754[0m [38;5;66;03m# Since we are in this loop, reset the tributary flux[39;00m
+[1;32m   1755[0m trib_flux[:] [38;5;241m=[39m [38;5;241m0[39m
 
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/utils/_downloads.py:1848[0m, in [0;36mget_rgi_dir[0;34m(version, reset)[0m
-[1;32m   1830[0m [38;5;124;03m"""Path to the RGI directory.[39;00m
-[1;32m   1831[0m 
-[1;32m   1832[0m [38;5;124;03mIf the RGI files are not present, download them.[39;00m
-[0;32m   (...)[0m
-[1;32m   1844[0m [38;5;124;03m    path to the RGI directory[39;00m
-[1;32m   1845[0m [38;5;124;03m"""[39;00m
-[1;32m   1847[0m [38;5;28;01mwith[39;00m get_lock():
-[0;32m-> 1848[0m     [38;5;28;01mreturn[39;00m [43m_get_rgi_dir_unlocked[49m[43m([49m[43mversion[49m[38;5;241;43m=[39;49m[43mversion[49m[43m,[49m[43m [49m[43mreset[49m[38;5;241;43m=[39;49m[43mreset[49m[43m)[49m
-
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/site-packages/oggm/utils/_downloads.py:1884[0m, in [0;36m_get_rgi_dir_unlocked[0;34m(version, reset)[0m
-[1;32m   1882[0m ofile [38;5;241m=[39m file_downloader(dfile, reset[38;5;241m=[39mreset)
-[1;32m   1883[0m [38;5;66;03m# Extract root[39;00m
-[0;32m-> 1884[0m [38;5;28;01mwith[39;00m [43mzipfile[49m[38;5;241;43m.[39;49m[43mZipFile[49m[43m([49m[43mofile[49m[43m)[49m [38;5;28;01mas[39;00m zf:
-[1;32m   1885[0m     zf[38;5;241m.[39mextractall(rgi_dir)
-[1;32m   1886[0m [38;5;66;03m# Extract subdirs[39;00m
-
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/zipfile.py:1258[0m, in [0;36mZipFile.__init__[0;34m(self, file, mode, compression, allowZip64, compresslevel, strict_timestamps)[0m
-[1;32m   1256[0m [38;5;28;01mtry[39;00m:
-[1;32m   1257[0m     [38;5;28;01mif[39;00m mode [38;5;241m==[39m [38;5;124m'[39m[38;5;124mr[39m[38;5;124m'[39m:
-[0;32m-> 1258[0m         [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_RealGetContents[49m[43m([49m[43m)[49m
-[1;32m   1259[0m     [38;5;28;01melif[39;00m mode [38;5;129;01min[39;00m ([38;5;124m'[39m[38;5;124mw[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mx[39m[38;5;124m'[39m):
-[1;32m   1260[0m         [38;5;66;03m# set the modified flag so central directory gets written[39;00m
-[1;32m   1261[0m         [38;5;66;03m# even if no files are added to the archive[39;00m
-[1;32m   1262[0m         [38;5;28mself[39m[38;5;241m.[39m_didModify [38;5;241m=[39m [38;5;28;01mTrue[39;00m
-
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/zipfile.py:1321[0m, in [0;36mZipFile._RealGetContents[0;34m(self)[0m
-[1;32m   1319[0m fp [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mfp
-[1;32m   1320[0m [38;5;28;01mtry[39;00m:
-[0;32m-> 1321[0m     endrec [38;5;241m=[39m [43m_EndRecData[49m[43m([49m[43mfp[49m[43m)[49m
-[1;32m   1322[0m [38;5;28;01mexcept[39;00m [38;5;167;01mOSError[39;00m:
-[1;32m   1323[0m     [38;5;28;01mraise[39;00m BadZipFile([38;5;124m"[39m[38;5;124mFile is not a zip file[39m[38;5;124m"[39m)
-
-File [0;32m/usr/local/pyenv/versions/3.10.2/lib/python3.10/zipfile.py:264[0m, in [0;36m_EndRecData[0;34m(fpin)[0m
-[1;32m    258[0m [38;5;124;03m"""Return data from the "End of Central Directory" record, or None.[39;00m
-[1;32m    259[0m 
-[1;32m    260[0m [38;5;124;03mThe data is a list of the nine items in the ZIP "End of central dir"[39;00m
-[1;32m    261[0m [38;5;124;03mrecord followed by a tenth item, the file seek offset of this record."""[39;00m
-[1;32m    263[0m [38;5;66;03m# Determine file size[39;00m
-[0;32m--> 264[0m [43mfpin[49m[38;5;241;43m.[39;49m[43mseek[49m([38;5;241m0[39m, [38;5;241m2[39m)
-[1;32m    265[0m filesize [38;5;241m=[39m fpin[38;5;241m.[39mtell()
-[1;32m    267[0m [38;5;66;03m# Check to see if this is ZIP file with no archive comment (the[39;00m
-[1;32m    268[0m [38;5;66;03m# "end of central directory" structure should be the last item in the[39;00m
-[1;32m    269[0m [38;5;66;03m# file if this is the case).[39;00m
-
-[0;31mAttributeError[0m: 'NoneType' object has no attribute 'seek'
-AttributeError: 'NoneType' object has no attribute 'seek'
+[0;31mRuntimeError[0m: CFL error: required time step smaller than the minimum allowed: 5.0s vs 60.0s. Happening at simulation year 0.0, fl_id 4, bin_id 9 and max_u 5024682.499 m yr-1.
+RuntimeError: CFL error: required time step smaller than the minimum allowed: 5.0s vs 60.0s. Happening at simulation year 0.0, fl_id 4, bin_id 9 and max_u 5024682.499 m yr-1.
 
