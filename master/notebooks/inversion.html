@@ -471,7 +471,8 @@ the sensitivity of the model to this choice.</p>
 <span class="n">rgi_region</span> <span class="o">=</span> <span class="s1">&#39;11&#39;</span>  <span class="c1"># Region Central Europe</span>
 
 <span class="c1"># Local working directory (where OGGM will write its output)</span>
-<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_Inversion&#39;</span><span class="p">)</span>
+<span class="n">WORKING_DIR</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_Inversion&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WORKING_DIR</span>
 
 <span class="c1"># This is useful here</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
@@ -503,13 +504,13 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-08 14:49:19: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-03-08 14:49:19: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-03-08 14:49:19: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-03-08 14:49:19: oggm.cfg: Multiprocessing switched ON after user settings.
-2022-03-08 14:49:28: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
-2022-03-08 14:49:28: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 35 glaciers
-2022-03-08 14:49:29: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-11 12:29:25: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-03-11 12:29:25: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-03-11 12:29:25: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-03-11 12:29:25: oggm.cfg: Multiprocessing switched ON after user settings.
+2022-03-11 12:29:36: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
+2022-03-11 12:29:36: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 35 glaciers
+2022-03-11 12:29:37: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -568,16 +569,916 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;glacier_statistics_011_without_fs.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">df</span>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<span class="ne">NameError</span>: name &#39;WORKING_DIR&#39; is not defined
-</pre></div>
-</div>
-</div>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rgi_region</th>
+      <th>rgi_subregion</th>
+      <th>name</th>
+      <th>cenlon</th>
+      <th>cenlat</th>
+      <th>rgi_area_km2</th>
+      <th>rgi_year</th>
+      <th>glacier_type</th>
+      <th>terminus_type</th>
+      <th>is_tidewater</th>
+      <th>...</th>
+      <th>inv_volume_km3</th>
+      <th>vas_volume_km3</th>
+      <th>inv_volume_bsl_km3</th>
+      <th>inv_volume_bwl_km3</th>
+      <th>dem_source</th>
+      <th>n_orig_centerlines</th>
+      <th>flowline_type</th>
+      <th>perc_invalid_flowline</th>
+      <th>inversion_glen_a</th>
+      <th>inversion_fs</th>
+    </tr>
+    <tr>
+      <th>rgi_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.03208</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Aneto</td>
+      <td>0.646032</td>
+      <td>42.641357</td>
+      <td>0.622</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.029854</td>
+      <td>0.017699</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>2</td>
+      <td>centerlines</td>
+      <td>0.205128</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03232</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Ossoue</td>
+      <td>-0.141222</td>
+      <td>42.771191</td>
+      <td>0.449</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.019636</td>
+      <td>0.011306</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03222</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Monte Perdido Lower</td>
+      <td>0.039655</td>
+      <td>42.679337</td>
+      <td>0.308</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.009120</td>
+      <td>0.006733</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>2</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03209</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Maladeta E</td>
+      <td>0.639343</td>
+      <td>42.648979</td>
+      <td>0.260</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.007672</td>
+      <td>0.005334</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03231</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Oulettes Du Gaube</td>
+      <td>-0.144215</td>
+      <td>42.779716</td>
+      <td>0.130</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.002747</td>
+      <td>0.002057</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03213</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Seil De La Baque E</td>
+      <td>0.494304</td>
+      <td>42.694481</td>
+      <td>0.105</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.002118</td>
+      <td>0.001533</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03239</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Jezerces Gl No1</td>
+      <td>19.807627</td>
+      <td>42.465839</td>
+      <td>0.097</td>
+      <td>2007</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.002538</td>
+      <td>0.001375</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.562500</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03229</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Gabietous</td>
+      <td>-0.057456</td>
+      <td>42.695129</td>
+      <td>0.087</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001720</td>
+      <td>0.001184</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03218</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Llardana</td>
+      <td>0.428193</td>
+      <td>42.653946</td>
+      <td>0.084</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001472</td>
+      <td>0.001128</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03228</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Taillon</td>
+      <td>-0.039683</td>
+      <td>42.695419</td>
+      <td>0.083</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001733</td>
+      <td>0.001110</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03205</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Tempestades</td>
+      <td>0.666092</td>
+      <td>42.626839</td>
+      <td>0.077</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001395</td>
+      <td>0.001001</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03206</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Barrancs</td>
+      <td>0.658785</td>
+      <td>42.632011</td>
+      <td>0.067</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001078</td>
+      <td>0.000827</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03217</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>La Paul</td>
+      <td>0.437356</td>
+      <td>42.661072</td>
+      <td>0.057</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000993</td>
+      <td>0.000662</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03221</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Monte Perdido Upper</td>
+      <td>0.033972</td>
+      <td>42.678589</td>
+      <td>0.054</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001139</td>
+      <td>0.000614</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03210</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Maladeta W</td>
+      <td>0.632566</td>
+      <td>42.652107</td>
+      <td>0.054</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000884</td>
+      <td>0.000614</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03233</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Infierno Central</td>
+      <td>-0.258849</td>
+      <td>42.783802</td>
+      <td>0.053</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000868</td>
+      <td>0.000599</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03225</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Astazou</td>
+      <td>0.034118</td>
+      <td>42.703136</td>
+      <td>0.052</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001376</td>
+      <td>0.000583</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03211</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Boum</td>
+      <td>0.555278</td>
+      <td>42.700157</td>
+      <td>0.050</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.001101</td>
+      <td>0.000553</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03240</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Jezerces Gl No2</td>
+      <td>19.815450</td>
+      <td>42.447353</td>
+      <td>0.049</td>
+      <td>2007</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000666</td>
+      <td>0.000538</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03227</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Pailla W</td>
+      <td>0.015287</td>
+      <td>42.705482</td>
+      <td>0.046</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000711</td>
+      <td>0.000493</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03219</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Barroude</td>
+      <td>0.142224</td>
+      <td>42.726147</td>
+      <td>0.042</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000828</td>
+      <td>0.000435</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03220</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Munia</td>
+      <td>0.129816</td>
+      <td>42.717735</td>
+      <td>0.041</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000583</td>
+      <td>0.000421</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03212</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Portillon D Oo</td>
+      <td>0.511460</td>
+      <td>42.693188</td>
+      <td>0.040</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000549</td>
+      <td>0.000407</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03226</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Pailla E</td>
+      <td>0.021260</td>
+      <td>42.705322</td>
+      <td>0.035</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000639</td>
+      <td>0.000339</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03241</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>It4L30000001 Gh Del Calderone</td>
+      <td>13.566710</td>
+      <td>42.470540</td>
+      <td>0.033</td>
+      <td>1990</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000619</td>
+      <td>0.000312</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.250000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03230</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Petit Vignemale</td>
+      <td>-0.137718</td>
+      <td>42.775856</td>
+      <td>0.027</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000370</td>
+      <td>0.000237</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03215</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Gourgs Blancs</td>
+      <td>0.480293</td>
+      <td>42.700859</td>
+      <td>0.026</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000468</td>
+      <td>0.000225</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03234</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Las Neous</td>
+      <td>-0.286945</td>
+      <td>42.838642</td>
+      <td>0.025</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000465</td>
+      <td>0.000213</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03223</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Marbore</td>
+      <td>0.018435</td>
+      <td>42.693417</td>
+      <td>0.023</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000325</td>
+      <td>0.000190</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03224</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Cilindro</td>
+      <td>0.026603</td>
+      <td>42.689346</td>
+      <td>0.022</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000319</td>
+      <td>0.000179</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03204</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Valier</td>
+      <td>1.088501</td>
+      <td>42.798626</td>
+      <td>0.021</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000264</td>
+      <td>0.000168</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03214</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Seil De La Baque W</td>
+      <td>0.490498</td>
+      <td>42.696220</td>
+      <td>0.020</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000303</td>
+      <td>0.000157</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03238</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Debeli Namet Gl</td>
+      <td>19.067500</td>
+      <td>43.115000</td>
+      <td>0.019</td>
+      <td>2003</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000180</td>
+      <td>0.000146</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03207</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Coronas</td>
+      <td>0.654112</td>
+      <td>42.632977</td>
+      <td>0.015</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000259</td>
+      <td>0.000106</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03216</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Posets</td>
+      <td>0.438703</td>
+      <td>42.656570</td>
+      <td>0.010</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>0.000130</td>
+      <td>0.000060</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>NASADEM</td>
+      <td>1</td>
+      <td>centerlines</td>
+      <td>0.000000</td>
+      <td>2.640000e-24</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>35 rows × 21 columns</p>
+</div></div></div>
 </div>
 <p>There are only 35 glaciers in the Pyrenees! That’s why the run was relatively fast.</p>
 </div>
@@ -592,6 +1493,9 @@ the sensitivity of the model to this choice.</p>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/inversion_13_0.png" src="../_images/inversion_13_0.png" />
 </div>
 </div>
 <p>As we can see, there is a clear relationship, but it is not perfect. Let’s fit a line to these data (the “volume-area scaling law”):</p>
@@ -615,6 +1519,12 @@ the sensitivity of the model to this choice.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>power: 1.301
+slope: 0.045
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -625,6 +1535,9 @@ the sensitivity of the model to this choice.</p>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/inversion_18_0.png" src="../_images/inversion_18_0.png" />
 </div>
 </div>
 </div>
@@ -658,6 +1571,9 @@ the sensitivity of the model to this choice.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/inversion_23_0.png" src="../_images/inversion_23_0.png" />
+</div>
 </div>
 <p>As you can see, there is quite a difference between the solutions. In particular, close to the default value for Glen A, the regional estimates are very sensitive to small changes in A. The calibration of A is a problem that has yet to be resolved by global glacier models…</p>
 </div>
@@ -670,10 +1586,53 @@ the sensitivity of the model to this choice.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-11 12:32:32: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 35 glaciers
+2022-03-11 12:32:32: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
+2022-03-11 12:32:32: oggm.workflow: Applying global task inversion_tasks on 35 glaciers
+2022-03-11 12:32:32: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [get_inversion_volume] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
+2022-03-11 12:32:33: oggm.workflow: Applying global task inversion_tasks on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [get_inversion_volume] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Consensus estimate optimisation with A factor: 9.927344372640782 and fs: 0
+2022-03-11 12:32:33: oggm.workflow: Applying global task inversion_tasks on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [get_inversion_volume] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Consensus estimate optimisation with A factor: 9.503932371199765 and fs: 0
+2022-03-11 12:32:33: oggm.workflow: Applying global task inversion_tasks on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [get_inversion_volume] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Consensus estimate optimisation with A factor: 9.551452033056764 and fs: 0
+2022-03-11 12:32:33: oggm.workflow: Applying global task inversion_tasks on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [get_inversion_volume] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: calibrate_inversion_from_consensus converged after 4 iterations and fs=0. The resulting Glen A factor is 9.503932371199765.
+2022-03-11 12:32:33: oggm.workflow: Applying global task inversion_tasks on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 35 glaciers
+2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [get_inversion_volume] on 35 glaciers
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cdf</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>vol_itmix_m3        6.423913e+07
+vol_bsl_itmix_m3    0.000000e+00
+vol_oggm_m3         6.425211e+07
+dtype: float64
 </pre></div>
 </div>
 </div>
@@ -685,6 +1644,58 @@ the sensitivity of the model to this choice.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>vol_itmix_m3</th>
+      <th>vol_bsl_itmix_m3</th>
+      <th>vol_oggm_m3</th>
+    </tr>
+    <tr>
+      <th>RGIId</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.03208</th>
+      <td>1.564802e+07</td>
+      <td>0.0</td>
+      <td>1.972692e+07</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03232</th>
+      <td>1.422478e+07</td>
+      <td>0.0</td>
+      <td>1.340392e+07</td>
+    </tr>
+    <tr>
+      <th>RGI60-11.03222</th>
+      <td>5.158277e+06</td>
+      <td>0.0</td>
+      <td>6.604405e+06</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p><em>just as a side note, “vol_bsl_itmix_m3” means volume below sea level and is therefore zero for these Alpine glaciers!</em></p>
 </div>
@@ -695,6 +1706,11 @@ the sensitivity of the model to this choice.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Distribute</span>
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">distribute_thickness_per_altitude</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-11 12:32:33: oggm.workflow: Execute entity tasks [distribute_thickness_per_altitude] on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -715,6 +1731,9 @@ the sensitivity of the model to this choice.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/inversion_36_0.png" src="../_images/inversion_36_0.png" />
+</div>
 </div>
 <p>Since some people find <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> data easier to read than <code class="docutils literal notranslate"><span class="pre">netCDF</span></code>, OGGM also provides a tool to convert the variables in <code class="docutils literal notranslate"><span class="pre">gridded_data.nc</span></code> file to a <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> file:</p>
 <div class="cell docutils container">
@@ -730,6 +1749,11 @@ the sensitivity of the model to this choice.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-03-11 12:32:36: oggm.workflow: Execute entity tasks [gridded_data_var_to_geotiff] on 35 glaciers
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -737,6 +1761,13 @@ the sensitivity of the model to this choice.</p>
 <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1395/112035203.py:2: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+  xr.open_rasterio(path).plot();
+</pre></div>
+</div>
+<img alt="../_images/inversion_39_1.png" src="../_images/inversion_39_1.png" />
 </div>
 </div>
 <p>In fact, <code class="docutils literal notranslate"><span class="pre">tasks.gridded_data_var_to_geotiff()</span></code> can save any variable in the <code class="docutils literal notranslate"><span class="pre">gridded_data.nc</span></code> file. The <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> is named as the variable name with a <code class="docutils literal notranslate"><span class="pre">.tif</span></code> suffix. Have a try by yourself ;-)</p>
@@ -753,6 +1784,9 @@ the sensitivity of the model to this choice.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/inversion_43_0.png" src="../_images/inversion_43_0.png" />
+</div>
 </div>
 <div class="section" id="using-oggm">
 <h3>Using OGGM<a class="headerlink" href="#using-oggm" title="Permalink to this headline">¶</a></h3>
@@ -762,6 +1796,9 @@ the sensitivity of the model to this choice.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_distributed_thickness</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/inversion_46_0.png" src="../_images/inversion_46_0.png" />
 </div>
 </div>
 <p>This is however not very useful because OGGM can only plot on a map as large as the local glacier map of the first glacier in the list. See <a class="reference external" href="https://github.com/OGGM/oggm/issues/1007">this issue</a> for a discussion about why.</p>
@@ -789,6 +1826,9 @@ the sensitivity of the model to this choice.</p>
 <span class="n">smap</span><span class="o">.</span><span class="n">visualize</span><span class="p">();</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/inversion_50_0.png" src="../_images/inversion_50_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -818,6 +1858,9 @@ the sensitivity of the model to this choice.</p>
 <span class="n">smap</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cbar_title</span><span class="o">=</span><span class="s1">&#39;Glacier thickness (m)&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/inversion_52_0.png" src="../_images/inversion_52_0.png" />
 </div>
 </div>
 </div>
