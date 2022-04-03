@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create local topography maps from different DEM sources with OGGM &#8212; OGGM tutorials</title>
     
-  <link rel="stylesheet" href="../_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -19,14 +20,10 @@
 
     
       
-  <link rel="stylesheet"
-    href="../_static/vendor/open-sans_all/1.44.1/index.css">
-  <link rel="stylesheet"
-    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
 
     
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/sphinx-book-theme.da26317cf37e5c4af2fa3e6253912353.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -34,36 +31,51 @@
     <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
     <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.d3f166471bb80abb5163.js">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
-    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
-    <script >
-        const thebe_selector = ".thebe"
-        const thebe_selector_input = "pre"
-        const thebe_selector_output = ".output"
-    </script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="A toy statistical model of ice thickness" href="thickness_model.html" />
-    <link rel="prev" title="Run with a spinup and GCM data" href="run_with_a_spinup_and_gcm_data.html" />
-
+    <link rel="prev" title="Dynamic spinup for past simulations" href="dynamical_spinup.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
 
-
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
 
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
     
 
     <div class="container-xl">
@@ -72,32 +84,36 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-<a class="navbar-brand text-wrap" href="../index.html">
-  
-  <img src="../_static/logo.png" class="logo" alt="logo">
-  
-  
-  <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
-  
-</a>
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form>
-<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
-    <ul class="nav sidenav_l1">
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="welcome.html">
    Welcome to the OGGM tutorials!
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Beginner tutorials
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="getting_started.html">
    Getting started with OGGM: a real case study, step by step
@@ -120,7 +136,7 @@
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="plot_mass_balance.html">
-   Plotting the OGGM surface mass-balance
+   Plotting the OGGM surface mass-balance, the ELA and AAR
   </a>
  </li>
  <li class="toctree-l1">
@@ -154,12 +170,12 @@
   </a>
  </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Advanced tutorials
  </span>
 </p>
-<ul class="current nav sidenav_l1">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="preprocessing_errors.html">
    Error analysis of the global pre-processing workflow
@@ -168,6 +184,11 @@
  <li class="toctree-l1">
   <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
    Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup for past simulations
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -206,17 +227,27 @@
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="centerlines_to_shape.html">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="where_are_the_flowlines.html">
    OGGM flowlines: where are they?
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
 </ul>
-<p class="caption collapsible-parent">
+<p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Others
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="holoviz_intro.html">
    Small overview of HoloViz capability of data exploration
@@ -229,6 +260,7 @@
  </li>
 </ul>
 
+    </div>
 </nav> <!-- To handle the deprecated key -->
 
 <div class="navbar_extra_footer">
@@ -296,12 +328,12 @@
     </div>
 </div>
 
-
             <!-- Full screen (wrap in <a> to have style consistency -->
-            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-                    title="Fullscreen mode"><i
-                        class="fas fa-expand"></i></button></a>
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
 
@@ -333,11 +365,11 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
-        <div class="tocsection onthispage pt-5 pb-3">
-            <i class="fas fa-list"></i> Contents
-        </div>
-        <nav id="bd-toc-nav">
-            <ul class="nav section-nav flex-column">
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#set-up">
    Set-up
@@ -390,8 +422,7 @@
  </li>
 </ul>
 
-        </nav>
-        
+            </nav>
         </div>
     </div>
 </div>
@@ -400,7 +431,7 @@
         
               <div>
                 
-  <div class="section" id="create-local-topography-maps-from-different-dem-sources-with-oggm">
+  <div class="tex2jax_ignore mathjax_ignore section" id="create-local-topography-maps-from-different-dem-sources-with-oggm">
 <h1>Create local topography maps from different DEM sources with OGGM<a class="headerlink" href="#create-local-topography-maps-from-different-dem-sources-with-oggm" title="Permalink to this headline">¶</a></h1>
 <p>There are a number of datasets available <a class="reference external" href="https://rgitools.readthedocs.io/en/latest/dems.html">out-of-the box</a> in OGGM. This Notebook will show you how to download the original sources and create the local glacier centered map.
 It is also possible to use your own DEM data in OGGM.</p>
@@ -419,16 +450,10 @@ It is also possible to use your own DEM data in OGGM.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:33:43: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:33:43: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:33:43: oggm.cfg: Multiprocessing: using all available processors (N=2)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:33:43: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:01:55: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-04-03 16:01:55: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-04-03 16:01:55: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-04-03 16:01:55: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
 </pre></div>
 </div>
 </div>
@@ -464,7 +489,7 @@ we choose the <strong>SRTM</strong> source as example DEM (no registration neces
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:06: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:11: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -495,7 +520,11 @@ we choose the <strong>SRTM</strong> source as example DEM (no registration neces
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dem_sources_13_0.png" src="../_images/dem_sources_13_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_932/2819764363.py:1: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+  da = xr.open_rasterio(dem_path)
+</pre></div>
+</div>
+<img alt="../_images/dem_sources_13_1.png" src="../_images/dem_sources_13_1.png" />
 </div>
 </div>
 <p>The source of the DEM is documented in the directory itself:</p>
@@ -557,7 +586,8 @@ ASTER     : ASTGTMV3
 SRTM      : SRTM V4
 REMA      : REMA V1.1
 ALASKA    : ALASKA V3
-COPDEM    : Copernicus DEM GLO-90
+COPDEM30  : Copernicus DEM GLO-30
+COPDEM90  : Copernicus DEM GLO-90
 NASADEM   : NASADEM Merged DEM Global
 </pre></div>
 </div>
@@ -581,13 +611,9 @@ The default DEM source for low and mid-latitudes (60°S-60°N), <strong>NASADEM<
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:11: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:11: oggm.workflow: Execute entity task gdir_from_prepro on 1 glaciers
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:15: oggm.workflow: Execute entity task select_dem_from_dir on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:14: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+2022-04-03 16:02:14: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2022-04-03 16:02:14: oggm.workflow: Execute entity tasks [select_dem_from_dir] on 1 glaciers
 </pre></div>
 </div>
 <img alt="../_images/dem_sources_23_3.png" src="../_images/dem_sources_23_3.png" />
@@ -610,7 +636,7 @@ The default DEM source for low and mid-latitudes (60°S-60°N), <strong>NASADEM<
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:16: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:15: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -655,7 +681,11 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dem_sources_29_0.png" src="../_images/dem_sources_29_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_932/3548551959.py:2: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+  da_dem3 = xr.open_rasterio(gdir.get_filepath(&#39;dem&#39;))
+</pre></div>
+</div>
+<img alt="../_images/dem_sources_29_1.png" src="../_images/dem_sources_29_1.png" />
 </div>
 </div>
 <p>There might not be much difference a first sight, but by subtracting them the difference become clear:</p>
@@ -689,10 +719,8 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:27: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:28: oggm.core.gis: Source: GIMP may not be available for glacier RGI60-11.00897 with border 10
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:18: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+2022-04-03 16:02:19: oggm.core.gis: Source: GIMP may not be available for glacier RGI60-11.00897 with border 10
 </pre></div>
 </div>
 </div>
@@ -709,7 +737,7 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/github/home/.oggm/oggm-sample-data-f71d75040cfe3f7b72ccb3b9b5ff8d67c5de628c/test-files/hef_srtm.tif&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/github/home/.oggm/oggm-sample-data-1ec518d2467874e246a570c4d8651b3fadbdd45f/test-files/hef_srtm.tif&#39;
 </pre></div>
 </div>
 </div>
@@ -731,7 +759,7 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:35: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:21: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -747,7 +775,11 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/dem_sources_42_0.png" src="../_images/dem_sources_42_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_932/2637097188.py:2: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+  da_user = xr.open_rasterio(gdir.get_filepath(&#39;dem&#39;))
+</pre></div>
+</div>
+<img alt="../_images/dem_sources_42_1.png" src="../_images/dem_sources_42_1.png" />
 </div>
 </div>
 </div>
@@ -775,7 +807,7 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:37: oggm.cfg: PARAMS[&#39;border&#39;] changed from `10` to `1`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:22: oggm.cfg: PARAMS[&#39;border&#39;] changed from `10` to `1`.
 </pre></div>
 </div>
 </div>
@@ -795,10 +827,12 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:37: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:22: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+/tmp/ipykernel_932/2744982806.py:5: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+  da = xr.open_rasterio(gdir.get_filepath(&#39;dem&#39;))
 </pre></div>
 </div>
-<img alt="../_images/dem_sources_47_1.png" src="../_images/dem_sources_47_1.png" />
+<img alt="../_images/dem_sources_47_2.png" src="../_images/dem_sources_47_2.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -808,7 +842,7 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:39: oggm.cfg: PARAMS[&#39;border&#39;] changed from `1` to `100`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:23: oggm.cfg: PARAMS[&#39;border&#39;] changed from `1` to `100`.
 </pre></div>
 </div>
 </div>
@@ -828,10 +862,12 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2021-08-30 16:34:39: oggm.workflow: Execute entity task GlacierDirectory on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:23: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+/tmp/ipykernel_932/2741459948.py:5: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
+  da = xr.open_rasterio(gdir.get_filepath(&#39;dem&#39;))
 </pre></div>
 </div>
-<img alt="../_images/dem_sources_49_1.png" src="../_images/dem_sources_49_1.png" />
+<img alt="../_images/dem_sources_49_2.png" src="../_images/dem_sources_49_2.png" />
 </div>
 </div>
 </div>
@@ -867,16 +903,27 @@ L32.tif
               </div>
               
         
-        <div class='prev-next-bottom'>
-            
-    <a class='left-prev' id="prev-link" href="run_with_a_spinup_and_gcm_data.html" title="previous page">Run with a spinup and GCM data</a>
-    <a class='right-next' id="next-link" href="thickness_model.html" title="next page">A toy statistical model of ice thickness</a>
-
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="dynamical_spinup.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Dynamic spinup for past simulations</p>
         </div>
+    </a>
+    <a class='right-next' id="next-link" href="thickness_model.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">A toy statistical model of ice thickness</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         
@@ -898,21 +945,8 @@ These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/
 
       </div>
     </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-    
-  <script src="../_static/js/index.d3f166471bb80abb5163.js"></script>
-
-
-    
-    <!-- Google Analytics -->
-    <script>
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-106829797-2', 'auto');
-      ga('set', 'anonymizeIp', true);
-      ga('send', 'pageview');
-    </script>
-    <script async src='https://www.google-analytics.com/analytics.js'></script>
-    <!-- End Google Analytics -->
-    
   </body>
 </html>

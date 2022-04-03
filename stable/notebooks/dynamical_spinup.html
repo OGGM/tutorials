@@ -1,0 +1,814 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic spinup for past simulations &#8212; OGGM tutorials</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Create local topography maps from different DEM sources with OGGM" href="dem_sources.html" />
+    <link rel="prev" title="Run with a spinup and GCM data" href="run_with_a_spinup_and_gcm_data.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="welcome.html">
+   Welcome to the OGGM tutorials!
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started.html">
+   Getting started with OGGM: a real case study, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
+   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_gcm.html">
+   Run OGGM with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="hydrological_output.html">
+   Hydrological mass-balance output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Dynamic spinup for past simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="thickness_model.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="massbalance_calibration.html">
+   A quick look into the mass-balance calibration procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="centerlines_to_shape.html">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Others
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/dynamical_spinup.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/OGGM/tutorials"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/dynamical_spinup.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/OGGM/tutorials/edit/stable/./notebooks/dynamical_spinup.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/dynamical_spinup.ipynb%26branch%3Dstable"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        <a class="jupyterhub-button" href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https://github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/dynamical_spinup.ipynb&branch=stable"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch JupyterHub" data-toggle="tooltip"
+                data-placement="left"><img class="jupyterhub-button-logo"
+                    src="../_static/images/logo_jupyterhub.svg"
+                    alt="Interact on JupyterHub">JupyterHub</button></a>
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-the-glacier-we-will-play-with">
+   Define the glacier we will play with
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-the-glacier-data">
+   Preparing the glacier data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-simple-spinup-run-and-projection">
+   A simple spinup run and projection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dynamical-spinup-and-hydrological-output">
+   Dynamical spinup and hydrological output
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#annual-runoff">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#monthly-runoff">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="dynamic-spinup-for-past-simulations">
+<h1>Dynamic spinup for past simulations<a class="headerlink" href="#dynamic-spinup-for-past-simulations" title="Permalink to this headline">¶</a></h1>
+<p><strong>New in version 1.5.3!</strong></p>
+<p>One of the issues facing glacier modelers is that the <em>past state</em> of glaciers is unknown.</p>
+<p>In fact, reconstructing the past states of glaciers turns out to be a really difficult task, and OGGM team member Julia Eis spent her entire PhD thesis doing just that (see <a class="reference external" href="https://tc.copernicus.org/articles/13/3317/2019">this paper</a> for the theory and <a class="reference external" href="https://www.frontiersin.org/articles/10.3389/feart.2021.595755/full">this one</a> for the application).</p>
+<p>However, running simulations in the recent past can be quite useful for model validation. Another very useful use case is to release a strong assumption in OGGM default settings: that glaciers are in dynamical equilibrium at the glacier outline date (an assumption required for the ice thickness inversion).</p>
+<p>In recent PRs (<a class="reference external" href="https://github.com/OGGM/oggm/pull/1342">GH1342</a>, <a class="reference external" href="https://github.com/OGGM/oggm/pull/1232">GH1232</a> and <a class="reference external" href="https://github.com/OGGM/oggm/pull/1361">GH1361</a>), we have released a new run task in OGGM that helps with these issues.</p>
+<p><strong>High level explanation of how the method works:</strong></p>
+<p>The dynamic spinup iteratively tries to find an initial glacier state in the past (t_start) that match the area or the volume at the glacier outline date (t_end) under the historical climate forcing. To create changing initial glacier states, a constant mass balance is used (mb_spinup) together with a changing temperature bias. This mass balance defines an average mass balance between t_start and t_end. Afterwards, for the actual run, the method uses the OGGM default mass balance model (mb_historical). One iteration of the dynamic spinup looks like this:</p>
+<ul class="simple">
+<li><p>Apply a temperature bias to mb_spinup.</p></li>
+<li><p>Start with the glacier geometry after the ice thickness inversion and let the model evolve using mb_spinup for the same amount of time as the following historical run (= t_end - t_start).</p></li>
+<li><p>The resulting glacier geometry is defined as the initial glacier state at t_start.</p></li>
+<li><p>Now, let the glacier evolve using mb_historical from t_start until t_end</p></li>
+<li><p>Get the model area or volume of the glacier at t_end.</p></li>
+<li><p>Compare the model value to the reference value we want to meet.</p></li>
+<li><p>If the difference is inside a given precision (<code class="docutils literal notranslate"><span class="pre">precision_percent</span></code>) stop the procedure and save the glacier evolution of this run (between t_start and t_end).</p></li>
+<li><p>If the difference is outside a given precision, change the temperature bias for mb_spinup and start over again.</p></li>
+</ul>
+<p>To start, the first guess temperature bias is used (<code class="docutils literal notranslate"><span class="pre">first_guess_t_bias</span></code>) and evaluated. If by chance, the mismatch is fitting, the algorithm stops already. Otherwise, the second guess depends on the calculated mismatch. If the first resulting area or volume is smaller (larger) than the searched one, the second temperature bias will be colder (warmer). Because a colder (warmer) temperature leads to a larger (smaller) initial glacier state at t_start. If still unsuccessful, the previous value pairs (temperature bias, mismatch in per cent) are used to determine the next guess. For this, a stepwise linear function is fitted to these pairs and afterwards, the mismatch is set to 0 to get the following temperature bias (this method is similar to the one described in <a class="reference external" href="https://tc.copernicus.org/articles/13/1125/2019/">Zekollari et al. 2019</a> Appendix A).
+Moreover, a maximum step length between two guesses is defined with <code class="docutils literal notranslate"><span class="pre">t_bias_max_step_length</span></code> as too large step sizes could lead to one of the two main problems explained below.</p>
+<p><strong>Two main problems why the dynamic spinup could not work:</strong></p>
+<p>The resulting glacier is too large, even when we start from a completely ice-free initial glacier state. Or the resulting glacier is too small and the algorithm tries to let the glacier grow outside the domain boundaries. The second problem could be met with a larger domain boundary (if available and enough memory resources available). But for the first problem, no such solution is possible. To still try to cope with these two issues the dynamic spinup function tries to shorten the spinup period two times. The idea is with a shorter evolution time the glacier has less amount of time to grow/shrink and maybe do not encounter one of the two extremes. The minimum length of the spinup can be defined with <code class="docutils literal notranslate"><span class="pre">min_spinup_period</span></code> (default 10 years). If nothing helps and there is still an error (and if <code class="docutils literal notranslate"><span class="pre">ignore_errors</span> <span class="pre">=</span> <span class="pre">True</span></code>) the glacier geometry without a dynamic spinup is saved (= the glacier geometry after the ice thickness inversion).</p>
+<p><strong>¡Careful!</strong> This method is still a bit experimental. A few things to remember when using it:</p>
+<ul class="simple">
+<li><p>because of how the method works, glacier area and volume are not strictly the same at the glacier inventory date than after the inversion. We have checked that the errors are random: if you simulate many glaciers this should be fine (global plots on this point will follow soon).</p></li>
+<li><p>because of the non-unique solutions to this optimization problem, the estimated past states become increasingly uncertain the further back in time we go. We recommend a spinup of about 10-30 years.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make pretty plots</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;ticks&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s1">&#39;notebook&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGMSpinup&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:28: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-04-03 16:02:28: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-04-03 16:02:28: oggm.cfg: Multiprocessing: using all available processors (N=2)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="define-the-glacier-we-will-play-with">
+<h2>Define the glacier we will play with<a class="headerlink" href="#define-the-glacier-we-will-play-with" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Hintereisferner</span>
+<span class="n">rgi_id</span> <span class="o">=</span> <span class="s1">&#39;RGI60-11.00897&#39;</span>
+
+<span class="c1"># Baltoro</span>
+<span class="c1"># rgi_id = &#39;RGI60-14.06794&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="preparing-the-glacier-data">
+<h2>Preparing the glacier data<a class="headerlink" href="#preparing-the-glacier-data" title="Permalink to this headline">¶</a></h2>
+<p>This can take up to a few minutes on the first call because of the download of the required data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We use a recent gdir setting, calibated on a glacier per glacier basis</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/ERA5/elev_bands/qc0/pcp1.6/match_geod_pergla/&#39;</span>
+
+<span class="c1"># These parameters correspond to the settings of the base url</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_scaling_factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;climate_qc_months&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;hydro_month_nh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;hydro_month_sh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:29: oggm.cfg: PARAMS[&#39;prcp_scaling_factor&#39;] changed from `2.5` to `1.6`.
+2022-04-03 16:02:29: oggm.cfg: PARAMS[&#39;climate_qc_months&#39;] changed from `3` to `0`.
+2022-04-03 16:02:29: oggm.cfg: PARAMS[&#39;hydro_month_nh&#39;] changed from `10` to `1`.
+2022-04-03 16:02:29: oggm.cfg: PARAMS[&#39;hydro_month_sh&#39;] changed from `4` to `1`.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We use a relatively large border value to allow the glacier to grow during spinup</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="n">rgi_id</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:29: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
+2022-04-03 16:02:29: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="a-simple-spinup-run-and-projection">
+<h2>A simple spinup run and projection<a class="headerlink" href="#a-simple-spinup-run-and-projection" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We will &quot;reconstruct&quot; a possible glacier evolution from this year onwards</span>
+<span class="n">spinup_start_yr</span> <span class="o">=</span> <span class="mi">1979</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The simulation will now consist of two runs:</p>
+<ul class="simple">
+<li><p>the spinup, from the spinup year to the end of the RGI year (2003)</p></li>
+<li><p>the recent past, from the RGI date to present</p></li>
+</ul>
+<p>We have to use some of the OGGM semantics to get this done:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># New! The dynamic spinup</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output - this is needed to stitch the runs together afterwards</span>
+                         <span class="p">);</span>
+
+<span class="c1"># This is the same as before - the only difference is that we use the end of the spinup as starting geometry</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                            <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic&#39;</span><span class="p">,</span>  <span class="c1"># Which initial geometry to use (from the spinup here: default is from the inversion)</span>
+                            <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_spinup_dynamic&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                            <span class="p">);</span>
+
+<span class="c1"># New: stich the output together for analysis</span>
+<span class="n">ds_spinup_dynamic</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">merge_consecutive_run_outputs</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                                                        <span class="n">input_filesuffix_1</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic&#39;</span><span class="p">,</span>  <span class="c1"># File 1</span>
+                                                        <span class="n">input_filesuffix_2</span><span class="o">=</span><span class="s1">&#39;_hist_spinup_dynamic&#39;</span><span class="p">,</span>  <span class="c1"># File 2</span>
+                                                        <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged_spinup_dynamic&#39;</span><span class="p">,</span>  <span class="c1"># Output file (optional)</span>
+                                                        <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For comparison, let’s also do a run starting from the inversion geometry. We also use the “fixed geometry spinup” option which is a simpler way to deal with the issue:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The previous (simple) way of doing this: fixed geometry</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                            <span class="n">fixed_geometry_spinup_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># Start the run at the RGI date but retro-actively correct the data with fixed geometry</span>
+                            <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom&#39;</span><span class="p">,</span>  <span class="c1"># where to write the output</span>
+                            <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_hist</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y0</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ds_spinup_dynamic</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical spinup&#39;</span><span class="p">);</span>
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fixed geometry spinup&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">);</span> <span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">ds_hist</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">y0</span><span class="p">)</span><span class="o">.</span><span class="n">volume_m3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">ds_spinup_dynamic</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Area&#39;</span><span class="p">);</span>
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">ds_hist</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">y0</span><span class="p">)</span><span class="o">.</span><span class="n">area_m2</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">ds_spinup_dynamic</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Length&#39;</span><span class="p">);</span>
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">ds_hist</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">y0</span><span class="p">)</span><span class="o">.</span><span class="n">length_m</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dynamical_spinup_18_0.png" src="../_images/dynamical_spinup_18_0.png" />
+</div>
+</div>
+<p>In this example the two simulations are very close. But this is actually by chance - other settings will lead to other results, for example starting at another date or optimizing for volume instead of area match. The orange curve shows how the fixed geometry spinup ignores area changes before the RGI date. The short advance after the RGI date is the “initialisation shock”, the issue that the dynamical spinup wants to address.</p>
+<p><strong>TODO: add more examples here, including one which doesn’t work that well.</strong></p>
+</div>
+<div class="section" id="dynamical-spinup-and-hydrological-output">
+<h2>Dynamical spinup and hydrological output<a class="headerlink" href="#dynamical-spinup-and-hydrological-output" title="Permalink to this headline">¶</a></h2>
+<p>Fortunately, it is also possible to run the spinup model with additional hydrological output:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># This is required for the hydro runs</span>
+
+<span class="c1"># Dynamic spinup</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                     <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">,</span>  <span class="c1"># The task to run with hydro</span>
+                     <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                     <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                     <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># compute monthly hydro diagnostics</span>
+                     <span class="n">ref_area_from_y0</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Even if the glacier may grow, keep the reference area as the year 0 of the simulation</span>
+                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_hydro&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output - this is needed to stitch the runs together afterwards</span>
+                     <span class="p">);</span>
+
+<span class="c1"># Recent past </span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                     <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span>  <span class="c1"># The task to run with hydro</span>
+                     <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_hydro&#39;</span><span class="p">,</span>  <span class="c1"># Use the spinup as initial conditions!</span>
+                     <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># compute monthly hydro diagnostics</span>
+                     <span class="n">ref_geometry_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_hydro&#39;</span><span class="p">,</span>  <span class="c1"># Also use the spinup as reference hudrological area!</span>
+                     <span class="n">ref_area_from_y0</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Even if the glacier may grow, keep the reference area as the year 0 of the simulation</span>
+                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_recent_hydro&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output - this is needed to stitch the runs together afterwards</span>
+                     <span class="p">);</span>
+
+<span class="c1"># New: stich the output together for analysis</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">merge_consecutive_run_outputs</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                                         <span class="n">input_filesuffix_1</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_hydro&#39;</span><span class="p">,</span>  <span class="c1"># File 1</span>
+                                         <span class="n">input_filesuffix_2</span><span class="o">=</span><span class="s1">&#39;_recent_hydro&#39;</span><span class="p">,</span>  <span class="c1"># File 2</span>
+                                         <span class="p">)</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># The last timestep is incomplete for hydro (not started)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 16:02:31: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="annual-runoff">
+<h3>Annual runoff<a class="headerlink" href="#annual-runoff" title="Permalink to this headline">¶</a></h3>
+<p>The new hydrological variables are now available. Let’s make a pandas DataFrame of all “1D” (annual) variables:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+<span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The hydrological variables are computed on the largest possible area that was covered by glacier ice in the simulation. This is equivalent to the runoff that would be measured at a fixed-gauge station at the glacier terminus. The total annual runoff is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">runoff_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;melt_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;melt_on_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_on_glacier&#39;</span><span class="p">]</span>
+<span class="n">df_runoff</span> <span class="o">=</span> <span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Mt&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dynamical_spinup_28_0.png" src="../_images/dynamical_spinup_28_0.png" />
+</div>
+</div>
+<p>It consists of the following components:</p>
+<ul class="simple">
+<li><p>melt off-glacier: snow melt on areas that are now glacier free (i.e. 0 in the year of largest glacier extent, in this example at the start of the simulation)</p></li>
+<li><p>melt on-glacier: ice + seasonal snow melt on the glacier</p></li>
+<li><p>liquid precipitaton on- and off-glacier (the latter being zero at the year of largest glacial extent, in this example at start of the simulation)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dynamical_spinup_30_0.png" src="../_images/dynamical_spinup_30_0.png" />
+</div>
+</div>
+<p>As the glacier retreats, total runoff decreases as a result of the decreasing glacier contribution.</p>
+</div>
+<div class="section" id="monthly-runoff">
+<h3>Monthly runoff<a class="headerlink" href="#monthly-runoff" title="Permalink to this headline">¶</a></h3>
+<p>The “2D” variables contain the same data but at monthly resolution, with the dimension (time, month). For example, runoff can be computed the
+same way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">monthly_runoff</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;melt_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;melt_on_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;liq_prcp_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;liq_prcp_on_glacier_monthly&#39;</span><span class="p">]</span> 
+<span class="n">monthly_runoff</span> <span class="o">*=</span> <span class="mf">1e-9</span>
+<span class="n">monthly_runoff</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;Mt&#39;</span><span class="p">});</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/dynamical_spinup_34_0.png" src="../_images/dynamical_spinup_34_0.png" />
+</div>
+</div>
+<p>See <a class="reference internal" href="hydrological_output.html"><span class="doc std std-doc">hydrological_output</span></a> for more info on how to interpret the hydrological output!</p>
+</div>
+</div>
+<div class="section" id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="run_with_a_spinup_and_gcm_data.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Run with a spinup and GCM data</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="dem_sources.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Create local topography maps from different DEM sources with OGGM</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By OGGM e.V. and OGGM Contributors<br/>
+        
+          <div class="extra_footer">
+            <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
