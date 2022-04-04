@@ -439,7 +439,7 @@ It is also possible to use your own DEM data in OGGM.</p>
 <h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rioxr</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">oggm</span>
 <span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
@@ -450,10 +450,10 @@ It is also possible to use your own DEM data in OGGM.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:05: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-04-03 15:16:05: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-04-03 15:16:05: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-04-03 15:16:05: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:03: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-04-04 15:01:03: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-04-04 15:01:03: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-04-04 15:01:04: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
 </pre></div>
 </div>
 </div>
@@ -489,7 +489,7 @@ we choose the <strong>SRTM</strong> source as example DEM (no registration neces
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:19: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:32: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -511,7 +511,7 @@ we choose the <strong>SRTM</strong> source as example DEM (no registration neces
 <p>It is a geotiff file. <a class="reference external" href="http://xarray.pydata.org">Xarray</a> can open them thanks to <a class="reference external" href="https://rasterio.readthedocs.io">rasterio</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">dem_path</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span> <span class="o">=</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">dem_path</span><span class="p">)</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;terrain&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
 <span class="c1"># Add the outlines</span>
@@ -520,11 +520,7 @@ we choose the <strong>SRTM</strong> source as example DEM (no registration neces
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_928/2819764363.py:1: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
-  da = xr.open_rasterio(dem_path)
-</pre></div>
-</div>
-<img alt="../_images/dem_sources_13_1.png" src="../_images/dem_sources_13_1.png" />
+<img alt="../_images/dem_sources_13_0.png" src="../_images/dem_sources_13_0.png" />
 </div>
 </div>
 <p>The source of the DEM is documented in the directory itself:</p>
@@ -611,9 +607,9 @@ The default DEM source for low and mid-latitudes (60°S-60°N), <strong>NASADEM<
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:21: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
-2022-04-03 15:16:21: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2022-04-03 15:16:22: oggm.workflow: Execute entity tasks [select_dem_from_dir] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:34: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+2022-04-04 15:01:34: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2022-04-04 15:01:34: oggm.workflow: Execute entity tasks [select_dem_from_dir] on 1 glaciers
 </pre></div>
 </div>
 <img alt="../_images/dem_sources_23_3.png" src="../_images/dem_sources_23_3.png" />
@@ -636,7 +632,7 @@ The default DEM source for low and mid-latitudes (60°S-60°N), <strong>NASADEM<
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:22: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:35: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -674,18 +670,14 @@ L32.tif
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">da_dem3</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
+<span class="n">da_dem3</span> <span class="o">=</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
 <span class="n">da_dem3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;terrain&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
 <span class="n">gdir</span><span class="o">.</span><span class="n">read_shapefile</span><span class="p">(</span><span class="s1">&#39;outlines&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_928/3548551959.py:2: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
-  da_dem3 = xr.open_rasterio(gdir.get_filepath(&#39;dem&#39;))
-</pre></div>
-</div>
-<img alt="../_images/dem_sources_29_1.png" src="../_images/dem_sources_29_1.png" />
+<img alt="../_images/dem_sources_29_0.png" src="../_images/dem_sources_29_0.png" />
 </div>
 </div>
 <p>There might not be much difference a first sight, but by subtracting them the difference become clear:</p>
@@ -719,8 +711,8 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:25: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
-2022-04-03 15:16:25: oggm.core.gis: Source: GIMP may not be available for glacier RGI60-11.00897 with border 10
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:39: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+2022-04-04 15:01:40: oggm.core.gis: Source: GIMP may not be available for glacier RGI60-11.00897 with border 10
 </pre></div>
 </div>
 </div>
@@ -759,7 +751,7 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:27: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:41: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -768,18 +760,14 @@ L32.tif
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">da_user</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
+<span class="n">da_user</span> <span class="o">=</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
 <span class="n">da_user</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;terrain&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
 <span class="n">gdir</span><span class="o">.</span><span class="n">read_shapefile</span><span class="p">(</span><span class="s1">&#39;outlines&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_928/2637097188.py:2: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
-  da_user = xr.open_rasterio(gdir.get_filepath(&#39;dem&#39;))
-</pre></div>
-</div>
-<img alt="../_images/dem_sources_42_1.png" src="../_images/dem_sources_42_1.png" />
+<img alt="../_images/dem_sources_42_0.png" src="../_images/dem_sources_42_0.png" />
 </div>
 </div>
 </div>
@@ -807,7 +795,7 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:28: oggm.cfg: PARAMS[&#39;border&#39;] changed from `10` to `1`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:42: oggm.cfg: PARAMS[&#39;border&#39;] changed from `10` to `1`.
 </pre></div>
 </div>
 </div>
@@ -818,7 +806,7 @@ L32.tif
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;border1&#39;</span><span class="p">)</span>
 <span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">entity</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
-<span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
+<span class="n">da</span> <span class="o">=</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;terrain&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
 <span class="c1"># Add the outlines</span>
@@ -827,12 +815,10 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:28: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
-/tmp/ipykernel_928/2744982806.py:5: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
-  da = xr.open_rasterio(gdir.get_filepath(&#39;dem&#39;))
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:42: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
-<img alt="../_images/dem_sources_47_2.png" src="../_images/dem_sources_47_2.png" />
+<img alt="../_images/dem_sources_47_1.png" src="../_images/dem_sources_47_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -842,7 +828,7 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:29: oggm.cfg: PARAMS[&#39;border&#39;] changed from `1` to `100`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:44: oggm.cfg: PARAMS[&#39;border&#39;] changed from `1` to `100`.
 </pre></div>
 </div>
 </div>
@@ -853,7 +839,7 @@ L32.tif
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;border100&#39;</span><span class="p">)</span>
 <span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">entity</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
-<span class="n">da</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
+<span class="n">da</span> <span class="o">=</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">))</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">da</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;terrain&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
 <span class="c1"># Add the outlines</span>
@@ -862,12 +848,10 @@ L32.tif
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-03 15:16:29: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
-/tmp/ipykernel_928/2741459948.py:5: DeprecationWarning: open_rasterio is Deprecated in favor of rioxarray. For information about transitioning, see: https://corteva.github.io/rioxarray/stable/getting_started/getting_started.html
-  da = xr.open_rasterio(gdir.get_filepath(&#39;dem&#39;))
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:01:44: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
-<img alt="../_images/dem_sources_49_2.png" src="../_images/dem_sources_49_2.png" />
+<img alt="../_images/dem_sources_49_1.png" src="../_images/dem_sources_49_1.png" />
 </div>
 </div>
 </div>
