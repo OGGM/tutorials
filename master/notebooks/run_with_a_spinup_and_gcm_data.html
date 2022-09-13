@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Dynamic spinup for past simulations" href="dynamical_spinup.html" />
+    <link rel="next" title="Dynamic spinup and dynamic \(\mu^*\) calibration for past simulations" href="dynamical_spinup.html" />
     <link rel="prev" title="Error analysis of the global pre-processing workflow" href="preprocessing_errors.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -188,7 +188,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="dynamical_spinup.html">
-   Dynamic spinup for past simulations
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -239,6 +243,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
    Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
   </a>
  </li>
 </ul>
@@ -420,10 +429,10 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:22:12: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-04-04 15:22:12: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-04-04 15:22:12: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-04-04 15:22:12: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:31:13: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-09-13 16:31:13: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-09-13 16:31:13: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-09-13 16:31:13: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -441,10 +450,80 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:22:12: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
-2022-04-04 15:22:12: oggm.workflow: init_glacier_regions from prepro level 4 on 1 glaciers.
-2022-04-04 15:22:12: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2022-04-04 15:22:13: oggm.utils: /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar verified successfully.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:31:13: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+2022-09-13 16:31:13: oggm.workflow: init_glacier_regions from prepro level 4 on 1 glaciers.
+2022-09-13 16:31:14: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2022-09-13 16:31:14: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar...
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># Go - initialize glacier directories</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_regions</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:386,</span> in <span class="ni">init_glacier_regions</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">384</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;dl_verify&#39;</span><span class="p">]:</span>
+<span class="g g-Whitespace">    </span><span class="mi">385</span>         <span class="n">utils</span><span class="o">.</span><span class="n">get_dl_verify_data</span><span class="p">(</span><span class="s1">&#39;cluster.klima.uni-bremen.de&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">386</span>     <span class="n">gdirs</span> <span class="o">=</span> <span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gdir_from_prepro</span><span class="p">,</span> <span class="n">entities</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span>                                 <span class="n">from_prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">388</span>                                 <span class="n">prepro_border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">389</span>                                 <span class="n">prepro_rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">390</span>                                 <span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">391</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">392</span>     <span class="c1"># We can set the intersects file automatically here</span>
+<span class="g g-Whitespace">    </span><span class="mi">393</span>     <span class="k">if</span> <span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_intersects&#39;</span><span class="p">]</span> <span class="ow">and</span>
+<span class="g g-Whitespace">    </span><span class="mi">394</span>             <span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;intersects_gdf&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">execute_entity_task</span><span class="nt">(task, gdirs, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:108,</span> in <span class="ni">_pickle_copier.__call__</span><span class="nt">(self, arg)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_func</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="n">func</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">func</span>
+<span class="ne">--&gt; </span><span class="mi">108</span>     <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_internal</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">return</span> <span class="n">res</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:102,</span> in <span class="ni">_pickle_copier._call_internal</span><span class="nt">(self, call_func, gdir, kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>     <span class="n">gdir</span><span class="p">,</span> <span class="n">gdir_kwargs</span> <span class="o">=</span> <span class="n">gdir</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>     <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gdir_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">102</span> <span class="k">return</span> <span class="n">call_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:248,</span> in <span class="ni">gdir_from_prepro</span><span class="nt">(entity, from_prepro_level, prepro_border, prepro_rgi_version, base_url)</span>
+<span class="g g-Whitespace">    </span><span class="mi">245</span> <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">246</span>     <span class="n">rid</span> <span class="o">=</span> <span class="n">entity</span>
+<span class="ne">--&gt; </span><span class="mi">248</span> <span class="n">tar_base</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_gdir</span><span class="p">(</span><span class="n">prepro_rgi_version</span><span class="p">,</span> <span class="n">rid</span><span class="p">,</span> <span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span>                                  <span class="n">from_prepro_level</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span> <span class="n">from_tar</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tar_base</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.tar&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">rid</span> <span class="o">+</span> <span class="s1">&#39;.tar.gz&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">251</span> <span class="k">return</span> <span class="n">oggm</span><span class="o">.</span><span class="n">GlacierDirectory</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">from_tar</span><span class="o">=</span><span class="n">from_tar</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/utils/_downloads.py:1276,</span> in <span class="ni">get_prepro_gdir</span><span class="nt">(rgi_version, rgi_id, border, prepro_level, base_url)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1274</span> <span class="k">def</span> <span class="nf">get_prepro_gdir</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">,</span> <span class="n">rgi_id</span><span class="p">,</span> <span class="n">border</span><span class="p">,</span> <span class="n">prepro_level</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1275</span>     <span class="k">with</span> <span class="n">get_lock</span><span class="p">():</span>
+<span class="ne">-&gt; </span><span class="mi">1276</span>         <span class="k">return</span> <span class="n">_get_prepro_gdir_unlocked</span><span class="p">(</span><span class="n">rgi_version</span><span class="p">,</span> <span class="n">rgi_id</span><span class="p">,</span> <span class="n">border</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1277</span>                                          <span class="n">prepro_level</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/utils/_downloads.py:1314,</span> in <span class="ni">_get_prepro_gdir_unlocked</span><span class="nt">(rgi_version, rgi_id, border, prepro_level, base_url)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1312</span> <span class="n">tar_base</span> <span class="o">=</span> <span class="n">file_downloader</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1313</span> <span class="k">if</span> <span class="n">tar_base</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1314</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Could not find file at &#39;</span> <span class="o">+</span> <span class="n">url</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1316</span> <span class="k">return</span> <span class="n">tar_base</span>
+
+<span class="ne">RuntimeError</span>: Could not find file at https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar
 </pre></div>
 </div>
 </div>
@@ -463,28 +542,11 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:22:13: oggm.workflow: Execute entity tasks [process_cesm_data] on 1 glaciers
-2022-04-04 15:22:13: oggm.shop.gcm_climate: (RGI60-11.00897) process_cesm_data
-2022-04-04 15:22:13: oggm.shop.gcm_climate: (RGI60-11.00897) process_gcm_data
-</pre></div>
-</div>
-</div>
 </div>
 <p>Here the CESM-LME data is being pre-processed. This process makes use of the delta method and uses scaled temperature anomalies by default (it is strongly recommended to use this default setting of scaling the temperature anomalies, unless you have very good reasons not to do so).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">process_cesm_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:22:14: oggm.workflow: Execute entity tasks [process_cesm_data] on 1 glaciers
-2022-04-04 15:22:14: oggm.shop.gcm_climate: (RGI60-11.00897) process_cesm_data
-2022-04-04 15:22:14: oggm.shop.gcm_climate: (RGI60-11.00897) process_gcm_data
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[None]
 </pre></div>
 </div>
 </div>
@@ -497,17 +559,6 @@ const thebe_selector_output = ".output, .cell_output"
                     <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>
                     <span class="n">ys</span><span class="o">=</span><span class="mi">1801</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_no_spinup&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:22:14: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
-2022-04-04 15:22:14: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_no_spinup
-2022-04-04 15:22:14: oggm.core.flowline: You are attempting to run_with_climate_data at dates prior to the RGI inventory date. This may indicate some problem in your workflow. Consider using `fixed_geometry_spinup_yr` for example.
-2022-04-04 15:22:14: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_no_spinup
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.FluxBasedModel at 0x7f2ff7243820&gt;]
 </pre></div>
 </div>
 </div>
@@ -527,19 +578,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:22:20: oggm.workflow: Execute entity tasks [run_constant_climate] on 1 glaciers
-2022-04-04 15:22:20: oggm.core.flowline: (RGI60-11.00897) run_constant_climate_spinup
-2022-04-04 15:22:20: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_spinup
-2022-04-04 15:22:25: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
-2022-04-04 15:22:25: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_with_spinup
-2022-04-04 15:22:25: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_with_spinup
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.FluxBasedModel at 0x7f2fa8b523b0&gt;]
-</pre></div>
-</div>
-</div>
 </div>
 <p>When starting from a spin-up, by default the last year of the spin-up is being used to initialize a glacier. With <code class="docutils literal notranslate"><span class="pre">init_model_yr</span></code>, you can select any other year from the spin-up as initial year. An important parameter here is <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS['store_model_geometry']</span> <span class="pre">=</span> <span class="pre">True</span></code> set above, which told OGGM to store these “restart files” during the run.</p>
 <div class="cell docutils container">
@@ -553,16 +591,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:22:31: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
-2022-04-04 15:22:31: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_with_spinup_50yr
-2022-04-04 15:22:31: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_with_spinup_50yr
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.FluxBasedModel at 0x7f2ff98d72b0&gt;]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -571,19 +599,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">ds1</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_no_spinup&#39;</span><span class="p">)</span>
 <span class="n">ds2</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_with_spinup&#39;</span><span class="p">)</span>
 <span class="n">ds3</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_with_spinup_50yr&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:22:37: oggm.utils: Applying global task compile_glacier_statistics on 1 glaciers
-2022-04-04 15:22:37: oggm.workflow: Execute entity tasks [glacier_statistics] on 1 glaciers
-2022-04-04 15:22:37: oggm.utils: (RGI60-11.00897) glacier_statistics
-2022-04-04 15:22:37: oggm.utils: Applying global task compile_run_output on 1 glaciers
-2022-04-04 15:22:37: oggm.utils: Applying compile_run_output on 1 gdirs.
-2022-04-04 15:22:37: oggm.utils: Applying global task compile_run_output on 1 glaciers
-2022-04-04 15:22:37: oggm.utils: Applying compile_run_output on 1 gdirs.
-2022-04-04 15:22:37: oggm.utils: Applying global task compile_run_output on 1 glaciers
-2022-04-04 15:22:37: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>
@@ -603,14 +618,11 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/run_with_a_spinup_and_gcm_data_14_0.png" src="../_images/run_with_a_spinup_and_gcm_data_14_0.png" />
-</div>
 </div>
 <div class="section" id="what-s-next">
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>look on the tutorial of how a typical “projection run” (there CMIP5) is done at <a class="reference internal" href="run_with_gcm.html"><span class="doc std std-doc">run_with_gcm.ipynb</span></a></p></li>
+<li><p>look on the tutorial of how a typical “projection run” (there CMIP5 and CMIP6) is done at <a class="reference internal" href="run_with_gcm.html"><span class="doc std std-doc">run_with_gcm.ipynb</span></a></p></li>
 <li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
 <li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
 </ul>
@@ -652,7 +664,7 @@ const thebe_selector_output = ".output, .cell_output"
     <a class='right-next' id="next-link" href="dynamical_spinup.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Dynamic spinup for past simulations</p>
+        <p class="prev-next-title">Dynamic spinup and dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration for past simulations</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

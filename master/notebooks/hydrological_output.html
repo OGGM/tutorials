@@ -188,7 +188,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="dynamical_spinup.html">
-   Dynamic spinup for past simulations
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -239,6 +243,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
    Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
   </a>
  </li>
 </ul>
@@ -527,10 +536,10 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:04:41: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-04-04 15:04:41: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-04-04 15:04:41: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-04-04 15:04:41: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:11:59: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-09-13 16:11:59: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-09-13 16:11:59: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-09-13 16:11:59: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -565,8 +574,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:04:41: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
-2022-04-04 15:04:41: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:12:00: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
+2022-09-13 16:12:00: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -581,6 +590,101 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">file_id</span> <span class="o">=</span> <span class="s1">&#39;_ct&#39;</span>
 <span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2014</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                      <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:12:07: oggm.core.flowline: InvalidWorkflowError occurred during task run_constant_climate_ct on RGI60-11.00897: You seem to be using directories which are not calibrated for a varying prcp factor. 
+2022-09-13 16:12:07: oggm.core.flowline: InvalidWorkflowError occurred during task run_with_hydro_ct on RGI60-11.00897: You seem to be using directories which are not calibrated for a varying prcp factor. 
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/core/massbalance.py:368,</span> in <span class="ni">PastMassBalance.__init__</span><span class="nt">(self, gdir, mu_star, bias, filename, input_filesuffix, repeat, ys, ye, check_calib_params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">367</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">368</span>     <span class="n">prcp_fac</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;glacier_prcp_scaling_factor&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span> <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+
+<span class="ne">KeyError</span>: &#39;glacier_prcp_scaling_factor&#39;
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">InvalidWorkflowError</span><span class="g g-Whitespace">                      </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># file identifier where the model output is saved</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">file_id</span> <span class="o">=</span> <span class="s1">&#39;_ct&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2014</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                      <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
+<span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/core/flowline.py:3463,</span> in <span class="ni">run_with_hydro</span><span class="nt">(gdir, run_task, store_monthly_hydro, fixed_geometry_spinup_yr, ref_area_from_y0, ref_area_yr, ref_geometry_filesuffix, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3460</span> <span class="k">if</span> <span class="n">fixed_geometry_spinup_yr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3461</span>     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;fixed_geometry_spinup_yr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixed_geometry_spinup_yr</span>
+<span class="ne">-&gt; </span><span class="mi">3463</span> <span class="n">out</span> <span class="o">=</span> <span class="n">run_task</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3465</span> <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3466</span>     <span class="k">raise</span> <span class="n">InvalidWorkflowError</span><span class="p">(</span><span class="s1">&#39;The run task (</span><span class="si">{}</span><span class="s1">) did not run &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">3467</span>                                <span class="s1">&#39;successfully.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">run_task</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
+<span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/core/flowline.py:3224,</span> in <span class="ni">run_constant_climate</span><span class="nt">(gdir, nyears, y0, halfsize, bias, temperature_bias, precipitation_factor, store_monthly_step, store_model_geometry, store_fl_diagnostics, init_model_filesuffix, init_model_yr, output_filesuffix, climate_filename, mb_model, climate_input_filesuffix, init_model_fls, zero_initial_glacier, use_avg_climate, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3221</span>     <span class="n">mb_model_class</span> <span class="o">=</span> <span class="n">ConstantMassBalance</span>
+<span class="g g-Whitespace">   </span><span class="mi">3223</span> <span class="k">if</span> <span class="n">mb_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3224</span>     <span class="n">mb_model</span> <span class="o">=</span> <span class="n">MultipleFlowlineMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3225</span>                                            <span class="n">mb_model_class</span><span class="o">=</span><span class="n">mb_model_class</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3226</span>                                            <span class="n">y0</span><span class="o">=</span><span class="n">y0</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="n">halfsize</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3227</span>                                            <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3228</span>                                            <span class="n">filename</span><span class="o">=</span><span class="n">climate_filename</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3229</span>                                            <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">climate_input_filesuffix</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3231</span> <span class="k">if</span> <span class="n">temperature_bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3232</span>     <span class="n">mb_model</span><span class="o">.</span><span class="n">temp_bias</span> <span class="o">=</span> <span class="n">temperature_bias</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/core/massbalance.py:1272,</span> in <span class="ni">MultipleFlowlineMassBalance.__init__</span><span class="nt">(self, gdir, fls, mu_star, mb_model_class, use_inversion_flowlines, input_filesuffix, bias, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1267</span>             <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s1">&#39;t_star has not been set for this &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1268</span>                                      <span class="s1">&#39;glacier. Please set `y0` explicitly&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1269</span>         <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;y0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y0</span>
+<span class="g g-Whitespace">   </span><span class="mi">1271</span>     <span class="bp">self</span><span class="o">.</span><span class="n">flowline_mb_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<span class="ne">-&gt; </span><span class="mi">1272</span>         <span class="n">mb_model_class</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">mu_star</span><span class="o">=</span><span class="n">fl</span><span class="o">.</span><span class="n">mu_star</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">fl_bias</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1273</span>                        <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">rgi_filesuffix</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1275</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flowline_mb_models</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">valid_bounds</span>
+<span class="g g-Whitespace">   </span><span class="mi">1276</span> <span class="bp">self</span><span class="o">.</span><span class="n">hemisphere</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">hemisphere</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/core/massbalance.py:653,</span> in <span class="ni">ConstantMassBalance.__init__</span><span class="nt">(self, gdir, mu_star, bias, y0, halfsize, filename, input_filesuffix, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">627</span> <span class="sd">&quot;&quot;&quot;Initialize</span>
+<span class="g g-Whitespace">    </span><span class="mi">628</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">629</span><span class="sd"> Parameters</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">649</span><span class="sd">     the file suffix of the input climate file</span>
+<span class="g g-Whitespace">    </span><span class="mi">650</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">652</span> <span class="nb">super</span><span class="p">(</span><span class="n">ConstantMassBalance</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">653</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbmod</span> <span class="o">=</span> <span class="n">PastMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">mu_star</span><span class="o">=</span><span class="n">mu_star</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">654</span>                              <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">655</span>                              <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">input_filesuffix</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">656</span>                              <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">658</span> <span class="k">if</span> <span class="n">y0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">659</span>     <span class="n">df</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/core/massbalance.py:370,</span> in <span class="ni">PastMassBalance.__init__</span><span class="nt">(self, gdir, mu_star, bias, filename, input_filesuffix, repeat, ys, ye, check_calib_params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">368</span>         <span class="n">prcp_fac</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;glacier_prcp_scaling_factor&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span>     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">370</span>         <span class="k">raise</span> <span class="n">InvalidWorkflowError</span><span class="p">(</span><span class="s1">&#39;You seem to be using directories &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">371</span>                                    <span class="s1">&#39;which are not calibrated for a varying &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span>                                    <span class="s1">&#39;prcp factor. &#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">373</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">374</span>     <span class="n">prcp_fac</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_scaling_factor&#39;</span><span class="p">]</span>
+
+<span class="ne">InvalidWorkflowError</span>: You seem to be using directories which are not calibrated for a varying prcp factor. 
 </pre></div>
 </div>
 </div>
@@ -602,779 +706,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
-<defs>
-<symbol id="icon-database" viewBox="0 0 32 32">
-<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
-<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
-<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
-</symbol>
-<symbol id="icon-file-text2" viewBox="0 0 32 32">
-<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
-<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
-</symbol>
-</defs>
-</svg>
-<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
- *
- */
-
-:root {
-  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
-  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
-  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
-  --xr-border-color: var(--jp-border-color2, #e0e0e0);
-  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
-  --xr-background-color: var(--jp-layout-color0, white);
-  --xr-background-color-row-even: var(--jp-layout-color1, white);
-  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
-}
-
-html[theme=dark],
-body.vscode-dark {
-  --xr-font-color0: rgba(255, 255, 255, 1);
-  --xr-font-color2: rgba(255, 255, 255, 0.54);
-  --xr-font-color3: rgba(255, 255, 255, 0.38);
-  --xr-border-color: #1F1F1F;
-  --xr-disabled-color: #515151;
-  --xr-background-color: #111111;
-  --xr-background-color-row-even: #111111;
-  --xr-background-color-row-odd: #313131;
-}
-
-.xr-wrap {
-  display: block !important;
-  min-width: 300px;
-  max-width: 700px;
-}
-
-.xr-text-repr-fallback {
-  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
-  display: none;
-}
-
-.xr-header {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  margin-bottom: 4px;
-  border-bottom: solid 1px var(--xr-border-color);
-}
-
-.xr-header > div,
-.xr-header > ul {
-  display: inline;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.xr-obj-type,
-.xr-array-name {
-  margin-left: 2px;
-  margin-right: 10px;
-}
-
-.xr-obj-type {
-  color: var(--xr-font-color2);
-}
-
-.xr-sections {
-  padding-left: 0 !important;
-  display: grid;
-  grid-template-columns: 150px auto auto 1fr 20px 20px;
-}
-
-.xr-section-item {
-  display: contents;
-}
-
-.xr-section-item input {
-  display: none;
-}
-
-.xr-section-item input + label {
-  color: var(--xr-disabled-color);
-}
-
-.xr-section-item input:enabled + label {
-  cursor: pointer;
-  color: var(--xr-font-color2);
-}
-
-.xr-section-item input:enabled + label:hover {
-  color: var(--xr-font-color0);
-}
-
-.xr-section-summary {
-  grid-column: 1;
-  color: var(--xr-font-color2);
-  font-weight: 500;
-}
-
-.xr-section-summary > span {
-  display: inline-block;
-  padding-left: 0.5em;
-}
-
-.xr-section-summary-in:disabled + label {
-  color: var(--xr-font-color2);
-}
-
-.xr-section-summary-in + label:before {
-  display: inline-block;
-  content: '►';
-  font-size: 11px;
-  width: 15px;
-  text-align: center;
-}
-
-.xr-section-summary-in:disabled + label:before {
-  color: var(--xr-disabled-color);
-}
-
-.xr-section-summary-in:checked + label:before {
-  content: '▼';
-}
-
-.xr-section-summary-in:checked + label > span {
-  display: none;
-}
-
-.xr-section-summary,
-.xr-section-inline-details {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-.xr-section-inline-details {
-  grid-column: 2 / -1;
-}
-
-.xr-section-details {
-  display: none;
-  grid-column: 1 / -1;
-  margin-bottom: 5px;
-}
-
-.xr-section-summary-in:checked ~ .xr-section-details {
-  display: contents;
-}
-
-.xr-array-wrap {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: 20px auto;
-}
-
-.xr-array-wrap > label {
-  grid-column: 1;
-  vertical-align: top;
-}
-
-.xr-preview {
-  color: var(--xr-font-color3);
-}
-
-.xr-array-preview,
-.xr-array-data {
-  padding: 0 5px !important;
-  grid-column: 2;
-}
-
-.xr-array-data,
-.xr-array-in:checked ~ .xr-array-preview {
-  display: none;
-}
-
-.xr-array-in:checked ~ .xr-array-data,
-.xr-array-preview {
-  display: inline-block;
-}
-
-.xr-dim-list {
-  display: inline-block !important;
-  list-style: none;
-  padding: 0 !important;
-  margin: 0;
-}
-
-.xr-dim-list li {
-  display: inline-block;
-  padding: 0;
-  margin: 0;
-}
-
-.xr-dim-list:before {
-  content: '(';
-}
-
-.xr-dim-list:after {
-  content: ')';
-}
-
-.xr-dim-list li:not(:last-child):after {
-  content: ',';
-  padding-right: 5px;
-}
-
-.xr-has-index {
-  font-weight: bold;
-}
-
-.xr-var-list,
-.xr-var-item {
-  display: contents;
-}
-
-.xr-var-item > div,
-.xr-var-item label,
-.xr-var-item > .xr-var-name span {
-  background-color: var(--xr-background-color-row-even);
-  margin-bottom: 0;
-}
-
-.xr-var-item > .xr-var-name:hover span {
-  padding-right: 5px;
-}
-
-.xr-var-list > li:nth-child(odd) > div,
-.xr-var-list > li:nth-child(odd) > label,
-.xr-var-list > li:nth-child(odd) > .xr-var-name span {
-  background-color: var(--xr-background-color-row-odd);
-}
-
-.xr-var-name {
-  grid-column: 1;
-}
-
-.xr-var-dims {
-  grid-column: 2;
-}
-
-.xr-var-dtype {
-  grid-column: 3;
-  text-align: right;
-  color: var(--xr-font-color2);
-}
-
-.xr-var-preview {
-  grid-column: 4;
-}
-
-.xr-var-name,
-.xr-var-dims,
-.xr-var-dtype,
-.xr-preview,
-.xr-attrs dt {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 10px;
-}
-
-.xr-var-name:hover,
-.xr-var-dims:hover,
-.xr-var-dtype:hover,
-.xr-attrs dt:hover {
-  overflow: visible;
-  width: auto;
-  z-index: 1;
-}
-
-.xr-var-attrs,
-.xr-var-data {
-  display: none;
-  background-color: var(--xr-background-color) !important;
-  padding-bottom: 5px !important;
-}
-
-.xr-var-attrs-in:checked ~ .xr-var-attrs,
-.xr-var-data-in:checked ~ .xr-var-data {
-  display: block;
-}
-
-.xr-var-data > table {
-  float: right;
-}
-
-.xr-var-name span,
-.xr-var-data,
-.xr-attrs {
-  padding-left: 25px !important;
-}
-
-.xr-attrs,
-.xr-var-attrs,
-.xr-var-data {
-  grid-column: 1 / -1;
-}
-
-dl.xr-attrs {
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-template-columns: 125px auto;
-}
-
-.xr-attrs dt,
-.xr-attrs dd {
-  padding: 0;
-  margin: 0;
-  float: left;
-  padding-right: 10px;
-  width: auto;
-}
-
-.xr-attrs dt {
-  font-weight: normal;
-  grid-column: 1;
-}
-
-.xr-attrs dt:hover span {
-  display: inline-block;
-  background: var(--xr-background-color);
-  padding-right: 10px;
-}
-
-.xr-attrs dd {
-  grid-column: 2;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
-.xr-icon-database,
-.xr-icon-file-text2 {
-  display: inline-block;
-  vertical-align: middle;
-  width: 1em;
-  height: 1.5em !important;
-  stroke-width: 0;
-  stroke: currentColor;
-  fill: currentColor;
-}
-</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
-Dimensions:                       (time: 100, month_2d: 12)
-Coordinates:
-  * time                          (time) float64 0.0 1.0 2.0 ... 97.0 98.0 99.0
-    hydro_year                    (time) int64 0 1 2 3 4 5 ... 94 95 96 97 98 99
-    hydro_month                   (time) int64 1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1
-    calendar_year                 (time) int64 -1 0 1 2 3 4 ... 94 95 96 97 98
-    calendar_month                (time) int64 10 10 10 10 10 ... 10 10 10 10 10
-  * month_2d                      (month_2d) int64 1 2 3 4 5 6 7 8 9 10 11 12
-    calendar_month_2d             (month_2d) int64 10 11 12 1 2 3 4 5 6 7 8 9
-Data variables: (12/21)
-    volume_m3                     (time) float64 6.305e+08 ... 8.315e+07
-    volume_bsl_m3                 (time) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0
-    volume_bwl_m3                 (time) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0
-    area_m2                       (time) float64 8.036e+06 ... 2.501e+06
-    length_m                      (time) float64 5.6e+03 5.7e+03 ... 1.1e+03
-    calving_m3                    (time) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0
-    ...                            ...
-    liq_prcp_on_glacier           (time) float64 1.034e+10 ... 2.419e+09
-    liq_prcp_on_glacier_monthly   (time, month_2d) float64 2.42e+08 ... 2.159...
-    snowfall_off_glacier          (time) float64 0.108 5.96e+07 ... 1.191e+10
-    snowfall_off_glacier_monthly  (time, month_2d) float64 0.002158 ... 2.46e+08
-    snowfall_on_glacier           (time) float64 1.945e+10 ... 6.851e+09
-    snowfall_on_glacier_monthly   (time, month_2d) float64 1.969e+09 ... 4.89...
-Attributes:
-    description:          OGGM model output
-    oggm_version:         1.5.4.dev1+g436be57
-    calendar:             365-day no leap
-    creation_date:        2022-04-04 15:04:42
-    water_level:          0
-    glen_a:               6.774049426121393e-24
-    fs:                   0
-    mb_model_class:       MultipleFlowlineMassBalance
-    mb_model_hemisphere:  nh</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-b9995078-93bf-4c4c-aa50-c22f619d5333' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-b9995078-93bf-4c4c-aa50-c22f619d5333' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 100</li><li><span class='xr-has-index'>month_2d</span>: 12</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-9e7fb17d-580e-4e16-8dd3-1616875c8551' class='xr-section-summary-in' type='checkbox'  checked><label for='section-9e7fb17d-580e-4e16-8dd3-1616875c8551' class='xr-section-summary' >Coordinates: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 2.0 3.0 ... 97.0 98.0 99.0</div><input id='attrs-6fef85d8-a51f-428f-824f-1a7e17ad0371' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6fef85d8-a51f-428f-824f-1a7e17ad0371' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d6afafe2-2f0b-441b-bccc-53496d3d9e7b' class='xr-var-data-in' type='checkbox'><label for='data-d6afafe2-2f0b-441b-bccc-53496d3d9e7b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9., 10., 11., 12., 13.,
-       14., 15., 16., 17., 18., 19., 20., 21., 22., 23., 24., 25., 26., 27.,
-       28., 29., 30., 31., 32., 33., 34., 35., 36., 37., 38., 39., 40., 41.,
-       42., 43., 44., 45., 46., 47., 48., 49., 50., 51., 52., 53., 54., 55.,
-       56., 57., 58., 59., 60., 61., 62., 63., 64., 65., 66., 67., 68., 69.,
-       70., 71., 72., 73., 74., 75., 76., 77., 78., 79., 80., 81., 82., 83.,
-       84., 85., 86., 87., 88., 89., 90., 91., 92., 93., 94., 95., 96., 97.,
-       98., 99.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 6 ... 94 95 96 97 98 99</div><input id='attrs-d6dca63c-e651-4dc4-ac4b-d77996ed3ac5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d6dca63c-e651-4dc4-ac4b-d77996ed3ac5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-69400f44-1918-4a2f-b2a5-156b6830aad7' class='xr-var-data-in' type='checkbox'><label for='data-69400f44-1918-4a2f-b2a5-156b6830aad7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16,
-       17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-       34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-       51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67,
-       68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84,
-       85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-12ec9be2-1b13-439b-929d-f607f8f738a6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-12ec9be2-1b13-439b-929d-f607f8f738a6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-03a06b7e-9e75-47ea-b77e-885d36a38542' class='xr-var-data-in' type='checkbox'><label for='data-03a06b7e-9e75-47ea-b77e-885d36a38542' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological month</dd></dl></div><div class='xr-var-data'><pre>array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>-1 0 1 2 3 4 ... 93 94 95 96 97 98</div><input id='attrs-e63c5b21-262b-417f-8de8-5b1b6a666174' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e63c5b21-262b-417f-8de8-5b1b6a666174' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9f669196-5a3e-43ac-9daf-50e3a248ffff' class='xr-var-data-in' type='checkbox'><label for='data-9f669196-5a3e-43ac-9daf-50e3a248ffff' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar year</dd></dl></div><div class='xr-var-data'><pre>array([-1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15,
-       16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
-       33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
-       50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66,
-       67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83,
-       84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>10 10 10 10 10 ... 10 10 10 10 10</div><input id='attrs-332f0508-388d-4c9e-8f55-52dff2a58c7c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-332f0508-388d-4c9e-8f55-52dff2a58c7c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1b2f346f-0682-46d3-9492-b9baa706505b' class='xr-var-data-in' type='checkbox'><label for='data-1b2f346f-0682-46d3-9492-b9baa706505b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar month</dd></dl></div><div class='xr-var-data'><pre>array([10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
-       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
-       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
-       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
-       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
-       10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>month_2d</span></div><div class='xr-var-dims'>(month_2d)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 2 3 4 5 6 7 8 9 10 11 12</div><input id='attrs-74cc2c02-96a8-4f7a-94fb-35ffe3100006' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-74cc2c02-96a8-4f7a-94fb-35ffe3100006' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f95fbc63-df35-4d49-98b4-afb5c20c6806' class='xr-var-data-in' type='checkbox'><label for='data-f95fbc63-df35-4d49-98b4-afb5c20c6806' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month_2d</span></div><div class='xr-var-dims'>(month_2d)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>10 11 12 1 2 3 4 5 6 7 8 9</div><input id='attrs-03496de9-6195-4b75-8f3f-929ff2293f84' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-03496de9-6195-4b75-8f3f-929ff2293f84' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5b661e44-f227-430b-b319-293474241fc6' class='xr-var-data-in' type='checkbox'><label for='data-5b661e44-f227-430b-b319-293474241fc6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([10, 11, 12,  1,  2,  3,  4,  5,  6,  7,  8,  9])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-ee05abdc-8e37-4d4f-bc3b-45fc43030e9a' class='xr-section-summary-in' type='checkbox'  ><label for='section-ee05abdc-8e37-4d4f-bc3b-45fc43030e9a' class='xr-section-summary' >Data variables: <span>(21)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>volume_m3</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>6.305e+08 6.129e+08 ... 8.315e+07</div><input id='attrs-4d7be20f-8668-4ad9-8e18-cafe99e30826' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4d7be20f-8668-4ad9-8e18-cafe99e30826' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7f591bda-9f89-489c-be01-19cc02270a1c' class='xr-var-data-in' type='checkbox'><label for='data-7f591bda-9f89-489c-be01-19cc02270a1c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier volume</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([6.30458361e+08, 6.12919942e+08, 5.95332117e+08, 5.77705456e+08,
-       5.60050837e+08, 5.42379011e+08, 5.24700491e+08, 5.07025817e+08,
-       4.89364502e+08, 4.71762062e+08, 4.54300037e+08, 4.37008938e+08,
-       4.19903976e+08, 4.03004925e+08, 3.86266703e+08, 3.69710079e+08,
-       3.53171469e+08, 3.36998052e+08, 3.20850565e+08, 3.04848180e+08,
-       2.89093265e+08, 2.73407291e+08, 2.58027632e+08, 2.42765798e+08,
-       2.27807825e+08, 2.13144551e+08, 1.98765850e+08, 1.84977369e+08,
-       1.72345223e+08, 1.60726303e+08, 1.49703582e+08, 1.40092833e+08,
-       1.31469715e+08, 1.24043400e+08, 1.17139065e+08, 1.11292996e+08,
-       1.06296648e+08, 1.01612249e+08, 9.79999806e+07, 9.52158829e+07,
-       9.27956395e+07, 9.05999029e+07, 8.90737115e+07, 8.84319591e+07,
-       8.77851285e+07, 8.71331372e+07, 8.64759364e+07, 8.58134824e+07,
-       8.51457342e+07, 8.44726521e+07, 8.43452360e+07, 8.43201556e+07,
-       8.42951466e+07, 8.42702070e+07, 8.42453348e+07, 8.42205278e+07,
-       8.41957835e+07, 8.41710996e+07, 8.41464734e+07, 8.41219023e+07,
-       8.40973836e+07, 8.40729146e+07, 8.40484924e+07, 8.40241142e+07,
-       8.39997772e+07, 8.39754783e+07, 8.39512149e+07, 8.39269838e+07,
-       8.39027823e+07, 8.38786074e+07, 8.38544563e+07, 8.38303260e+07,
-       8.38062137e+07, 8.37821165e+07, 8.37580317e+07, 8.37339563e+07,
-       8.37098876e+07, 8.36858227e+07, 8.36617590e+07, 8.36376937e+07,
-       8.36136240e+07, 8.35895472e+07, 8.35654595e+07, 8.35413569e+07,
-       8.35172367e+07, 8.34930963e+07, 8.34689331e+07, 8.34447445e+07,
-       8.34205278e+07, 8.33962805e+07, 8.33720001e+07, 8.33476839e+07,
-       8.33233294e+07, 8.32989341e+07, 8.32744955e+07, 8.32500110e+07,
-       8.32254782e+07, 8.32008945e+07, 8.31762575e+07, 8.31515646e+07])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bsl_m3</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-8571f40e-bb5c-4f03-a8a1-2e78748a4b20' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8571f40e-bb5c-4f03-a8a1-2e78748a4b20' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-77faf4b7-775d-4d08-b17e-59753075c48f' class='xr-var-data-in' type='checkbox'><label for='data-77faf4b7-775d-4d08-b17e-59753075c48f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below sea-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bwl_m3</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-b41090e3-f5cc-4772-8da6-c23956bb394e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b41090e3-f5cc-4772-8da6-c23956bb394e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a6a44862-179c-443e-9e76-7e5c99eac313' class='xr-var-data-in' type='checkbox'><label for='data-a6a44862-179c-443e-9e76-7e5c99eac313' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below water-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area_m2</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>8.036e+06 8.009e+06 ... 2.501e+06</div><input id='attrs-17507294-f6b8-4389-97a2-86d059c60a63' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-17507294-f6b8-4389-97a2-86d059c60a63' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a4626bee-5797-47bc-8554-39fbe5c7e887' class='xr-var-data-in' type='checkbox'><label for='data-a4626bee-5797-47bc-8554-39fbe5c7e887' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([8036000.        , 8009345.88575447, 7981551.42277013,
-       7952306.58566861, 7921531.21777121, 7889220.32720465,
-       7855381.78720574, 7820122.10241093, 7783538.74826119,
-       7727212.52056573, 7691758.86995448, 7627044.27443308,
-       7555506.97389527, 7520450.614186  , 7444725.23707491,
-       7409659.49307824, 7373889.92204267, 7293337.94931035,
-       7257839.85170964, 7177572.14098374, 7142496.64356524,
-       7065173.09901356, 7030649.20266352, 6954404.96561914,
-       6878101.18257883, 6845330.04042948, 6772292.91998456,
-       6627536.50902401, 6077386.78225554, 5929988.00538531,
-       5827280.01492168, 5242089.23662135, 5161932.86900158,
-       4892800.17808754, 4835147.06339513, 4295103.99469646,
-       4245684.91521036, 4162943.1749889 , 3619276.75115623,
-       3546442.27335908, 3488276.67156651, 3484589.63793891,
-       2920104.13431304, 2919796.62248985, 2919486.62580877,
-       2919174.0746244 , 2918858.9174932 , 2918541.10754404,
-       2918220.60127517, 2917897.35774238, 2501391.35517842,
-       2501379.20987835, 2501367.10940066, 2501355.05153415,
-       2501343.03416145, 2501331.05524368, 2501319.11280847,
-       2501307.20494064, 2501295.32977492, 2501283.48549026,
-       2501271.67030528, 2501259.88247472, 2501248.12028656,
-       2501236.38205962, 2501224.66614167, 2501212.97090773,
-       2501201.29475867, 2501189.63611998, 2501177.99344063,
-       2501166.36519207, 2501154.74986725, 2501143.14597977,
-       2501131.55206305, 2501119.96666947, 2501108.38836964,
-       2501096.81575163, 2501085.24742024, 2501073.6819963 ,
-       2501062.11811597, 2501050.55443007, 2501038.98960341,
-       2501027.42231419, 2501015.85064426, 2501004.2726977 ,
-       2500992.68718575, 2500981.09283012, 2500969.48836238,
-       2500957.87252347, 2500946.24406314, 2500934.60173942,
-       2500922.94431818, 2500911.27057256, 2500899.57928259,
-       2500887.86923464, 2500876.13922107, 2500864.3880397 ,
-       2500852.61449348, 2500840.81739003, 2500828.99554126,
-       2500817.14776298])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>length_m</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.6e+03 5.7e+03 ... 1.1e+03 1.1e+03</div><input id='attrs-2cabf18f-0acc-433c-aef1-b109ea9d5cb6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2cabf18f-0acc-433c-aef1-b109ea9d5cb6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f3767dca-254b-4427-be4e-e4243bf7ba40' class='xr-var-data-in' type='checkbox'><label for='data-f3767dca-254b-4427-be4e-e4243bf7ba40' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier length</dd><dt><span>unit :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([5600., 5700., 5700., 5600., 5600., 5600., 5600., 5600., 5600.,
-       5400., 5400., 5300., 5200., 5200., 5100., 5100., 5100., 5000.,
-       5000., 4900., 4900., 4800., 4800., 4700., 4600., 4600., 4500.,
-       4200., 4000., 3800., 3700., 3300., 3200., 2900., 2800., 2400.,
-       2300., 2100., 1800., 1700., 1600., 1600., 1200., 1200., 1200.,
-       1200., 1200., 1200., 1200., 1200., 1100., 1100., 1100., 1100.,
-       1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100.,
-       1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100.,
-       1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100.,
-       1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100.,
-       1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100., 1100.,
-       1100.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_m3</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-994f0a38-d4f3-4048-b2e7-dbbaf168e231' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-994f0a38-d4f3-4048-b2e7-dbbaf168e231' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-318959df-b131-4862-9b7b-98fec9040844' class='xr-var-data-in' type='checkbox'><label for='data-318959df-b131-4862-9b7b-98fec9040844' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total accumulated calving flux</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_rate_myr</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-9a420516-f6cf-4b18-bab0-004cd691556b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9a420516-f6cf-4b18-bab0-004cd691556b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-085f6107-5509-4858-8086-3e590e844532' class='xr-var-data-in' type='checkbox'><label for='data-085f6107-5509-4858-8086-3e590e844532' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving rate</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
-       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>off_area</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>6.127e-05 2.665e+04 ... 5.535e+06</div><input id='attrs-2ff394fc-bbfe-4a8f-bfb6-d8b63ea646b5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2ff394fc-bbfe-4a8f-bfb6-d8b63ea646b5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-06e3cf4a-322f-4c4e-be0a-61e7c4796723' class='xr-var-data-in' type='checkbox'><label for='data-06e3cf4a-322f-4c4e-be0a-61e7c4796723' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Off-glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([6.12738840e-05, 2.66541143e+04, 5.44485773e+04, 8.36934144e+04,
-       1.14468782e+05, 1.46779673e+05, 1.80618213e+05, 2.15877898e+05,
-       2.52461252e+05, 3.08787479e+05, 3.44241130e+05, 4.08955726e+05,
-       4.80493026e+05, 5.15549386e+05, 5.91274763e+05, 6.26340507e+05,
-       6.62110078e+05, 7.42662051e+05, 7.78160148e+05, 8.58427859e+05,
-       8.93503356e+05, 9.70826901e+05, 1.00535080e+06, 1.08159503e+06,
-       1.15789882e+06, 1.19066996e+06, 1.26370708e+06, 1.40846349e+06,
-       1.95861322e+06, 2.10601199e+06, 2.20871999e+06, 2.79391076e+06,
-       2.87406713e+06, 3.14319982e+06, 3.20085294e+06, 3.74089601e+06,
-       3.79031508e+06, 3.87305683e+06, 4.41672325e+06, 4.48955773e+06,
-       4.54772333e+06, 4.55141036e+06, 5.11589587e+06, 5.11620338e+06,
-       5.11651337e+06, 5.11682593e+06, 5.11714108e+06, 5.11745889e+06,
-       5.11777940e+06, 5.11810264e+06, 5.53460864e+06, 5.53462079e+06,
-       5.53463289e+06, 5.53464495e+06, 5.53465697e+06, 5.53466894e+06,
-       5.53468089e+06, 5.53469280e+06, 5.53470467e+06, 5.53471651e+06,
-       5.53472833e+06, 5.53474012e+06, 5.53475188e+06, 5.53476362e+06,
-       5.53477533e+06, 5.53478703e+06, 5.53479871e+06, 5.53481036e+06,
-       5.53482201e+06, 5.53483363e+06, 5.53484525e+06, 5.53485685e+06,
-       5.53486845e+06, 5.53488003e+06, 5.53489161e+06, 5.53490318e+06,
-       5.53491475e+06, 5.53492632e+06, 5.53493788e+06, 5.53494945e+06,
-       5.53496101e+06, 5.53497258e+06, 5.53498415e+06, 5.53499573e+06,
-       5.53500731e+06, 5.53501891e+06, 5.53503051e+06, 5.53504213e+06,
-       5.53505376e+06, 5.53506540e+06, 5.53507706e+06, 5.53508873e+06,
-       5.53510042e+06, 5.53511213e+06, 5.53512386e+06, 5.53513561e+06,
-       5.53514739e+06, 5.53515918e+06, 5.53517100e+06, 5.53518285e+06])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>on_area</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>8.036e+06 8.009e+06 ... 2.501e+06</div><input id='attrs-00df1677-3823-44d8-bace-68e7f6b22ce3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-00df1677-3823-44d8-bace-68e7f6b22ce3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fa5f9afa-6bcf-496d-aef6-a4d26339cf15' class='xr-var-data-in' type='checkbox'><label for='data-fa5f9afa-6bcf-496d-aef6-a4d26339cf15' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>On-glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([8036000.        , 8009345.88575447, 7981551.42277013,
-       7952306.58566861, 7921531.21777121, 7889220.32720465,
-       7855381.78720574, 7820122.10241093, 7783538.74826119,
-       7727212.52056573, 7691758.86995448, 7627044.27443308,
-       7555506.97389527, 7520450.614186  , 7444725.23707491,
-       7409659.49307824, 7373889.92204267, 7293337.94931035,
-       7257839.85170964, 7177572.14098374, 7142496.64356524,
-       7065173.09901356, 7030649.20266352, 6954404.96561914,
-       6878101.18257883, 6845330.04042948, 6772292.91998456,
-       6627536.50902401, 6077386.78225554, 5929988.00538531,
-       5827280.01492168, 5242089.23662135, 5161932.86900158,
-       4892800.17808754, 4835147.06339513, 4295103.99469646,
-       4245684.91521036, 4162943.1749889 , 3619276.75115623,
-       3546442.27335908, 3488276.67156651, 3484589.63793891,
-       2920104.13431304, 2919796.62248985, 2919486.62580877,
-       2919174.0746244 , 2918858.9174932 , 2918541.10754404,
-       2918220.60127517, 2917897.35774238, 2501391.35517842,
-       2501379.20987835, 2501367.10940066, 2501355.05153415,
-       2501343.03416145, 2501331.05524368, 2501319.11280847,
-       2501307.20494064, 2501295.32977492, 2501283.48549026,
-       2501271.67030528, 2501259.88247472, 2501248.12028656,
-       2501236.38205962, 2501224.66614167, 2501212.97090773,
-       2501201.29475867, 2501189.63611998, 2501177.99344063,
-       2501166.36519207, 2501154.74986725, 2501143.14597977,
-       2501131.55206305, 2501119.96666947, 2501108.38836964,
-       2501096.81575163, 2501085.24742024, 2501073.6819963 ,
-       2501062.11811597, 2501050.55443007, 2501038.98960341,
-       2501027.42231419, 2501015.85064426, 2501004.2726977 ,
-       2500992.68718575, 2500981.09283012, 2500969.48836238,
-       2500957.87252347, 2500946.24406314, 2500934.60173942,
-       2500922.94431818, 2500911.27057256, 2500899.57928259,
-       2500887.86923464, 2500876.13922107, 2500864.3880397 ,
-       2500852.61449348, 2500840.81739003, 2500828.99554126,
-       2500817.14776298])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>melt_off_glacier</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.108 5.599e+07 ... 1.19e+10</div><input id='attrs-02d3af78-353f-4cc9-b7f1-5077a633960e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-02d3af78-353f-4cc9-b7f1-5077a633960e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b19c9e45-6fcf-4ecc-a158-ce75651c5e7d' class='xr-var-data-in' type='checkbox'><label for='data-b19c9e45-6fcf-4ecc-a158-ce75651c5e7d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Off-glacier melt</dd><dt><span>unit :</span></dt><dd>kg yr-1</dd></dl></div><div class='xr-var-data'><pre>array([1.08002104e-01, 5.59899766e+07, 1.14508253e+08, 1.75885781e+08,
-       2.40107786e+08, 3.07073431e+08, 3.76675722e+08, 4.48660639e+08,
-       5.22807996e+08, 6.31201974e+08, 7.03234755e+08, 8.26554474e+08,
-       9.62555009e+08, 1.03339012e+09, 1.17727789e+09, 1.24766518e+09,
-       1.31901699e+09, 1.47138484e+09, 1.54171839e+09, 1.69316347e+09,
-       1.76219113e+09, 1.90786139e+09, 1.97534635e+09, 2.11869671e+09,
-       2.26233893e+09, 2.32592583e+09, 2.46349417e+09, 2.73585883e+09,
-       3.97932736e+09, 4.27138511e+09, 4.47594434e+09, 5.77206244e+09,
-       5.92945094e+09, 6.48857420e+09, 6.59859100e+09, 7.80429840e+09,
-       7.89880056e+09, 8.05765591e+09, 9.30102823e+09, 9.45226537e+09,
-       9.57044542e+09, 9.57770812e+09, 1.08757026e+10, 1.08764372e+10,
-       1.08771760e+10, 1.08779201e+10, 1.08786687e+10, 1.08794220e+10,
-       1.08801800e+10, 1.08809427e+10, 1.18961207e+10, 1.18961508e+10,
-       1.18961807e+10, 1.18962106e+10, 1.18962403e+10, 1.18962699e+10,
-       1.18962994e+10, 1.18963288e+10, 1.18963581e+10, 1.18963873e+10,
-       1.18964164e+10, 1.18964455e+10, 1.18964745e+10, 1.18965034e+10,
-       1.18965323e+10, 1.18965611e+10, 1.18965899e+10, 1.18966186e+10,
-       1.18966472e+10, 1.18966759e+10, 1.18967044e+10, 1.18967330e+10,
-       1.18967615e+10, 1.18967900e+10, 1.18968185e+10, 1.18968469e+10,
-       1.18968754e+10, 1.18969038e+10, 1.18969322e+10, 1.18969606e+10,
-       1.18969890e+10, 1.18970174e+10, 1.18970458e+10, 1.18970743e+10,
-       1.18971027e+10, 1.18971312e+10, 1.18971596e+10, 1.18971881e+10,
-       1.18972166e+10, 1.18972452e+10, 1.18972738e+10, 1.18973024e+10,
-       1.18973310e+10, 1.18973597e+10, 1.18973885e+10, 1.18974173e+10,
-       1.18974461e+10, 1.18974750e+10, 1.18975039e+10, 1.18975329e+10])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>melt_off_glacier_monthly</span></div><div class='xr-var-dims'>(time, month_2d)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.002131 0.00529 ... 2.43e+08</div><input id='attrs-ea93e1d0-5977-4dce-a7aa-1181452f884d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-ea93e1d0-5977-4dce-a7aa-1181452f884d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-10fcdb2c-6f02-44a1-9c32-6b10a268a2b2' class='xr-var-data-in' type='checkbox'><label for='data-10fcdb2c-6f02-44a1-9c32-6b10a268a2b2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[2.13082718e-03, 5.29026290e-03, 0.00000000e+00, ...,
-        0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
-       [2.69120222e+06, 2.51638106e+05, 0.00000000e+00, ...,
-        1.35152633e+07, 3.99556990e+06, 1.39355323e+06],
-       [5.64051421e+06, 5.65960227e+05, 0.00000000e+00, ...,
-        2.68676769e+07, 7.19235665e+06, 2.68872950e+06],
-       ...,
-       [5.49169772e+08, 5.75090350e+07, 0.00000000e+00, ...,
-        3.37218884e+09, 1.43312510e+08, 2.43042952e+08],
-       [5.49169964e+08, 5.75090350e+07, 0.00000000e+00, ...,
-        3.37220353e+09, 1.43315585e+08, 2.43044328e+08],
-       [5.49170158e+08, 5.75090349e+07, 0.00000000e+00, ...,
-        3.37221826e+09, 1.43318650e+08, 2.43045705e+08]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>melt_on_glacier</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.523e+10 3.519e+10 ... 6.873e+09</div><input id='attrs-d72a02d1-b1f1-4e2c-b255-2780bf4b2b8b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d72a02d1-b1f1-4e2c-b255-2780bf4b2b8b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b28bac17-1ce2-4c4a-a745-c8b5ce3e22e3' class='xr-var-data-in' type='checkbox'><label for='data-b28bac17-1ce2-4c4a-a745-c8b5ce3e22e3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>On-glacier melt</dd><dt><span>unit :</span></dt><dd>kg yr-1</dd></dl></div><div class='xr-var-data'><pre>array([3.52308373e+10, 3.51938855e+10, 3.51466481e+10, 3.50879129e+10,
-       3.50173927e+10, 3.49350926e+10, 3.48408575e+10, 3.47358476e+10,
-       3.45877873e+10, 3.43321060e+10, 3.40855147e+10, 3.37742073e+10,
-       3.34324711e+10, 3.31965839e+10, 3.28690904e+10, 3.27623735e+10,
-       3.23422324e+10, 3.21467500e+10, 3.19259702e+10, 3.15320615e+10,
-       3.13813608e+10, 3.09402269e+10, 3.07471847e+10, 3.03107267e+10,
-       2.98824764e+10, 2.95436585e+10, 2.88560208e+10, 2.75248296e+10,
-       2.53524607e+10, 2.45077000e+10, 2.30169279e+10, 2.08181961e+10,
-       1.95711774e+10, 1.85316514e+10, 1.74593476e+10, 1.54804638e+10,
-       1.50979414e+10, 1.39674074e+10, 1.19737157e+10, 1.14910706e+10,
-       1.11675494e+10, 1.05547491e+10, 8.45873946e+09, 8.46161773e+09,
-       8.46455816e+09, 8.46756256e+09, 8.47059351e+09, 8.47364827e+09,
-       8.47672551e+09, 7.98388959e+09, 6.87642570e+09, 6.87629586e+09,
-       6.87616802e+09, 6.87604230e+09, 6.87591881e+09, 6.87579765e+09,
-       6.87567890e+09, 6.87556265e+09, 6.87544895e+09, 6.87533785e+09,
-       6.87522939e+09, 6.87512361e+09, 6.87502052e+09, 6.87492015e+09,
-       6.87482249e+09, 6.87472756e+09, 6.87463534e+09, 6.87454582e+09,
-       6.87445901e+09, 6.87437488e+09, 6.87429341e+09, 6.87421458e+09,
-       6.87413838e+09, 6.87406478e+09, 6.87399376e+09, 6.87392529e+09,
-       6.87385935e+09, 6.87379592e+09, 6.87373496e+09, 6.87367646e+09,
-       6.87362038e+09, 6.87356784e+09, 6.87351879e+09, 6.87347210e+09,
-       6.87342775e+09, 6.87338572e+09, 6.87334599e+09, 6.87330853e+09,
-       6.87327332e+09, 6.87324036e+09, 6.87320962e+09, 6.87318108e+09,
-       6.87315472e+09, 6.87313054e+09, 6.87310851e+09, 6.87308862e+09,
-       6.87307086e+09, 6.87305521e+09, 6.87304167e+09, 6.87303021e+09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>melt_on_glacier_monthly</span></div><div class='xr-var-dims'>(time, month_2d)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>9.258e+08 1.396e+07 ... 7.436e+08</div><input id='attrs-3a276d41-c84d-41f4-aa83-7625b944cb0b' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-3a276d41-c84d-41f4-aa83-7625b944cb0b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-987fce44-9410-4534-aadf-ebee585e99da' class='xr-var-data-in' type='checkbox'><label for='data-987fce44-9410-4534-aadf-ebee585e99da' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[9.25754858e+08, 1.39566847e+07, 0.00000000e+00, ...,
-        1.06333179e+10, 1.07607068e+10, 4.96269163e+09],
-       [9.28955501e+08, 1.42836401e+07, 0.00000000e+00, ...,
-        1.06148017e+10, 1.07417151e+10, 4.96163384e+09],
-       [9.32182163e+08, 1.46652997e+07, 0.00000000e+00, ...,
-        1.05931803e+10, 1.07195821e+10, 4.95879697e+09],
-       ...,
-       [2.36614006e+06, 1.18893565e-07, 0.00000000e+00, ...,
-        2.42313917e+09, 2.46263915e+09, 7.43547041e+08],
-       [2.37223091e+06, 1.18891376e-07, 0.00000000e+00, ...,
-        2.42311585e+09, 2.46261492e+09, 7.43560799e+08],
-       [2.37834476e+06, 1.19122792e-07, 0.00000000e+00, ...,
-        2.42309323e+09, 2.46259138e+09, 7.43574820e+08]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>liq_prcp_off_glacier</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.1191 3.92e+07 ... 8.609e+09</div><input id='attrs-ebc94a84-1ad3-46b8-8853-516abbfc018b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ebc94a84-1ad3-46b8-8853-516abbfc018b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f66e9193-1bd1-4ad7-bf19-c1eb150582ca' class='xr-var-data-in' type='checkbox'><label for='data-f66e9193-1bd1-4ad7-bf19-c1eb150582ca' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Off-glacier liquid precipitation</dd><dt><span>unit :</span></dt><dd>kg yr-1</dd></dl></div><div class='xr-var-data'><pre>array([1.19118814e-01, 3.91987772e+07, 8.15072067e+07, 1.27143445e+08,
-       1.76091140e+08, 2.28286240e+08, 2.83698769e+08, 3.42122485e+08,
-       4.03375054e+08, 5.03619341e+08, 5.62884938e+08, 6.79324657e+08,
-       8.08426398e+08, 8.67487313e+08, 1.00425315e+09, 1.06381706e+09,
-       1.12503171e+09, 1.27122781e+09, 1.33246275e+09, 1.47853412e+09,
-       1.53951310e+09, 1.68044969e+09, 1.74092932e+09, 1.88018711e+09,
-       2.01937438e+09, 2.07725712e+09, 2.21041071e+09, 2.47460666e+09,
-       3.27035057e+09, 3.52464812e+09, 3.70079115e+09, 4.57377083e+09,
-       4.71349376e+09, 5.15195131e+09, 5.25563434e+09, 6.05167811e+09,
-       6.14035515e+09, 6.28819449e+09, 7.06000392e+09, 7.17873874e+09,
-       7.27615824e+09, 7.28256206e+09, 8.07691846e+09, 8.07732371e+09,
-       8.07773391e+09, 8.07814833e+09, 8.07856786e+09, 8.07899260e+09,
-       8.07942261e+09, 8.07985797e+09, 8.60852245e+09, 8.60853741e+09,
-       8.60855232e+09, 8.60856719e+09, 8.60858203e+09, 8.60859684e+09,
-       8.60861161e+09, 8.60862634e+09, 8.60864105e+09, 8.60865573e+09,
-       8.60867038e+09, 8.60868500e+09, 8.60869960e+09, 8.60871418e+09,
-       8.60872874e+09, 8.60874327e+09, 8.60875779e+09, 8.60877230e+09,
-       8.60878679e+09, 8.60880127e+09, 8.60881574e+09, 8.60883020e+09,
-       8.60884466e+09, 8.60885911e+09, 8.60887355e+09, 8.60888800e+09,
-       8.60890244e+09, 8.60891688e+09, 8.60893133e+09, 8.60894579e+09,
-       8.60896025e+09, 8.60897472e+09, 8.60898919e+09, 8.60900369e+09,
-       8.60901819e+09, 8.60903272e+09, 8.60904726e+09, 8.60906182e+09,
-       8.60907640e+09, 8.60909101e+09, 8.60910563e+09, 8.60912029e+09,
-       8.60913497e+09, 8.60914968e+09, 8.60916442e+09, 8.60917920e+09,
-       8.60919400e+09, 8.60920884e+09, 8.60922372e+09, 8.60923864e+09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>liq_prcp_off_glacier_monthly</span></div><div class='xr-var-dims'>(time, month_2d)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0147 0.0004369 ... 1.315e+09</div><input id='attrs-9e4fa9e2-192c-4c36-8547-c32d8e9f921a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-9e4fa9e2-192c-4c36-8547-c32d8e9f921a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a34d06aa-97b4-4d60-be81-52e71fc57551' class='xr-var-data-in' type='checkbox'><label for='data-a34d06aa-97b4-4d60-be81-52e71fc57551' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[1.47034178e-02, 4.36904617e-04, 0.00000000e+00, ...,
-        2.25879565e-02, 2.43589710e-02, 1.72791152e-02],
-       [2.12997660e+06, 9.42132341e+03, 0.00000000e+00, ...,
-        9.47985378e+06, 1.02815687e+07, 5.77571853e+06],
-       [4.56110297e+06, 2.32757793e+04, 0.00000000e+00, ...,
-        1.95064708e+07, 2.11209508e+07, 1.21207862e+07],
-       ...,
-       [4.45549173e+08, 1.89197957e+06, 0.00000000e+00, ...,
-        2.03786323e+09, 2.19892609e+09, 1.31490694e+09],
-       [4.45549173e+08, 1.89197957e+06, 0.00000000e+00, ...,
-        2.03786754e+09, 2.19893077e+09, 1.31490890e+09],
-       [4.45549173e+08, 1.89197957e+06, 0.00000000e+00, ...,
-        2.03787186e+09, 2.19893546e+09, 1.31491086e+09]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>liq_prcp_on_glacier</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.034e+10 1.032e+10 ... 2.419e+09</div><input id='attrs-54044424-0af9-41bb-99b7-6ecd7dd19f73' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-54044424-0af9-41bb-99b7-6ecd7dd19f73' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-65908596-7bfd-4199-9f23-209d66072580' class='xr-var-data-in' type='checkbox'><label for='data-65908596-7bfd-4199-9f23-209d66072580' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>On-glacier liquid precipitation</dd><dt><span>unit :</span></dt><dd>kg yr-1</dd></dl></div><div class='xr-var-data'><pre>array([1.03403893e+10, 1.03230088e+10, 1.03021737e+10, 1.02776717e+10,
-       1.02496044e+10, 1.02181629e+10, 1.01835097e+10, 1.01458010e+10,
-       1.01052726e+10, 1.00257987e+10, 9.98714122e+09, 9.89105171e+09,
-       9.78230461e+09, 9.74350270e+09, 9.62687172e+09, 9.58739859e+09,
-       9.54628175e+09, 9.41984825e+09, 9.37845726e+09, 9.25211841e+09,
-       9.21076037e+09, 9.08959806e+09, 9.04863055e+09, 8.92900271e+09,
-       8.80919287e+09, 8.77042308e+09, 8.65614057e+09, 8.41006747e+09,
-       7.63132132e+09, 7.39314548e+09, 7.23244110e+09, 6.37320659e+09,
-       6.24599130e+09, 5.81815315e+09, 5.72431882e+09, 4.93670232e+09,
-       4.85529026e+09, 4.71421275e+09, 3.94736888e+09, 3.83257310e+09,
-       3.73843861e+09, 3.73498159e+09, 2.94264526e+09, 2.94319763e+09,
-       2.94375267e+09, 2.94427830e+09, 2.94480712e+09, 2.94533913e+09,
-       2.94587434e+09, 2.94641275e+09, 2.41793204e+09, 2.41795259e+09,
-       2.41797306e+09, 2.41799346e+09, 2.41801378e+09, 2.41803404e+09,
-       2.41805423e+09, 2.41807437e+09, 2.41809445e+09, 2.41811447e+09,
-       2.41813445e+09, 2.41815439e+09, 2.41817428e+09, 2.41819413e+09,
-       2.41821394e+09, 2.41823372e+09, 2.41825347e+09, 2.41827318e+09,
-       2.41829287e+09, 2.41831254e+09, 2.41833218e+09, 2.41835181e+09,
-       2.41837142e+09, 2.41839101e+09, 2.41841059e+09, 2.41843016e+09,
-       2.41844972e+09, 2.41846928e+09, 2.41848883e+09, 2.41850838e+09,
-       2.41852794e+09, 2.41854749e+09, 2.41856706e+09, 2.41858663e+09,
-       2.41860621e+09, 2.41862581e+09, 2.41864542e+09, 2.41866505e+09,
-       2.41868471e+09, 2.41870438e+09, 2.41872408e+09, 2.41874380e+09,
-       2.41876355e+09, 2.41878334e+09, 2.41880315e+09, 2.41882300e+09,
-       2.41884288e+09, 2.41886281e+09, 2.41888277e+09, 2.41890278e+09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>liq_prcp_on_glacier_monthly</span></div><div class='xr-var-dims'>(time, month_2d)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.42e+08 2.174e+05 ... 2.159e+08</div><input id='attrs-4a18c261-8abb-411e-89e0-8a0c327dca0a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-4a18c261-8abb-411e-89e0-8a0c327dca0a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-db824a5a-0bb1-4b7b-a27d-d07962d76341' class='xr-var-data-in' type='checkbox'><label for='data-db824a5a-0bb1-4b7b-a27d-d07962d76341' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[2.41996684e+08, 2.17426396e+05, 0.00000000e+00, ...,
-        2.84614770e+09, 3.07730415e+09, 1.39049189e+09],
-       [2.42988107e+08, 2.45785948e+05, 0.00000000e+00, ...,
-        2.83829321e+09, 3.06853772e+09, 1.39002305e+09],
-       [2.44118644e+08, 2.77166746e+05, 0.00000000e+00, ...,
-        2.82959909e+09, 3.05900370e+09, 1.38887612e+09],
-       ...,
-       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
-        8.24415055e+08, 8.93490875e+08, 2.15847650e+08],
-       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
-        8.24413954e+08, 8.93489453e+08, 2.15856318e+08],
-       [0.00000000e+00, 0.00000000e+00, 0.00000000e+00, ...,
-        8.24412851e+08, 8.93488028e+08, 2.15865004e+08]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>snowfall_off_glacier</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.108 5.96e+07 ... 1.191e+10</div><input id='attrs-9ecce7c3-153d-46cd-96d3-6e2cff642e60' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9ecce7c3-153d-46cd-96d3-6e2cff642e60' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-66abe553-f56a-4056-aec6-b76e1f65ba95' class='xr-var-data-in' type='checkbox'><label for='data-66abe553-f56a-4056-aec6-b76e1f65ba95' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Off-glacier solid precipitation</dd><dt><span>unit :</span></dt><dd>kg yr-1</dd></dl></div><div class='xr-var-data'><pre>array([1.08002104e-01, 5.95987284e+07, 1.20314680e+08, 1.83078853e+08,
-       2.48204713e+08, 3.15774815e+08, 3.85789953e+08, 4.58061590e+08,
-       5.32410756e+08, 6.40948151e+08, 7.13096872e+08, 8.36531588e+08,
-       9.72593670e+08, 1.04347445e+09, 1.18739618e+09, 1.25780875e+09,
-       1.32917943e+09, 1.48156139e+09, 1.55190553e+09, 1.70335856e+09,
-       1.77239222e+09, 1.91806704e+09, 1.98555546e+09, 2.12890846e+09,
-       2.27255270e+09, 2.33614115e+09, 2.47371069e+09, 2.74607627e+09,
-       3.98954553e+09, 4.28160384e+09, 4.48616351e+09, 5.78228195e+09,
-       5.93967071e+09, 6.49879419e+09, 6.60881114e+09, 7.81451868e+09,
-       7.90902094e+09, 8.06787637e+09, 9.31124875e+09, 9.46248595e+09,
-       9.58066605e+09, 9.58792877e+09, 1.08859233e+10, 1.08866579e+10,
-       1.08873967e+10, 1.08881408e+10, 1.08888894e+10, 1.08896427e+10,
-       1.08904007e+10, 1.08911635e+10, 1.19063415e+10, 1.19063716e+10,
-       1.19064015e+10, 1.19064313e+10, 1.19064610e+10, 1.19064906e+10,
-       1.19065201e+10, 1.19065495e+10, 1.19065788e+10, 1.19066081e+10,
-       1.19066372e+10, 1.19066663e+10, 1.19066953e+10, 1.19067242e+10,
-       1.19067531e+10, 1.19067819e+10, 1.19068107e+10, 1.19068394e+10,
-       1.19068680e+10, 1.19068966e+10, 1.19069252e+10, 1.19069538e+10,
-       1.19069823e+10, 1.19070108e+10, 1.19070393e+10, 1.19070677e+10,
-       1.19070962e+10, 1.19071246e+10, 1.19071530e+10, 1.19071814e+10,
-       1.19072098e+10, 1.19072382e+10, 1.19072666e+10, 1.19072951e+10,
-       1.19073235e+10, 1.19073519e+10, 1.19073804e+10, 1.19074089e+10,
-       1.19074374e+10, 1.19074660e+10, 1.19074946e+10, 1.19075232e+10,
-       1.19075518e+10, 1.19075805e+10, 1.19076093e+10, 1.19076380e+10,
-       1.19076669e+10, 1.19076958e+10, 1.19077247e+10, 1.19077537e+10])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>snowfall_off_glacier_monthly</span></div><div class='xr-var-dims'>(time, month_2d)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.002158 0.01464 ... 2.46e+08</div><input id='attrs-85dbcbac-ab33-4ea5-a3fb-e796c05adb37' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-85dbcbac-ab33-4ea5-a3fb-e796c05adb37' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e78ce80c-0b51-4ef5-b37d-97df91941792' class='xr-var-data-in' type='checkbox'><label for='data-e78ce80c-0b51-4ef5-b37d-97df91941792' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[2.15809900e-03, 1.46355954e-02, 1.92997951e-02, ...,
-        0.00000000e+00, 0.00000000e+00, 0.00000000e+00],
-       [5.20477629e+06, 6.54710999e+06, 8.39540294e+06, ...,
-        3.45897997e+05, 3.14573664e+05, 1.74068945e+06],
-       [1.04222071e+07, 1.33702963e+07, 1.71499882e+07, ...,
-        5.65410039e+05, 5.24670902e+05, 3.23360589e+06],
-       ...,
-       [1.07763124e+09, 1.35967810e+09, 1.74344160e+09, ...,
-        2.61350573e+06, 1.53474708e+06, 2.45997096e+08],
-       [1.07763449e+09, 1.35968101e+09, 1.74344532e+09, ...,
-        2.61355483e+06, 1.53476703e+06, 2.45998474e+08],
-       [1.07763775e+09, 1.35968392e+09, 1.74344905e+09, ...,
-        2.61360352e+06, 1.53478649e+06, 2.45999854e+08]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>snowfall_on_glacier</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.945e+10 1.936e+10 ... 6.851e+09</div><input id='attrs-0b94ca39-e511-4279-a6cf-57e1eb87298b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0b94ca39-e511-4279-a6cf-57e1eb87298b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-87f046af-3ce1-4dae-8742-638decd82256' class='xr-var-data-in' type='checkbox'><label for='data-87f046af-3ce1-4dae-8742-638decd82256' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>On-glacier solid precipitation</dd><dt><span>unit :</span></dt><dd>kg yr-1</dd></dl></div><div class='xr-var-data'><pre>array([1.94462600e+10, 1.93648430e+10, 1.92826538e+10, 1.91987553e+10,
-       1.91127491e+10, 1.90244254e+10, 1.89336509e+10, 1.88406642e+10,
-       1.87455909e+10, 1.86162831e+10, 1.85235263e+10, 1.83797414e+10,
-       1.82233246e+10, 1.81321848e+10, 1.79681283e+10, 1.78776249e+10,
-       1.77861564e+10, 1.76140119e+10, 1.75238238e+10, 1.73526382e+10,
-       1.72639836e+10, 1.70985345e+10, 1.70115340e+10, 1.68485510e+10,
-       1.66855294e+10, 1.66028280e+10, 1.64463873e+10, 1.61558989e+10,
-       1.48954319e+10, 1.45872519e+10, 1.43672536e+10, 1.30573899e+10,
-       1.28874935e+10, 1.23177507e+10, 1.21978850e+10, 1.09837502e+10,
-       1.08819830e+10, 1.07163657e+10, 9.46802775e+09, 9.31285152e+09,
-       9.19138642e+09, 9.18117689e+09, 7.88116233e+09, 7.87947012e+09,
-       7.87776603e+09, 7.87608188e+09, 7.87438489e+09, 7.87267487e+09,
-       7.87095165e+09, 7.86921510e+09, 6.85385332e+09, 6.85378774e+09,
-       6.85372242e+09, 6.85365733e+09, 6.85359246e+09, 6.85352780e+09,
-       6.85346334e+09, 6.85339907e+09, 6.85333497e+09, 6.85327104e+09,
-       6.85320727e+09, 6.85314364e+09, 6.85308015e+09, 6.85301679e+09,
-       6.85295355e+09, 6.85289042e+09, 6.85282740e+09, 6.85276447e+09,
-       6.85270162e+09, 6.85263885e+09, 6.85257615e+09, 6.85251352e+09,
-       6.85245094e+09, 6.85238840e+09, 6.85232590e+09, 6.85226344e+09,
-       6.85220100e+09, 6.85213857e+09, 6.85207615e+09, 6.85201374e+09,
-       6.85195132e+09, 6.85188889e+09, 6.85182643e+09, 6.85176394e+09,
-       6.85170142e+09, 6.85163884e+09, 6.85157622e+09, 6.85151353e+09,
-       6.85145077e+09, 6.85138795e+09, 6.85132504e+09, 6.85126204e+09,
-       6.85119896e+09, 6.85113577e+09, 6.85107248e+09, 6.85100907e+09,
-       6.85094554e+09, 6.85088189e+09, 6.85081811e+09, 6.85075419e+09])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>snowfall_on_glacier_monthly</span></div><div class='xr-var-dims'>(time, month_2d)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.969e+09 1.977e+09 ... 4.894e+08</div><input id='attrs-7481b4ae-eef2-499d-b3a4-b9a4b5935895' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-7481b4ae-eef2-499d-b3a4-b9a4b5935895' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-67bc097e-00b9-4f1b-84fe-16be3fd59039' class='xr-var-data-in' type='checkbox'><label for='data-67bc097e-00b9-4f1b-84fe-16be3fd59039' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[1.96937202e+09, 1.97652376e+09, 2.53114612e+09, ...,
-        1.16237029e+08, 1.17347105e+08, 8.75644360e+08],
-       [1.96104584e+09, 1.96993887e+09, 2.52275072e+09, ...,
-        1.14265772e+08, 1.15517396e+08, 8.68596785e+08],
-       [1.95226675e+09, 1.96307045e+09, 2.51399613e+09, ...,
-        1.12713759e+08, 1.14001937e+08, 8.61905735e+08],
-       ...,
-       [6.88188292e+08, 6.15171112e+08, 7.87704521e+08, ...,
-        9.74929409e+07, 1.00699551e+08, 4.89384558e+08],
-       [6.88185039e+08, 6.15168204e+08, 7.87700797e+08, ...,
-        9.74896838e+07, 1.00696273e+08, 4.89372556e+08],
-       [6.88181779e+08, 6.15165289e+08, 7.87697066e+08, ...,
-        9.74864197e+07, 1.00692988e+08, 4.89360529e+08]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f077266f-4fff-4716-acd6-6483e5dd3226' class='xr-section-summary-in' type='checkbox'  checked><label for='section-f077266f-4fff-4716-acd6-6483e5dd3226' class='xr-section-summary' >Attributes: <span>(9)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>OGGM model output</dd><dt><span>oggm_version :</span></dt><dd>1.5.4.dev1+g436be57</dd><dt><span>calendar :</span></dt><dd>365-day no leap</dd><dt><span>creation_date :</span></dt><dd>2022-04-04 15:04:42</dd><dt><span>water_level :</span></dt><dd>0</dd><dt><span>glen_a :</span></dt><dd>6.774049426121393e-24</dd><dt><span>fs :</span></dt><dd>0</dd><dt><span>mb_model_class :</span></dt><dd>MultipleFlowlineMassBalance</dd><dt><span>mb_model_hemisphere :</span></dt><dd>nh</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <div class="section" id="annual-runoff">
 <h3>Annual runoff<a class="headerlink" href="#annual-runoff" title="Permalink to this headline">¶</a></h3>
@@ -1384,9 +715,6 @@ Attributes:
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_21_0.png" src="../_images/hydrological_output_21_0.png" />
 </div>
 </div>
 <p>The new hydrological variables are also available. Let’s make a pandas DataFrame of all “1D” (annual) variables:</p>
@@ -1408,9 +736,6 @@ Attributes:
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_25_0.png" src="../_images/hydrological_output_25_0.png" />
-</div>
 </div>
 <p>It consists of the following components:</p>
 <ul class="simple">
@@ -1424,9 +749,6 @@ Attributes:
 <span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_27_0.png" src="../_images/hydrological_output_27_0.png" />
 </div>
 </div>
 <p>As the glacier retreats, total runoff decreases as a result of the decreasing glacier contribution.</p>
@@ -1444,9 +766,6 @@ same way:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_31_0.png" src="../_images/hydrological_output_31_0.png" />
-</div>
 </div>
 <p>Something is a bit wrong: the coordinates are hydrological months - let’s make this better:</p>
 <div class="cell docutils container">
@@ -1462,18 +781,12 @@ same way:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_33_0.png" src="../_images/hydrological_output_33_0.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monthly_runoff</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month_2d</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;month_2d&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_34_0.png" src="../_images/hydrological_output_34_0.png" />
 </div>
 </div>
 <p>The runoff is approx. zero in the winter months, and is high in summer. The annual cycle changes as the glacier retreats:</p>
@@ -1482,9 +795,6 @@ same way:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monthly_runoff</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">99</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Annual cycle&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_36_0.png" src="../_images/hydrological_output_36_0.png" />
 </div>
 </div>
 <p>Let’s distinguish between the various components of the monthly runnoff for two 10 years periods (begining and end of the 100 year simulation):</p>
@@ -1516,9 +826,6 @@ same way:</p>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Monthly runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_39_0.png" src="../_images/hydrological_output_39_0.png" />
 </div>
 </div>
 </div>
@@ -1567,9 +874,6 @@ same way:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_46_0.png" src="../_images/hydrological_output_46_0.png" />
-</div>
 </div>
 </div>
 <div class="section" id="id2">
@@ -1585,9 +889,6 @@ same way:</p>
 <span class="n">monthly_runoff</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;Mt&#39;</span><span class="p">});</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_48_0.png" src="../_images/hydrological_output_48_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1618,9 +919,6 @@ same way:</p>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Monthly runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_50_0.png" src="../_images/hydrological_output_50_0.png" />
 </div>
 </div>
 </div>
@@ -1668,9 +966,6 @@ same way:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_56_0.png" src="../_images/hydrological_output_56_0.png" />
-</div>
 </div>
 <p>The plot shows what OGGM has done: glacier area is left constant until the RGI date, after which the dynamical model is used. Glacier volume however does vary, and is consistent with the glacier surface mass-balance (albeit without geometry feedbacks). The hydrological output is also consistent with climate and a fixed glacier geometry:</p>
 <div class="cell docutils container">
@@ -1681,9 +976,6 @@ same way:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_58_0.png" src="../_images/hydrological_output_58_0.png" />
 </div>
 </div>
 </div>
@@ -1705,14 +997,6 @@ same way:</p>
                                  <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
                                  <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>  <span class="c1"># precip projections</span>
                                  <span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:04:48: oggm.workflow: Execute entity tasks [process_cmip_data] on 1 glaciers
-2022-04-04 15:04:50: oggm.workflow: Execute entity tasks [process_cmip_data] on 1 glaciers
-2022-04-04 15:04:53: oggm.workflow: Execute entity tasks [process_cmip_data] on 1 glaciers
-2022-04-04 15:04:55: oggm.workflow: Execute entity tasks [process_cmip_data] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1760,9 +1044,6 @@ same way:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_65_0.png" src="../_images/hydrological_output_65_0.png" />
-</div>
 </div>
 <div class="section" id="id3">
 <h3>Annual runoff<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
@@ -1784,9 +1065,6 @@ same way:</p>
 <span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_68_0.png" src="../_images/hydrological_output_68_0.png" />
 </div>
 </div>
 <p>Note that “melt_off_glacier” is not zero at the beginning of the simulation - indeed the reference area is that of the 2003 glacier.</p>
@@ -1830,9 +1108,6 @@ same way:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_73_0.png" src="../_images/hydrological_output_73_0.png" />
-</div>
 </div>
 </div>
 </div>
@@ -1860,9 +1135,6 @@ same way:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_77_0.png" src="../_images/hydrological_output_77_0.png" />
-</div>
 </div>
 <div class="section" id="id5">
 <h3>Annual runoff<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
@@ -1884,9 +1156,6 @@ same way:</p>
 <span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_80_0.png" src="../_images/hydrological_output_80_0.png" />
 </div>
 </div>
 </div>
@@ -1928,9 +1197,6 @@ same way:</p>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Monthly runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_84_0.png" src="../_images/hydrological_output_84_0.png" />
 </div>
 </div>
 </div>
@@ -1974,9 +1240,6 @@ same way:</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_86_0.png" src="../_images/hydrological_output_86_0.png" />
-</div>
 </div>
 <p>For Hintereisferner, runoff continues to decrease throughout the 21st-century for all scenarios, indicating that <strong>peak water</strong> has already been reached sometime in the past. This is the case for many European glaciers. Let us take a look at another glacier, in a different climatical setting where a different hydrological projection can be expected.</p>
 <p>We pick a glacier (RGI60-15.02420, unnamed) in the Eastern Himalayas. First we need to initialize its glacier directory.</p>
@@ -1991,12 +1254,6 @@ same way:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="n">rgi_id</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:05:01: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
-2022-04-04 15:05:01: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -2020,14 +1277,6 @@ same way:</p>
                                  <span class="c1"># precip projections</span>
                                  <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>
                                  <span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:05:01: oggm.workflow: Execute entity tasks [process_cmip_data] on 1 glaciers
-2022-04-04 15:05:02: oggm.workflow: Execute entity tasks [process_cmip_data] on 1 glaciers
-2022-04-04 15:05:03: oggm.workflow: Execute entity tasks [process_cmip_data] on 1 glaciers
-2022-04-04 15:05:04: oggm.workflow: Execute entity tasks [process_cmip_data] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -2088,9 +1337,6 @@ same way:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/hydrological_output_95_0.png" src="../_images/hydrological_output_95_0.png" />
 </div>
 </div>
 <p>Unlike for Hintereisferner, these projections indicate that the annual runoff will increase in all the scenarios for the first half of the century. The higher RCP scenarios can reach <strong>peak water</strong> later in the century, since the excess melt can continue to increase. For the lower RCP scenarios on the other hand, the glacier might be approaching a new equilibirum, which reduces the runoff earlier in the century (<a class="reference external" href="https://www.frontiersin.org/articles/10.3389/feart.2019.00331/full">Rounce et. al., 2020</a>). After <strong>peak water</strong> is reached (RCP2.6: ~2055, RCP8.5: ~2070 in these projections), the annual runoff begin to decrease. This decrease occurs because the shrinking glacier is no longer able to support the high levels of melt.</p>

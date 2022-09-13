@@ -190,7 +190,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="dynamical_spinup.html">
-   Dynamic spinup for past simulations
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -241,6 +245,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
    Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
   </a>
  </li>
 </ul>
@@ -489,10 +498,10 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:10:33: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-04-04 15:10:33: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-04-04 15:10:33: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-04-04 15:10:33: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:15:24: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-09-13 16:15:24: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-09-13 16:15:24: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-09-13 16:15:25: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
 </pre></div>
 </div>
 </div>
@@ -508,9 +517,23 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:10:33: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2022-04-04 15:10:34: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2022-04-04 15:10:34: oggm.utils: /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_010/L3/RGI60-01/RGI60-01.03.tar verified successfully.
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">InvalidParamsError</span><span class="g g-Whitespace">                        </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-01.03622&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:493,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_base_url</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>                                     <span class="n">border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span>                                     <span class="n">prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span>                                     <span class="n">rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;has_internet&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">url_exists</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">493</span>         <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s2">&quot;base url seems unreachable with these &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">494</span>                                  <span class="s2">&quot;parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">496</span> <span class="c1"># if reset delete also the log directory</span>
+<span class="g g-Whitespace">    </span><span class="mi">497</span> <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+
+<span class="ne">InvalidParamsError</span>: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_010/L3/
 </pre></div>
 </div>
 </div>
@@ -521,9 +544,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/inversion_with_frontal_ablation_10_0.png" src="../_images/inversion_with_frontal_ablation_10_0.png" />
-</div>
 </div>
 <p><strong>Let’s first see the results of the inversion without calving:</strong></p>
 <div class="cell docutils container">
@@ -531,9 +551,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_inversion</span><span class="p">(</span><span class="n">gdir</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/inversion_with_frontal_ablation_12_0.png" src="../_images/inversion_with_frontal_ablation_12_0.png" />
 </div>
 </div>
 </div>
@@ -548,17 +565,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Default calving flux:</span>
 <span class="n">calving_flux_from_depth</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">water_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;flux&#39;: 0.0016181275571048193,
- &#39;width&#39;: 775.0815795377595,
- &#39;thick&#39;: 113.78948631464273,
- &#39;inversion_calving_k&#39;: 0.6,
- &#39;water_depth&#39;: 30.57820241598911,
- &#39;water_level&#39;: 0,
- &#39;free_board&#39;: 83.21128389865362}
 </pre></div>
 </div>
 </div>
@@ -583,9 +589,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/inversion_with_frontal_ablation_18_0.png" src="../_images/inversion_with_frontal_ablation_18_0.png" />
-</div>
 </div>
 <p>The flux is zero as long as the ice isn’t thick enough to reach the water surface, after which the water depth is positive and calving occurs. The calving flux varies with <span class="math notranslate nohighlight">\(H\)</span> as a polynomial of degree 2.</p>
 <p>We don’t know which is the <strong>real</strong> value of the calving flux at this glacier. From here, let’s make some very coarse assumptions:</p>
@@ -603,12 +606,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reference data for the recalibration of the mass-balance</span>
 <span class="n">ref_tstars_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/ref_mb_params/oggm_v1.4/RGIV62/CRU/centerlines/qc3/pcp2.5&#39;</span>
 <span class="n">workflow</span><span class="o">.</span><span class="n">download_ref_tstars</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">ref_tstars_url</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:10:42: oggm.utils: /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/ref_mb_params/oggm_v1.4/RGIV62/CRU/centerlines/qc3/pcp2.5/ref_tstars.csv verified successfully.
-2022-04-04 15:10:42: oggm.utils: /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/ref_mb_params/oggm_v1.4/RGIV62/CRU/centerlines/qc3/pcp2.5/ref_tstars_params.json verified successfully.
 </pre></div>
 </div>
 </div>
@@ -658,9 +655,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/inversion_with_frontal_ablation_23_0.png" src="../_images/inversion_with_frontal_ablation_23_0.png" />
-</div>
 </div>
 <p>We already know that the calving law (<strong>eq. 1</strong>) relates the thickness to the flux with a root of degree two (blue curve). Now, what explains the shape of the orange curve? It is Glen’s flow law, which relates ice thickness to the flux with a 5th degree root (assuming n=3). The graphic shows that, for this glacier, there is at least one solution to the problem of finding a calving flux which is compatible with both the calving law and the physics of ice deformation (where the two lines cross).</p>
 <p>Note that adding sliding doesn’t change the problem (we still solve a polynomial of degree 5 in OGGM, <a class="reference external" href="https://docs.oggm.org/en/stable/ice-dynamics.html">with a new term in degree 3</a>):</p>
@@ -671,9 +665,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Ice thickness (m)&#39;</span><span class="p">);</span>   
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/inversion_with_frontal_ablation_25_0.png" src="../_images/inversion_with_frontal_ablation_25_0.png" />
 </div>
 </div>
 <p>This plot is a bit misleading. The orange and green curve cross the blue line in two places, as we are going to show.</p>
@@ -747,9 +738,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/inversion_with_frontal_ablation_34_0.png" src="../_images/inversion_with_frontal_ablation_34_0.png" />
-</div>
 </div>
 <p>In this representation of the same data as above (here as a function of the prescribed water depth), one sees more clearly that there exist two locations where the zero line is crossed. This pattern is consistent for all but one glaciers in Alaska (see below), and we choose to pick the only realistic solution (the larger of the two). Indeed, the smallest solution leads to unrealistically small water depths and calving fluxes. Note that in the first two versions of the manuscript (with a different way to solve the equations), it is always the largest solution that was found: therefore, there is no noticeable change in the results between the last two manuscript versions.</p>
 <p>To solve our problem, we first seek the absolute minimum of the function(s), and then look for zeros above and below this point. It’s the larger solution which is retained.</p>
@@ -762,11 +750,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>42.147279259968215
-</pre></div>
-</div>
-</div>
 </div>
 <p>Now we find the roots of the functions between the interval  [0.0001 - 10000]. Using the python tool: <a class="reference external" href="https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.optimize.brentq.html">optimize.brentq()</a>.</p>
 <p>As observed in the previous plot we have two minima:</p>
@@ -774,12 +757,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Optimum water depth 1 (in m)&#39;</span><span class="p">,</span> <span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">to_solve_default</span><span class="p">,</span> <span class="mf">1e-4</span><span class="p">,</span> <span class="n">abs_min</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Optimum water depth 2 (in m)&#39;</span><span class="p">,</span> <span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">to_solve_default</span><span class="p">,</span> <span class="n">abs_min</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="mf">1e4</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Optimum water depth 1 (in m) 2.9899016853556635
-Optimum water depth 2 (in m) 143.7924777099962
 </pre></div>
 </div>
 </div>
@@ -801,17 +778,6 @@ In the code we always pick the larger solution.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;flux&#39;: 0.015179864222832417,
- &#39;width&#39;: 775.0815795377595,
- &#39;thick&#39;: 227.00376160864982,
- &#39;inversion_calving_k&#39;: 0.6,
- &#39;water_depth&#39;: 143.7924777099962,
- &#39;water_level&#39;: 0,
- &#39;free_board&#39;: 83.21128389865362}
-</pre></div>
-</div>
-</div>
 </div>
 <p>The process described above is implemented in the OGGM codebase in the following task: <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.find_inversion_calving.html?highlight=find_inversion_calving#oggm-tasks-find-inversion-calving">find_inversion_calving()</a>. This is what we use in operation, when <code class="docutils literal notranslate"><span class="pre">use_kcalving_for_inversion</span></code> is switched on, and it provides the same results:</p>
 <div class="cell docutils container">
@@ -820,26 +786,6 @@ In the code we always pick the larger solution.</p>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_kcalving_for_inversion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">out</span> <span class="o">=</span> <span class="n">find_inversion_calving</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">water_level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">out</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:11:21: oggm.cfg: PARAMS[&#39;use_kcalving_for_inversion&#39;] changed from `False` to `True`.
-2022-04-04 15:11:21: oggm.core.inversion: (RGI60-01.03622) find_inversion_calving
-2022-04-04 15:11:23: oggm.core.inversion: (RGI60-01.03622) find_inversion_calving_from_any_mb: found calving flux of 0.015 km3 yr-1
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;calving_flux&#39;: 0.015179864222832573,
- &#39;calving_rate_myr&#39;: 86.27548662599843,
- &#39;calving_mu_star&#39;: 91.70437425591591,
- &#39;calving_law_flux&#39;: 0.015179864222832498,
- &#39;calving_water_level&#39;: 0,
- &#39;calving_inversion_k&#39;: 0.6,
- &#39;calving_front_slope&#39;: 0.11600123219190657,
- &#39;calving_front_water_depth&#39;: 143.7924777099967,
- &#39;calving_front_free_board&#39;: 83.21128389865362,
- &#39;calving_front_thick&#39;: 227.0037616086503,
- &#39;calving_front_width&#39;: 775.0815795377595}
 </pre></div>
 </div>
 </div>
@@ -870,35 +816,11 @@ In the code we always pick the larger solution.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[10.0, 50.0]
-</pre></div>
-</div>
-</div>
 </div>
 <p>This means that we do not allow free-board higher than 50 (conservative value, could be changed to 75 m). This has an influence on the results. See how the calving flux changes with these new defaults:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">find_inversion_calving</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">water_level</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>  <span class="c1"># use default values</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:11:23: oggm.core.inversion: (RGI60-01.03622) find_inversion_calving
-2022-04-04 15:11:25: oggm.core.inversion: (RGI60-01.03622) find_inversion_calving_from_any_mb: found calving flux of 0.022 km3 yr-1
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;calving_flux&#39;: 0.02220788362949491,
- &#39;calving_rate_myr&#39;: 116.97117335284842,
- &#39;calving_mu_star&#39;: 91.28106176613524,
- &#39;calving_law_flux&#39;: 0.0222078836294945,
- &#39;calving_water_level&#39;: 33.21128389865362,
- &#39;calving_inversion_k&#39;: 0.6,
- &#39;calving_front_slope&#39;: 0.11600123219190657,
- &#39;calving_front_water_depth&#39;: 194.9519555880771,
- &#39;calving_front_free_board&#39;: 50.0,
- &#39;calving_front_thick&#39;: 244.9519555880771,
- &#39;calving_front_width&#39;: 775.0815795377595}
 </pre></div>
 </div>
 </div>
@@ -938,22 +860,6 @@ In the code we always pick the larger solution.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mu* for the glacier without calving (in mm w.e. mth-1): 92.62
-mu* for the glacier with calving (in mm w.e. mth-1): 91.70
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:11:25: oggm.core.climate: (RGI60-01.03622) local_t_star
-2022-04-04 15:11:25: oggm.core.climate: (RGI60-01.03622) local mu* computation for t*=1964
-2022-04-04 15:11:25: oggm.core.climate: (RGI60-01.03622) mu_star_calibration
-2022-04-04 15:11:25: oggm.core.climate: (RGI60-01.03622) local_t_star
-2022-04-04 15:11:25: oggm.core.climate: (RGI60-01.03622) local mu* computation for t*=1964
-2022-04-04 15:11:25: oggm.core.climate: (RGI60-01.03622) mu_star_calibration
-2022-04-04 15:11:26: oggm.core.inversion: (RGI60-01.03622) prepare_for_inversion
-2022-04-04 15:11:26: oggm.core.inversion: (RGI60-01.03622) mass_conservation_inversion
-</pre></div>
-</div>
-</div>
 </div>
 <p>This is consistent: in order to allow for a frontal ablation flux, melt has to be reduced along the glacier. Note that not only the frontal thickness is affected by this change, the entire glacier becomes thicker:</p>
 <div class="cell docutils container">
@@ -961,9 +867,6 @@ mu* for the glacier with calving (in mm w.e. mth-1): 91.70
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_inversion</span><span class="p">(</span><span class="n">gdir</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/inversion_with_frontal_ablation_60_0.png" src="../_images/inversion_with_frontal_ablation_60_0.png" />
 </div>
 </div>
 </div>
@@ -983,27 +886,6 @@ mu* for the glacier with calving (in mm w.e. mth-1): 91.70
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:11:31: oggm.cfg: PARAMS[&#39;inversion_calving_k&#39;] changed from `0.6` to `24.0`.
-2022-04-04 15:11:31: oggm.cfg: PARAMS[&#39;calving_min_mu_star_frac&#39;] changed from `0.7` to `0`.
-2022-04-04 15:11:31: oggm.core.inversion: (RGI60-01.03622) find_inversion_calving
-2022-04-04 15:11:32: oggm.core.inversion: (RGI60-01.03622) find_inversion_calving_from_any_mb: found calving flux of 1.538 km3 yr-1
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;calving_flux&#39;: 1.5376960608989283,
- &#39;calving_rate_myr&#39;: 3470.3198902418503,
- &#39;calving_mu_star&#39;: 0.0,
- &#39;calving_law_flux&#39;: 5.547752204120104,
- &#39;calving_water_level&#39;: 33.21128389865362,
- &#39;calving_inversion_k&#39;: 24.0,
- &#39;calving_front_slope&#39;: 0.11600123219190657,
- &#39;calving_front_water_depth&#39;: 521.6807607403077,
- &#39;calving_front_free_board&#39;: 50.0,
- &#39;calving_front_thick&#39;: 571.6807607403077,
- &#39;calving_front_width&#39;: 775.0815795377595}
-</pre></div>
-</div>
-</div>
 </div>
 <p>After clipping <span class="math notranslate nohighlight">\(\mu^*\)</span>, we keep the thickness and flux that still statisfy mass-conservation and ice deformation (<span class="math notranslate nohighlight">\(q_{OGGM}\)</span>) instead of the calving law (<span class="math notranslate nohighlight">\(q_{calving}\)</span>).</p>
 <p><em><em>New as for version 1.4: we now have a mechanism to clip mu</em> to a value higher than 0, given as a fraction of the non-calving mu</em>:**</p>
@@ -1016,26 +898,6 @@ mu* for the glacier with calving (in mm w.e. mth-1): 91.70
 
 <span class="n">out</span> <span class="o">=</span> <span class="n">find_inversion_calving</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 <span class="n">out</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:11:32: oggm.cfg: PARAMS[&#39;calving_min_mu_star_frac&#39;] changed from `0` to `0.7`.
-2022-04-04 15:11:32: oggm.core.inversion: (RGI60-01.03622) find_inversion_calving
-2022-04-04 15:11:33: oggm.core.inversion: (RGI60-01.03622) find_inversion_calving_from_any_mb: found calving flux of 0.930 km3 yr-1
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;calving_flux&#39;: 0.9300311740488388,
- &#39;calving_rate_myr&#39;: 2320.978475131525,
- &#39;calving_mu_star&#39;: 36.60094278638051,
- &#39;calving_law_flux&#39;: 4.4909861092712395,
- &#39;calving_water_level&#39;: 33.21128389865362,
- &#39;calving_inversion_k&#39;: 24.0,
- &#39;calving_front_slope&#39;: 0.11600123219190657,
- &#39;calving_front_water_depth&#39;: 466.98623222645926,
- &#39;calving_front_free_board&#39;: 50.0,
- &#39;calving_front_thick&#39;: 516.9862322264593,
- &#39;calving_front_width&#39;: 775.0815795377595}
 </pre></div>
 </div>
 </div>
@@ -1084,31 +946,6 @@ mu* for the glacier with calving (in mm w.e. mth-1): 91.70
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RGI60-01.04375
-Optimum small (in m) 3.8791150180855616
-Optimum large (in m) 766.7562471578146
-RGI60-01.03377
-Optimum small (in m) 0.8767092368563039
-Optimum large (in m) 525.2806591959095
-RGI60-01.01390
-Optimum small (in m) 0.12725555240651668
-Optimum large (in m) 521.2668860494764
-RGI60-01.14391
-Optimum small (in m) 0.2399488654573076
-Optimum large (in m) 921.3178100109675
-RGI60-01.20891
-Optimum small (in m) 0.08746271387787898
-Optimum large (in m) 656.9118156598653
-RGI60-01.10612
-Optimum small (in m) 2.3932170290279915
-Optimum large (in m) 306.7325531822173
-RGI60-01.17807
-Optimum small (in m) 7.371858617233925
-Optimum large (in m) 130.69421545268608
-</pre></div>
-</div>
-</div>
 </div>
 <p>The algorithm implemented in OGGM always seeks for the larger solution.</p>
 </div>
@@ -1149,9 +986,6 @@ Optimum large (in m) 130.69421545268608
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/inversion_with_frontal_ablation_73_0.png" src="../_images/inversion_with_frontal_ablation_73_0.png" />
-</div>
 </div>
 <p>Put another way, the two laws are simply incompatible. Both curves will never meet in a domain between <span class="math notranslate nohighlight">\(q_{calving}\)</span> <span class="math notranslate nohighlight">\(&gt;\)</span> 0 and a <span class="math notranslate nohighlight">\(q_{calving}\)</span> that results in a non negative <span class="math notranslate nohighlight">\(\mu*\)</span>. This could be due to several reasons:</p>
 <ul class="simple">
@@ -1167,21 +1001,6 @@ Optimum large (in m) 130.69421545268608
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_kcalving_for_inversion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">out</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">find_inversion_calving</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 <span class="n">out</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;calving_flux&#39;: 0.02810564881034136,
- &#39;calving_rate_myr&#39;: 57.953483737361545,
- &#39;calving_mu_star&#39;: 87.96935557164645,
- &#39;calving_law_flux&#39;: 0.028105648810341295,
- &#39;calving_water_level&#39;: 83.39508240583478,
- &#39;calving_inversion_k&#39;: 0.6,
- &#39;calving_front_slope&#39;: 0.18201268515440294,
- &#39;calving_front_water_depth&#39;: 96.58913956226903,
- &#39;calving_front_free_board&#39;: 50.0,
- &#39;calving_front_thick&#39;: 146.58913956226903,
- &#39;calving_front_width&#39;: 3308.356272260822}
 </pre></div>
 </div>
 </div>

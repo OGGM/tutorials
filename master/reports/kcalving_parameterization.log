@@ -1,0 +1,50 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+rgi_id = 'RGI60-01.10689'
+cfg.PATHS['working_dir'] = utils.gettempdir(dirname='OGGM-Calving', reset=True)
+cp_dir = os.path.join(cfg.PATHS['working_dir'], 'calving')
+
+# Download from the "OGGM shop" 
+gdir_woc = workflow.init_glacier_directories([rgi_id], from_prepro_level=3, prepro_border=80)[0]
+tasks.init_present_time_glacier(gdir_woc)
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mInvalidParamsError[0m                        Traceback (most recent call last)
+Cell [0;32mIn [12], line 6[0m
+[1;32m      3[0m cp_dir [38;5;241m=[39m os[38;5;241m.[39mpath[38;5;241m.[39mjoin(cfg[38;5;241m.[39mPATHS[[38;5;124m'[39m[38;5;124mworking_dir[39m[38;5;124m'[39m], [38;5;124m'[39m[38;5;124mcalving[39m[38;5;124m'[39m)
+[1;32m      5[0m [38;5;66;03m# Download from the "OGGM shop" [39;00m
+[0;32m----> 6[0m gdir_woc [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43m[[49m[43mrgi_id[49m[43m][49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m3[39;49m[43m,[49m[43m [49m[43mprepro_border[49m[38;5;241;43m=[39;49m[38;5;241;43m80[39;49m[43m)[49m[[38;5;241m0[39m]
+[1;32m      7[0m tasks[38;5;241m.[39minit_present_time_glacier(gdir_woc)
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:493[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
+[1;32m    488[0m     url [38;5;241m=[39m utils[38;5;241m.[39mget_prepro_base_url(base_url[38;5;241m=[39mprepro_base_url,
+[1;32m    489[0m                                     border[38;5;241m=[39mprepro_border,
+[1;32m    490[0m                                     prepro_level[38;5;241m=[39mfrom_prepro_level,
+[1;32m    491[0m                                     rgi_version[38;5;241m=[39mprepro_rgi_version)
+[1;32m    492[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhas_internet[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m utils[38;5;241m.[39murl_exists(url):
+[0;32m--> 493[0m         [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m"[39m[38;5;124mbase url seems unreachable with these [39m[38;5;124m"[39m
+[1;32m    494[0m                                  [38;5;124m"[39m[38;5;124mparameters: [39m[38;5;132;01m{}[39;00m[38;5;124m"[39m[38;5;241m.[39mformat(url))
+[1;32m    496[0m [38;5;66;03m# if reset delete also the log directory[39;00m
+[1;32m    497[0m [38;5;28;01mif[39;00m reset:
+
+[0;31mInvalidParamsError[0m: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L3/
+InvalidParamsError: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L3/
+

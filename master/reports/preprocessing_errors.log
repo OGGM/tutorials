@@ -1,0 +1,113 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# this can take some time
+df = []
+for rgi_reg in range(1, 19):
+    fpath = utils.file_downloader(url + f'glacier_statistics_{rgi_reg:02d}.csv')
+    df.append(pd.read_csv(fpath, index_col=0, low_memory=False))
+df = pd.concat(df, sort=False).sort_index()
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mValueError[0m                                Traceback (most recent call last)
+Cell [0;32mIn [3], line 5[0m
+[1;32m      3[0m [38;5;28;01mfor[39;00m rgi_reg [38;5;129;01min[39;00m [38;5;28mrange[39m([38;5;241m1[39m, [38;5;241m19[39m):
+[1;32m      4[0m     fpath [38;5;241m=[39m utils[38;5;241m.[39mfile_downloader(url [38;5;241m+[39m [38;5;124mf[39m[38;5;124m'[39m[38;5;124mglacier_statistics_[39m[38;5;132;01m{[39;00mrgi_reg[38;5;132;01m:[39;00m[38;5;124m02d[39m[38;5;132;01m}[39;00m[38;5;124m.csv[39m[38;5;124m'[39m)
+[0;32m----> 5[0m     df[38;5;241m.[39mappend([43mpd[49m[38;5;241;43m.[39;49m[43mread_csv[49m[43m([49m[43mfpath[49m[43m,[49m[43m [49m[43mindex_col[49m[38;5;241;43m=[39;49m[38;5;241;43m0[39;49m[43m,[49m[43m [49m[43mlow_memory[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m)
+[1;32m      6[0m df [38;5;241m=[39m pd[38;5;241m.[39mconcat(df, sort[38;5;241m=[39m[38;5;28;01mFalse[39;00m)[38;5;241m.[39msort_index()
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/pandas/util/_decorators.py:311[0m, in [0;36mdeprecate_nonkeyword_arguments.<locals>.decorate.<locals>.wrapper[0;34m(*args, **kwargs)[0m
+[1;32m    305[0m [38;5;28;01mif[39;00m [38;5;28mlen[39m(args) [38;5;241m>[39m num_allow_args:
+[1;32m    306[0m     warnings[38;5;241m.[39mwarn(
+[1;32m    307[0m         msg[38;5;241m.[39mformat(arguments[38;5;241m=[39marguments),
+[1;32m    308[0m         [38;5;167;01mFutureWarning[39;00m,
+[1;32m    309[0m         stacklevel[38;5;241m=[39mstacklevel,
+[1;32m    310[0m     )
+[0;32m--> 311[0m [38;5;28;01mreturn[39;00m [43mfunc[49m[43m([49m[38;5;241;43m*[39;49m[43margs[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/pandas/io/parsers/readers.py:678[0m, in [0;36mread_csv[0;34m(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, error_bad_lines, warn_bad_lines, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options)[0m
+[1;32m    663[0m kwds_defaults [38;5;241m=[39m _refine_defaults_read(
+[1;32m    664[0m     dialect,
+[1;32m    665[0m     delimiter,
+[0;32m   (...)[0m
+[1;32m    674[0m     defaults[38;5;241m=[39m{[38;5;124m"[39m[38;5;124mdelimiter[39m[38;5;124m"[39m: [38;5;124m"[39m[38;5;124m,[39m[38;5;124m"[39m},
+[1;32m    675[0m )
+[1;32m    676[0m kwds[38;5;241m.[39mupdate(kwds_defaults)
+[0;32m--> 678[0m [38;5;28;01mreturn[39;00m [43m_read[49m[43m([49m[43mfilepath_or_buffer[49m[43m,[49m[43m [49m[43mkwds[49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/pandas/io/parsers/readers.py:575[0m, in [0;36m_read[0;34m(filepath_or_buffer, kwds)[0m
+[1;32m    572[0m _validate_names(kwds[38;5;241m.[39mget([38;5;124m"[39m[38;5;124mnames[39m[38;5;124m"[39m, [38;5;28;01mNone[39;00m))
+[1;32m    574[0m [38;5;66;03m# Create the parser.[39;00m
+[0;32m--> 575[0m parser [38;5;241m=[39m [43mTextFileReader[49m[43m([49m[43mfilepath_or_buffer[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwds[49m[43m)[49m
+[1;32m    577[0m [38;5;28;01mif[39;00m chunksize [38;5;129;01mor[39;00m iterator:
+[1;32m    578[0m     [38;5;28;01mreturn[39;00m parser
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/pandas/io/parsers/readers.py:932[0m, in [0;36mTextFileReader.__init__[0;34m(self, f, engine, **kwds)[0m
+[1;32m    929[0m     [38;5;28mself[39m[38;5;241m.[39moptions[[38;5;124m"[39m[38;5;124mhas_index_names[39m[38;5;124m"[39m] [38;5;241m=[39m kwds[[38;5;124m"[39m[38;5;124mhas_index_names[39m[38;5;124m"[39m]
+[1;32m    931[0m [38;5;28mself[39m[38;5;241m.[39mhandles: IOHandles [38;5;241m|[39m [38;5;28;01mNone[39;00m [38;5;241m=[39m [38;5;28;01mNone[39;00m
+[0;32m--> 932[0m [38;5;28mself[39m[38;5;241m.[39m_engine [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_make_engine[49m[43m([49m[43mf[49m[43m,[49m[43m [49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mengine[49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/pandas/io/parsers/readers.py:1216[0m, in [0;36mTextFileReader._make_engine[0;34m(self, f, engine)[0m
+[1;32m   1212[0m     mode [38;5;241m=[39m [38;5;124m"[39m[38;5;124mrb[39m[38;5;124m"[39m
+[1;32m   1213[0m [38;5;66;03m# error: No overload variant of "get_handle" matches argument types[39;00m
+[1;32m   1214[0m [38;5;66;03m# "Union[str, PathLike[str], ReadCsvBuffer[bytes], ReadCsvBuffer[str]]"[39;00m
+[1;32m   1215[0m [38;5;66;03m# , "str", "bool", "Any", "Any", "Any", "Any", "Any"[39;00m
+[0;32m-> 1216[0m [38;5;28mself[39m[38;5;241m.[39mhandles [38;5;241m=[39m [43mget_handle[49m[43m([49m[43m  [49m[38;5;66;43;03m# type: ignore[call-overload][39;49;00m
+[1;32m   1217[0m [43m    [49m[43mf[49m[43m,[49m
+[1;32m   1218[0m [43m    [49m[43mmode[49m[43m,[49m
+[1;32m   1219[0m [43m    [49m[43mencoding[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mencoding[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1220[0m [43m    [49m[43mcompression[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mcompression[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1221[0m [43m    [49m[43mmemory_map[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mmemory_map[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1222[0m [43m    [49m[43mis_text[49m[38;5;241;43m=[39;49m[43mis_text[49m[43m,[49m
+[1;32m   1223[0m [43m    [49m[43merrors[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mencoding_errors[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mstrict[39;49m[38;5;124;43m"[39;49m[43m)[49m[43m,[49m
+[1;32m   1224[0m [43m    [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43moptions[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mstorage_options[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m)[49m[43m,[49m
+[1;32m   1225[0m [43m[49m[43m)[49m
+[1;32m   1226[0m [38;5;28;01massert[39;00m [38;5;28mself[39m[38;5;241m.[39mhandles [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m [38;5;28;01mNone[39;00m
+[1;32m   1227[0m f [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mhandles[38;5;241m.[39mhandle
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/pandas/io/common.py:667[0m, in [0;36mget_handle[0;34m(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)[0m
+[1;32m    664[0m     codecs[38;5;241m.[39mlookup_error(errors)
+[1;32m    666[0m [38;5;66;03m# open URLs[39;00m
+[0;32m--> 667[0m ioargs [38;5;241m=[39m [43m_get_filepath_or_buffer[49m[43m([49m
+[1;32m    668[0m [43m    [49m[43mpath_or_buf[49m[43m,[49m
+[1;32m    669[0m [43m    [49m[43mencoding[49m[38;5;241;43m=[39;49m[43mencoding[49m[43m,[49m
+[1;32m    670[0m [43m    [49m[43mcompression[49m[38;5;241;43m=[39;49m[43mcompression[49m[43m,[49m
+[1;32m    671[0m [43m    [49m[43mmode[49m[38;5;241;43m=[39;49m[43mmode[49m[43m,[49m
+[1;32m    672[0m [43m    [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[43mstorage_options[49m[43m,[49m
+[1;32m    673[0m [43m[49m[43m)[49m
+[1;32m    675[0m handle [38;5;241m=[39m ioargs[38;5;241m.[39mfilepath_or_buffer
+[1;32m    676[0m handles: [38;5;28mlist[39m[BaseBuffer]
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/pandas/io/common.py:424[0m, in [0;36m_get_filepath_or_buffer[0;34m(filepath_or_buffer, encoding, compression, mode, storage_options)[0m
+[1;32m    420[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m (
+[1;32m    421[0m     [38;5;28mhasattr[39m(filepath_or_buffer, [38;5;124m"[39m[38;5;124mread[39m[38;5;124m"[39m) [38;5;129;01mor[39;00m [38;5;28mhasattr[39m(filepath_or_buffer, [38;5;124m"[39m[38;5;124mwrite[39m[38;5;124m"[39m)
+[1;32m    422[0m ):
+[1;32m    423[0m     msg [38;5;241m=[39m [38;5;124mf[39m[38;5;124m"[39m[38;5;124mInvalid file path or buffer object type: [39m[38;5;132;01m{[39;00m[38;5;28mtype[39m(filepath_or_buffer)[38;5;132;01m}[39;00m[38;5;124m"[39m
+[0;32m--> 424[0m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(msg)
+[1;32m    426[0m [38;5;28;01mreturn[39;00m IOArgs(
+[1;32m    427[0m     filepath_or_buffer[38;5;241m=[39mfilepath_or_buffer,
+[1;32m    428[0m     encoding[38;5;241m=[39mencoding,
+[0;32m   (...)[0m
+[1;32m    431[0m     mode[38;5;241m=[39mmode,
+[1;32m    432[0m )
+
+[0;31mValueError[0m: Invalid file path or buffer object type: <class 'NoneType'>
+ValueError: Invalid file path or buffer object type: <class 'NoneType'>
+

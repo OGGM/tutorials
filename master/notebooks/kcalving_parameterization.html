@@ -190,7 +190,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="dynamical_spinup.html">
-   Dynamic spinup for past simulations
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -241,6 +245,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
    Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
   </a>
  </li>
 </ul>
@@ -475,10 +484,10 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:11:48: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-04-04 15:11:48: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-04-04 15:11:48: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-04-04 15:11:48: oggm.cfg: PARAMS[&#39;cfl_number&#39;] changed from `0.02` to `0.01`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:15:31: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-09-13 16:15:31: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-09-13 16:15:31: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-09-13 16:15:31: oggm.cfg: PARAMS[&#39;cfl_number&#39;] changed from `0.02` to `0.01`.
 </pre></div>
 </div>
 </div>
@@ -651,7 +660,7 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done! Time needed: 114s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done! Time needed: 125s
 </pre></div>
 </div>
 </div>
@@ -727,8 +736,26 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:15:43: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2022-04-04 15:15:43: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">InvalidParamsError</span><span class="g g-Whitespace">                        </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">cp_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;calving&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># Download from the &quot;OGGM shop&quot; </span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="n">gdir_woc</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="n">rgi_id</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir_woc</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:493,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_base_url</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>                                     <span class="n">border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span>                                     <span class="n">prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span>                                     <span class="n">rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;has_internet&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">url_exists</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">493</span>         <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s2">&quot;base url seems unreachable with these &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">494</span>                                  <span class="s2">&quot;parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">496</span> <span class="c1"># if reset delete also the log directory</span>
+<span class="g g-Whitespace">    </span><span class="mi">497</span> <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+
+<span class="ne">InvalidParamsError</span>: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L3/
 </pre></div>
 </div>
 </div>
@@ -738,9 +765,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_googlemap</span><span class="p">(</span><span class="n">gdir_woc</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">));</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/kcalving_parameterization_29_0.png" src="../_images/kcalving_parameterization_29_0.png" />
 </div>
 </div>
 </div>
@@ -777,26 +801,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:15:48: oggm.cfg: PARAMS[&#39;use_kcalving_for_inversion&#39;] changed from `False` to `True`.
-2022-04-04 15:15:48: oggm.cfg: PARAMS[&#39;use_kcalving_for_run&#39;] changed from `False` to `True`.
-2022-04-04 15:15:48: oggm.cfg: PARAMS[&#39;cfl_number&#39;] changed from `0.01` to `0.02`.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;calving_flux&#39;: 1.3681625367670633,
- &#39;calving_rate_myr&#39;: 395.260724207707,
- &#39;calving_mu_star&#39;: 18.26491026286427,
- &#39;calving_law_flux&#39;: 2.0857141089339515,
- &#39;calving_water_level&#39;: -9.979296694517906,
- &#39;calving_inversion_k&#39;: 0.6,
- &#39;calving_front_slope&#39;: 0.026179938779914945,
- &#39;calving_front_water_depth&#39;: 1004.2677033771955,
- &#39;calving_front_free_board&#39;: 10.0,
- &#39;calving_front_thick&#39;: 1014.2677033771955,
- &#39;calving_front_width&#39;: 3412.726112907336}
-</pre></div>
-</div>
-</div>
 </div>
 <p>It must be noted that the glacier terminus elevation (244 m a.s.l) is very high, and likely an artifact of the DEM data we used. Since <a class="reference external" href="https://github.com/OGGM/oggm/pull/996">April 2020</a> we mitigate these uncertainties but they aren’t fully tested. Regardless, the effect of imposing calving to the ice thickness inversion algorithm will have two main effects:</p>
 <ul class="simple">
@@ -818,19 +822,11 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/kcalving_parameterization_34_0.png" src="../_images/kcalving_parameterization_34_0.png" />
-</div>
 </div>
 <p>The slope of the seafloor after the terminus is arbitrarily set to a constant:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;calving_front_slope&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.05
 </pre></div>
 </div>
 </div>
@@ -872,9 +868,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/kcalving_parameterization_41_0.png" src="../_images/kcalving_parameterization_41_0.png" />
-</div>
 </div>
 <p>There is a large difference between the two simulations. Let’s have a look at glacier volume evolution and calving rate in that period:</p>
 <div class="cell docutils container">
@@ -896,9 +889,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/kcalving_parameterization_43_0.png" src="../_images/kcalving_parameterization_43_0.png" />
-</div>
 </div>
 <p>While calving during the simulation time definitely plays a role, the main differences between the two simulations are the starting volume of the glaciers, and the effect of the smaller temperature sensitivity, leading to less melt at the end of the century.</p>
 </div>
@@ -911,13 +901,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;error_when_glacier_reaches_boundaries&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># we need this because glacier grows</span>
 <span class="n">model_woc_2</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">gdir_woc</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_woc_2&#39;</span><span class="p">)</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_kcalving_for_run&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:18:18: oggm.cfg: PARAMS[&#39;use_kcalving_for_run&#39;] changed from `True` to `False`.
-2022-04-04 15:18:18: oggm.cfg: PARAMS[&#39;error_when_glacier_reaches_boundaries&#39;] changed from `True` to `False`.
-2022-04-04 15:18:57: oggm.cfg: PARAMS[&#39;use_kcalving_for_run&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -940,9 +923,6 @@ const thebe_selector_output = ".output, .cell_output"
         <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Calving rate [m yr$^{-1}$]&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Simulation time (yrs)&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/kcalving_parameterization_48_0.png" src="../_images/kcalving_parameterization_48_0.png" />
 </div>
 </div>
 <p>In this case, the starting volume is the same. The main impact of calving is to increase glacier retreat rates during most part of the century.</p>

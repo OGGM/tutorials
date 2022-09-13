@@ -188,7 +188,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="dynamical_spinup.html">
-   Dynamic spinup for past simulations
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -239,6 +243,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
    Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
   </a>
  </li>
 </ul>
@@ -502,11 +511,11 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:21:51: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-04-04 15:21:51: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-04-04 15:21:51: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-04-04 15:21:51: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
-2022-04-04 15:21:51: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:31:00: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-09-13 16:31:00: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-09-13 16:31:00: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-09-13 16:31:00: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+2022-09-13 16:31:00: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -522,8 +531,26 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:21:52: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2022-04-04 15:21:52: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">InvalidParamsError</span><span class="g g-Whitespace">                        </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># (The second glacier here we will only use in the second part of this notebook.)</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00001&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:493,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_base_url</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>                                     <span class="n">border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span>                                     <span class="n">prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span>                                     <span class="n">rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;has_internet&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">url_exists</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">493</span>         <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s2">&quot;base url seems unreachable with these &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">494</span>                                  <span class="s2">&quot;parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">496</span> <span class="c1"># if reset delete also the log directory</span>
+<span class="g g-Whitespace">    </span><span class="mi">497</span> <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+
+<span class="ne">InvalidParamsError</span>: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L3/
 </pre></div>
 </div>
 </div>
@@ -549,9 +576,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_9_0.png" src="../_images/plot_mass_balance_9_0.png" />
-</div>
 </div>
 <p>In this particular case (Hintereisferner), we can also plot the measured data:</p>
 <div class="cell docutils container">
@@ -568,9 +592,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_11_0.png" src="../_images/plot_mass_balance_11_0.png" />
-</div>
 </div>
 </div>
 <div class="section" id="mass-balance-profiles-on-flowlines">
@@ -580,13 +601,6 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">flmod</span> <span class="ow">in</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">flowline_mb_models</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">flmod</span><span class="o">.</span><span class="n">mu_star</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>221.2761869825984
-221.2761869825984
-221.2761869825984
 </pre></div>
 </div>
 </div>
@@ -612,9 +626,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_16_0.png" src="../_images/plot_mass_balance_16_0.png" />
-</div>
 </div>
 </div>
 <div class="section" id="mass-balance-at-any-height">
@@ -635,9 +646,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_19_0.png" src="../_images/plot_mass_balance_19_0.png" />
-</div>
 </div>
 <p>But again, for certain glaciers the mass-balance might change from one flowline to another!</p>
 </div>
@@ -656,11 +664,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:21:55: oggm.cfg: PARAMS[&#39;store_fl_diagnostics&#39;] changed from `False` to `True`.
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -668,9 +671,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">ds_diag</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Volume evolution of Hintereisferner&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_25_0.png" src="../_images/plot_mass_balance_25_0.png" />
 </div>
 </div>
 </div>
@@ -690,26 +690,11 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hydro dates
-(2003, 1)
-(2003, 12)
-Calendar dates
-(2002, 10)
-(2003, 9)
-</pre></div>
-</div>
-</div>
 </div>
 <p>The timestamp used in the OGGM output files uses the same convention:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">calendar_year</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">calendar_month</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2004.0 2003 10
 </pre></div>
 </div>
 </div>
@@ -721,21 +706,11 @@ Calendar dates
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2003
-</pre></div>
-</div>
-</div>
 </div>
 <p>Similarly, the simulation ends at the last possible date for which we have climate data for (i.e. the simulation stops at the end of September 2019, which translates to the beginning of hydrological year 2020):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">calendar_year</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">calendar_month</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2020.0 2019 10
 </pre></div>
 </div>
 </div>
@@ -757,9 +732,6 @@ Calendar dates
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_38_0.png" src="../_images/plot_mass_balance_38_0.png" />
 </div>
 </div>
 <p>A few comments:</p>
@@ -801,9 +773,6 @@ Calendar dates
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_43_0.png" src="../_images/plot_mass_balance_43_0.png" />
-</div>
 </div>
 </div>
 <div class="section" id="compute-the-mb-during-the-simulation">
@@ -830,12 +799,6 @@ Calendar dates
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:21:56: oggm.utils: Applying global task compile_ela on 2 glaciers
-2022-04-04 15:21:56: oggm.workflow: Execute entity tasks [compute_ela] on 2 glaciers
-</pre></div>
-</div>
-</div>
 </div>
 <p>Per default, the file will be stored in the working directory and named <code class="docutils literal notranslate"><span class="pre">ELA.hdf</span></code> (you can choose to save the data in a <code class="docutils literal notranslate"><span class="pre">csv</span></code> file instead by setting the <code class="docutils literal notranslate"><span class="pre">csv</span></code> keyword to <code class="docutils literal notranslate"><span class="pre">True</span></code>). The location where the file is saved can be changed by specifying the <code class="docutils literal notranslate"><span class="pre">path</span></code> keyword.</p>
 <p>Let’s read the file and plot it:</p>
@@ -849,9 +812,6 @@ Calendar dates
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ELA [m]&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_50_0.png" src="../_images/plot_mass_balance_50_0.png" />
 </div>
 </div>
 <p>When looking at many glaciers it might be useful to also plot the mean or average of the data. Let’s plot the mean ELA and the glacier area weighted ELA average:</p>
@@ -867,21 +827,12 @@ Calendar dates
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_52_0.png" src="../_images/plot_mass_balance_52_0.png" />
-</div>
 </div>
 <p>How would to ELA look like if the climate is 1° warmer? Lets have a look at one of the glaciers:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_tasks</span><span class="o">.</span><span class="n">compile_ela</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2019</span><span class="p">,</span> <span class="n">temperature_bias</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_t1&#39;</span><span class="p">)</span>
 <span class="n">ela_df_t1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;ELA_t1.hdf&#39;</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:21:57: oggm.utils: Applying global task compile_ela on 2 glaciers
-2022-04-04 15:21:57: oggm.workflow: Execute entity tasks [compute_ela] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -894,9 +845,6 @@ Calendar dates
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_55_0.png" src="../_images/plot_mass_balance_55_0.png" />
-</div>
 </div>
 <p>By using the <code class="docutils literal notranslate"><span class="pre">precipitation_factor</span></code> keyword, you can change the precipitation. Feel free to try that by yourself!</p>
 <p>Lets look at a longer timeseries, for one glacier only:</p>
@@ -904,12 +852,6 @@ Calendar dates
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_tasks</span><span class="o">.</span><span class="n">compile_ela</span><span class="p">(</span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ys</span><span class="o">=</span><span class="mi">1902</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2019</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_1901_2019&#39;</span><span class="p">,</span> <span class="n">csv</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ela_df_long</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;ELA_1901_2019.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:21:57: oggm.utils: Applying global task compile_ela on 1 glaciers
-2022-04-04 15:21:57: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -923,9 +865,6 @@ Calendar dates
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_59_0.png" src="../_images/plot_mass_balance_59_0.png" />
-</div>
 </div>
 <p>In case you’re only intrested in specific years there is an option to just compute the ELA in those years. There is actually no need to save this data. Therefore we now just compute the ELA.</p>
 <div class="cell docutils container">
@@ -933,15 +872,6 @@ Calendar dates
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yrs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1950</span><span class="p">,</span> <span class="mi">1980</span><span class="p">,</span> <span class="mi">1960</span><span class="p">]</span>
 <span class="n">ela_yrs</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">compute_ela</span><span class="p">(</span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">years</span><span class="o">=</span><span class="n">yrs</span><span class="p">)</span>
 <span class="n">ela_yrs</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2000    3153.160145
-1950    3199.436302
-1980    2938.549728
-1960    2854.039786
-dtype: float64
 </pre></div>
 </div>
 </div>
@@ -953,9 +883,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_63_0.png" src="../_images/plot_mass_balance_63_0.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -963,9 +890,6 @@ dtype: float64
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;year CE&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ELA [m]&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_64_0.png" src="../_images/plot_mass_balance_64_0.png" />
 </div>
 </div>
 <p>By now we have addressed most of the keyword agruments of the compile_ela and compute_ela functions. To use different climate than the default climate, you can make use of the <code class="docutils literal notranslate"><span class="pre">climate_filename</span></code> and <code class="docutils literal notranslate"><span class="pre">climate_input_filesuffix</span></code> keywords. In case you’re not familiar with those yet, please check out the <a class="reference internal" href="run_with_gcm.html"><span class="doc std std-doc">run_with_gcm</span></a> notebook.</p>
@@ -1006,9 +930,6 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_69_0.png" src="../_images/plot_mass_balance_69_0.png" />
-</div>
 </div>
 <p>Unsurprisingly, the AAR is strongly correlated to the ELA, but it is not fully linear due to the area distribution of the glacier:</p>
 <div class="cell docutils container">
@@ -1016,9 +937,6 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_aar</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;AAR&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;ELA&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_71_0.png" src="../_images/plot_mass_balance_71_0.png" />
 </div>
 </div>
 <p>Now that we have looked at the static case, let’s to the same for glaciers with changing surface height:</p>
@@ -1051,9 +969,6 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 <span class="n">dyna_aar</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;AAR&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/plot_mass_balance_73_0.png" src="../_images/plot_mass_balance_73_0.png" />
 </div>
 </div>
 <p>You can see in the plot that the difference between the AAR calculated from the dynamic glacier and the one of the

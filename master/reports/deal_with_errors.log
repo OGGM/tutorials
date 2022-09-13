@@ -1,0 +1,88 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/asyncio/base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Locals
+import oggm.cfg as cfg
+from oggm import utils, workflow, tasks
+
+# Libs
+import os
+import xarray as xr
+import pandas as pd
+
+# Initialize OGGM and set up the default run parameters
+cfg.initialize(logging_level='WARNING')
+
+# Here we override some of the default parameters
+# How many grid points around the glacier?
+# We make it small because we want the model to error because
+# of flowing out of the domain
+cfg.PARAMS['border'] = 80
+
+# This is useful since we have three glaciers
+cfg.PARAMS['use_multiprocessing'] = True
+
+# This is the important bit!
+# We tell OGGM to continue despite of errors
+cfg.PARAMS['continue_on_error'] = True
+
+# Local working directory (where OGGM will write its output)
+WORKING_DIR = utils.gettempdir('OGGM_Errors', reset=True)
+cfg.PATHS['working_dir'] = WORKING_DIR
+
+rgi_ids = ['RGI60-11.00897', 'RGI60-11.01450', 'RGI60-11.03295']
+
+# Go - get the pre-processed glacier directories
+gdirs = workflow.init_glacier_directories(rgi_ids, from_prepro_level=4)
+
+# We can step directly to the experiment!
+# Random climate representative for the recent climate (1985-2015)
+# with a negative bias added to the random temperature series
+workflow.execute_entity_task(tasks.run_random_climate, gdirs,
+                             nyears=150, seed=0,
+                             temperature_bias=-1)
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mInvalidParamsError[0m                        Traceback (most recent call last)
+Cell [0;32mIn [1], line 33[0m
+[1;32m     30[0m rgi_ids [38;5;241m=[39m [[38;5;124m'[39m[38;5;124mRGI60-11.00897[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mRGI60-11.01450[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mRGI60-11.03295[39m[38;5;124m'[39m]
+[1;32m     32[0m [38;5;66;03m# Go - get the pre-processed glacier directories[39;00m
+[0;32m---> 33[0m gdirs [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43mrgi_ids[49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m4[39;49m[43m)[49m
+[1;32m     35[0m [38;5;66;03m# We can step directly to the experiment![39;00m
+[1;32m     36[0m [38;5;66;03m# Random climate representative for the recent climate (1985-2015)[39;00m
+[1;32m     37[0m [38;5;66;03m# with a negative bias added to the random temperature series[39;00m
+[1;32m     38[0m workflow[38;5;241m.[39mexecute_entity_task(tasks[38;5;241m.[39mrun_random_climate, gdirs,
+[1;32m     39[0m                              nyears[38;5;241m=[39m[38;5;241m150[39m, seed[38;5;241m=[39m[38;5;241m0[39m,
+[1;32m     40[0m                              temperature_bias[38;5;241m=[39m[38;5;241m-[39m[38;5;241m1[39m)
+
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:493[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
+[1;32m    488[0m     url [38;5;241m=[39m utils[38;5;241m.[39mget_prepro_base_url(base_url[38;5;241m=[39mprepro_base_url,
+[1;32m    489[0m                                     border[38;5;241m=[39mprepro_border,
+[1;32m    490[0m                                     prepro_level[38;5;241m=[39mfrom_prepro_level,
+[1;32m    491[0m                                     rgi_version[38;5;241m=[39mprepro_rgi_version)
+[1;32m    492[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhas_internet[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m utils[38;5;241m.[39murl_exists(url):
+[0;32m--> 493[0m         [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m"[39m[38;5;124mbase url seems unreachable with these [39m[38;5;124m"[39m
+[1;32m    494[0m                                  [38;5;124m"[39m[38;5;124mparameters: [39m[38;5;132;01m{}[39;00m[38;5;124m"[39m[38;5;241m.[39mformat(url))
+[1;32m    496[0m [38;5;66;03m# if reset delete also the log directory[39;00m
+[1;32m    497[0m [38;5;28;01mif[39;00m reset:
+
+[0;31mInvalidParamsError[0m: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/
+InvalidParamsError: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/
+

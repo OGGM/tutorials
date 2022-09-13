@@ -190,7 +190,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="dynamical_spinup.html">
-   Dynamic spinup for past simulations
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
   </a>
  </li>
  <li class="toctree-l1">
@@ -241,6 +245,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
    Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
   </a>
  </li>
 </ul>
@@ -447,10 +456,10 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:19:02: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-04-04 15:19:02: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-04-04 15:19:02: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-04-04 15:19:02: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:19:55: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-09-13 16:19:55: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-09-13 16:19:55: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-09-13 16:19:55: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
 </pre></div>
 </div>
 </div>
@@ -463,8 +472,23 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:19:03: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2022-04-04 15:19:03: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">InvalidParamsError</span><span class="g g-Whitespace">                        </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:493,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_base_url</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>                                     <span class="n">border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span>                                     <span class="n">prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span>                                     <span class="n">rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;has_internet&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">url_exists</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">493</span>         <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s2">&quot;base url seems unreachable with these &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">494</span>                                  <span class="s2">&quot;parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">496</span> <span class="c1"># if reset delete also the log directory</span>
+<span class="g g-Whitespace">    </span><span class="mi">497</span> <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+
+<span class="ne">InvalidParamsError</span>: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_010/L3/
 </pre></div>
 </div>
 </div>
@@ -476,9 +500,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">graphics</span><span class="o">.</span><span class="n">plot_googlemap</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/massbalance_calibration_8_0.png" src="../_images/massbalance_calibration_8_0.png" />
 </div>
 </div>
 </div>
@@ -500,9 +521,6 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/massbalance_calibration_11_0.png" src="../_images/massbalance_calibration_11_0.png" />
-</div>
 </div>
 <p>Perfect? <strong>Not really:</strong> the model is calibrated so that the bias over the calibration period is zero, but other uncertainties remain: the variability in our timeseries is too high (this has something to do with precipitation amounts) and we have a stronger trend in the model than observations (this is due to the changing glacier geometry, that our model doesn’t know about here: so this is more a “feature” than a bug).</p>
 <p>What’s important for OGGM here is the bias, which is zero:</p>
@@ -512,23 +530,11 @@ const thebe_selector_output = ".output, .cell_output"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE   -648.223881
-OGGM (calib)     -675.892979
-dtype: float64
-</pre></div>
-</div>
-</div>
 </div>
 <p>The calibration procedure did following: it found a year <span class="math notranslate nohighlight">\(t^*\)</span> in the past which is selected so that the glacier, with its present day geometry, would be in equilibrium with a 31-yr climate centered on <span class="math notranslate nohighlight">\(t^*\)</span> (see the <a class="reference external" href="https://docs.oggm.org/en/stable/mass-balance.html">documentation</a> for more info). The year <span class="math notranslate nohighlight">\(t^*\)</span> and the associated temperature sensitivity <span class="math notranslate nohighlight">\(\mu^*\)</span> (units: mm K<span class="math notranslate nohighlight">\(^{-1}\)</span> yr<span class="math notranslate nohighlight">\(^{-1}\)</span>) for this glacier are:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;t_star&#39;</span><span class="p">],</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;mu_star_glacierwide&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1974, 221.28378354824062)
 </pre></div>
 </div>
 </div>
@@ -541,11 +547,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1987, 343.0814484116781)
-</pre></div>
-</div>
-</div>
 </div>
 <p>These are very different values! Not surprising: the two glaciers are in the same climate (from the forcing data) but are very different in size, orientation and geometry. The resulting mass-balance values are also different:</p>
 <div class="cell docutils container">
@@ -554,13 +555,6 @@ dtype: float64
 <span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">PastMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 <span class="n">ref_df</span><span class="p">[</span><span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">),</span> <span class="n">year</span><span class="o">=</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 <span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE   -167.955224
-OGGM (calib)     -208.495382
-dtype: float64
 </pre></div>
 </div>
 </div>
@@ -588,26 +582,11 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:19:05: oggm.cfg: PARAMS[&#39;run_mb_calibration&#39;] changed from `False` to `True`.
-2022-04-04 15:19:05: oggm.core.climate: Applying global task compute_ref_t_stars on 2 glaciers
-2022-04-04 15:19:05: oggm.utils: Applying global task get_ref_mb_glaciers on 2 glaciers
-2022-04-04 15:19:05: oggm.workflow: Execute entity tasks [t_star_from_refmb] on 1 glaciers
-2022-04-04 15:19:05: oggm.workflow: Execute entity tasks [local_t_star] on 2 glaciers
-2022-04-04 15:19:05: oggm.workflow: Execute entity tasks [mu_star_calibration] on 2 glaciers
-</pre></div>
-</div>
-</div>
 </div>
 <p>Now, what’s the new <span class="math notranslate nohighlight">\(\mu^*\)</span> of Kesselwandferner?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;t_star&#39;</span><span class="p">],</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;mu_star_glacierwide&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1975, 424.74830246056376)
 </pre></div>
 </div>
 </div>
@@ -621,14 +600,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE    -167.955224
-OGGM (calib)      -208.495382
-OGGM (blind)     -1044.091649
-dtype: float64
-</pre></div>
-</div>
-</div>
 </div>
 <p>Quite a negative bias! This is as good as OGGM can be in the absence of observations and without any other reference glacier in vicinity (OGGM needs at least one).</p>
 <p>What else could we do to calibrate  <span class="math notranslate nohighlight">\(\mu^*\)</span>  for this glacier? We tried for example to simply interpolate <span class="math notranslate nohighlight">\(\mu^*\)</span>, and found that on average, this leads to worse results. Here for example:</p>
@@ -637,15 +608,6 @@ dtype: float64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">PastMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">mu_star</span><span class="o">=</span><span class="mf">221.275</span><span class="p">)</span>  <span class="c1"># Apply mu* from Hintereisferner</span>
 <span class="n">ref_df</span><span class="p">[</span><span class="s1">&#39;OGGM (μ∗ from HEF)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">),</span> <span class="n">year</span><span class="o">=</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 <span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (blind)&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (μ∗ from HEF)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE        -167.955224
-OGGM (calib)          -208.495382
-OGGM (blind)         -1044.091649
-OGGM (μ∗ from HEF)     941.432404
-dtype: float64
 </pre></div>
 </div>
 </div>
@@ -678,12 +640,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:19:06: oggm.workflow: init_glacier_directories from prepro level 3 on 3 glaciers.
-2022-04-04 15:19:06: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 3 glaciers
-</pre></div>
-</div>
-</div>
 </div>
 <p><strong>First</strong>, let’s start by adding some data to this glacier. We are just creating some fake data and giving it to the glacier directory object.</p>
 <div class="cell docutils container">
@@ -701,9 +657,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/massbalance_calibration_42_0.png" src="../_images/massbalance_calibration_42_0.png" />
-</div>
 </div>
 <p><strong>Second</strong>, we have to tell OGGM that this glacier is a reference glacier. We do this by adding it’s ID to the list:</p>
 <div class="cell docutils container">
@@ -714,11 +667,6 @@ dtype: float64
 <span class="n">cfg</span><span class="o">.</span><span class="n">DATA</span><span class="p">[</span><span class="s1">&#39;RGI60_ref_ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">)</span>
 <span class="c1"># Make sure all three glaciers are now reference glaciers</span>
 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">get_ref_mb_glaciers</span><span class="p">(</span><span class="n">gdirs</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:19:07: oggm.utils: Applying global task get_ref_mb_glaciers on 3 glaciers
 </pre></div>
 </div>
 </div>
@@ -733,15 +681,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-04-04 15:19:07: oggm.core.climate: Applying global task compute_ref_t_stars on 3 glaciers
-2022-04-04 15:19:07: oggm.utils: Applying global task get_ref_mb_glaciers on 3 glaciers
-2022-04-04 15:19:07: oggm.workflow: Execute entity tasks [t_star_from_refmb] on 3 glaciers
-2022-04-04 15:19:07: oggm.workflow: Execute entity tasks [local_t_star] on 3 glaciers
-2022-04-04 15:19:07: oggm.workflow: Execute entity tasks [mu_star_calibration] on 3 glaciers
-</pre></div>
-</div>
-</div>
 </div>
 <p><strong>Note:</strong> what just happened here? We asked OGGM to recalibrate its mass-balance model. In essence, it is as simple as computing a list of so-called “reference <span class="math notranslate nohighlight">\(t^*\)</span>” from which the model can interpolate from. This list is then written as CSV file in the working directory:</p>
 <div class="cell docutils container">
@@ -751,60 +690,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>lon</th>
-      <th>lat</th>
-      <th>n_mb_years</th>
-      <th>tstar</th>
-      <th>bias</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>RGI60-11.00787</th>
-      <td>10.79070</td>
-      <td>46.8424</td>
-      <td>67</td>
-      <td>1988</td>
-      <td>62.425850</td>
-    </tr>
-    <tr>
-      <th>RGI60-11.00897</th>
-      <td>10.75840</td>
-      <td>46.8003</td>
-      <td>67</td>
-      <td>1975</td>
-      <td>-7.242953</td>
-    </tr>
-    <tr>
-      <th>RGI60-11.01270</th>
-      <td>8.11933</td>
-      <td>46.6143</td>
-      <td>30</td>
-      <td>1998</td>
-      <td>13.840711</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
 </div>
 <p>This list has to be generated once, and <strong>has to be copied in each working directory you use if you want OGGM to take it into account</strong>. In the absence of this file in the working directory, OGGM will use its default pre-calibrated file, located in the online <a class="reference external" href="https://github.com/OGGM/oggm-sample-data/blob/master/wgms/oggm_ref_tstars_rgi6_cru4.csv">sample data repository</a>.</p>
 <p>After copying the file in a fresh working directory, the task <code class="docutils literal notranslate"><span class="pre">compute_ref_t_stars</span></code> should not be called. Only <code class="docutils literal notranslate"><span class="pre">local_t_star</span></code> and <code class="docutils literal notranslate"><span class="pre">mu_star_calibration</span></code> matter.</p>
@@ -819,13 +704,6 @@ dtype: float64
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE       154.285158
-OGGM (fake calib)    154.285158
-dtype: float64
-</pre></div>
-</div>
-</div>
 </div>
 <p>A bias of zero! Works perfectly, right? ;-)</p>
 <div class="cell docutils container">
@@ -833,9 +711,6 @@ dtype: float64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (fake calib)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/massbalance_calibration_53_0.png" src="../_images/massbalance_calibration_53_0.png" />
 </div>
 </div>
 </div>
