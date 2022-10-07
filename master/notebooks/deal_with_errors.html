@@ -531,12 +531,12 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-09-13 16:07:06: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-09-13 16:07:06: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-09-13 16:07:06: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2022-09-13 16:07:06: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
-2022-09-13 16:07:06: oggm.cfg: Multiprocessing switched ON after user settings.
-2022-09-13 16:07:06: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-10-07 12:45:42: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2022-10-07 12:45:42: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2022-10-07 12:45:42: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2022-10-07 12:45:43: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+2022-10-07 12:45:43: oggm.cfg: Multiprocessing switched ON after user settings.
+2022-10-07 12:45:43: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -552,18 +552,27 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 <span class="g g-Whitespace">     </span><span class="mi">39</span>                              <span class="n">nyears</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 <span class="g g-Whitespace">     </span><span class="mi">40</span>                              <span class="n">temperature_bias</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:493,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
-<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_base_url</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">489</span>                                     <span class="n">border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">490</span>                                     <span class="n">prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">491</span>                                     <span class="n">rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;has_internet&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">url_exists</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">493</span>         <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s2">&quot;base url seems unreachable with these &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">494</span>                                  <span class="s2">&quot;parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">496</span> <span class="c1"># if reset delete also the log directory</span>
-<span class="g g-Whitespace">    </span><span class="mi">497</span> <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:351,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">348</span>     <span class="n">reset</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">query_yes_no</span><span class="p">(</span><span class="s1">&#39;Delete all glacier directories?&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">350</span> <span class="k">if</span> <span class="n">from_prepro_level</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">351</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_base_url</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">352</span>                                     <span class="n">border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">353</span>                                     <span class="n">prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">354</span>                                     <span class="n">rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">355</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;has_internet&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">url_exists</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">356</span>         <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s2">&quot;base url seems unreachable with these &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">357</span>                                  <span class="s2">&quot;parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
 
-<span class="ne">InvalidParamsError</span>: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/
+<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/utils/_downloads.py:1278,</span> in <span class="ni">get_prepro_base_url</span><span class="nt">(base_url, rgi_version, border, prepro_level)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1275</span> <span class="sd">&quot;&quot;&quot;Extended base url where to find the desired gdirs.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1277</span> <span class="k">if</span> <span class="n">base_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1278</span>     <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s1">&#39;Starting with v1.6, users now have to &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1279</span>                              <span class="s1">&#39;explicitly indicate the url they want &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1280</span>                              <span class="s1">&#39;to start from.&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1282</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">base_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1283</span>     <span class="n">base_url</span> <span class="o">+=</span> <span class="s1">&#39;/&#39;</span>
+
+<span class="ne">InvalidParamsError</span>: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
 </pre></div>
 </div>
 </div>

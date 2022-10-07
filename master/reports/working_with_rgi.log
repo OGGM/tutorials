@@ -32,19 +32,28 @@ gdirs = workflow.init_glacier_directories(gdf_sel, from_prepro_level=4)
 Cell [0;32mIn [15], line 8[0m
 [1;32m      5[0m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mborder[39m[38;5;124m'[39m] [38;5;241m=[39m [38;5;241m80[39m
 [1;32m      6[0m cfg[38;5;241m.[39mPATHS[[38;5;124m'[39m[38;5;124mworking_dir[39m[38;5;124m'[39m] [38;5;241m=[39m utils[38;5;241m.[39mgettempdir(dirname[38;5;241m=[39m[38;5;124m'[39m[38;5;124mOGGM-Rofental[39m[38;5;124m'[39m, reset[38;5;241m=[39m[38;5;28;01mTrue[39;00m)
-[0;32m----> 8[0m gdirs [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43mgdf_sel[49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m4[39;49m[43m)[49m
+[0;32m----> 8[0m gdirs [38;5;241m=[39m workflow[38;5;241m.[39minit_glacier_directories(gdf_sel, from_prepro_level[38;5;241m=[39m[38;5;241m4[39m)
 
-File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:493[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
-[1;32m    488[0m     url [38;5;241m=[39m utils[38;5;241m.[39mget_prepro_base_url(base_url[38;5;241m=[39mprepro_base_url,
-[1;32m    489[0m                                     border[38;5;241m=[39mprepro_border,
-[1;32m    490[0m                                     prepro_level[38;5;241m=[39mfrom_prepro_level,
-[1;32m    491[0m                                     rgi_version[38;5;241m=[39mprepro_rgi_version)
-[1;32m    492[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhas_internet[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m utils[38;5;241m.[39murl_exists(url):
-[0;32m--> 493[0m         [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m"[39m[38;5;124mbase url seems unreachable with these [39m[38;5;124m"[39m
-[1;32m    494[0m                                  [38;5;124m"[39m[38;5;124mparameters: [39m[38;5;132;01m{}[39;00m[38;5;124m"[39m[38;5;241m.[39mformat(url))
-[1;32m    496[0m [38;5;66;03m# if reset delete also the log directory[39;00m
-[1;32m    497[0m [38;5;28;01mif[39;00m reset:
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/workflow.py:351[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
+[1;32m    348[0m     reset [38;5;241m=[39m utils[38;5;241m.[39mquery_yes_no([38;5;124m'[39m[38;5;124mDelete all glacier directories?[39m[38;5;124m'[39m)
+[1;32m    350[0m [38;5;28;01mif[39;00m from_prepro_level:
+[0;32m--> 351[0m     url [38;5;241m=[39m [43mutils[49m[38;5;241;43m.[39;49m[43mget_prepro_base_url[49m[43m([49m[43mbase_url[49m[38;5;241;43m=[39;49m[43mprepro_base_url[49m[43m,[49m
+[1;32m    352[0m [43m                                    [49m[43mborder[49m[38;5;241;43m=[39;49m[43mprepro_border[49m[43m,[49m
+[1;32m    353[0m [43m                                    [49m[43mprepro_level[49m[38;5;241;43m=[39;49m[43mfrom_prepro_level[49m[43m,[49m
+[1;32m    354[0m [43m                                    [49m[43mrgi_version[49m[38;5;241;43m=[39;49m[43mprepro_rgi_version[49m[43m)[49m
+[1;32m    355[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhas_internet[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m utils[38;5;241m.[39murl_exists(url):
+[1;32m    356[0m         [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m"[39m[38;5;124mbase url seems unreachable with these [39m[38;5;124m"[39m
+[1;32m    357[0m                                  [38;5;124m"[39m[38;5;124mparameters: [39m[38;5;132;01m{}[39;00m[38;5;124m"[39m[38;5;241m.[39mformat(url))
 
-[0;31mInvalidParamsError[0m: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/
-InvalidParamsError: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_080/L4/
+File [0;32m/usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/utils/_downloads.py:1278[0m, in [0;36mget_prepro_base_url[0;34m(base_url, rgi_version, border, prepro_level)[0m
+[1;32m   1275[0m [38;5;124;03m"""Extended base url where to find the desired gdirs."""[39;00m
+[1;32m   1277[0m [38;5;28;01mif[39;00m base_url [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
+[0;32m-> 1278[0m     [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m'[39m[38;5;124mStarting with v1.6, users now have to [39m[38;5;124m'[39m
+[1;32m   1279[0m                              [38;5;124m'[39m[38;5;124mexplicitly indicate the url they want [39m[38;5;124m'[39m
+[1;32m   1280[0m                              [38;5;124m'[39m[38;5;124mto start from.[39m[38;5;124m'[39m)
+[1;32m   1282[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m base_url[38;5;241m.[39mendswith([38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m):
+[1;32m   1283[0m     base_url [38;5;241m+[39m[38;5;241m=[39m [38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m
+
+[0;31mInvalidParamsError[0m: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
+InvalidParamsError: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
 
