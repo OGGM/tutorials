@@ -4,11 +4,13 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Ingest gridded products such as ice velocity into OGGM &#8212; OGGM tutorials</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -72,7 +71,21 @@ const thebe_selector_output = ".output, .cell_output"
                     </script>
 
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -81,9 +94,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
         <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
@@ -101,10 +115,28 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  10 minutes tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="welcome.html">
-   Welcome to the OGGM tutorials!
+  <a class="reference internal" href="10minutes/run_with_gcm.html">
+   10 minutes to… compute a projection with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="10minutes/dynamical_spinup.html">
+   10 minutes to… understand the new dynamical spinup in OGGM v1.6
   </a>
  </li>
 </ul>
@@ -270,115 +302,244 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/notebooks/ingest_gridded_data_on_flowlines.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
-    <div class="dropdown-buttons sourcebuttons">
-        <a class="repository-button"
-            href="https://github.com/OGGM/tutorials"><button type="button" class="btn btn-secondary topbarbtn"
-                data-toggle="tooltip" data-placement="left" title="Source repository"><i
-                    class="fab fa-github"></i>repository</button></a>
-        <a class="issues-button"
-            href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/ingest_gridded_data_on_flowlines.html&body=Your%20issue%20content%20here."><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
-        <a class="edit-button" href="https://github.com/OGGM/tutorials/edit/master/./notebooks/ingest_gridded_data_on_flowlines.ipynb"><button
-                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
-                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
-    </div>
-</div>
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/ingest_gridded_data_on_flowlines.ipynb%26branch%3Dmaster"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        <a class="jupyterhub-button" href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https://github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/ingest_gridded_data_on_flowlines.ipynb&branch=master"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch JupyterHub" data-toggle="tooltip"
-                data-placement="left"><img class="jupyterhub-button-logo"
-                    src="../_static/images/logo_jupyterhub.svg"
-                    alt="Interact on JupyterHub">JupyterHub</button></a>
-        
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/ingest_gridded_data_on_flowlines.ipynb%26branch%3Dmaster"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/ingest_gridded_data_on_flowlines.ipynb&branch=master"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OGGM/tutorials"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/ingest_gridded_data_on_flowlines.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/ingest_gridded_data_on_flowlines.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/notebooks/ingest_gridded_data_on_flowlines.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#lets-define-the-glaciers-for-the-run">
    Lets define the glaciers for the run
@@ -428,17 +589,82 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Ingest gridded products such as ice velocity into OGGM</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lets-define-the-glaciers-for-the-run">
+   Lets define the glaciers for the run
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-gridded-data-file-in-the-glacier-directory">
+   The
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     gridded_data
+    </span>
+   </code>
+   file in the glacier directory
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#add-data-from-oggm-shop-bed-topography-data">
+   Add data from OGGM-Shop: bed topography data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#oggm-shop-its-live">
+   OGGM-Shop: ITS-live
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bin-the-data-in-gridded-data-into-oggm-elevation-bands">
+   Bin the data in
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     gridded_data
+    </span>
+   </code>
+   into OGGM elevation bands
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compare-velocities-at-inversion">
+   Compare velocities: at inversion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#velocities-during-the-run">
+   Velocities during the run
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="ingest-gridded-products-such-as-ice-velocity-into-oggm">
-<h1>Ingest gridded products such as ice velocity into OGGM<a class="headerlink" href="#ingest-gridded-products-such-as-ice-velocity-into-oggm" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="ingest-gridded-products-such-as-ice-velocity-into-oggm">
+<h1>Ingest gridded products such as ice velocity into OGGM<a class="headerlink" href="#ingest-gridded-products-such-as-ice-velocity-into-oggm" title="Permalink to this headline">#</a></h1>
 <p>After running our OGGM experiments we often want to compare the model output to other gridded observations or maybe we want to use additional data sets that are not currently in the <a class="reference external" href="https://docs.oggm.org/en/stable/input-data.html">OGGM shop</a> to calibrate parameters in the model (e.g. Glen A creep parameter, sliding parameter or the calving constant of proportionality). If you are looking on ways or ideas on how to do this, you are in the right tutorial!</p>
 <p>In OGGM, a local map projection is defined for each glacier entity in the RGI inventory following the methods described in <a class="reference external" href="https://gmd.copernicus.org/articles/12/909/2019/">Maussion and others (2019)</a>. The model uses a Transverse Mercator projection centred on the glacier. A lot of data sets, especially those from Polar regions can have a different projections and if we are not careful, we would be making mistakes when we compare them with our model output or when we use such data sets to constrain our model experiments.</p>
 <blockquote>
@@ -463,9 +689,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-10-07 12:50:23: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2022-10-07 12:50:23: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2022-10-07 12:50:23: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 11:26:20: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-07 11:26:20: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-07 11:26:20: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -477,8 +703,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 </div>
-<div class="section" id="lets-define-the-glaciers-for-the-run">
-<h2>Lets define the glaciers for the run<a class="headerlink" href="#lets-define-the-glaciers-for-the-run" title="Permalink to this headline">¶</a></h2>
+<section id="lets-define-the-glaciers-for-the-run">
+<h2>Lets define the glaciers for the run<a class="headerlink" href="#lets-define-the-glaciers-for-the-run" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-14.06794&#39;</span><span class="p">]</span>  <span class="c1"># Baltoro</span>
@@ -505,9 +731,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-10-07 12:50:24: oggm.workflow: You seem to be using v1.4 directories with a more recent version of OGGM. While this is possible, be aware that some defaults parameters have changed. See the documentation for details: http://docs.oggm.org/en/stable/whats-new.html
-2022-10-07 12:50:24: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2022-10-07 12:50:24: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 11:26:20: oggm.workflow: You seem to be using v1.4 directories with a more recent version of OGGM. While this is possible, be aware that some defaults parameters have changed. See the documentation for details: http://docs.oggm.org/en/stable/whats-new.html
+2023-03-07 11:26:20: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2023-03-07 11:26:20: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -529,9 +755,9 @@ const thebe_selector_output = ".output, .cell_output"
 <img alt="../_images/ingest_gridded_data_on_flowlines_9_0.png" src="../_images/ingest_gridded_data_on_flowlines_9_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="the-gridded-data-file-in-the-glacier-directory">
-<h2>The <code class="docutils literal notranslate"><span class="pre">gridded_data</span></code> file in the glacier directory<a class="headerlink" href="#the-gridded-data-file-in-the-glacier-directory" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="the-gridded-data-file-in-the-glacier-directory">
+<h2>The <code class="docutils literal notranslate"><span class="pre">gridded_data</span></code> file in the glacier directory<a class="headerlink" href="#the-gridded-data-file-in-the-glacier-directory" title="Permalink to this headline">#</a></h2>
 <p>A lot of the data that the model use and produce for a glacier is stored under <a class="reference external" href="https://oggm.org/tutorials/stable/notebooks/getting_started.html#glacier-directories">the glaciers directories</a> in a NetCDF file called <code class="docutils literal notranslate"><span class="pre">gridded_data</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -822,6 +1048,11 @@ body.vscode-dark {
   grid-column: 4;
 }
 
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
 .xr-var-name,
 .xr-var-dims,
 .xr-var-dtype,
@@ -843,14 +1074,16 @@ body.vscode-dark {
 }
 
 .xr-var-attrs,
-.xr-var-data {
+.xr-var-data,
+.xr-index-data {
   display: none;
   background-color: var(--xr-background-color) !important;
   padding-bottom: 5px !important;
 }
 
 .xr-var-attrs-in:checked ~ .xr-var-attrs,
-.xr-var-data-in:checked ~ .xr-var-data {
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
   display: block;
 }
 
@@ -860,13 +1093,16 @@ body.vscode-dark {
 
 .xr-var-name span,
 .xr-var-data,
+.xr-index-name div,
+.xr-index-data,
 .xr-attrs {
   padding-left: 25px !important;
 }
 
 .xr-attrs,
 .xr-var-attrs,
-.xr-var-data {
+.xr-var-data,
+.xr-index-data {
   grid-column: 1 / -1;
 }
 
@@ -904,7 +1140,8 @@ dl.xr-attrs {
 }
 
 .xr-icon-database,
-.xr-icon-file-text2 {
+.xr-icon-file-text2,
+.xr-no-icon {
   display: inline-block;
   vertical-align: middle;
   width: 1em;
@@ -931,15 +1168,15 @@ Attributes:
     max_h_dem:      8437.0
     min_h_dem:      2996.0
     max_h_glacier:  8437.0
-    min_h_glacier:  3397.0</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-b4092e0e-c2c9-405f-ad60-d1c2de3d3773' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-b4092e0e-c2c9-405f-ad60-d1c2de3d3773' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>x</span>: 479</li><li><span class='xr-has-index'>y</span>: 346</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-973ab51c-33e1-4dc0-894b-c910634a57d7' class='xr-section-summary-in' type='checkbox'  checked><label for='section-973ab51c-33e1-4dc0-894b-c910634a57d7' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x</span></div><div class='xr-var-dims'>(x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-4.764e+04 -4.744e+04 ... 4.796e+04</div><input id='attrs-8bb5d59f-ae03-4cd3-8f5e-390c10b5e522' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8bb5d59f-ae03-4cd3-8f5e-390c10b5e522' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-44fde3d8-e871-4a53-8c19-e676c90bbc2e' class='xr-var-data-in' type='checkbox'><label for='data-44fde3d8-e871-4a53-8c19-e676c90bbc2e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>x coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_x_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([-47638.055, -47438.055, -47238.055, ...,  47561.945,  47761.945,
-        47961.945], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y</span></div><div class='xr-var-dims'>(y)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>3.992e+06 3.992e+06 ... 3.923e+06</div><input id='attrs-63b053e2-9331-46ef-8b0b-dea3946c037d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-63b053e2-9331-46ef-8b0b-dea3946c037d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-447e2e9f-e3ec-498e-aa49-a66d4e336de9' class='xr-var-data-in' type='checkbox'><label for='data-447e2e9f-e3ec-498e-aa49-a66d4e336de9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>y coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_y_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([3991927., 3991727., 3991527., ..., 3923327., 3923127., 3922927.],
-      dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7ba8335d-6939-4b92-b22e-d070011a3c60' class='xr-section-summary-in' type='checkbox'  checked><label for='section-7ba8335d-6939-4b92-b22e-d070011a3c60' class='xr-section-summary' >Data variables: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>topo</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>5.128e+03 4.999e+03 ... 5.299e+03</div><input id='attrs-e5d117b9-54b9-4194-8b2f-893caee08573' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e5d117b9-54b9-4194-8b2f-893caee08573' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f80d538f-d47b-4223-842e-bf3ffdf6f931' class='xr-var-data-in' type='checkbox'><label for='data-f80d538f-d47b-4223-842e-bf3ffdf6f931' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography</dd></dl></div><div class='xr-var-data'><pre>array([[5128., 4999., 4920., ..., 5500., 5563., 5641.],
+    min_h_glacier:  3397.0</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-34d3c5a8-6ae9-4148-959b-9203ad01015d' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-34d3c5a8-6ae9-4148-959b-9203ad01015d' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>x</span>: 479</li><li><span class='xr-has-index'>y</span>: 346</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-a044d9ce-edfe-4a95-a584-d70dc2e9280a' class='xr-section-summary-in' type='checkbox'  checked><label for='section-a044d9ce-edfe-4a95-a584-d70dc2e9280a' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x</span></div><div class='xr-var-dims'>(x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-4.764e+04 -4.744e+04 ... 4.796e+04</div><input id='attrs-db8ea878-2d40-49ef-a8da-b9ba00c3f80b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-db8ea878-2d40-49ef-a8da-b9ba00c3f80b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c1887e26-0597-48d9-b1af-059220cff6af' class='xr-var-data-in' type='checkbox'><label for='data-c1887e26-0597-48d9-b1af-059220cff6af' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>x coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_x_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([-47638.055, -47438.055, -47238.055, ...,  47561.945,  47761.945,
+        47961.945], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y</span></div><div class='xr-var-dims'>(y)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>3.992e+06 3.992e+06 ... 3.923e+06</div><input id='attrs-7a1c85c7-b03d-44bb-8534-0053a4e114b1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7a1c85c7-b03d-44bb-8534-0053a4e114b1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e211e99e-c3ba-4900-ab8f-0b9bf1e356e6' class='xr-var-data-in' type='checkbox'><label for='data-e211e99e-c3ba-4900-ab8f-0b9bf1e356e6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>y coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_y_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([3991927., 3991727., 3991527., ..., 3923327., 3923127., 3922927.],
+      dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-d44c14eb-81d9-4ca5-a47d-13b66dc1c660' class='xr-section-summary-in' type='checkbox'  checked><label for='section-d44c14eb-81d9-4ca5-a47d-13b66dc1c660' class='xr-section-summary' >Data variables: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>topo</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>5.128e+03 4.999e+03 ... 5.299e+03</div><input id='attrs-8928f979-3a12-4526-9098-1dbf968d9b0c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8928f979-3a12-4526-9098-1dbf968d9b0c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-18088f35-7446-4946-ab1c-d6dcfd575080' class='xr-var-data-in' type='checkbox'><label for='data-18088f35-7446-4946-ab1c-d6dcfd575080' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography</dd></dl></div><div class='xr-var-data'><pre>array([[5128., 4999., 4920., ..., 5500., 5563., 5641.],
        [5192., 5036., 4973., ..., 5423., 5449., 5520.],
        [5145., 5041., 5025., ..., 5260., 5313., 5396.],
        ...,
        [3974., 3866., 3783., ..., 5252., 5260., 5263.],
        [4025., 3917., 3812., ..., 5279., 5286., 5287.],
-       [4097., 4005., 3916., ..., 5291., 5291., 5299.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_smoothed</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>5.113e+03 5.019e+03 ... 5.295e+03</div><input id='attrs-92b5cbfb-d73b-4cbe-afe3-68aaf6e7cffe' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-92b5cbfb-d73b-4cbe-afe3-68aaf6e7cffe' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-69f96d1f-ca6a-43d1-93de-69b50a0d4e52' class='xr-var-data-in' type='checkbox'><label for='data-69f96d1f-ca6a-43d1-93de-69b50a0d4e52' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography smoothed with radius: 3e+02 m</dd></dl></div><div class='xr-var-data'><pre>array([[5113.0107, 5019.3696, 4943.0776, ..., 5468.2134, 5543.3647,
+       [4097., 4005., 3916., ..., 5291., 5291., 5299.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_smoothed</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>5.113e+03 5.019e+03 ... 5.295e+03</div><input id='attrs-2eeb1423-9b03-48fa-8be9-cfe979dea7d8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2eeb1423-9b03-48fa-8be9-cfe979dea7d8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f62cf20d-3237-48b4-a363-05083975b184' class='xr-var-data-in' type='checkbox'><label for='data-f62cf20d-3237-48b4-a363-05083975b184' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography smoothed with radius: 3e+02 m</dd></dl></div><div class='xr-var-data'><pre>array([[5113.0107, 5019.3696, 4943.0776, ..., 5468.2134, 5543.3647,
         5599.1377],
        [5138.9595, 5046.7725, 4977.5405, ..., 5396.9126, 5451.853 ,
         5503.463 ],
@@ -951,25 +1188,37 @@ Attributes:
        [4007.28  , 3926.4658, 3832.7732, ..., 5287.942 , 5280.9517,
         5283.8403],
        [4061.5234, 3986.9854, 3895.4531, ..., 5302.535 , 5291.0063,
-        5295.076 ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_valid_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-8c960a24-8126-4cd4-9e13-328e22206a03' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8c960a24-8126-4cd4-9e13-328e22206a03' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4e7e0a78-b745-4011-b760-b63c366cefbd' class='xr-var-data-in' type='checkbox'><label for='data-4e7e0a78-b745-4011-b760-b63c366cefbd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>DEM validity mask according to geotiff input (1-0)</dd></dl></div><div class='xr-var-data'><pre>array([[1, 1, 1, ..., 1, 1, 1],
+        5295.076 ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_valid_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-c64673e3-2633-49e4-b4fd-c5d4081d09bf' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c64673e3-2633-49e4-b4fd-c5d4081d09bf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8d945cd5-cfa6-4cd3-9326-2d1ce4f7fca1' class='xr-var-data-in' type='checkbox'><label for='data-8d945cd5-cfa6-4cd3-9326-2d1ce4f7fca1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>DEM validity mask according to geotiff input (1-0)</dd></dl></div><div class='xr-var-data'><pre>array([[1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
        ...,
        [1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
-       [1, 1, 1, ..., 1, 1, 1]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-65e36e33-759f-42e4-a8f3-51f5b33ba069' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-65e36e33-759f-42e4-a8f3-51f5b33ba069' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-11040fcc-7903-406d-abf0-93815987fa04' class='xr-var-data-in' type='checkbox'><label for='data-11040fcc-7903-406d-abf0-93815987fa04' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier mask</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
+       [1, 1, 1, ..., 1, 1, 1]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-5eb0b48d-46e7-4771-8046-e40163f0fc1d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5eb0b48d-46e7-4771-8046-e40163f0fc1d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-93bff627-9642-4e03-9663-81e84a6b7b0b' class='xr-var-data-in' type='checkbox'><label for='data-93bff627-9642-4e03-9663-81e84a6b7b0b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier mask</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        ...,
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
-       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_ext</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-e70cbfda-903b-4601-acc4-6ff99806ab4e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e70cbfda-903b-4601-acc4-6ff99806ab4e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-325c602c-664a-49e6-a720-7f4651343900' class='xr-var-data-in' type='checkbox'><label for='data-325c602c-664a-49e6-a720-7f4651343900' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier external boundaries</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_ext</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-1d2e34dd-6ffd-4608-b7f2-8a67f02153d3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1d2e34dd-6ffd-4608-b7f2-8a67f02153d3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-22535c9b-d9c6-4932-9017-80410ab6dc56' class='xr-var-data-in' type='checkbox'><label for='data-22535c9b-d9c6-4932-9017-80410ab6dc56' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier external boundaries</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        ...,
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
-       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-99105215-d78c-4970-b7a2-a608874335ba' class='xr-section-summary-in' type='checkbox'  checked><label for='section-99105215-d78c-4970-b7a2-a608874335ba' class='xr-section-summary' >Attributes: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>author :</span></dt><dd>OGGM</dd><dt><span>author_info :</span></dt><dd>Open Global Glacier Model</dd><dt><span>pyproj_srs :</span></dt><dd>+proj=tmerc +lat_0=0 +lon_0=76.4047 +k=0.9996 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</dd><dt><span>max_h_dem :</span></dt><dd>8437.0</dd><dt><span>min_h_dem :</span></dt><dd>2996.0</dd><dt><span>max_h_glacier :</span></dt><dd>8437.0</dd><dt><span>min_h_glacier :</span></dt><dd>3397.0</dd></dl></div></li></ul></div></div></div></div>
+       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-4bf35927-6df9-4f84-88eb-ea6faa72919b' class='xr-section-summary-in' type='checkbox'  ><label for='section-4bf35927-6df9-4f84-88eb-ea6faa72919b' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>x</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-1eb0da65-225a-468f-8c99-5686597922a0' class='xr-index-data-in' type='checkbox'/><label for='index-1eb0da65-225a-468f-8c99-5686597922a0' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([-47638.0546875, -47438.0546875, -47238.0546875, -47038.0546875,
+              -46838.0546875, -46638.0546875, -46438.0546875, -46238.0546875,
+              -46038.0546875, -45838.0546875,
+              ...
+               46161.9453125,  46361.9453125,  46561.9453125,  46761.9453125,
+               46961.9453125,  47161.9453125,  47361.9453125,  47561.9453125,
+               47761.9453125,  47961.9453125],
+             dtype=&#x27;float64&#x27;, name=&#x27;x&#x27;, length=479))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>y</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-76fff32d-a12b-453b-9aae-abb744022e78' class='xr-index-data-in' type='checkbox'/><label for='index-76fff32d-a12b-453b-9aae-abb744022e78' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([3991927.0, 3991727.0, 3991527.0, 3991327.0, 3991127.0, 3990927.0,
+              3990727.0, 3990527.0, 3990327.0, 3990127.0,
+              ...
+              3924727.0, 3924527.0, 3924327.0, 3924127.0, 3923927.0, 3923727.0,
+              3923527.0, 3923327.0, 3923127.0, 3922927.0],
+             dtype=&#x27;float64&#x27;, name=&#x27;y&#x27;, length=346))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-95ca209f-199a-4c2e-84c9-1a82f4f19cf4' class='xr-section-summary-in' type='checkbox'  checked><label for='section-95ca209f-199a-4c2e-84c9-1a82f4f19cf4' class='xr-section-summary' >Attributes: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>author :</span></dt><dd>OGGM</dd><dt><span>author_info :</span></dt><dd>Open Global Glacier Model</dd><dt><span>pyproj_srs :</span></dt><dd>+proj=tmerc +lat_0=0 +lon_0=76.4047 +k=0.9996 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</dd><dt><span>max_h_dem :</span></dt><dd>8437.0</dd><dt><span>min_h_dem :</span></dt><dd>2996.0</dd><dt><span>max_h_glacier :</span></dt><dd>8437.0</dd><dt><span>min_h_glacier :</span></dt><dd>3397.0</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -992,9 +1241,9 @@ Attributes:
 <img alt="../_images/ingest_gridded_data_on_flowlines_15_0.png" src="../_images/ingest_gridded_data_on_flowlines_15_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="add-data-from-oggm-shop-bed-topography-data">
-<h2>Add data from OGGM-Shop: bed topography data<a class="headerlink" href="#add-data-from-oggm-shop-bed-topography-data" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="add-data-from-oggm-shop-bed-topography-data">
+<h2>Add data from OGGM-Shop: bed topography data<a class="headerlink" href="#add-data-from-oggm-shop-bed-topography-data" title="Permalink to this headline">#</a></h2>
 <p>Additionally to the data produced by the model, the <a class="reference external" href="https://docs.oggm.org/en/stable/input-data.html">OGGM-Shop</a> counts with routines that will automatically download and reproject other useful data sets into the glacier projection (For more information also check out this <a class="reference external" href="https://oggm.org/tutorials/stable/notebooks/oggm_shop.html">notebook</a>). This data will be stored under the file described above.</p>
 <p>OGGM can now download data from the <a class="reference external" href="https://www.nature.com/articles/s41561-019-0300-3">Farinotti et al., (2019) consensus estimate</a> and reproject it to the glacier directories map:</p>
 <div class="cell docutils container">
@@ -1011,7 +1260,7 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-10-07 12:51:00: oggm.workflow: Execute entity tasks [add_consensus_thickness] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 11:26:43: oggm.workflow: Execute entity tasks [add_consensus_thickness] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1051,9 +1300,9 @@ Attributes:
 <img alt="../_images/ingest_gridded_data_on_flowlines_23_0.png" src="../_images/ingest_gridded_data_on_flowlines_23_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="oggm-shop-its-live">
-<h2>OGGM-Shop: ITS-live<a class="headerlink" href="#oggm-shop-its-live" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="oggm-shop-its-live">
+<h2>OGGM-Shop: ITS-live<a class="headerlink" href="#oggm-shop-its-live" title="Permalink to this headline">#</a></h2>
 <p>This is an example on how to extract velocity fields from the <a class="reference external" href="https://its-live.jpl.nasa.gov/">ITS_live</a> Regional Glacier and Ice Sheet Surface Velocities Mosaic (<a class="reference external" href="http://its-live-data.jpl.nasa.gov.s3.amazonaws.com/documentation/ITS_LIVE-Regional-Glacier-and-Ice-Sheet-Surface-Velocities.pdf">Gardner, A. et al 2019</a>) at 120 m resolution and reproject this data to the OGGM-glacier grid. This only works where ITS-live data is available! (<strong>not in the Alps</strong>).</p>
 <p>The data source used is <a class="reference external" href="https://its-live.jpl.nasa.gov/#data">https://its-live.jpl.nasa.gov/#data</a>.</p>
 <p>Currently the only data downloaded is the 120m composite for both (u, v) and their uncertainty. The composite is computed from the 1985 to 2018 average. If you want more velocity products, feel free to open a new topic on the OGGM issue tracker!</p>
@@ -1068,7 +1317,7 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-10-07 12:51:11: oggm.workflow: Execute entity tasks [velocity_to_gdir] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 11:26:58: oggm.workflow: Execute entity tasks [velocity_to_gdir] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1348,6 +1597,11 @@ body.vscode-dark {
   grid-column: 4;
 }
 
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
 .xr-var-name,
 .xr-var-dims,
 .xr-var-dtype,
@@ -1369,14 +1623,16 @@ body.vscode-dark {
 }
 
 .xr-var-attrs,
-.xr-var-data {
+.xr-var-data,
+.xr-index-data {
   display: none;
   background-color: var(--xr-background-color) !important;
   padding-bottom: 5px !important;
 }
 
 .xr-var-attrs-in:checked ~ .xr-var-attrs,
-.xr-var-data-in:checked ~ .xr-var-data {
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
   display: block;
 }
 
@@ -1386,13 +1642,16 @@ body.vscode-dark {
 
 .xr-var-name span,
 .xr-var-data,
+.xr-index-name div,
+.xr-index-data,
 .xr-attrs {
   padding-left: 25px !important;
 }
 
 .xr-attrs,
 .xr-var-attrs,
-.xr-var-data {
+.xr-var-data,
+.xr-index-data {
   grid-column: 1 / -1;
 }
 
@@ -1430,7 +1689,8 @@ dl.xr-attrs {
 }
 
 .xr-icon-database,
-.xr-icon-file-text2 {
+.xr-icon-file-text2,
+.xr-no-icon {
   display: inline-block;
   vertical-align: middle;
   width: 1em;
@@ -1460,15 +1720,15 @@ Attributes:
     max_h_dem:      8437.0
     min_h_dem:      2996.0
     max_h_glacier:  8437.0
-    min_h_glacier:  3397.0</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-c66aafd7-d8d2-45fd-8e89-e901f8f700ac' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-c66aafd7-d8d2-45fd-8e89-e901f8f700ac' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>x</span>: 479</li><li><span class='xr-has-index'>y</span>: 346</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-95e51ebb-c378-4930-b459-53a2a3939d45' class='xr-section-summary-in' type='checkbox'  checked><label for='section-95e51ebb-c378-4930-b459-53a2a3939d45' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x</span></div><div class='xr-var-dims'>(x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-4.764e+04 -4.744e+04 ... 4.796e+04</div><input id='attrs-dedecad7-157a-44ed-b589-d27e09d47331' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-dedecad7-157a-44ed-b589-d27e09d47331' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b3fa9d7a-0368-4951-b66a-1642b9c1d78e' class='xr-var-data-in' type='checkbox'><label for='data-b3fa9d7a-0368-4951-b66a-1642b9c1d78e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>x coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_x_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([-47638.055, -47438.055, -47238.055, ...,  47561.945,  47761.945,
-        47961.945], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y</span></div><div class='xr-var-dims'>(y)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>3.992e+06 3.992e+06 ... 3.923e+06</div><input id='attrs-5f935c8d-dac8-4ebd-870f-026d5b63f325' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5f935c8d-dac8-4ebd-870f-026d5b63f325' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-be218e2b-db69-45a2-87cd-d8f9989079c9' class='xr-var-data-in' type='checkbox'><label for='data-be218e2b-db69-45a2-87cd-d8f9989079c9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>y coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_y_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([3991927., 3991727., 3991527., ..., 3923327., 3923127., 3922927.],
-      dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-5186ce8e-561a-4f43-9d96-8f824955f417' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5186ce8e-561a-4f43-9d96-8f824955f417' class='xr-section-summary' >Data variables: <span>(8)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>topo</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>5.128e+03 4.999e+03 ... 5.299e+03</div><input id='attrs-647f1628-f8d0-4908-a264-d2edc269b8da' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-647f1628-f8d0-4908-a264-d2edc269b8da' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-af305a49-a8e8-4c3d-b610-865bc80977f6' class='xr-var-data-in' type='checkbox'><label for='data-af305a49-a8e8-4c3d-b610-865bc80977f6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography</dd></dl></div><div class='xr-var-data'><pre>array([[5128., 4999., 4920., ..., 5500., 5563., 5641.],
+    min_h_glacier:  3397.0</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-fa8c51ad-ea39-45cc-8a6a-e449be9cf890' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-fa8c51ad-ea39-45cc-8a6a-e449be9cf890' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>x</span>: 479</li><li><span class='xr-has-index'>y</span>: 346</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-5820bfda-1cc7-497f-beb2-0fcdff541c51' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5820bfda-1cc7-497f-beb2-0fcdff541c51' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>x</span></div><div class='xr-var-dims'>(x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-4.764e+04 -4.744e+04 ... 4.796e+04</div><input id='attrs-4b767339-e337-4996-b958-bd71a1552fe4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4b767339-e337-4996-b958-bd71a1552fe4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4bc1f30b-80bf-4c33-8253-14fe471cf90d' class='xr-var-data-in' type='checkbox'><label for='data-4bc1f30b-80bf-4c33-8253-14fe471cf90d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>x coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_x_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([-47638.055, -47438.055, -47238.055, ...,  47561.945,  47761.945,
+        47961.945], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>y</span></div><div class='xr-var-dims'>(y)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>3.992e+06 3.992e+06 ... 3.923e+06</div><input id='attrs-a43c4552-1df7-4a2b-8f8a-631df03e310c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a43c4552-1df7-4a2b-8f8a-631df03e310c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-006c220c-6e0e-4b46-958e-b604e349d331' class='xr-var-data-in' type='checkbox'><label for='data-006c220c-6e0e-4b46-958e-b604e349d331' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>y coordinate of projection</dd><dt><span>standard_name :</span></dt><dd>projection_y_coordinate</dd></dl></div><div class='xr-var-data'><pre>array([3991927., 3991727., 3991527., ..., 3923327., 3923127., 3922927.],
+      dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-c291fce4-42bd-4eff-8923-cea803b26340' class='xr-section-summary-in' type='checkbox'  checked><label for='section-c291fce4-42bd-4eff-8923-cea803b26340' class='xr-section-summary' >Data variables: <span>(8)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>topo</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>5.128e+03 4.999e+03 ... 5.299e+03</div><input id='attrs-cb1bad6b-0c9f-4bd3-9a44-5fbc7993a308' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-cb1bad6b-0c9f-4bd3-9a44-5fbc7993a308' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-164f1a7f-b30d-41ef-849b-45a5531973b3' class='xr-var-data-in' type='checkbox'><label for='data-164f1a7f-b30d-41ef-849b-45a5531973b3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography</dd></dl></div><div class='xr-var-data'><pre>array([[5128., 4999., 4920., ..., 5500., 5563., 5641.],
        [5192., 5036., 4973., ..., 5423., 5449., 5520.],
        [5145., 5041., 5025., ..., 5260., 5313., 5396.],
        ...,
        [3974., 3866., 3783., ..., 5252., 5260., 5263.],
        [4025., 3917., 3812., ..., 5279., 5286., 5287.],
-       [4097., 4005., 3916., ..., 5291., 5291., 5299.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_smoothed</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>5.113e+03 5.019e+03 ... 5.295e+03</div><input id='attrs-a6b278f7-3f74-4136-98ea-c47086bd8547' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a6b278f7-3f74-4136-98ea-c47086bd8547' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a9afedc4-c372-48f3-a06c-d29c5f81f299' class='xr-var-data-in' type='checkbox'><label for='data-a9afedc4-c372-48f3-a06c-d29c5f81f299' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography smoothed with radius: 3e+02 m</dd></dl></div><div class='xr-var-data'><pre>array([[5113.0107, 5019.3696, 4943.0776, ..., 5468.2134, 5543.3647,
+       [4097., 4005., 3916., ..., 5291., 5291., 5299.]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_smoothed</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>5.113e+03 5.019e+03 ... 5.295e+03</div><input id='attrs-ef733634-0685-482b-89af-fcb21bcb968a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ef733634-0685-482b-89af-fcb21bcb968a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-afabe622-6178-4307-873d-b43cea4f1c83' class='xr-var-data-in' type='checkbox'><label for='data-afabe622-6178-4307-873d-b43cea4f1c83' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>DEM topography smoothed with radius: 3e+02 m</dd></dl></div><div class='xr-var-data'><pre>array([[5113.0107, 5019.3696, 4943.0776, ..., 5468.2134, 5543.3647,
         5599.1377],
        [5138.9595, 5046.7725, 4977.5405, ..., 5396.9126, 5451.853 ,
         5503.463 ],
@@ -1480,31 +1740,31 @@ Attributes:
        [4007.28  , 3926.4658, 3832.7732, ..., 5287.942 , 5280.9517,
         5283.8403],
        [4061.5234, 3986.9854, 3895.4531, ..., 5302.535 , 5291.0063,
-        5295.076 ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_valid_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-a0db400d-deb9-4c36-81c2-83832d247e84' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a0db400d-deb9-4c36-81c2-83832d247e84' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d9ce9ec4-55b3-4a88-9fed-e8964f6714ea' class='xr-var-data-in' type='checkbox'><label for='data-d9ce9ec4-55b3-4a88-9fed-e8964f6714ea' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>DEM validity mask according to geotiff input (1-0)</dd></dl></div><div class='xr-var-data'><pre>array([[1, 1, 1, ..., 1, 1, 1],
+        5295.076 ]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>topo_valid_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-035af2a5-2868-45e0-b4d9-9f168624be1c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-035af2a5-2868-45e0-b4d9-9f168624be1c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7e5d493a-1208-42c8-866a-52d7ee4055f1' class='xr-var-data-in' type='checkbox'><label for='data-7e5d493a-1208-42c8-866a-52d7ee4055f1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>DEM validity mask according to geotiff input (1-0)</dd></dl></div><div class='xr-var-data'><pre>array([[1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
        ...,
        [1, 1, 1, ..., 1, 1, 1],
        [1, 1, 1, ..., 1, 1, 1],
-       [1, 1, 1, ..., 1, 1, 1]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-ec7948f3-cd0c-4018-9dfa-e4d32aac961a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ec7948f3-cd0c-4018-9dfa-e4d32aac961a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-38756910-3eca-40a3-8b54-06279d304225' class='xr-var-data-in' type='checkbox'><label for='data-38756910-3eca-40a3-8b54-06279d304225' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier mask</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
+       [1, 1, 1, ..., 1, 1, 1]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_mask</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-d54a9052-22d9-441b-b763-dfb272272050' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d54a9052-22d9-441b-b763-dfb272272050' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ea195d5e-42cb-4765-8d9b-93c03738afcd' class='xr-var-data-in' type='checkbox'><label for='data-ea195d5e-42cb-4765-8d9b-93c03738afcd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier mask</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        ...,
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
-       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_ext</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-279992b0-208a-4d08-924c-7e2489d76c32' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-279992b0-208a-4d08-924c-7e2489d76c32' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-19b7c91d-312f-455f-8255-ccc02331007c' class='xr-var-data-in' type='checkbox'><label for='data-19b7c91d-312f-455f-8255-ccc02331007c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier external boundaries</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
+       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glacier_ext</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>int8</div><div class='xr-var-preview xr-preview'>0 0 0 0 0 0 0 0 ... 0 0 0 0 0 0 0 0</div><input id='attrs-f8b96a32-0f74-42f9-9aef-60156334ad28' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f8b96a32-0f74-42f9-9aef-60156334ad28' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-94175483-82d1-49da-a23c-71fe9ef0b0db' class='xr-var-data-in' type='checkbox'><label for='data-94175483-82d1-49da-a23c-71fe9ef0b0db' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>-</dd><dt><span>long_name :</span></dt><dd>Glacier external boundaries</dd></dl></div><div class='xr-var-data'><pre>array([[0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
        ...,
        [0, 0, 0, ..., 0, 0, 0],
        [0, 0, 0, ..., 0, 0, 0],
-       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>consensus_ice_thickness</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>nan nan nan nan ... nan nan nan nan</div><input id='attrs-3d1673c3-92a6-446b-a6ec-64d121709e46' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3d1673c3-92a6-446b-a6ec-64d121709e46' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-47b1fd8d-cce0-4854-b783-11d63e42508d' class='xr-var-data-in' type='checkbox'><label for='data-47b1fd8d-cce0-4854-b783-11d63e42508d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>Ice thickness from the consensus estimate</dd><dt><span>base_url :</span></dt><dd>https://cluster.klima.uni-bremen.de/~fmaussion/icevol/composite/</dd></dl></div><div class='xr-var-data'><pre>array([[nan, nan, nan, ..., nan, nan, nan],
+       [0, 0, 0, ..., 0, 0, 0]], dtype=int8)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>consensus_ice_thickness</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>nan nan nan nan ... nan nan nan nan</div><input id='attrs-81b8a5d5-4062-4849-9a7a-f7581b72baab' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-81b8a5d5-4062-4849-9a7a-f7581b72baab' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6a7912dc-50bb-4720-9c61-0d30bcf89cbb' class='xr-var-data-in' type='checkbox'><label for='data-6a7912dc-50bb-4720-9c61-0d30bcf89cbb' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m</dd><dt><span>long_name :</span></dt><dd>Ice thickness from the consensus estimate</dd><dt><span>base_url :</span></dt><dd>https://cluster.klima.uni-bremen.de/~fmaussion/icevol/composite/</dd></dl></div><div class='xr-var-data'><pre>array([[nan, nan, nan, ..., nan, nan, nan],
        [nan, nan, nan, ..., nan, nan, nan],
        [nan, nan, nan, ..., nan, nan, nan],
        ...,
        [nan, nan, nan, ..., nan, nan, nan],
        [nan, nan, nan, ..., nan, nan, nan],
-       [nan, nan, nan, ..., nan, nan, nan]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>obs_icevel_x</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-0.3372 -0.3311 ... -16.64 -19.13</div><input id='attrs-b8f870d5-70bd-4f4d-8ee9-143665a2ed7d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b8f870d5-70bd-4f4d-8ee9-143665a2ed7d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7e82126c-f3f7-4db9-acbd-ee979966702c' class='xr-var-data-in' type='checkbox'><label for='data-7e82126c-f3f7-4db9-acbd-ee979966702c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m yr-1</dd><dt><span>long_name :</span></dt><dd>ITS LIVE velocity data in x map direction</dd></dl></div><div class='xr-var-data'><pre>array([[-3.37176263e-01, -3.31109732e-01, -3.34336090e+00, ...,
+       [nan, nan, nan, ..., nan, nan, nan]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>obs_icevel_x</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>-0.3372 -0.3311 ... -16.64 -19.13</div><input id='attrs-0e5a0b7d-102e-4ad0-8533-8c27b3ae80ee' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0e5a0b7d-102e-4ad0-8533-8c27b3ae80ee' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0489c383-cf78-4be0-a842-d9b0b61f4239' class='xr-var-data-in' type='checkbox'><label for='data-0489c383-cf78-4be0-a842-d9b0b61f4239' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m yr-1</dd><dt><span>long_name :</span></dt><dd>ITS LIVE velocity data in x map direction</dd></dl></div><div class='xr-var-data'><pre>array([[-3.37176263e-01, -3.31109732e-01, -3.34336090e+00, ...,
         -1.24870799e-02, -1.13933206e-01, -3.86682659e-01],
        [ 5.36396615e-02,  1.22237384e+00,  1.27130911e-01, ...,
          9.61508080e-02,  1.15903690e-02, -2.50125468e-01],
@@ -1516,7 +1776,7 @@ Attributes:
        [-8.58778320e-03, -1.93229109e-01, -1.93038136e-01, ...,
         -1.44526215e+01, -2.07417240e+01, -1.97133617e+01],
        [ 2.16889335e-03, -1.19572222e-01, -1.91834286e-01, ...,
-        -1.18719606e+01, -1.66404324e+01, -1.91270123e+01]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>obs_icevel_y</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.797 5.185 8.147 ... 33.85 38.78</div><input id='attrs-b0e51a70-8e05-4f02-adf8-32a52071795a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b0e51a70-8e05-4f02-adf8-32a52071795a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2f362506-149b-4aab-abd1-f7d9d8b0299f' class='xr-var-data-in' type='checkbox'><label for='data-2f362506-149b-4aab-abd1-f7d9d8b0299f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m yr-1</dd><dt><span>long_name :</span></dt><dd>ITS LIVE velocity data in y map direction</dd></dl></div><div class='xr-var-data'><pre>array([[ 1.7968264e+00,  5.1847472e+00,  8.1469383e+00, ...,
+        -1.18719606e+01, -1.66404324e+01, -1.91270123e+01]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>obs_icevel_y</span></div><div class='xr-var-dims'>(y, x)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.797 5.185 8.147 ... 33.85 38.78</div><input id='attrs-a642eb6d-3264-408e-9855-154af45ccc6e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a642eb6d-3264-408e-9855-154af45ccc6e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-53d2881b-ef38-46dc-85a7-52e068eaa0bd' class='xr-var-data-in' type='checkbox'><label for='data-53d2881b-ef38-46dc-85a7-52e068eaa0bd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>m yr-1</dd><dt><span>long_name :</span></dt><dd>ITS LIVE velocity data in y map direction</dd></dl></div><div class='xr-var-data'><pre>array([[ 1.7968264e+00,  5.1847472e+00,  8.1469383e+00, ...,
         -5.2137494e-01, -3.3411509e-01, -4.5025900e-01],
        [ 2.0768135e+00,  5.1227612e+00,  6.9492288e+00, ...,
         -2.5058877e-01, -8.2848743e-02, -5.3350419e-01],
@@ -1528,7 +1788,19 @@ Attributes:
        [ 2.1494033e-02,  1.9037886e-02, -3.6473379e-02, ...,
          2.9838428e+01,  4.5591068e+01,  4.5601051e+01],
        [-8.5436804e-03, -9.5191352e-02, -1.0444884e-01, ...,
-         1.7779272e+01,  3.3850323e+01,  3.8776154e+01]], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-705b6779-a6b3-456e-ac67-c0f9d73afd06' class='xr-section-summary-in' type='checkbox'  checked><label for='section-705b6779-a6b3-456e-ac67-c0f9d73afd06' class='xr-section-summary' >Attributes: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>author :</span></dt><dd>OGGM</dd><dt><span>author_info :</span></dt><dd>Open Global Glacier Model</dd><dt><span>pyproj_srs :</span></dt><dd>+proj=tmerc +lat_0=0 +lon_0=76.4047 +k=0.9996 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</dd><dt><span>max_h_dem :</span></dt><dd>8437.0</dd><dt><span>min_h_dem :</span></dt><dd>2996.0</dd><dt><span>max_h_glacier :</span></dt><dd>8437.0</dd><dt><span>min_h_glacier :</span></dt><dd>3397.0</dd></dl></div></li></ul></div></div></div></div>
+         1.7779272e+01,  3.3850323e+01,  3.8776154e+01]], dtype=float32)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-7b833712-a13e-43c1-a63d-8bce7af71125' class='xr-section-summary-in' type='checkbox'  ><label for='section-7b833712-a13e-43c1-a63d-8bce7af71125' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>x</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-113a00a5-eff2-4306-b8a6-60a1c3c72a12' class='xr-index-data-in' type='checkbox'/><label for='index-113a00a5-eff2-4306-b8a6-60a1c3c72a12' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([-47638.0546875, -47438.0546875, -47238.0546875, -47038.0546875,
+              -46838.0546875, -46638.0546875, -46438.0546875, -46238.0546875,
+              -46038.0546875, -45838.0546875,
+              ...
+               46161.9453125,  46361.9453125,  46561.9453125,  46761.9453125,
+               46961.9453125,  47161.9453125,  47361.9453125,  47561.9453125,
+               47761.9453125,  47961.9453125],
+             dtype=&#x27;float64&#x27;, name=&#x27;x&#x27;, length=479))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>y</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-16483e31-0c5f-4ccb-a7a0-8402fd61c8f5' class='xr-index-data-in' type='checkbox'/><label for='index-16483e31-0c5f-4ccb-a7a0-8402fd61c8f5' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([3991927.0, 3991727.0, 3991527.0, 3991327.0, 3991127.0, 3990927.0,
+              3990727.0, 3990527.0, 3990327.0, 3990127.0,
+              ...
+              3924727.0, 3924527.0, 3924327.0, 3924127.0, 3923927.0, 3923727.0,
+              3923527.0, 3923327.0, 3923127.0, 3922927.0],
+             dtype=&#x27;float64&#x27;, name=&#x27;y&#x27;, length=346))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-9e1f6bb8-73b7-4232-9d8e-fe38317cdaaf' class='xr-section-summary-in' type='checkbox'  checked><label for='section-9e1f6bb8-73b7-4232-9d8e-fe38317cdaaf' class='xr-section-summary' >Attributes: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>author :</span></dt><dd>OGGM</dd><dt><span>author_info :</span></dt><dd>Open Global Glacier Model</dd><dt><span>pyproj_srs :</span></dt><dd>+proj=tmerc +lat_0=0 +lon_0=76.4047 +k=0.9996 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</dd><dt><span>max_h_dem :</span></dt><dd>8437.0</dd><dt><span>min_h_dem :</span></dt><dd>2996.0</dd><dt><span>max_h_glacier :</span></dt><dd>8437.0</dd><dt><span>min_h_glacier :</span></dt><dd>3397.0</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1578,9 +1850,9 @@ Attributes:
 <img alt="../_images/ingest_gridded_data_on_flowlines_32_0.png" src="../_images/ingest_gridded_data_on_flowlines_32_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="bin-the-data-in-gridded-data-into-oggm-elevation-bands">
-<h2>Bin the data in <code class="docutils literal notranslate"><span class="pre">gridded_data</span></code> into OGGM elevation bands<a class="headerlink" href="#bin-the-data-in-gridded-data-into-oggm-elevation-bands" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="bin-the-data-in-gridded-data-into-oggm-elevation-bands">
+<h2>Bin the data in <code class="docutils literal notranslate"><span class="pre">gridded_data</span></code> into OGGM elevation bands<a class="headerlink" href="#bin-the-data-in-gridded-data-into-oggm-elevation-bands" title="Permalink to this headline">#</a></h2>
 <p>Now that we have added new data to the <code class="docutils literal notranslate"><span class="pre">gridded_data</span></code> file, we can bin the data sets into the same elevation bands as OGGM by recomputing the elevation bands flowlines:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1649,7 +1921,7 @@ Attributes:
       <td>40000.0</td>
       <td>8345.080078</td>
       <td>0.244304</td>
-      <td>18.147760</td>
+      <td>18.147763</td>
       <td>-0.218824</td>
       <td>0.241739</td>
       <td>8355.0</td>
@@ -1673,7 +1945,7 @@ Attributes:
       <td>40000.0</td>
       <td>8197.490234</td>
       <td>0.838840</td>
-      <td>21.082248</td>
+      <td>21.082249</td>
       <td>-0.182974</td>
       <td>0.297127</td>
       <td>8205.0</td>
@@ -1721,7 +1993,7 @@ Attributes:
       <td>760000.0</td>
       <td>3525.279541</td>
       <td>0.104131</td>
-      <td>139.481149</td>
+      <td>139.481158</td>
       <td>-4.475585</td>
       <td>-2.795928</td>
       <td>3525.0</td>
@@ -1733,7 +2005,7 @@ Attributes:
       <td>400000.0</td>
       <td>3495.227295</td>
       <td>0.113627</td>
-      <td>101.916235</td>
+      <td>101.916241</td>
       <td>-3.964900</td>
       <td>-2.077398</td>
       <td>3495.0</td>
@@ -1745,7 +2017,7 @@ Attributes:
       <td>200000.0</td>
       <td>3472.789551</td>
       <td>0.149416</td>
-      <td>98.673032</td>
+      <td>98.673038</td>
       <td>-4.508717</td>
       <td>-1.815381</td>
       <td>3465.0</td>
@@ -1757,7 +2029,7 @@ Attributes:
       <td>200000.0</td>
       <td>3441.432373</td>
       <td>0.155404</td>
-      <td>59.133275</td>
+      <td>59.133279</td>
       <td>-2.576336</td>
       <td>-1.230235</td>
       <td>3435.0</td>
@@ -1769,7 +2041,7 @@ Attributes:
       <td>120000.0</td>
       <td>3407.177490</td>
       <td>0.125482</td>
-      <td>32.996784</td>
+      <td>32.996786</td>
       <td>-0.856543</td>
       <td>-0.408242</td>
       <td>3405.0</td>
@@ -1865,7 +2137,7 @@ Attributes:
       <th>600.0</th>
       <td>1557.488984</td>
       <td>6.229956e+05</td>
-      <td>12.058254</td>
+      <td>12.058255</td>
       <td>-0.146281</td>
       <td>0.317812</td>
     </tr>
@@ -1873,7 +2145,7 @@ Attributes:
       <th>1000.0</th>
       <td>7529.527187</td>
       <td>3.011811e+06</td>
-      <td>32.532093</td>
+      <td>32.532095</td>
       <td>2.183228</td>
       <td>0.083025</td>
     </tr>
@@ -1881,7 +2153,7 @@ Attributes:
       <th>1400.0</th>
       <td>15906.311989</td>
       <td>6.362525e+06</td>
-      <td>29.213416</td>
+      <td>29.213418</td>
       <td>0.594153</td>
       <td>0.309555</td>
     </tr>
@@ -1889,7 +2161,7 @@ Attributes:
       <th>1800.0</th>
       <td>35987.148540</td>
       <td>1.439486e+07</td>
-      <td>42.631018</td>
+      <td>42.631021</td>
       <td>0.417777</td>
       <td>0.745439</td>
     </tr>
@@ -1905,7 +2177,7 @@ Attributes:
       <th>41400.0</th>
       <td>2128.789125</td>
       <td>8.515156e+05</td>
-      <td>188.005471</td>
+      <td>188.005470</td>
       <td>-5.837341</td>
       <td>-11.296937</td>
     </tr>
@@ -1913,7 +2185,7 @@ Attributes:
       <th>41800.0</th>
       <td>1795.906259</td>
       <td>7.183625e+05</td>
-      <td>163.145075</td>
+      <td>163.145085</td>
       <td>-7.081799</td>
       <td>-7.600463</td>
     </tr>
@@ -1921,7 +2193,7 @@ Attributes:
       <th>42200.0</th>
       <td>2387.409586</td>
       <td>9.549638e+05</td>
-      <td>148.023089</td>
+      <td>148.023098</td>
       <td>-5.239177</td>
       <td>-3.784347</td>
     </tr>
@@ -1929,7 +2201,7 @@ Attributes:
       <th>42600.0</th>
       <td>1515.264571</td>
       <td>6.061058e+05</td>
-      <td>100.197735</td>
+      <td>100.197741</td>
       <td>-4.002890</td>
       <td>-2.059094</td>
     </tr>
@@ -1937,7 +2209,7 @@ Attributes:
       <th>43000.0</th>
       <td>1063.245975</td>
       <td>4.252984e+05</td>
-      <td>60.325322</td>
+      <td>60.325326</td>
       <td>-2.678492</td>
       <td>-1.261169</td>
     </tr>
@@ -1998,9 +2270,9 @@ Attributes:
 <img alt="../_images/ingest_gridded_data_on_flowlines_49_0.png" src="../_images/ingest_gridded_data_on_flowlines_49_0.png" />
 </div>
 </div>
-</div>
-<div class="section" id="compare-velocities-at-inversion">
-<h2>Compare velocities: at inversion<a class="headerlink" href="#compare-velocities-at-inversion" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="compare-velocities-at-inversion">
+<h2>Compare velocities: at inversion<a class="headerlink" href="#compare-velocities-at-inversion" title="Permalink to this headline">#</a></h2>
 <p>OGGM already inverted the ice thickness based on some optimisation such as matching the regional totals. Which parameters did we use?</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2027,7 +2299,7 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-10-07 12:51:52: oggm.cfg: PARAMS[&#39;inversion_glen_a&#39;] changed from `2.4e-24` to `2.2535112971797524e-24`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 11:27:46: oggm.cfg: PARAMS[&#39;inversion_glen_a&#39;] changed from `2.4e-24` to `2.2535112971797524e-24`.
 </pre></div>
 </div>
 </div>
@@ -2045,39 +2317,39 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-10-07 12:51:52: oggm.core.climate: InvalidParamsError occurred during task local_t_star on RGI60-14.06794: If using &quot;old&quot; mu* calibration, set PARAMS[&#39;use_tstar_calibration&#39;] to True.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 11:27:46: oggm.core.climate: InvalidParamsError occurred during task local_t_star on RGI60-14.06794: If using &quot;old&quot; mu* calibration, set PARAMS[&#39;use_tstar_calibration&#39;] to True.
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">InvalidParamsError</span><span class="g g-Whitespace">                        </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">37</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">37</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Since we overwrote the inversion flowlines we have to do stuff again</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">utils</span><span class="o">.</span><span class="n">apply_test_ref_tstars</span><span class="p">()</span>
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">tasks</span><span class="o">.</span><span class="n">local_t_star</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">tasks</span><span class="o">.</span><span class="n">mu_star_calibration</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">tasks</span><span class="o">.</span><span class="n">prepare_for_inversion</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">add_debug_var</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
 <span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
 <span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.7/lib/python3.10/site-packages/oggm/core/climate.py:983,</span> in <span class="ni">local_t_star</span><span class="nt">(gdir, ref_df, tstar, bias, clip_mu_star, min_mu_star, max_mu_star)</span>
-<span class="g g-Whitespace">    </span><span class="mi">947</span> <span class="sd">&quot;&quot;&quot;Compute the local t* and associated glacier-wide mu*.</span>
-<span class="g g-Whitespace">    </span><span class="mi">948</span><span class="sd"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">949</span><span class="sd"> If ``tstar`` and ``bias`` are not provided, they will be interpolated from</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/climate.py:988,</span> in <span class="ni">local_t_star</span><span class="nt">(gdir, ref_df, tstar, bias, clip_mu_star, min_mu_star, max_mu_star)</span>
+<span class="g g-Whitespace">    </span><span class="mi">952</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Compute the local t* and associated glacier-wide mu*.</span>
+<span class="g g-Whitespace">    </span><span class="mi">953</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">954</span><span class="sd"> If ``tstar`` and ``bias`` are not provided, they will be interpolated from</span>
 <span class="sd">   (...)</span>
-<span class="g g-Whitespace">    </span><span class="mi">980</span><span class="sd">     defaults to cfg.PARAMS[&#39;max_mu_star&#39;]</span>
-<span class="g g-Whitespace">    </span><span class="mi">981</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">982</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_tstar_calibration&#39;</span><span class="p">]:</span>
-<span class="ne">--&gt; </span><span class="mi">983</span>     <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s1">&#39;If using &quot;old&quot; mu* calibration, set &#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">984</span>                              <span class="s2">&quot;PARAMS[&#39;use_tstar_calibration&#39;] to True.&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">986</span> <span class="k">if</span> <span class="n">tstar</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">bias</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">987</span>     <span class="c1"># Do our own interpolation</span>
-<span class="g g-Whitespace">    </span><span class="mi">988</span>     <span class="k">if</span> <span class="n">ref_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">989</span>         <span class="c1"># Use the the local calibration</span>
+<span class="g g-Whitespace">    </span><span class="mi">985</span><span class="sd">     defaults to cfg.PARAMS[&#39;max_mu_star&#39;]</span>
+<span class="g g-Whitespace">    </span><span class="mi">986</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">987</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_tstar_calibration&#39;</span><span class="p">]:</span>
+<span class="ne">--&gt; </span><span class="mi">988</span>     <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s1">&#39;If using &quot;old&quot; mu* calibration, set &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">989</span>                              <span class="s2">&quot;PARAMS[&#39;use_tstar_calibration&#39;] to True.&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">991</span> <span class="k">if</span> <span class="n">tstar</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">bias</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">992</span>     <span class="c1"># Do our own interpolation</span>
+<span class="g g-Whitespace">    </span><span class="mi">993</span>     <span class="k">if</span> <span class="n">ref_df</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">994</span>         <span class="c1"># Use the the local calibration</span>
 
 <span class="ne">InvalidParamsError</span>: If using &quot;old&quot; mu* calibration, set PARAMS[&#39;use_tstar_calibration&#39;] to True.
 </pre></div>
@@ -2105,9 +2377,9 @@ Attributes:
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="velocities-during-the-run">
-<h2>Velocities during the run<a class="headerlink" href="#velocities-during-the-run" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="velocities-during-the-run">
+<h2>Velocities during the run<a class="headerlink" href="#velocities-during-the-run" title="Permalink to this headline">#</a></h2>
 <p>Inversion velocities are for a glacier at equilibrium - this is not always meaningful. Lets do a run and store the velocities with time:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2180,8 +2452,8 @@ Attributes:
 </div>
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -2195,7 +2467,7 @@ Attributes:
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./notebooks"
         },
         predefinedOutput: true
@@ -2205,9 +2477,11 @@ Attributes:
 
               </div>
               
-        
-            <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="where_are_the_flowlines.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -2223,33 +2497,35 @@ Attributes:
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-        
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-    <div class="container">
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By OGGM e.V. and OGGM Contributors<br/>
+  
+    <div class="extra_footer">
       <p>
-        
-          By OGGM e.V. and OGGM Contributors<br/>
-        
-          <div class="extra_footer">
-            <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
 &copy; Copyright 2014-2021.
 </p>
 
-          </div>
-      </p>
     </div>
-  </footer>
-</main>
+</p>
+        </footer>
+    </div>
+    
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>
