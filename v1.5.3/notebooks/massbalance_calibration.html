@@ -1,0 +1,1152 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>A quick look into the mass-balance calibration procedure &#8212; OGGM tutorials</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Compute smoother centerlines for shapefile output" href="centerlines_to_shape.html" />
+    <link rel="prev" title="Using your our own glacier inventory with OGGM" href="use_your_own_inventory.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started.html">
+   Getting started with OGGM: a real case study, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
+   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_gcm.html">
+   Run OGGM with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="hydrological_output.html">
+   Hydrological mass-balance output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="thickness_model.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   A quick look into the mass-balance calibration procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="centerlines_to_shape.html">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Others
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/massbalance_calibration.ipynb%26branch%3Dmaster"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/massbalance_calibration.ipynb&branch=master"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OGGM/tutorials"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/massbalance_calibration.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/massbalance_calibration.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/notebooks/massbalance_calibration.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set-up
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calibration-on-glaciers-with-data">
+   Calibration on glaciers with data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calibration-on-glaciers-without-data">
+   Calibration on glaciers without data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prepared-reference-t-lists">
+   Prepared reference t* lists
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bonus-additional-mb-data-for-oggm">
+   Bonus: additional MB data for OGGM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#take-home-points">
+   Take home points
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>A quick look into the mass-balance calibration procedure</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set-up
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calibration-on-glaciers-with-data">
+   Calibration on glaciers with data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calibration-on-glaciers-without-data">
+   Calibration on glaciers without data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prepared-reference-t-lists">
+   Prepared reference t* lists
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bonus-additional-mb-data-for-oggm">
+   Bonus: additional MB data for OGGM
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#take-home-points">
+   Take home points
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="a-quick-look-into-the-mass-balance-calibration-procedure">
+<h1>A quick look into the mass-balance calibration procedure<a class="headerlink" href="#a-quick-look-into-the-mass-balance-calibration-procedure" title="Permalink to this headline">#</a></h1>
+<p>The default mass-balance model of OGGM is a very standard <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0022169403002579">temperature index melt model</a>. What’s … unusual about it, is the calibration procedure. We have explained it in quite some length in the <a class="reference external" href="https://docs.oggm.org/en/stable/mass-balance.html">documentation</a>, in <a class="reference external" href="https://www.geosci-model-dev.net/12/909/2019/">our paper</a>, in the <a class="reference external" href="https://www.the-cryosphere.net/6/1295/2012/tc-6-1295-2012.html">original publication</a> that introduced it for the first time, and we have created <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/ref_mb_params/oggm_v1.4/crossval.html">a website</a> to monitor its performance. The method is not perfect (by far), but it is quite powerful: I’ve often said that it is the best idea that Ben ever had, and he has a lot of good ideas.</p>
+<p>However, experience shows that most people (including us sometimes ;) don’t understand how it works. Let’s add a new tutorial to the list, and jump on the opportunity to play around with the calibration procedure (don’t do this at home!).</p>
+<section id="set-up">
+<h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">oggm</span>
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
+<span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">massbalance</span><span class="p">,</span> <span class="n">climate</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGM-ref-mb&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:44:07: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-07 12:44:07: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-07 12:44:07: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-07 12:44:07: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `10`.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We start from two well known glaciers in the Austrian Alps, Kesselwandferner and Hintereisferner:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:44:07: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-03-07 12:44:07: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>The two glaciers are neighbors but have very different geometries:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_googlemap</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/massbalance_calibration_8_0.png" src="../_images/massbalance_calibration_8_0.png" />
+</div>
+</div>
+</section>
+<section id="calibration-on-glaciers-with-data">
+<h2>Calibration on glaciers with data<a class="headerlink" href="#calibration-on-glaciers-with-data" title="Permalink to this headline">#</a></h2>
+<p>Like most models, they are always “perfect” where observations are available (both glaciers are reference glaciers in the WGMS database):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get HEF</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># Get the reference mass-balance from the WGMS</span>
+<span class="n">ref_df</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_ref_mb_data</span><span class="p">()</span>
+<span class="c1"># Get the calibrated mass-balance model</span>
+<span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">PastMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="c1"># Compute the specific MB for this glacier</span>
+<span class="n">fls</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[</span><span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">fls</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2939: UserWarning: Unpickling a shapely &lt;2.0 geometry object. Please save the pickle again; shapely 2.1 will not have this compatibility.
+  out = pickle.load(f)
+</pre></div>
+</div>
+<img alt="../_images/massbalance_calibration_11_1.png" src="../_images/massbalance_calibration_11_1.png" />
+</div>
+</div>
+<p>Perfect? <strong>Not really:</strong> the model is calibrated so that the bias over the calibration period is zero, but other uncertainties remain: the variability in our timeseries is too high (this has something to do with precipitation amounts) and we have a stronger trend in the model than observations (this is due to the changing glacier geometry, that our model doesn’t know about here: so this is more a “feature” than a bug).</p>
+<p>What’s important for OGGM here is the bias, which is zero:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE   -648.223881
+OGGM (calib)     -675.892979
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>The calibration procedure did following: it found a year <span class="math notranslate nohighlight">\(t^*\)</span> in the past which is selected so that the glacier, with its present day geometry, would be in equilibrium with a 31-yr climate centered on <span class="math notranslate nohighlight">\(t^*\)</span> (see the <a class="reference external" href="https://docs.oggm.org/en/stable/mass-balance.html">documentation</a> for more info). The year <span class="math notranslate nohighlight">\(t^*\)</span> and the associated temperature sensitivity <span class="math notranslate nohighlight">\(\mu^*\)</span> (units: mm K<span class="math notranslate nohighlight">\(^{-1}\)</span> yr<span class="math notranslate nohighlight">\(^{-1}\)</span>) for this glacier are:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;t_star&#39;</span><span class="p">],</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;mu_star_glacierwide&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1974, 221.28378354824062)
+</pre></div>
+</div>
+</div>
+</div>
+<p>What about Kesselwandferner?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;t_star&#39;</span><span class="p">],</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;mu_star_glacierwide&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1987, 343.0814484116781)
+</pre></div>
+</div>
+</div>
+</div>
+<p>These are very different values! Not surprising: the two glaciers are in the same climate (from the forcing data) but are very different in size, orientation and geometry. The resulting mass-balance values are also different:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_df</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_ref_mb_data</span><span class="p">()</span>
+<span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">PastMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[</span><span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">),</span> <span class="n">year</span><span class="o">=</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2939: UserWarning: Unpickling a shapely &lt;2.0 geometry object. Please save the pickle again; shapely 2.1 will not have this compatibility.
+  out = pickle.load(f)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE   -167.955224
+OGGM (calib)     -208.495382
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Kesselwandferner has a mass-balance less negative than its neighbor, probably because it is smaller in size and spans less altitude.</p>
+</section>
+<section id="calibration-on-glaciers-without-data">
+<h2>Calibration on glaciers without data<a class="headerlink" href="#calibration-on-glaciers-without-data" title="Permalink to this headline">#</a></h2>
+<p>Let’s trick OGGM a little. Let’s make it appear that no data is available at Kesselwandferner for calibration:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set an empty reference mass-balance</span>
+<span class="n">gdir</span><span class="o">.</span><span class="n">set_ref_mb_data</span><span class="p">(</span><span class="n">ref_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[]])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And re-run the mass-balance calibration:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;run_mb_calibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">climate</span><span class="o">.</span><span class="n">compute_ref_t_stars</span><span class="p">(</span><span class="n">gdirs</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">local_t_star</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">mu_star_calibration</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:44:14: oggm.cfg: PARAMS[&#39;run_mb_calibration&#39;] changed from `False` to `True`.
+2023-03-07 12:44:14: oggm.core.climate: Applying global task compute_ref_t_stars on 2 glaciers
+2023-03-07 12:44:14: oggm.utils: Applying global task get_ref_mb_glaciers on 2 glaciers
+2023-03-07 12:44:14: oggm.workflow: Execute entity tasks [t_star_from_refmb] on 1 glaciers
+/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2939: UserWarning: Unpickling a shapely &lt;2.0 geometry object. Please save the pickle again; shapely 2.1 will not have this compatibility.
+  out = pickle.load(f)
+2023-03-07 12:44:14: oggm.workflow: Execute entity tasks [local_t_star] on 2 glaciers
+/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2939: UserWarning: Unpickling a shapely &lt;2.0 geometry object. Please save the pickle again; shapely 2.1 will not have this compatibility.
+  out = pickle.load(f)
+/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2939: UserWarning: Unpickling a shapely &lt;2.0 geometry object. Please save the pickle again; shapely 2.1 will not have this compatibility.
+  out = pickle.load(f)
+2023-03-07 12:44:14: oggm.workflow: Execute entity tasks [mu_star_calibration] on 2 glaciers
+/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2939: UserWarning: Unpickling a shapely &lt;2.0 geometry object. Please save the pickle again; shapely 2.1 will not have this compatibility.
+  out = pickle.load(f)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, what’s the new <span class="math notranslate nohighlight">\(\mu^*\)</span> of Kesselwandferner?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;t_star&#39;</span><span class="p">],</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;mu_star_glacierwide&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1975, 424.74830246056376)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the absence of other glaciers to interpolate from (usually the 10 closest), OGGM simply assigned the value of <span class="math notranslate nohighlight">\(t^*\)</span> from Hintereisferner to Kesselwandferner (1963). From this, <span class="math notranslate nohighlight">\(\mu^*\)</span> could be estimated. This “blind” mass-balance model is of course not as good as if we calibrated it using observations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">PastMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[</span><span class="s1">&#39;OGGM (blind)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">),</span> <span class="n">year</span><span class="o">=</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (blind)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE    -167.955224
+OGGM (calib)      -208.495382
+OGGM (blind)     -1044.091649
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Quite a negative bias! This is as good as OGGM can be in the absence of observations and without any other reference glacier in vicinity (OGGM needs at least one).</p>
+<p>What else could we do to calibrate  <span class="math notranslate nohighlight">\(\mu^*\)</span>  for this glacier? We tried for example to simply interpolate <span class="math notranslate nohighlight">\(\mu^*\)</span>, and found that on average, this leads to worse results. Here for example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">PastMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">mu_star</span><span class="o">=</span><span class="mf">221.275</span><span class="p">)</span>  <span class="c1"># Apply mu* from Hintereisferner</span>
+<span class="n">ref_df</span><span class="p">[</span><span class="s1">&#39;OGGM (μ∗ from HEF)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">),</span> <span class="n">year</span><span class="o">=</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (calib)&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (blind)&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (μ∗ from HEF)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ANNUAL_BALANCE        -167.955224
+OGGM (calib)          -208.495382
+OGGM (blind)         -1044.091649
+OGGM (μ∗ from HEF)     941.432404
+dtype: float64
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interpolating <span class="math notranslate nohighlight">\(\mu^*\)</span> instead of <span class="math notranslate nohighlight">\(t^*\)</span> is quite quite worse! And we found out that this is generally the case globally:</p>
+<p><img alt="img" src="https://docs.oggm.org/en/latest/_images/mb_crossval_panel.png" />
+<em>Benefit of spatially interpolating <span class="math notranslate nohighlight">\(t^*\)</span> instead of <span class="math notranslate nohighlight">\(\mu^*\)</span> as shown by leave-one-glacier-out cross-validation (N = 255). Left: error distribution of the computed mass-balance if determined by the interpolated <span class="math notranslate nohighlight">\(t^*\)</span>. Right: error distribution of the mass-balance if determined by interpolation of <span class="math notranslate nohighlight">\(\mu^*\)</span>. From <a class="reference external" href="https://www.geosci-model-dev.net/12/909/2019">Maussion et al., 2019</a></em>.</p>
+<p>If you come up with a great idea to make the calibration procedure better, please reach out! We have some ideas, but haven’t come up to try it yet. There are so many things we want to try out with OGGM!</p>
+</section>
+<section id="prepared-reference-t-lists">
+<h2>Prepared reference t* lists<a class="headerlink" href="#prepared-reference-t-lists" title="Permalink to this headline">#</a></h2>
+<p>As of OGGM v1.4, we offer various t* lists for download and use in your workflow. You will find them here:</p>
+<p><a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/ref_mb_params">https://cluster.klima.uni-bremen.de/~oggm/ref_mb_params</a></p>
+<p>The easiest is to let OGGM download them for you with, for example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reference data for the recalibration of the mass-balance</span>
+<span class="n">ref_tstars_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/ref_mb_params/oggm_v1.4/RGIV62/CRU/centerlines/qc3/pcp2.5&#39;</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">download_ref_tstars</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">ref_tstars_url</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>See also: <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.local_t_star.html#oggm.tasks.local_t_star">local_t_star</a> documentation.</p>
+</section>
+<section id="bonus-additional-mb-data-for-oggm">
+<h2>Bonus: additional MB data for OGGM<a class="headerlink" href="#bonus-additional-mb-data-for-oggm" title="Permalink to this headline">#</a></h2>
+<p>This is a rare, but possible use case: you might have mass-balance data that is not yet available in the WGMS database, or reanalyzed data that you would like to use in place of the default WGMS. Doing this is quite simple: let’s assume we have some secret data for a third glacier, here the Oberer Grindelwald Glacier in the Swiss Alps (this is an example of course):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.01270&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Let&#39;s make sure that OGG is not a reference glacier: this line would throw an error:</span>
+<span class="c1"># gdirs[2].get_ref_mb_data()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:44:15: oggm.workflow: init_glacier_directories from prepro level 3 on 3 glaciers.
+2023-03-07 12:44:15: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 3 glaciers
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.01270&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># Let&#39;s make sure that OGG is not a reference glacier: this line would throw an error:</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># gdirs[2].get_ref_mb_data()</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:533,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">531</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;dl_verify&#39;</span><span class="p">]:</span>
+<span class="g g-Whitespace">    </span><span class="mi">532</span>         <span class="n">utils</span><span class="o">.</span><span class="n">get_dl_verify_data</span><span class="p">(</span><span class="s1">&#39;cluster.klima.uni-bremen.de&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">533</span>     <span class="n">gdirs</span> <span class="o">=</span> <span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gdir_from_prepro</span><span class="p">,</span> <span class="n">entities</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">534</span>                                 <span class="n">from_prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">535</span>                                 <span class="n">prepro_border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">536</span>                                 <span class="n">prepro_rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">537</span>                                 <span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">538</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">539</span>     <span class="c1"># We can set the intersects file automatically here</span>
+<span class="g g-Whitespace">    </span><span class="mi">540</span>     <span class="k">if</span> <span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_intersects&#39;</span><span class="p">]</span> <span class="ow">and</span>
+<span class="g g-Whitespace">    </span><span class="mi">541</span>             <span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;intersects_gdf&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span>
+<span class="g g-Whitespace">    </span><span class="mi">542</span>             <span class="ow">not</span> <span class="n">from_tar</span><span class="p">):</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">execute_entity_task</span><span class="nt">(task, gdirs, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:108,</span> in <span class="ni">_pickle_copier.__call__</span><span class="nt">(self, arg)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_func</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="n">func</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">func</span>
+<span class="ne">--&gt; </span><span class="mi">108</span>     <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_internal</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">return</span> <span class="n">res</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:102,</span> in <span class="ni">_pickle_copier._call_internal</span><span class="nt">(self, call_func, gdir, kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>     <span class="n">gdir</span><span class="p">,</span> <span class="n">gdir_kwargs</span> <span class="o">=</span> <span class="n">gdir</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>     <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gdir_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">102</span> <span class="k">return</span> <span class="n">call_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:251,</span> in <span class="ni">gdir_from_prepro</span><span class="nt">(entity, from_prepro_level, prepro_border, prepro_rgi_version, base_url)</span>
+<span class="g g-Whitespace">    </span><span class="mi">248</span> <span class="n">tar_base</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_gdir</span><span class="p">(</span><span class="n">prepro_rgi_version</span><span class="p">,</span> <span class="n">rid</span><span class="p">,</span> <span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span>                                  <span class="n">from_prepro_level</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span> <span class="n">from_tar</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tar_base</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.tar&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">rid</span> <span class="o">+</span> <span class="s1">&#39;.tar.gz&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">251</span> <span class="k">return</span> <span class="n">oggm</span><span class="o">.</span><span class="n">GlacierDirectory</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">from_tar</span><span class="o">=</span><span class="n">from_tar</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2529,</span> in <span class="ni">GlacierDirectory.__init__</span><span class="nt">(self, rgi_entity, base_dir, reset, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2525</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;RGI Version not supported: &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2526</span>                        <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rgi_version</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">2528</span> <span class="c1"># remove spurious characters and trailing blanks</span>
+<span class="ne">-&gt; </span><span class="mi">2529</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">filter_rgi_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2531</span> <span class="c1"># region</span>
+<span class="g g-Whitespace">   </span><span class="mi">2532</span> <span class="n">reg_names</span><span class="p">,</span> <span class="n">subreg_names</span> <span class="o">=</span> <span class="n">parse_rgi_meta</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rgi_version</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_funcs.py:734,</span> in <span class="ni">filter_rgi_name</span><span class="nt">(name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">728</span> <span class="k">def</span> <span class="nf">filter_rgi_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">729</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Remove spurious characters and trailing blanks from RGI glacier name.</span>
+<span class="g g-Whitespace">    </span><span class="mi">730</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">731</span><span class="sd">     This seems to be unnecessary with RGI V6</span>
+<span class="g g-Whitespace">    </span><span class="mi">732</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">734</span>     <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">735</span>         <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">737</span>     <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;À&#39;</span><span class="p">,</span> <span class="s1">&#39;È&#39;</span><span class="p">,</span> <span class="s1">&#39;è&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x9c</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;Ð&#39;</span><span class="p">,</span> <span class="s1">&#39;°&#39;</span><span class="p">,</span> <span class="s1">&#39;¾&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">738</span>                     <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x93</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;¤&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;@&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">739</span>                     <span class="s1">&#39;Å&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x06</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x10</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;å&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">]:</span>
+
+<span class="ne">TypeError</span>: object of type &#39;numpy.float64&#39; has no len()
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>First</strong>, let’s start by adding some data to this glacier. We are just creating some fake data and giving it to the glacier directory object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This dataframe just needs some index and an &#39;ANN&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1980</span><span class="p">,</span> <span class="mi">2010</span><span class="p">))</span>
+<span class="c1"># Get random but repeatable results</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">))</span> <span class="o">*</span> <span class="mi">800</span> <span class="o">-</span> <span class="mi">200</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+
+<span class="c1"># Give it to the object</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># get OGG</span>
+<span class="n">gdir</span><span class="o">.</span><span class="n">set_ref_mb_data</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Second</strong>, we have to tell OGGM that this glacier is a reference glacier. We do this by adding it’s ID to the list:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make sure the default list is generated</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">get_ref_mb_glaciers_candidates</span><span class="p">(</span><span class="n">rgi_version</span><span class="o">=</span><span class="s1">&#39;6&#39;</span><span class="p">);</span>
+<span class="c1"># Append our glacier</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">DATA</span><span class="p">[</span><span class="s1">&#39;RGI60_ref_ids&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">)</span>
+<span class="c1"># Make sure all three glaciers are now reference glaciers</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">get_ref_mb_glaciers</span><span class="p">(</span><span class="n">gdirs</span><span class="p">))</span> <span class="o">==</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Third</strong>, re-run the calibration!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;run_mb_calibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">climate</span><span class="o">.</span><span class="n">compute_ref_t_stars</span><span class="p">(</span><span class="n">gdirs</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">local_t_star</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">mu_star_calibration</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Note:</strong> what just happened here? We asked OGGM to recalibrate its mass-balance model. In essence, it is as simple as computing a list of so-called “reference <span class="math notranslate nohighlight">\(t^*\)</span>” from which the model can interpolate from. This list is then written as CSV file in the working directory:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_tstar</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;ref_tstars.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">df_tstar</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This list has to be generated once, and <strong>has to be copied in each working directory you use if you want OGGM to take it into account</strong>. In the absence of this file in the working directory, OGGM will use its default pre-calibrated file, located in the online <a class="reference external" href="https://github.com/OGGM/oggm-sample-data/blob/master/wgms/oggm_ref_tstars_rgi6_cru4.csv">sample data repository</a>.</p>
+<p>After copying the file in a fresh working directory, the task <code class="docutils literal notranslate"><span class="pre">compute_ref_t_stars</span></code> should not be called. Only <code class="docutils literal notranslate"><span class="pre">local_t_star</span></code> and <code class="docutils literal notranslate"><span class="pre">mu_star_calibration</span></code> matter.</p>
+<p>Let’s see how well our new glacier’s mass-balance can be reproduced:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_df</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_ref_mb_data</span><span class="p">()</span>
+<span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">PastMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[</span><span class="s1">&#39;OGGM (fake calib)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">),</span> 
+                                                    <span class="n">year</span><span class="o">=</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (fake calib)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A bias of zero! Works perfectly, right? ;-)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_df</span><span class="p">[[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;OGGM (fake calib)&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="take-home-points">
+<h2>Take home points<a class="headerlink" href="#take-home-points" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>We illustrated with a simplified example how to do a simple cross-validation of the mass-balance calibration of OGGM. In reality, the <span class="math notranslate nohighlight">\(t^*\)</span> are interpolated, not assigned like this. The results of the full cross-validation are therefore different for Kesselwandferner.</p></li>
+<li><p>It is possible to play around with OGGM mass-balance data for sensitivity experiments.</p></li>
+<li><p>It is also possible to add custom mass-balance data to OGGM glaciers and re-calibrate the model based on this data</p></li>
+<li><p>The mass-balance model of OGGM can lead to substantial biases at the local scale. We show that <em>on average</em> the bias is low, but individual glaciers can have substantial biases.</p></li>
+<li><p>Future improvements will have to deal with this bias, e.g. by making use of the increasingly available geodetic mass-balance measurements.</p></li>
+</ul>
+</section>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="use_your_own_inventory.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Using your our own glacier inventory with OGGM</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="centerlines_to_shape.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Compute smoother centerlines for shapefile output</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By OGGM e.V. and OGGM Contributors<br/>
+  
+    <div class="extra_footer">
+      <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

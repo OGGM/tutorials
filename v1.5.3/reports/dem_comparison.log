@@ -1,0 +1,85 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+fig = plt.figure(figsize=(x_size, y_size))
+grid = AxesGrid(fig, 111,
+                nrows_ncols=(n_rows, n_cols),
+                axes_pad=0.7,
+                cbar_mode='none',
+                cbar_location='right',
+                cbar_pad=0.1
+                )
+smap.set_plot_params(cmap='Blues')
+smap.set_shapefile()
+for i, s in enumerate(sources):
+    data = ods[s].copy().where(np.isfinite(ods[s]), 0)
+    smap.set_data(data * 0)
+    ax = grid[i]
+    smap.set_topography(data)
+    smap.visualize(ax=ax, addcbar=False, title=s)
+    
+# take care of uneven grids
+if ax != grid[-1]:
+    grid[-1].remove()
+    grid[-1].cax.remove()
+
+plt.savefig(os.path.join(plot_dir, 'dem_topo_shade.png'), dpi=150, bbox_inches='tight')
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mValueError[0m                                Traceback (most recent call last)
+Cell [0;32mIn[12], line 2[0m
+[1;32m      1[0m fig [38;5;241m=[39m plt[38;5;241m.[39mfigure(figsize[38;5;241m=[39m(x_size, y_size))
+[0;32m----> 2[0m grid [38;5;241m=[39m [43mAxesGrid[49m[43m([49m[43mfig[49m[43m,[49m[43m [49m[38;5;241;43m111[39;49m[43m,[49m
+[1;32m      3[0m [43m                [49m[43mnrows_ncols[49m[38;5;241;43m=[39;49m[43m([49m[43mn_rows[49m[43m,[49m[43m [49m[43mn_cols[49m[43m)[49m[43m,[49m
+[1;32m      4[0m [43m                [49m[43maxes_pad[49m[38;5;241;43m=[39;49m[38;5;241;43m0.7[39;49m[43m,[49m
+[1;32m      5[0m [43m                [49m[43mcbar_mode[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mnone[39;49m[38;5;124;43m'[39;49m[43m,[49m
+[1;32m      6[0m [43m                [49m[43mcbar_location[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mright[39;49m[38;5;124;43m'[39;49m[43m,[49m
+[1;32m      7[0m [43m                [49m[43mcbar_pad[49m[38;5;241;43m=[39;49m[38;5;241;43m0.1[39;49m
+[1;32m      8[0m [43m                [49m[43m)[49m
+[1;32m      9[0m smap[38;5;241m.[39mset_plot_params(cmap[38;5;241m=[39m[38;5;124m'[39m[38;5;124mBlues[39m[38;5;124m'[39m)
+[1;32m     10[0m smap[38;5;241m.[39mset_shapefile()
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/mpl_toolkits/axes_grid1/axes_grid.py:384[0m, in [0;36mImageGrid.__init__[0;34m(self, fig, rect, nrows_ncols, ngrids, direction, axes_pad, share_all, aspect, label_mode, cbar_mode, cbar_location, cbar_pad, cbar_size, cbar_set_cax, axes_class)[0m
+[1;32m    320[0m [38;5;28;01mdef[39;00m [38;5;21m__init__[39m([38;5;28mself[39m, fig,
+[1;32m    321[0m              rect,
+[1;32m    322[0m              nrows_ncols,
+[0;32m   (...)[0m
+[1;32m    335[0m              axes_class[38;5;241m=[39m[38;5;28;01mNone[39;00m,
+[1;32m    336[0m              ):
+[1;32m    337[0m [38;5;250m    [39m[38;5;124;03m"""[39;00m
+[1;32m    338[0m [38;5;124;03m    Parameters[39;00m
+[1;32m    339[0m [38;5;124;03m    ----------[39;00m
+[0;32m   (...)[0m
+[1;32m    382[0m [38;5;124;03m    axes_class : subclass of `matplotlib.axes.Axes`, default: None[39;00m
+[1;32m    383[0m [38;5;124;03m    """[39;00m
+[0;32m--> 384[0m     [43m_api[49m[38;5;241;43m.[39;49m[43mcheck_in_list[49m[43m([49m[43m[[49m[38;5;124;43m"[39;49m[38;5;124;43meach[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43msingle[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43medge[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[38;5;28;43;01mNone[39;49;00m[43m][49m[43m,[49m
+[1;32m    385[0m [43m                       [49m[43mcbar_mode[49m[38;5;241;43m=[39;49m[43mcbar_mode[49m[43m)[49m
+[1;32m    386[0m     _api[38;5;241m.[39mcheck_in_list([[38;5;124m"[39m[38;5;124mleft[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mright[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mbottom[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mtop[39m[38;5;124m"[39m],
+[1;32m    387[0m                        cbar_location[38;5;241m=[39mcbar_location)
+[1;32m    388[0m     [38;5;28mself[39m[38;5;241m.[39m_colorbar_mode [38;5;241m=[39m cbar_mode
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/matplotlib/_api/__init__.py:131[0m, in [0;36mcheck_in_list[0;34m(_values, _print_supported_values, **kwargs)[0m
+[1;32m    129[0m [38;5;28;01mif[39;00m _print_supported_values:
+[1;32m    130[0m     msg [38;5;241m+[39m[38;5;241m=[39m [38;5;124mf[39m[38;5;124m"[39m[38;5;124m; supported values are [39m[38;5;132;01m{[39;00m[38;5;124m'[39m[38;5;124m, [39m[38;5;124m'[39m[38;5;241m.[39mjoin([38;5;28mmap[39m([38;5;28mrepr[39m,[38;5;250m [39mvalues))[38;5;132;01m}[39;00m[38;5;124m"[39m
+[0;32m--> 131[0m [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(msg)
+
+[0;31mValueError[0m: 'none' is not a valid value for cbar_mode; supported values are 'each', 'single', 'edge', None
+ValueError: 'none' is not a valid value for cbar_mode; supported values are 'each', 'single', 'edge', None
+

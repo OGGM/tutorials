@@ -1,0 +1,1462 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Dynamic spinup and dynamic \(\mu^*\) calibration for past simulations &#8212; OGGM tutorials</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Create local topography maps from different DEM sources with OGGM" href="dem_sources.html" />
+    <link rel="prev" title="Run with a spinup and GCM data" href="run_with_a_spinup_and_gcm_data.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started.html">
+   Getting started with OGGM: a real case study, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
+   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_gcm.html">
+   Run OGGM with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="hydrological_output.html">
+   Hydrological mass-balance output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="thickness_model.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="massbalance_calibration.html">
+   A quick look into the mass-balance calibration procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="centerlines_to_shape.html">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Others
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/dynamical_spinup.ipynb%26branch%3Dmaster"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/dynamical_spinup.ipynb&branch=master"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OGGM/tutorials"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/dynamical_spinup.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/dynamical_spinup.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/notebooks/dynamical_spinup.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#high-level-explanation-of-run-dynamic-spinup">
+   High-level explanation of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     run_dynamic_spinup
+    </span>
+   </code>
+   :
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#two-main-problems-why-the-dynamic-spinup-could-not-work">
+     Two main problems why the dynamic spinup could not work:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#careful-this-method-is-still-a-bit-experimental-a-few-things-to-remember-when-using-it">
+     ¡Careful! This method is still a bit experimental. A few things to remember when using it:
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#high-level-explanation-of-run-dynamic-mu-star-calibration">
+   High-level explanation of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     run_dynamic_mu_star_calibration
+    </span>
+   </code>
+   :
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-minimization-algorithm">
+   The minimization algorithm:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#start-with-glacier-example">
+   Start with glacier example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-the-glaciers-we-will-play-with">
+   Define the glaciers we will play with
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-the-glacier-data">
+   Preparing the glacier data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#start-by-comparing-three-different-spinups">
+   Start by comparing three different spinups
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-where-it-is-not-working-so-well">
+   Example where it is not working so well
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dynamical-spinup-and-hydrological-output">
+   Dynamical spinup and hydrological output
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#annual-runoff">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#monthly-runoff">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Dynamic spinup and dynamic \mu^* calibration for past simulations</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#high-level-explanation-of-run-dynamic-spinup">
+   High-level explanation of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     run_dynamic_spinup
+    </span>
+   </code>
+   :
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#two-main-problems-why-the-dynamic-spinup-could-not-work">
+     Two main problems why the dynamic spinup could not work:
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#careful-this-method-is-still-a-bit-experimental-a-few-things-to-remember-when-using-it">
+     ¡Careful! This method is still a bit experimental. A few things to remember when using it:
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#high-level-explanation-of-run-dynamic-mu-star-calibration">
+   High-level explanation of
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     run_dynamic_mu_star_calibration
+    </span>
+   </code>
+   :
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-minimization-algorithm">
+   The minimization algorithm:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#start-with-glacier-example">
+   Start with glacier example
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-the-glaciers-we-will-play-with">
+   Define the glaciers we will play with
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-the-glacier-data">
+   Preparing the glacier data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#start-by-comparing-three-different-spinups">
+   Start by comparing three different spinups
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-where-it-is-not-working-so-well">
+   Example where it is not working so well
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dynamical-spinup-and-hydrological-output">
+   Dynamical spinup and hydrological output
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#annual-runoff">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#monthly-runoff">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="dynamic-spinup-and-dynamic-mu-calibration-for-past-simulations">
+<h1>Dynamic spinup and dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration for past simulations<a class="headerlink" href="#dynamic-spinup-and-dynamic-mu-calibration-for-past-simulations" title="Permalink to this headline">#</a></h1>
+<p><strong>New in version 1.5.3 resp. version 1.6.0!</strong></p>
+<p>One of the issues glacier modellers facing is that the <em>past state</em> of glaciers is unknown. On the other side, more global datasets of past observations get available (e.g. geodetic mass balance), which can help constrain the recent past evolution.</p>
+<p>Reconstructing the past states of glaciers on a century timescale turns out to be a really difficult task, and OGGM team member Julia Eis spent her entire PhD thesis doing just that (see <a class="reference external" href="https://tc.copernicus.org/articles/13/3317/2019">this paper</a> for the theory and <a class="reference external" href="https://www.frontiersin.org/articles/10.3389/feart.2021.595755/full">this one</a> for the application).</p>
+<p>However, running simulations in the recent past can be quite useful for model validation. Also, more direct observations are available of glacier states of the recent past for constriction (e.g. area, geodetic mass balance). Further, a dynamical initialisation can release strong assumptions in the OGGM default settings: first that glaciers are in dynamical equilibrium at the glacier outline date (an assumption required for the ice thickness inversion) and second that the mass balance temperature sensitivity parameter (<span class="math notranslate nohighlight">\(\mu^*\)</span>) is calibrated towards a geodetic mass balance ignoring a dynamically changing glacier geometry.</p>
+<p>In recent PRs (<a class="reference external" href="https://github.com/OGGM/oggm/pull/1342">GH1342</a>, <a class="reference external" href="https://github.com/OGGM/oggm/pull/1232">GH1232</a>, <a class="reference external" href="https://github.com/OGGM/oggm/pull/1361">GH1361</a> and <a class="reference external" href="https://github.com/OGGM/oggm/pull/1425">GH1425</a>) we have released two new run tasks in OGGM which help with this issues:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">run_dynamic_spinup</span></code> task, by default, aims to find a glacier state before the RGI-date (~10-30 years back) from which the glacier evolves to match the area given by the RGI-outline. Alternatively, it is also possible to use this task to match an observed volume.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">run_dynamic_mu_star_calibration</span></code> task iteratively searches for a <span class="math notranslate nohighlight">\(\mu^*\)</span> to match the observed geodetic mass balance taking a dynamically changing glacier geometry into account.</p></li>
+</ul>
+<p>And of course, we want to match both things in the same past model run. Therefore by default in each iteration of <code class="docutils literal notranslate"><span class="pre">run_dynamic_mu_star_calibration</span></code> the <code class="docutils literal notranslate"><span class="pre">run_dynamic_spinup</span></code> function is included. A more in-depth explanation of the two tasks is provided in the next two chapters, which are followed by an example and a comparison of the different spinup options.</p>
+<section id="high-level-explanation-of-run-dynamic-spinup">
+<h2>High-level explanation of <code class="docutils literal notranslate"><span class="pre">run_dynamic_spinup</span></code>:<a class="headerlink" href="#high-level-explanation-of-run-dynamic-spinup" title="Permalink to this headline">#</a></h2>
+<p>The dynamic spinup iteratively tries to find an initial glacier state in the past (<em>t_start</em>) that matches the area or the volume at the glacier outline date (<em>t_end</em>) under the historical climate forcing. To create changing initial glacier states, a constant mass balance is used (<em>mb_spinup</em>) together with a changing temperature bias. This mass balance defines an average mass balance between <em>t_start</em> and <em>t_end</em>. Afterwards, for the actual run, the method uses the OGGM default mass balance model (<em>mb_historical</em>). One iteration of the dynamic spinup looks like this:</p>
+<ul class="simple">
+<li><p>Apply a temperature bias to <em>mb_spinup</em>.</p></li>
+<li><p>Start with the glacier geometry after the ice thickness inversion and let the model evolve using <em>mb_spinup</em> for the same amount of time as the following historical run (= <em>t_end</em> - <em>t_start</em>).</p></li>
+<li><p>The resulting glacier geometry is defined as the initial glacier state at <em>t_start</em>.</p></li>
+<li><p>Now, let the glacier evolve using <em>mb_historical</em> from <em>t_start</em> until <em>t_end</em></p></li>
+<li><p>Get the model area or volume of the glacier at <em>t_end</em>.</p></li>
+<li><p>Compare the model value to the reference value we want to meet.</p></li>
+<li><p>If the difference is inside a given precision, stop the procedure and save the glacier evolution of this run.</p></li>
+<li><p>If the difference is outside a given precision, change the temperature bias for mb_spinup and start over again (how the next guess is found is descript <a class="reference external" href="#The-minimization-algorithm:">here</a>).</p></li>
+</ul>
+<section id="two-main-problems-why-the-dynamic-spinup-could-not-work">
+<h3>Two main problems why the dynamic spinup could not work:<a class="headerlink" href="#two-main-problems-why-the-dynamic-spinup-could-not-work" title="Permalink to this headline">#</a></h3>
+<p>The resulting glacier is too large, even when we start from a completely ice-free initial glacier state. Or the resulting glacier is too small and the algorithm tries to let the glacier grow outside the domain boundaries. The second problem could be met with a larger domain boundary (if available and enough memory resources are available). But for the first problem, no such solution is possible. To still try to cope with these two issues the dynamic spinup function tries to shorten the spinup period two times. The idea is with a shorter evolution time the glacier has less amount of time to grow/shrink and maybe do not encounter one of the two extremes. The minimum length of the spinup can be defined with min_spinup_period (default 10 years). If nothing helps and there is still an error (and if ignore_errors = True) the glacier geometry without a dynamic spinup is saved (= the glacier geometry after the ice thickness inversion).</p>
+</section>
+<section id="careful-this-method-is-still-a-bit-experimental-a-few-things-to-remember-when-using-it">
+<h3>¡Careful! This method is still a bit experimental. A few things to remember when using it:<a class="headerlink" href="#careful-this-method-is-still-a-bit-experimental-a-few-things-to-remember-when-using-it" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p>because of how the method works, glacier area and volume are not strictly the same at the glacier inventory date as after the inversion. We have checked that the errors are random: if you simulate many glaciers this should be fine (global plots on this point will follow soon).</p></li>
+<li><p>because of the non-unique solutions to this optimization problem, the estimated past states become increasingly uncertain the further back in time we go. We recommend a spinup of about 10-30 years.</p></li>
+</ul>
+</section>
+</section>
+<section id="high-level-explanation-of-run-dynamic-mu-star-calibration">
+<h2>High-level explanation of  <code class="docutils literal notranslate"><span class="pre">run_dynamic_mu_star_calibration</span> </code>:<a class="headerlink" href="#high-level-explanation-of-run-dynamic-mu-star-calibration" title="Permalink to this headline">#</a></h2>
+<p>This task iteratively searches for a <span class="math notranslate nohighlight">\(\mu^*\)</span> to match a given geodetic mass balance incorporating a dynamic model run. But changing <span class="math notranslate nohighlight">\(\mu^*\)</span> means we need to rerun all model setup steps which incorporate the mass-balance, to have one consistent model initialisation chain. In particular, we need to conduct the bed inversion again (the mass-balance is used in the flux calculation, see <a class="reference external" href="https://docs.oggm.org/en/latest/inversion.html#ice-flux">here</a>). Therefore one default iteration of the dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration looks like this:</p>
+<ul class="simple">
+<li><p>define a new <span class="math notranslate nohighlight">\(\mu^*\)</span> in the glacier directory</p></li>
+<li><p>conduct an inversion which calibrates to the consensus volume, still assuming dynamic equilibrium. (a little tricky: by default, before we start with the dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration the first inversion with calibration on a regional scale was already carried out -&gt; the individual glaciers do not match the consensus volume exactly, but when adding all glaciers of one region the consensus volume is matched. Therefore during this task, the individual glacier is again matched to the volume of the regional assessment and not on an individual basis.)</p></li>
+<li><p>conduct a dynamic spinup to match the RGI area and let the model evolve up to the end of the geodetic mass balance period</p></li>
+<li><p>calculate the modelled geodetic mass balance</p></li>
+<li><p>calculate the difference between modelled value and observation</p></li>
+<li><p>if the difference is inside the observation uncertainty stop and save the model run (indicated in diagnostics with <code class="docutils literal notranslate"><span class="pre">used_spinup_option</span> <span class="pre">=</span> <span class="pre">dynamic</span> <span class="pre">mu_star</span> <span class="pre">calibration</span> <span class="pre">(full</span> <span class="pre">success)</span></code>)</p></li>
+<li><p>if the difference is larger, define a new <span class="math notranslate nohighlight">\(\mu^*\)</span> and start over again (how the next guess is found is described <a class="reference external" href="#The-minimization-algorithm:">here</a>)</p></li>
+</ul>
+<p>If the iterative search is not successful and <code class="docutils literal notranslate"><span class="pre">ignore_errors</span> <span class="pre">=</span> <span class="pre">True</span></code> there are several possible outcomes:</p>
+<ul class="simple">
+<li><p>First, it is checked if there were some successful runs which improved the mismatch. If so, the best run is saved and it is indicated in the diagnostics with <code class="docutils literal notranslate"><span class="pre">used_spinup_option</span> <span class="pre">=</span> <span class="pre">dynamic</span> <span class="pre">mu_star</span> <span class="pre">calibration</span> <span class="pre">(part</span> <span class="pre">success)</span></code></p></li>
+<li><p>If only the first guess worked this run is saved and indicated in the diagnostics with <code class="docutils literal notranslate"><span class="pre">used_spinup_option</span> <span class="pre">=</span> <span class="pre">dynamic</span> <span class="pre">spinup</span> <span class="pre">only</span></code></p></li>
+<li><p>And if everything failed a fixed geometry spinup is conducted and indicated in the diagnostics with <code class="docutils literal notranslate"><span class="pre">used_spinup_option</span> <span class="pre">=</span> <span class="pre">fixed</span> <span class="pre">geometry</span> <span class="pre">spinup</span></code></p></li>
+</ul>
+<p>If for whatever reason one wants to conduct the dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration without an inversion or does not want to include a dynamic spinup, reach out to us as there are already options included for this.</p>
+</section>
+<section id="the-minimization-algorithm">
+<h2>The minimization algorithm:<a class="headerlink" href="#the-minimization-algorithm" title="Permalink to this headline">#</a></h2>
+<p>To start, a first guess of the control variable (temperature bias or <span class="math notranslate nohighlight">\(\mu^*\)</span>) is used and evaluated. If by chance, the mismatch between model and observation is close enough, the algorithm stops already. Otherwise, the second guess depends on the calculated first guess mismatch. For example, if the first resulting area is smaller (larger) than the searched one, the second temperature bias will be colder (warmer). Because a colder (warmer) temperature leads to a larger (smaller) initial glacier state at <em>t_start</em>. If the second guess is still unsuccessful, for all consecutive guesses the previous value pairs (control variable, mismatch) are used to determine the next guess. For this, a stepwise linear function is fitted to these pairs and afterwards, the mismatch is set to 0 to get the following guess (this method is similar to the one described in Zekollari et al. 2019 Appendix A). Moreover, a maximum step length between two guesses is defined as too large step-sizes could easily lead to failing model runs (e.g. see <a class="reference external" href="#Two-main-problems-why-the-dynamic-spinup-could-not-work:">here</a>). Further, the algorithm was adapted independently inside run_dynamic_spinup and run_dynamic_mu_star_calibration to cope with failing model runs individually. Note that this minimization algorithm only works if the underlying relationship between the control variable and the mismatch is strictly monotone.</p>
+<p>If someone is interested in how this algorithm works in more detail, here is a conceptual code snippet:</p>
+<div class="cell tag_hide-input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
+
+<span class="k">def</span> <span class="nf">minimisation_algorithm</span><span class="p">(</span>
+        <span class="n">fct_to_minimise</span><span class="p">,</span>  <span class="c1"># the function which should be minimised</span>
+        <span class="n">first_guess</span><span class="p">,</span>  <span class="c1"># the first guess of the control variable</span>
+        <span class="n">get_second_guess</span><span class="p">,</span>  <span class="c1"># function which gives the second guess depending on</span>
+                           <span class="c1"># the first mismatch</span>
+        <span class="n">precision_to_match</span><span class="p">,</span>  <span class="c1"># we want to be smaller with the mismatch than this</span>
+        <span class="n">maxiter</span><span class="p">,</span>  <span class="c1"># how many search iteration should be performed</span>
+        <span class="p">):</span>
+
+    <span class="n">control_guesses</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">mismatch</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># returns also the new control if some error management was going on inside</span>
+    <span class="c1"># fct_to_minimise, not necessary</span>
+    <span class="n">new_mismatch</span><span class="p">,</span> <span class="n">new_control</span> <span class="o">=</span> <span class="n">fct_to_minimise</span><span class="p">(</span><span class="n">first_guess</span><span class="p">)</span>
+    <span class="n">control_guesses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_control</span><span class="p">)</span>
+    <span class="n">mismatch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_mismatch</span><span class="p">)</span>
+
+    <span class="c1"># check if we can stop already</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mismatch</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">precision_to_match</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">control_guesses</span><span class="p">,</span> <span class="n">mismatch</span>
+
+    <span class="c1"># how to get the second guess must also be defined by the user</span>
+    <span class="n">second_guess</span> <span class="o">=</span> <span class="n">get_second_guess</span><span class="p">(</span><span class="n">mismatch</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">new_mismatch</span><span class="p">,</span> <span class="n">new_control</span> <span class="o">=</span> <span class="n">fct_to_minimise</span><span class="p">(</span><span class="n">second_guess</span><span class="p">)</span>
+    <span class="n">control_guesses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_control</span><span class="p">)</span>
+    <span class="n">mismatch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_mismatch</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mismatch</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">precision_to_match</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">control_guesses</span><span class="p">,</span> <span class="n">mismatch</span>
+
+    <span class="c1"># now we start with the partial linear fitting</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">control_guesses</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">maxiter</span><span class="p">:</span>
+        <span class="c1"># sort the (mismatch, control_pairs) from small to large</span>
+        <span class="n">sort_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mismatch</span><span class="p">))</span>
+        <span class="c1"># actual linear fitting</span>
+        <span class="n">tck</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">splrep</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mismatch</span><span class="p">)[</span><span class="n">sort_index</span><span class="p">],</span>
+                                 <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">control_guesses</span><span class="p">)[</span><span class="n">sort_index</span><span class="p">],</span>
+                                 <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># degree of the fitting, 1 is linear</span>
+        <span class="c1"># if there are NaNs in the fitting parameters it is an indication that</span>
+        <span class="c1"># probably the strictly monotone relation is not holding, but also</span>
+        <span class="c1"># other problems possible (e.g. to close guesses)</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">tck</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="c1"># here is the place where you can do further problem dependent</span>
+            <span class="c1"># error management or just raise an error</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Somthing went wrong during the linear fitting!&#39;</span><span class="p">)</span>
+
+        <span class="c1"># evaluate the linear fit where mismatch = 0 to get the next guess</span>
+        <span class="n">next_control_guess</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">interpolate</span><span class="o">.</span><span class="n">splev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tck</span><span class="p">))</span>
+
+        <span class="n">new_mismatch</span><span class="p">,</span> <span class="n">new_control</span> <span class="o">=</span> <span class="n">fct_to_minimise</span><span class="p">(</span><span class="n">next_control_guess</span><span class="p">)</span>
+        <span class="n">control_guesses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_control</span><span class="p">)</span>
+        <span class="n">mismatch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_mismatch</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mismatch</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">precision_to_match</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">control_guesses</span><span class="p">,</span> <span class="n">mismatch</span>
+
+    <span class="c1"># If we end here it was not possible to find a satisfying mismatch after maxiter(ations)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Could not find small enough mismatch after the&#39;</span>
+                       <span class="s1">&#39;maximum iterations!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="start-with-glacier-example">
+<h2>Start with glacier example<a class="headerlink" href="#start-with-glacier-example" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make pretty plots</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;ticks&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s1">&#39;notebook&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGMSpinup&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:25:49: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-07 12:25:49: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-07 12:25:49: oggm.cfg: Multiprocessing: using all available processors (N=2)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="define-the-glaciers-we-will-play-with">
+<h2>Define the glaciers we will play with<a class="headerlink" href="#define-the-glaciers-we-will-play-with" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Khumbu and a &#39;bad&#39; glacier in terms of the dynamic spinup</span>
+<span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-15.03733&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00275&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="preparing-the-glacier-data">
+<h2>Preparing the glacier data<a class="headerlink" href="#preparing-the-glacier-data" title="Permalink to this headline">#</a></h2>
+<p>This can take up to a few minutes on the first call because of the download of the required data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We use a recent gdir setting, calibated on a glacier per glacier basis</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/ERA5/elev_bands/qc0/pcp1.6/match_geod_pergla/&#39;</span>
+
+<span class="c1"># These parameters correspond to the settings of the base url</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_scaling_factor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.6</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;climate_qc_months&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;hydro_month_nh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;hydro_month_sh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;max_mu_star&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">600</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:25:49: oggm.cfg: PARAMS[&#39;prcp_scaling_factor&#39;] changed from `2.5` to `1.6`.
+2023-03-07 12:25:49: oggm.cfg: PARAMS[&#39;climate_qc_months&#39;] changed from `3` to `0`.
+2023-03-07 12:25:49: oggm.cfg: PARAMS[&#39;hydro_month_nh&#39;] changed from `10` to `1`.
+2023-03-07 12:25:49: oggm.cfg: PARAMS[&#39;hydro_month_sh&#39;] changed from `4` to `1`.
+2023-03-07 12:25:49: oggm.cfg: PARAMS[&#39;max_mu_star&#39;] changed from `10000.0` to `600`.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We use a relatively large border value to allow the glacier to grow during spinup</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">InvalidParamsError</span><span class="g g-Whitespace">                        </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># We use a relatively large border value to allow the glacier to grow during spinup</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">160</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:493,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_base_url</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>                                     <span class="n">border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span>                                     <span class="n">prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">491</span>                                     <span class="n">rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;has_internet&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">url_exists</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">493</span>         <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s2">&quot;base url seems unreachable with these &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">494</span>                                  <span class="s2">&quot;parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">496</span> <span class="c1"># if reset delete also the log directory</span>
+<span class="g g-Whitespace">    </span><span class="mi">497</span> <span class="k">if</span> <span class="n">reset</span><span class="p">:</span>
+
+<span class="ne">InvalidParamsError</span>: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/ERA5/elev_bands/qc0/pcp1.6/match_geod_pergla/RGI62/b_160/L3/
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="start-by-comparing-three-different-spinups">
+<h2>Start by comparing three different spinups<a class="headerlink" href="#start-by-comparing-three-different-spinups" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># For the following experiments we only use Khumbu</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We will &quot;reconstruct&quot; a possible glacier evolution from this year onwards</span>
+<span class="n">spinup_start_yr</span> <span class="o">=</span> <span class="mi">1979</span>
+
+<span class="c1"># here we save the original mu_star for later</span>
+<span class="n">mu_star_original</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;mu_star_glacierwide&#39;</span><span class="p">]</span>
+
+<span class="c1"># and save some reference values we can compare to later</span>
+<span class="n">area_reference</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span>  <span class="c1"># RGI area</span>
+<span class="n">volume_reference</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">get_inversion_volume</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>  <span class="c1"># volume after regional calibration to consensus</span>
+<span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">]</span>  <span class="c1"># get the reference period we want to use, 2000 to 2020</span>
+<span class="n">df_ref_dmdtda</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_geodetic_mb_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">]</span>  <span class="c1"># get the data from Hugonnet 2021</span>
+<span class="n">df_ref_dmdtda</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ref_period</span><span class="p">]</span>  <span class="c1"># only select the desired period</span>
+<span class="n">dmdtda_reference</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;dmdtda&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># get the reference dmdtda and convert into kg m-2 yr-1</span>
+<span class="n">dmdtda_reference_error</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;err_dmdtda&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># corresponding uncertainty</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s start by comparing the <code class="docutils literal notranslate"><span class="pre">fixed_geometry_spinup</span></code>, the <code class="docutils literal notranslate"><span class="pre">run_dynamic_spinup</span></code> and the <code class="docutils literal notranslate"><span class="pre">run_dynamic_mu_star_calibration</span></code> (which contains a dynamic spinup) options.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- First do the fixed geometry spinup ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                            <span class="n">fixed_geometry_spinup_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># Start the run at the RGI date but retro-actively correct the data with fixed geometry</span>
+                            <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom&#39;</span><span class="p">,</span>  <span class="c1"># where to write the output</span>
+                            <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_hist</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># ---- Second the dynamic spinup alone, matching area ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                         <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                         <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_area</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    
+<span class="c1"># ---- Third the dynamic spinup alone, matching volume ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_volume&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                         <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                         <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_volume&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_volume</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># ---- Fourth the dynamic mu star calibration (includes a dynamic spinup matching area) ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_mu_star_calibration</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                                      <span class="n">ys</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                                      <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                                      <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_dynamic_mu&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                                     <span class="p">);</span>
+
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_dynamic_mu&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_mu</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now make a plot for comparision</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fixed geometry spinup&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_mu</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical mu* calibration&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical spinup match area&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical spinup match volume&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">volume_reference</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Reference values&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ds_dynamic_mu</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Area&#39;</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">area_reference</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ds_dynamic_mu</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Length&#39;</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">ds_hist</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">y0</span><span class="p">)</span><span class="o">.</span><span class="n">length_m</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+
+<span class="c1"># and print out the modeled geodetic mass balances for comparision</span>
+<span class="k">def</span> <span class="nf">get_dmdtda</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">yr0_ref_mb</span><span class="p">,</span> <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="n">ref_period</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="n">yr0_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr0_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr1_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">((</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr1_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span>
+             <span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr0_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span>
+            <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span> <span class="o">/</span>
+            <span class="p">(</span><span class="n">yr1_ref_mb</span> <span class="o">-</span> <span class="n">yr0_ref_mb</span><span class="p">)</span> <span class="o">*</span>
+            <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reference dmdtda 2000 to 2020 (Hugonnet 2021):     </span><span class="si">{</span><span class="n">dmdtda_reference</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">dmdtda_reference_error</span><span class="si">:</span><span class="s1">6.2f</span><span class="si">}</span><span class="s1"> kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fixed geometry spinup dmdtda 2000 to 2020:         </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_hist</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match area dmdtda 2000 to 2020:   </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_area</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match volume dmdtda 2000 to 2020: </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_volume</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical mu* calibration dmdtda 2000 to 2020:     </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_mu</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The blue curve shows the fixed geometry spinup (the old default spinup option). This option ignores area and length changes before the RGI date, which would be important, especially for hydrologic applications. Further,  the short advance after the RGI date you see in the length is an “initial shock” after allowing the geometry to change. On the other side, the advantage of this method is that we match the area at the RGI date exact (red dot). And also the volume is matched perfectly because it is calculated backwards from the RGI date by using the constant area. The reference value of the length in these plots should not be considered as an observation as we are using an elevation band flowline, which loses some geometric information during the construction (see <a class="reference external" href="https://docs.oggm.org/en/latest/flowlines.html#elevation-band-flowlines">documentation</a>).</p>
+<p>Both dynamic spinup options (matching the area in green, matching the volume in red) address the issues of constant geometry and the “initial shock”. With this method, we get a changing surface geometry before the RGI date without an “initial Shock” afterwards. You also see clearly that depending on the variable to match, we are closer to the reference area or the reference volume. Which option to use depends on the use case and the available data. On a global scale, we selected to match to the area by default. A reason for this is that the area is a direct observation, whereas the volume is a consensus model derivation (<a class="reference external" href="https://doi.org/10.1038/s41561-019-0300-3">Farinotti 2019</a>).</p>
+<p>Also shown in the plots above is the dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration (including a dynamic spinup matching the area) in orange. However, you can not see an orange curve as it is exactly below the dynamic spinup matching the area (in green). The reason for this can be explained by comparing the reference geodetic mass balance (<a class="reference external" href="https://doi.org/10.1038/s41586-021-03436-z">Hugonnet 2021</a>) with the modelled ones, below the plots. You see that (by chance) the dynamic spinup already fits inside the provided observation uncertainty and therefore the dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration does not need to look further. But to showcase the ability of the dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration, we can artificially set the uncertainty lower and let it run again:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define an artificial error for dmdtda</span>
+<span class="n">dmdtda_reference_error_artificial</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># error must be given as a positive number</span>
+
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_mu_star_calibration</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                                      <span class="n">ys</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                                      <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                                      <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_dynamic_mu_artificial&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                                      <span class="n">ref_dmdtda</span><span class="o">=</span><span class="n">dmdtda_reference</span><span class="p">,</span>  <span class="c1"># user-provided geodetic mass balance observation</span>
+                                      <span class="n">err_ref_dmdtda</span><span class="o">=</span><span class="n">dmdtda_reference_error_artificial</span><span class="p">,</span>  <span class="c1"># uncertainty of user-provided geodetic mass balance observation </span>
+                                     <span class="p">);</span>
+
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_dynamic_mu_artificial&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_mu_artificial</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot again</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fixed geometry spinup&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_mu_artificial</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical mu* calibration&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical spinup match area&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">volume_reference</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Reference values&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ds_dynamic_mu_artificial</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Area&#39;</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">area_reference</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ds_dynamic_mu_artificial</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Length&#39;</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">ds_hist</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">y0</span><span class="p">)</span><span class="o">.</span><span class="n">length_m</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+
+<span class="c1"># and print out the modeled geodetic mass balances for comparision</span>
+<span class="k">def</span> <span class="nf">get_dmdtda</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">yr0_ref_mb</span><span class="p">,</span> <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="n">ref_period</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="n">yr0_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr0_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr1_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">((</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr1_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span>
+             <span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr0_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span>
+            <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span> <span class="o">/</span>
+            <span class="p">(</span><span class="n">yr1_ref_mb</span> <span class="o">-</span> <span class="n">yr0_ref_mb</span><span class="p">)</span> <span class="o">*</span>
+            <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reference dmdtda 2000 to 2020 (artificial error):  </span><span class="si">{</span><span class="n">dmdtda_reference</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">dmdtda_reference_error_artificial</span><span class="si">:</span><span class="s1">6.2f</span><span class="si">}</span><span class="s1"> kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fixed geometry spinup dmdtda 2000 to 2020:         </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_hist</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match area dmdtda 2000 to 2020:   </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_area</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical mu* calibration dmdtda 2000 to 2020:     </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_mu_artificial</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It is a made-up example, but you see here is a difference between the dynamic spinup and the dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration. And indeed the dynamic mu star calibration manages to match our ‘very accurate’ geodetic mass balance.</p>
+<p>For additional options of the two run tasks have a look at their doc-strings (<a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.run_dynamic_spinup.html#oggm.tasks.run_dynamic_spinup">run_dynamic_spinup</a> and <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.run_dynamic_mu_star_calibration.html#oggm.tasks.run_dynamic_mu_star_calibration">run_dynamic_mu_star_calibration</a>). You can also change all the settings of the included dynamic spinup inside the <code class="docutils literal notranslate"><span class="pre">run_dynamic_mu_star_calibration</span></code> by using <code class="docutils literal notranslate"><span class="pre">kwargs_run_function</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">kwargs_run_function</span> <span class="pre">=</span> <span class="pre">{'minimize_for':'volume'}</span></code> to match for volume instead of area).</p>
+</section>
+<section id="example-where-it-is-not-working-so-well">
+<h2>Example where it is not working so well<a class="headerlink" href="#example-where-it-is-not-working-so-well" title="Permalink to this headline">#</a></h2>
+<p>The dynamic spinup however is not always working that well, as the example below shows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now we switch to the &#39;bad&#39; glacier</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We will &quot;reconstruct&quot; a possible glacier evolution from this year onwards</span>
+<span class="n">spinup_start_yr</span> <span class="o">=</span> <span class="mi">1979</span>
+
+<span class="c1"># here we save the original mu_star for later</span>
+<span class="n">mu_star_original</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;local_mustar&#39;</span><span class="p">)[</span><span class="s1">&#39;mu_star_glacierwide&#39;</span><span class="p">]</span>
+
+<span class="c1"># and save some reference values we can compare to later</span>
+<span class="n">area_reference</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span>  <span class="c1"># RGI area</span>
+<span class="n">volume_reference</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">get_inversion_volume</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>  <span class="c1"># volume after regional calibration to consensus</span>
+<span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">]</span>  <span class="c1"># get the reference period we want to use, 2000 to 2020</span>
+<span class="n">df_ref_dmdtda</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_geodetic_mb_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">]</span>  <span class="c1"># get the data from Hugonnet 2021</span>
+<span class="n">df_ref_dmdtda</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ref_period</span><span class="p">]</span>  <span class="c1"># only select the desired period</span>
+<span class="n">dmdtda_reference</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;dmdtda&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># get the reference dmdtda and convert into kg m-2 yr-1</span>
+<span class="n">dmdtda_reference_error</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;err_dmdtda&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># corresponding uncertainty</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ---- First do the fixed geometry spinup ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                            <span class="n">fixed_geometry_spinup_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># Start the run at the RGI date but retro-actively correct the data with fixed geometry</span>
+                            <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom&#39;</span><span class="p">,</span>  <span class="c1"># where to write the output</span>
+                            <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_hist</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># ---- Second the dynamic spinup alone, matching area ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                         <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                         <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_area</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    
+<span class="c1"># ---- Third the dynamic spinup alone, matching volume ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_volume&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                         <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                         <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_volume&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_volume</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now make a plot for comparision</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fixed geometry spinup&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical spinup match area&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical spinup match volume&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">volume_reference</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Reference values&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Area&#39;</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">area_reference</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Length&#39;</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">ds_hist</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">y0</span><span class="p">)</span><span class="o">.</span><span class="n">length_m</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+
+<span class="c1"># and print out the modeled geodetic mass balances for comparision</span>
+<span class="k">def</span> <span class="nf">get_dmdtda</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">yr0_ref_mb</span><span class="p">,</span> <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="n">ref_period</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="n">yr0_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr0_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr1_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">((</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr1_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span>
+             <span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr0_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span>
+            <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span> <span class="o">/</span>
+            <span class="p">(</span><span class="n">yr1_ref_mb</span> <span class="o">-</span> <span class="n">yr0_ref_mb</span><span class="p">)</span> <span class="o">*</span>
+            <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reference dmdtda 2000 to 2020 (Hugonnet 2021):     </span><span class="si">{</span><span class="n">dmdtda_reference</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">dmdtda_reference_error</span><span class="si">:</span><span class="s1">6.2f</span><span class="si">}</span><span class="s1"> kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fixed geometry spinup dmdtda 2000 to 2020:         </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_hist</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match area dmdtda 2000 to 2020:   </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_area</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match volume dmdtda 2000 to 2020: </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_volume</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this example, you see that the dynamic spinup runs do not start in 1980 but other years. The reason for this are the two main problems and the coping strategy of reducing the spinup time, described <a class="reference external" href="#Two-main-problems-why-the-dynamic-spinup-could-not-work:">here</a> in more detail.
+<strong>Be aware that even if you set a specific spinup year the resulting model run can start at a later year.</strong>
+If you want to get an error when this is happening you can use the <code class="docutils literal notranslate"><span class="pre">min_spinup_period</span></code>. For example you can set <code class="docutils literal notranslate"><span class="pre">min_spinup_period</span> <span class="pre">=</span> <span class="pre">gdir.rgi_date</span> <span class="pre">-</span> <span class="pre">spinup_start_yr</span></code>, with this an error is raised whenever it is not possible to run a dynamic spinup over the whole period.</p>
+</section>
+<section id="dynamical-spinup-and-hydrological-output">
+<h2>Dynamical spinup and hydrological output<a class="headerlink" href="#dynamical-spinup-and-hydrological-output" title="Permalink to this headline">#</a></h2>
+<p>Fortunately, it is also possible to run the spinup model with additional hydrological output:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Here we use Khumbu again</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># This is required for the hydro runs</span>
+
+<span class="c1"># Dynamic mu star calibration including a dynamic spinup to match for area</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                     <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_mu_star_calibration</span><span class="p">,</span>  <span class="c1"># The task to run with hydro</span>
+                     <span class="n">ys</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                     <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                     <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># compute monthly hydro diagnostics</span>
+                     <span class="n">ref_area_from_y0</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Even if the glacier may grow, keep the reference area as the year 0 of the simulation</span>
+                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_hydro&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output - this is needed to stitch the runs together afterwards</span>
+                     <span class="p">);</span>
+
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_hydro&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_hydro</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="n">ds_dynamic_spinup_hydro</span> <span class="o">=</span> <span class="n">ds_dynamic_spinup_hydro</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># The last timestep is incomplete for hydro (not started)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="annual-runoff">
+<h3>Annual runoff<a class="headerlink" href="#annual-runoff" title="Permalink to this headline">#</a></h3>
+<p>The new hydrological variables are now available. Let’s make a pandas DataFrame of all “1D” (annual) variables:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds_dynamic_spinup_hydro</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds_dynamic_spinup_hydro</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+<span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds_dynamic_spinup_hydro</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The hydrological variables are computed on the largest possible area that was covered by glacier ice in the simulation. This is equivalent to the runoff that would be measured at a fixed-gauge station at the glacier terminus. The total annual runoff is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">runoff_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;melt_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;melt_on_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_on_glacier&#39;</span><span class="p">]</span>
+<span class="n">df_runoff</span> <span class="o">=</span> <span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Mt&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It consists of the following components:</p>
+<ul class="simple">
+<li><p>melt off-glacier: snow melt on areas that are now glacier free (i.e. 0 in the year of largest glacier extent, in this example at the start of the simulation)</p></li>
+<li><p>melt on-glacier: ice + seasonal snow melt on the glacier</p></li>
+<li><p>liquid precipitaton on- and off-glacier (the latter being zero at the year of largest glacial extent, in this example at start of the simulation)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As the glacier retreats, total runoff decreases as a result of the decreasing glacier contribution.</p>
+</section>
+<section id="monthly-runoff">
+<h3>Monthly runoff<a class="headerlink" href="#monthly-runoff" title="Permalink to this headline">#</a></h3>
+<p>The “2D” variables contain the same data but at monthly resolution, with the dimension (time, month). For example, runoff can be computed the
+same way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">monthly_runoff</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;melt_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;melt_on_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;liq_prcp_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;liq_prcp_on_glacier_monthly&#39;</span><span class="p">]</span> 
+<span class="n">monthly_runoff</span> <span class="o">*=</span> <span class="mf">1e-9</span>
+<span class="n">monthly_runoff</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;Mt&#39;</span><span class="p">});</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>See <a class="reference internal" href="hydrological_output.html"><span class="doc std std-doc">hydrological_output</span></a> for more info on how to interpret the hydrological output!</p>
+</section>
+</section>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="run_with_a_spinup_and_gcm_data.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Run with a spinup and GCM data</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="dem_sources.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Create local topography maps from different DEM sources with OGGM</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By OGGM e.V. and OGGM Contributors<br/>
+  
+    <div class="extra_footer">
+      <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

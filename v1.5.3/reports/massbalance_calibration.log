@@ -1,0 +1,101 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+gdirs = workflow.init_glacier_directories(['RGI60-11.00787', 'RGI60-11.00897', 'RGI60-11.01270'], from_prepro_level=3, reset=True, force=True)
+# Let's make sure that OGG is not a reference glacier: this line would throw an error:
+# gdirs[2].get_ref_mb_data()
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[15], line 1[0m
+[0;32m----> 1[0m gdirs [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43m[[49m[38;5;124;43m'[39;49m[38;5;124;43mRGI60-11.00787[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mRGI60-11.00897[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mRGI60-11.01270[39;49m[38;5;124;43m'[39;49m[43m][49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m3[39;49m[43m,[49m[43m [49m[43mreset[49m[38;5;241;43m=[39;49m[38;5;28;43;01mTrue[39;49;00m[43m,[49m[43m [49m[43mforce[49m[38;5;241;43m=[39;49m[38;5;28;43;01mTrue[39;49;00m[43m)[49m
+[1;32m      2[0m [38;5;66;03m# Let's make sure that OGG is not a reference glacier: this line would throw an error:[39;00m
+[1;32m      3[0m [38;5;66;03m# gdirs[2].get_ref_mb_data()[39;00m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:533[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
+[1;32m    531[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mdl_verify[39m[38;5;124m'[39m]:
+[1;32m    532[0m         utils[38;5;241m.[39mget_dl_verify_data([38;5;124m'[39m[38;5;124mcluster.klima.uni-bremen.de[39m[38;5;124m'[39m)
+[0;32m--> 533[0m     gdirs [38;5;241m=[39m [43mexecute_entity_task[49m[43m([49m[43mgdir_from_prepro[49m[43m,[49m[43m [49m[43mentities[49m[43m,[49m
+[1;32m    534[0m [43m                                [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[43mfrom_prepro_level[49m[43m,[49m
+[1;32m    535[0m [43m                                [49m[43mprepro_border[49m[38;5;241;43m=[39;49m[43mprepro_border[49m[43m,[49m
+[1;32m    536[0m [43m                                [49m[43mprepro_rgi_version[49m[38;5;241;43m=[39;49m[43mprepro_rgi_version[49m[43m,[49m
+[1;32m    537[0m [43m                                [49m[43mbase_url[49m[38;5;241;43m=[39;49m[43mprepro_base_url[49m[43m)[49m
+[1;32m    538[0m [38;5;28;01melse[39;00m:
+[1;32m    539[0m     [38;5;66;03m# We can set the intersects file automatically here[39;00m
+[1;32m    540[0m     [38;5;28;01mif[39;00m (cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124muse_intersects[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m
+[1;32m    541[0m             [38;5;28mlen[39m(cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mintersects_gdf[39m[38;5;124m'[39m]) [38;5;241m==[39m [38;5;241m0[39m [38;5;129;01mand[39;00m
+[1;32m    542[0m             [38;5;129;01mnot[39;00m from_tar):
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191[0m, in [0;36mexecute_entity_task[0;34m(task, gdirs, **kwargs)[0m
+[1;32m    187[0m     [38;5;28;01mif[39;00m ng [38;5;241m>[39m [38;5;241m3[39m:
+[1;32m    188[0m         log[38;5;241m.[39mworkflow([38;5;124m'[39m[38;5;124mWARNING: you are trying to run an entity task on [39m[38;5;124m'[39m
+[1;32m    189[0m                      [38;5;124m'[39m[38;5;132;01m%d[39;00m[38;5;124m glaciers with multiprocessing turned off. OGGM [39m[38;5;124m'[39m
+[1;32m    190[0m                      [38;5;124m'[39m[38;5;124mwill run faster with multiprocessing turned on.[39m[38;5;124m'[39m, ng)
+[0;32m--> 191[0m     out [38;5;241m=[39m [pc(gdir) [38;5;28;01mfor[39;00m gdir [38;5;129;01min[39;00m gdirs]
+[1;32m    193[0m [38;5;28;01mreturn[39;00m out
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191[0m, in [0;36m<listcomp>[0;34m(.0)[0m
+[1;32m    187[0m     [38;5;28;01mif[39;00m ng [38;5;241m>[39m [38;5;241m3[39m:
+[1;32m    188[0m         log[38;5;241m.[39mworkflow([38;5;124m'[39m[38;5;124mWARNING: you are trying to run an entity task on [39m[38;5;124m'[39m
+[1;32m    189[0m                      [38;5;124m'[39m[38;5;132;01m%d[39;00m[38;5;124m glaciers with multiprocessing turned off. OGGM [39m[38;5;124m'[39m
+[1;32m    190[0m                      [38;5;124m'[39m[38;5;124mwill run faster with multiprocessing turned on.[39m[38;5;124m'[39m, ng)
+[0;32m--> 191[0m     out [38;5;241m=[39m [[43mpc[49m[43m([49m[43mgdir[49m[43m)[49m [38;5;28;01mfor[39;00m gdir [38;5;129;01min[39;00m gdirs]
+[1;32m    193[0m [38;5;28;01mreturn[39;00m out
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:108[0m, in [0;36m_pickle_copier.__call__[0;34m(self, arg)[0m
+[1;32m    106[0m [38;5;28;01mfor[39;00m func [38;5;129;01min[39;00m [38;5;28mself[39m[38;5;241m.[39mcall_func:
+[1;32m    107[0m     func, kwargs [38;5;241m=[39m func
+[0;32m--> 108[0m     res [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_call_internal[49m[43m([49m[43mfunc[49m[43m,[49m[43m [49m[43marg[49m[43m,[49m[43m [49m[43mkwargs[49m[43m)[49m
+[1;32m    109[0m [38;5;28;01mreturn[39;00m res
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:102[0m, in [0;36m_pickle_copier._call_internal[0;34m(self, call_func, gdir, kwargs)[0m
+[1;32m     99[0m     gdir, gdir_kwargs [38;5;241m=[39m gdir
+[1;32m    100[0m     kwargs[38;5;241m.[39mupdate(gdir_kwargs)
+[0;32m--> 102[0m [38;5;28;01mreturn[39;00m [43mcall_func[49m[43m([49m[43mgdir[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:251[0m, in [0;36mgdir_from_prepro[0;34m(entity, from_prepro_level, prepro_border, prepro_rgi_version, base_url)[0m
+[1;32m    248[0m tar_base [38;5;241m=[39m utils[38;5;241m.[39mget_prepro_gdir(prepro_rgi_version, rid, prepro_border,
+[1;32m    249[0m                                  from_prepro_level, base_url[38;5;241m=[39mbase_url)
+[1;32m    250[0m from_tar [38;5;241m=[39m os[38;5;241m.[39mpath[38;5;241m.[39mjoin(tar_base[38;5;241m.[39mreplace([38;5;124m'[39m[38;5;124m.tar[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m'[39m), rid [38;5;241m+[39m [38;5;124m'[39m[38;5;124m.tar.gz[39m[38;5;124m'[39m)
+[0;32m--> 251[0m [38;5;28;01mreturn[39;00m [43moggm[49m[38;5;241;43m.[39;49m[43mGlacierDirectory[49m[43m([49m[43mentity[49m[43m,[49m[43m [49m[43mfrom_tar[49m[38;5;241;43m=[39;49m[43mfrom_tar[49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2529[0m, in [0;36mGlacierDirectory.__init__[0;34m(self, rgi_entity, base_dir, reset, from_tar, delete_tar)[0m
+[1;32m   2525[0m     [38;5;28;01mraise[39;00m [38;5;167;01mRuntimeError[39;00m([38;5;124m'[39m[38;5;124mRGI Version not supported: [39m[38;5;124m'[39m
+[1;32m   2526[0m                        [38;5;124m'[39m[38;5;132;01m{}[39;00m[38;5;124m'[39m[38;5;241m.[39mformat([38;5;28mself[39m[38;5;241m.[39mrgi_version))
+[1;32m   2528[0m [38;5;66;03m# remove spurious characters and trailing blanks[39;00m
+[0;32m-> 2529[0m [38;5;28mself[39m[38;5;241m.[39mname [38;5;241m=[39m [43mfilter_rgi_name[49m[43m([49m[43mname[49m[43m)[49m
+[1;32m   2531[0m [38;5;66;03m# region[39;00m
+[1;32m   2532[0m reg_names, subreg_names [38;5;241m=[39m parse_rgi_meta(version[38;5;241m=[39m[38;5;28mself[39m[38;5;241m.[39mrgi_version[[38;5;241m0[39m])
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_funcs.py:734[0m, in [0;36mfilter_rgi_name[0;34m(name)[0m
+[1;32m    728[0m [38;5;28;01mdef[39;00m [38;5;21mfilter_rgi_name[39m(name):
+[1;32m    729[0m [38;5;250m    [39m[38;5;124;03m"""Remove spurious characters and trailing blanks from RGI glacier name.[39;00m
+[1;32m    730[0m 
+[1;32m    731[0m [38;5;124;03m    This seems to be unnecessary with RGI V6[39;00m
+[1;32m    732[0m [38;5;124;03m    """[39;00m
+[0;32m--> 734[0m     [38;5;28;01mif[39;00m name [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m [38;5;129;01mor[39;00m [38;5;28;43mlen[39;49m[43m([49m[43mname[49m[43m)[49m [38;5;241m==[39m [38;5;241m0[39m:
+[1;32m    735[0m         [38;5;28;01mreturn[39;00m [38;5;124m'[39m[38;5;124m'[39m
+[1;32m    737[0m     [38;5;28;01mif[39;00m name[[38;5;241m-[39m[38;5;241m1[39m] [38;5;129;01min[39;00m [[38;5;124m'[39m[38;5;124mÀ[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mÈ[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mè[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;130;01m\x9c[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m3[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mÐ[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m°[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m¾[39m[38;5;124m'[39m,
+[1;32m    738[0m                     [38;5;124m'[39m[38;5;130;01m\r[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;130;01m\x93[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m¤[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m0[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m`[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mC[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m@[39m[38;5;124m'[39m,
+[1;32m    739[0m                     [38;5;124m'[39m[38;5;124mÅ[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;130;01m\x06[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;130;01m\x10[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m^[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124må[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m;[39m[38;5;124m'[39m]:
+
+[0;31mTypeError[0m: object of type 'numpy.float64' has no len()
+TypeError: object of type 'numpy.float64' has no len()
+

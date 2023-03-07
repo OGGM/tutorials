@@ -1,0 +1,1067 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Merging glaciers for past climate simulations &#8212; OGGM tutorials</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using your our own glacier inventory with OGGM" href="use_your_own_inventory.html" />
+    <link rel="prev" title="The Oerlemans &amp; Nick frontal ablation parameterization in OGGM" href="kcalving_parameterization.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started.html">
+   Getting started with OGGM: a real case study, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
+   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_gcm.html">
+   Run OGGM with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="hydrological_output.html">
+   Hydrological mass-balance output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="thickness_model.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="massbalance_calibration.html">
+   A quick look into the mass-balance calibration procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="centerlines_to_shape.html">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Others
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/merging_glaciers.ipynb%26branch%3Dmaster"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/merging_glaciers.ipynb&branch=master"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OGGM/tutorials"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/merging_glaciers.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/merging_glaciers.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/notebooks/merging_glaciers.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set-up
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pick-a-main-glacier-and-identify-all-its-possible-tributaries">
+   Pick a main glacier and identify all its possible tributaries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#merging-tributary-glaciers-to-a-main-glacier">
+   Merging tributary glaciers to a main glacier
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#influence-on-glacier-advance">
+   Influence on glacier advance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#influence-on-glacier-retreat">
+   Influence on glacier retreat
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#known-problems-future-improvements-and-limitations">
+   Known problems, future improvements and limitations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Merging glaciers for past climate simulations</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set-up
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pick-a-main-glacier-and-identify-all-its-possible-tributaries">
+   Pick a main glacier and identify all its possible tributaries
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#merging-tributary-glaciers-to-a-main-glacier">
+   Merging tributary glaciers to a main glacier
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#influence-on-glacier-advance">
+   Influence on glacier advance
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#influence-on-glacier-retreat">
+   Influence on glacier retreat
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#known-problems-future-improvements-and-limitations">
+   Known problems, future improvements and limitations
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="merging-glaciers-for-past-climate-simulations">
+<h1>Merging glaciers for past climate simulations<a class="headerlink" href="#merging-glaciers-for-past-climate-simulations" title="Permalink to this headline">#</a></h1>
+<p>OGGM initializes glaciers based on <a class="reference external" href="https://www.glims.org/RGI/">RGI outlines</a> which allows for fully automated simulations starting from a recent global glacier state. OGGM also treats every glacier as entity which basically means that individual glaciers do not know about each other even if they are modelled within one specific run.</p>
+<p>This is a good approach for current and future simulations in a warming climate where we mainly expect glacier retreat. But if we want to look at colder climates, either from the past or in a synthetic way, we might have to adjust this glacier centric view and take the influence of neighbouring glaciers into account.</p>
+<p>In this notebook we show how OGGM can merge several neighbouring glaciers into one coupled glacier system. The general approach for this is to view the surrounding glaciers in the same way as tributary <a class="reference external" href="https://docs.oggm.org/en/stable/flowlines.html">flowlines</a> to an existing glacier entity.</p>
+<p><strong>But before using this method please be aware of its limitations:</strong> We are only able to merge glaciers which are present in the Randolph Glacier Inventory. This limits the time we can go back into the past as we are not able to <em>create</em> a glacier with OGGM at a place where there is no glacier today. The merging procedure was developed with typcial Alpine valley glaciers and their extensions around the Little Ice Age in mind. We did not develop this with glacial time scales in mind and <a class="reference external" href="https://docs.oggm.org/en/stable/faq.html#can-i-use-oggm-to-simulate-long-term-glacier-evolution">this statement about long term glacier evolution</a> still holds up.</p>
+<section id="set-up">
+<h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">#</a></h2>
+<p>These are the usual OGGM workflow commands.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
+<span class="kn">from</span> <span class="nn">oggm.core.flowline</span> <span class="kn">import</span> <span class="n">FileModel</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set-up</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGM-merging&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Use a suitable border size for your domain</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="c1"># This is useful here</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:44:44: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-07 12:44:44: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-07 12:44:44: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-07 12:44:44: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+2023-03-07 12:44:44: oggm.cfg: Multiprocessing switched ON after user settings.
+2023-03-07 12:44:44: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="pick-a-main-glacier-and-identify-all-its-possible-tributaries">
+<h2>Pick a main glacier and identify all its possible tributaries<a class="headerlink" href="#pick-a-main-glacier-and-identify-all-its-possible-tributaries" title="Permalink to this headline">#</a></h2>
+<p>In this case we are looking at Mont Mine Glacier (<code class="docutils literal notranslate"><span class="pre">RGI60-11.02709</span></code>) as our main glacier of interest.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">montmine</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:44:44: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2023-03-07 12:44:44: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">montmine</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:533,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">531</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;dl_verify&#39;</span><span class="p">]:</span>
+<span class="g g-Whitespace">    </span><span class="mi">532</span>         <span class="n">utils</span><span class="o">.</span><span class="n">get_dl_verify_data</span><span class="p">(</span><span class="s1">&#39;cluster.klima.uni-bremen.de&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">533</span>     <span class="n">gdirs</span> <span class="o">=</span> <span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gdir_from_prepro</span><span class="p">,</span> <span class="n">entities</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">534</span>                                 <span class="n">from_prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">535</span>                                 <span class="n">prepro_border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">536</span>                                 <span class="n">prepro_rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">537</span>                                 <span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">538</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">539</span>     <span class="c1"># We can set the intersects file automatically here</span>
+<span class="g g-Whitespace">    </span><span class="mi">540</span>     <span class="k">if</span> <span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_intersects&#39;</span><span class="p">]</span> <span class="ow">and</span>
+<span class="g g-Whitespace">    </span><span class="mi">541</span>             <span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;intersects_gdf&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span>
+<span class="g g-Whitespace">    </span><span class="mi">542</span>             <span class="ow">not</span> <span class="n">from_tar</span><span class="p">):</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">execute_entity_task</span><span class="nt">(task, gdirs, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:108,</span> in <span class="ni">_pickle_copier.__call__</span><span class="nt">(self, arg)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_func</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="n">func</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">func</span>
+<span class="ne">--&gt; </span><span class="mi">108</span>     <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_internal</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">return</span> <span class="n">res</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:102,</span> in <span class="ni">_pickle_copier._call_internal</span><span class="nt">(self, call_func, gdir, kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>     <span class="n">gdir</span><span class="p">,</span> <span class="n">gdir_kwargs</span> <span class="o">=</span> <span class="n">gdir</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>     <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gdir_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">102</span> <span class="k">return</span> <span class="n">call_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:251,</span> in <span class="ni">gdir_from_prepro</span><span class="nt">(entity, from_prepro_level, prepro_border, prepro_rgi_version, base_url)</span>
+<span class="g g-Whitespace">    </span><span class="mi">248</span> <span class="n">tar_base</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_gdir</span><span class="p">(</span><span class="n">prepro_rgi_version</span><span class="p">,</span> <span class="n">rid</span><span class="p">,</span> <span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span>                                  <span class="n">from_prepro_level</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span> <span class="n">from_tar</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tar_base</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.tar&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">rid</span> <span class="o">+</span> <span class="s1">&#39;.tar.gz&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">251</span> <span class="k">return</span> <span class="n">oggm</span><span class="o">.</span><span class="n">GlacierDirectory</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">from_tar</span><span class="o">=</span><span class="n">from_tar</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2529,</span> in <span class="ni">GlacierDirectory.__init__</span><span class="nt">(self, rgi_entity, base_dir, reset, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2525</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;RGI Version not supported: &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2526</span>                        <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rgi_version</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">2528</span> <span class="c1"># remove spurious characters and trailing blanks</span>
+<span class="ne">-&gt; </span><span class="mi">2529</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">filter_rgi_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2531</span> <span class="c1"># region</span>
+<span class="g g-Whitespace">   </span><span class="mi">2532</span> <span class="n">reg_names</span><span class="p">,</span> <span class="n">subreg_names</span> <span class="o">=</span> <span class="n">parse_rgi_meta</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rgi_version</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_funcs.py:734,</span> in <span class="ni">filter_rgi_name</span><span class="nt">(name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">728</span> <span class="k">def</span> <span class="nf">filter_rgi_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">729</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Remove spurious characters and trailing blanks from RGI glacier name.</span>
+<span class="g g-Whitespace">    </span><span class="mi">730</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">731</span><span class="sd">     This seems to be unnecessary with RGI V6</span>
+<span class="g g-Whitespace">    </span><span class="mi">732</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">734</span>     <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">735</span>         <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">737</span>     <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;À&#39;</span><span class="p">,</span> <span class="s1">&#39;È&#39;</span><span class="p">,</span> <span class="s1">&#39;è&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x9c</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;Ð&#39;</span><span class="p">,</span> <span class="s1">&#39;°&#39;</span><span class="p">,</span> <span class="s1">&#39;¾&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">738</span>                     <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x93</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;¤&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;@&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">739</span>                     <span class="s1">&#39;Å&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x06</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x10</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;å&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">]:</span>
+
+<span class="ne">TypeError</span>: object of type &#39;numpy.float64&#39; has no len()
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_centerlines</span><span class="p">(</span><span class="n">montmine</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">use_flowlines</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>At the moment it is not possible to automatically search for tributary glaciers but this is planed for a later release.</p>
+<p>Right now we have to provide all <strong>possible</strong> tributary glaciers as OGGM GlacierDirectories. “Possible” because OGGM will check if the provided glaciers will actually flow together with the main glacier by intersecting their downstream flowlines. If a “false” glacier is provided, it will not be merged.</p>
+<p>The easiest way to obtain the GlacierDirectories is by using <a class="reference external" href="http://docs.oggm.org/en/stable/input-data.html#pre-processed-directories">preprocessed glacier directories</a>, initialized with a list of RGI-IDs. The list of RGI-IDs can be manually made. Another way, more suitable for larger glacier complexes would be to extract the RGI-IDs directly from a RGI shapefile.
+For the Mont Mine example we provide a subset, containing the surrounding glaciers.</p>
+<p>That way it is possible to select and extract a region of interest from the RGI within a GIS software. OGGM will then test and merge all glacieres of this subset and use the feasible ones.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tfile</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="s2">&quot;https://cluster.klima.uni-bremen.de/~oggm/tutorials/montmine_shapefile.tar&quot;</span><span class="p">)</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">robust_tar_extract</span><span class="p">(</span><span class="n">tfile</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;shapefile/&#39;</span><span class="p">))</span>
+<span class="n">basin</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;shapefile&#39;</span><span class="p">,</span> <span class="s1">&#39;mont_mine.shp&#39;</span><span class="p">))</span>
+
+<span class="c1"># plot and highlight Mont Mine glacier in green</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="n">basin</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now use these RGI-IDs to initialize the OGGM GlacierDirectories.</p>
+<p>In order to merge the glaciers we need the model flowlines and other files from <strong>preprocessing level 3</strong> which will be used by the dynamical model. The border size depends upon the specific topography and on how much glacier growth is expected. For the Mont Mine setting a border of 80 is sufficient.</p>
+<p>Note that we also have to include the main glacier (Mont Mine glacier in this case) in the list of RGI-IDs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This can take some time</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="merging-tributary-glaciers-to-a-main-glacier">
+<h2>Merging tributary glaciers to a main glacier<a class="headerlink" href="#merging-tributary-glaciers-to-a-main-glacier" title="Permalink to this headline">#</a></h2>
+<p>The merging process is fully automated done with the function <code class="docutils literal notranslate"><span class="pre">workflow.merge_glacier_tasks</span></code>.
+It needs at least a list of OGGM GlacierDirectories, which contains all possible tributaries <strong>and</strong> the main glacier.
+If as second argument a specific RGI ID is provided as string, this will be used to identify the main glacier of interest and all tributary glaciers are merged to this one. If no RGI ID is provided, OGGM will use the largest glacier as the main one. In the latter case the return value of the function is not a single GlacierDirectory but a list of GlacierDirectories containing all remaining glaciers, merged as much as possible.</p>
+<p>This function also takes additional arguments to use custom climate data. The procedure for this would be to first run the necessary climate tasks on the individual glaciers and afterwards merge the glaciers to one complex. See the <a class="reference external" href="http://docs.oggm.org/en/stable/generated/oggm.workflow.merge_glacier_tasks.html">API</a> for details.</p>
+<p><code class="docutils literal notranslate"><span class="pre">workflow.merge_glacier_tasks</span></code> performs three important tasks:</p>
+<ol class="simple">
+<li><p>Starting from either the main or the largest glacier it checks if its downstream flowline intersects with the downstream flowlines of all other glaciers provided within the list.</p></li>
+<li><p>It initializes a new OGGM GlacierDirectory for the merged glacier. This new glacier will have the RGI-ID of the main glacier with the suffix ‘_merged’. E.g. <code class="docutils literal notranslate"><span class="pre">RGI60-11.02709_merged</span></code> in this example.</p></li>
+<li><p>It merges the tributary glaciers (identified in step 1) to the main glacier.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_intersects&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">gdirs_merged</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">merge_glacier_tasks</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">main_rgi_id</span><span class="o">=</span><span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">,</span> <span class="n">return_all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                                            <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">,</span> <span class="n">dem_source</span><span class="o">=</span><span class="s1">&#39;SRTM&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s have a look at the now merged glacier complex and compare it with the selected glaciers from the RGI shapefile:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">15</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_centerlines</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">use_model_flowlines</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_centerlines</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">use_model_flowlines</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">basin</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">)</span>
+<span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="s1">&#39;RGI60-11.02709&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">rgiid</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.02772&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02789&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02756&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02778&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02779&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.02768&#39;</span><span class="p">]:</span>
+    <span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="n">rgiid</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+
+<span class="n">basin</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">basin</span><span class="o">.</span><span class="n">RGIId</span><span class="o">==</span><span class="s1">&#39;RGI60-11.02701&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We see that several glaciers are now part of one big glacier complex, but we are also missing some:</p>
+<ul class="simple">
+<li><p>The green glacier ist our main glacier Mont Mine</p></li>
+<li><p>The blue glaciers are succesfully merged to the main glacier. Either directly or first to another glacier which itself tributes to Mont Mine.</p></li>
+<li><p>The orange glaciers do not flow into the same valley as Mont Mine glacier and were therefor correctly dismissed</p></li>
+<li><p>The red glacier could have been merged to Mont Mine, but it is small and to far away so its downstream line within its individual domain does not reach the downstream line of Mont Mine. It would be possible to solve this by using higher border values for this glacier.</p></li>
+</ul>
+</section>
+<section id="influence-on-glacier-advance">
+<h2>Influence on glacier advance<a class="headerlink" href="#influence-on-glacier-advance" title="Permalink to this headline">#</a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The code below stopped working in March 22. We are investigating…</p>
+</div>
+<p>Merging two or more glaciers might become relevant for scenarios where you might expect an influence(or more specific: <strong>mass contribution</strong>) from one glacier to another. To test this effect we can model our main glacier Mont Mine as single <em>“entity”</em> glacier and a merged glacier complex.</p>
+<p>We do this with constant climate but with a rather strong negative temperatur bias of -1°C. This will lead to a rapid glacier advance.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># some model settings</span>
+<span class="n">years</span> <span class="o">=</span> <span class="mi">125</span>
+<span class="n">tbias</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.5</span>
+
+<span class="c1"># model Mont Mine glacier as entity and complile the output</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">montmine</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_entity&#39;</span><span class="p">,</span> <span class="n">temperature_bias</span><span class="o">=</span><span class="n">tbias</span><span class="p">)</span>
+<span class="n">ds_entity</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">([</span><span class="n">montmine</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_entity&#39;</span><span class="p">)</span>
+
+<span class="c1"># model the merged glacier and complile the output</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged&#39;</span><span class="p">,</span> <span class="n">temperature_bias</span><span class="o">=</span><span class="n">tbias</span><span class="p">,</span> <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">)</span>
+<span class="n">ds_merged</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">([</span><span class="n">gdirs_merged</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_map</span><span class="p">(</span><span class="n">montmine</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_entity&#39;</span><span class="p">,</span> <span class="n">modelyr</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">350</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;entity&#39;</span><span class="p">);</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_map</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged&#39;</span><span class="p">,</span> <span class="n">modelyr</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">350</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;merged&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">])</span>
+<span class="n">dse</span> <span class="o">=</span> <span class="n">ds_entity</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">dsm</span> <span class="o">=</span> <span class="n">ds_merged</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dse</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Entity glacier&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dsm</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Merged glacier&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Simulation time [years]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Glacier length[meters]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The difference betwee the two simulations is not immediately visible from the topographic plots as the domains are slightly different. But if we compare the glacier length change we see that after ~20 years in this climate scenario the merged glacier advances with a stronger rate. Around this point the tongues of Mont Mine and Ferpecle glacier in the east connect to one common tongue.</p>
+<p>And after around 90 years the merged glacier shows an additional small advance. At that point some of the smaller tributary glaciers start to contribute mass.</p>
+</section>
+<section id="influence-on-glacier-retreat">
+<h2>Influence on glacier retreat<a class="headerlink" href="#influence-on-glacier-retreat" title="Permalink to this headline">#</a></h2>
+<p>We can also look at what influence a merged glacier has on glacier retreat.
+For this we first try to grow the entity glacier to the same length as the merged glacer with a more negative temperature bias:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># some model settings</span>
+<span class="n">tbias</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.25</span>
+<span class="n">years</span> <span class="o">=</span> <span class="mi">125</span>
+
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">montmine</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_entity1&#39;</span><span class="p">,</span> <span class="n">temperature_bias</span><span class="o">=</span><span class="n">tbias</span><span class="p">)</span>
+<span class="n">ds_entity1</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">([</span><span class="n">montmine</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_entity1&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">[</span><span class="mi">15</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+<span class="n">dse1</span> <span class="o">=</span> <span class="n">ds_entity1</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dse1</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Entity glacier&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dsm</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Merged glacier&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Simulation time [years]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Glacier length [meters]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now when both glaciers have roughly the same length we can let them shrink with a slightly warmer climate than before.
+For this we use the simulated glacier extends from the previous runs and then apply the an identical climate to both glaciers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># some model settings</span>
+<span class="n">tbias</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span>
+<span class="n">years</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="c1"># load the previous entity run </span>
+<span class="n">tmp_mine</span> <span class="o">=</span> <span class="n">FileModel</span><span class="p">(</span><span class="n">montmine</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_geometry&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_entity1&#39;</span><span class="p">))</span>
+<span class="n">tmp_mine</span><span class="o">.</span><span class="n">run_until</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
+
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">montmine</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_entity2&#39;</span><span class="p">,</span> <span class="n">init_model_fls</span><span class="o">=</span><span class="n">tmp_mine</span><span class="o">.</span><span class="n">fls</span><span class="p">,</span><span class="n">temperature_bias</span><span class="o">=</span><span class="n">tbias</span><span class="p">)</span>
+<span class="n">ds_entity2</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">([</span><span class="n">montmine</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_entity2&#39;</span><span class="p">);</span>
+
+<span class="c1"># model the merged glacier and complile the output</span>
+<span class="n">tmp_merged</span> <span class="o">=</span> <span class="n">FileModel</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_geometry&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged&#39;</span><span class="p">))</span>
+<span class="n">tmp_merged</span><span class="o">.</span><span class="n">run_until</span><span class="p">(</span><span class="n">years</span><span class="p">)</span>
+
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">gdirs_merged</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged2&#39;</span><span class="p">,</span> <span class="n">init_model_fls</span><span class="o">=</span><span class="n">tmp_merged</span><span class="o">.</span><span class="n">fls</span><span class="p">,</span> <span class="n">temperature_bias</span><span class="o">=</span><span class="n">tbias</span><span class="p">,</span>
+                           <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">)</span>
+<span class="n">ds_merged2</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">([</span><span class="n">gdirs_merged</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_merged2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">dse2</span> <span class="o">=</span> <span class="n">ds_entity2</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">dsm2</span> <span class="o">=</span> <span class="n">ds_merged2</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dse2</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Entity glacier&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dsm2</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Merged glacier&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Simulation time [years]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Glacier length [meters]&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Starting from roughly the same extend, the entity glacier retreats much faster than the merged one, especially during the first 20 years. After that the rates of retreat seem more similar. But it takes more then 80 years until both glaciers are back to the same extend.</p>
+<p>Reaching the same extent in the end is to be exected, as the tributaries stop contributing mass to the merged Mont Mine at some point.</p>
+</section>
+<section id="known-problems-future-improvements-and-limitations">
+<h2>Known problems, future improvements and limitations<a class="headerlink" href="#known-problems-future-improvements-and-limitations" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>In future OGGM should be able to automatically identify tributary glaciers in a given distance</p></li>
+<li><p>Currently some glaciers are not merged as their downstream line does not reach the main glacier’s line. This is especially the case for smaller tributary glaciers, as their domain is also smaller.</p></li>
+<li><p>Glacier length in OGGM is calculated as the glaciated length of the main flowline. Usually this will also work for merged glaciers. But there are scenarios where merging glaciers might produce unexpected results: If a tributary glacier is contributing mass to the main glaciers downstream flowline but the main glacier did not already advance up to the tributary glacier (or has retreated again) the OGGM glacier length will be the sum of all glaciated parts on the main flowline.</p></li>
+<li><p>Glacier area and volume in OGGM are calculated from all parts of the individual glacier. For a merged glacier all tributary glaciers are added to the total area and volume, even if they are not or were never connected to the actual main glacier.</p></li>
+</ul>
+<p>Especially the last two points show that even if merging glaciers will become a fully automated task in OGGM it should not be used without carfully assessing the results. Model results for merged glaciers might contain logical errors which are not obvious if only pure numbers (e.g. volume change) are evaluated.</p>
+</section>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="kcalving_parameterization.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="use_your_own_inventory.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Using your our own glacier inventory with OGGM</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By OGGM e.V. and OGGM Contributors<br/>
+  
+    <div class="extra_footer">
+      <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

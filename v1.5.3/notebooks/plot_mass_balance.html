@@ -1,0 +1,1378 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Plotting the OGGM surface mass-balance, the ELA and AAR &#8212; OGGM tutorials</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Filter the glacier length and area time series" href="area_length_filter.html" />
+    <link rel="prev" title="OGGM centerlines versus elevation-band flowlines: a quick comparison" href="elevation_bands_vs_centerlines.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started.html">
+   Getting started with OGGM: a real case study, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="elevation_bands_vs_centerlines.html">
+   OGGM centerlines versus elevation-band flowlines: a quick comparison
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_gcm.html">
+   Run OGGM with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="hydrological_output.html">
+   Hydrological mass-balance output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="thickness_model.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="massbalance_calibration.html">
+   A quick look into the mass-balance calibration procedure
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="centerlines_to_shape.html">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Others
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/plot_mass_balance.ipynb%26branch%3Dmaster"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/plot_mass_balance.ipynb&branch=master"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OGGM/tutorials"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/plot_mass_balance.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/plot_mass_balance.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/notebooks/plot_mass_balance.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#with-a-static-geometry">
+     With a static geometry
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#the-very-easy-way">
+       The very easy way
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#mass-balance-profiles-on-flowlines">
+       Mass-balance profiles on flowlines
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#mass-balance-at-any-height">
+       Mass-balance at any height
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm">
+     Mass-balance during a transient run + bonus info (timestamps in OGGM)
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#specific-glacier-wide-mb">
+       Specific (glacier-wide) MB
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#important-timestamps-in-oggm">
+       Important: timestamps in OGGM
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#specific-mb-from-volume-change-time-series">
+       Specific MB from volume change time series
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#mb-profiles">
+       MB profiles
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#retrospective-mb-from-model-output">
+         Retrospective MB from model output
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#compute-the-mb-during-the-simulation">
+         Compute the MB during the simulation
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#equilibrium-line-altitude">
+     Equilibrium Line Altitude
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#compute-and-compile-the-ela">
+       Compute and compile the ELA
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#accumulation-area-ratio">
+   Accumulation Area Ratio
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-s-next">
+     What’s next?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Plotting the OGGM surface mass-balance, the ELA and AAR</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#with-a-static-geometry">
+     With a static geometry
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#the-very-easy-way">
+       The very easy way
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#mass-balance-profiles-on-flowlines">
+       Mass-balance profiles on flowlines
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#mass-balance-at-any-height">
+       Mass-balance at any height
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm">
+     Mass-balance during a transient run + bonus info (timestamps in OGGM)
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#specific-glacier-wide-mb">
+       Specific (glacier-wide) MB
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#important-timestamps-in-oggm">
+       Important: timestamps in OGGM
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#specific-mb-from-volume-change-time-series">
+       Specific MB from volume change time series
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#mb-profiles">
+       MB profiles
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#retrospective-mb-from-model-output">
+         Retrospective MB from model output
+        </a>
+       </li>
+       <li class="toc-h4 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#compute-the-mb-during-the-simulation">
+         Compute the MB during the simulation
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#equilibrium-line-altitude">
+     Equilibrium Line Altitude
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#compute-and-compile-the-ela">
+       Compute and compile the ELA
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#accumulation-area-ratio">
+   Accumulation Area Ratio
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-s-next">
+     What’s next?
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="plotting-the-oggm-surface-mass-balance-the-ela-and-aar">
+<h1>Plotting the OGGM surface mass-balance, the ELA and AAR<a class="headerlink" href="#plotting-the-oggm-surface-mass-balance-the-ela-and-aar" title="Permalink to this headline">#</a></h1>
+<p>A few recipes to help you to plot and analyse the mass-balance computed by OGGM.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">oggm</span>
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">global_tasks</span>
+<span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">massbalance</span><span class="p">,</span> <span class="n">flowline</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGM-ref-mb&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:45:40: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-07 12:45:40: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-07 12:45:40: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-07 12:45:40: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
+2023-03-07 12:45:40: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use Hintereisferner:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># (The second glacier here we will only use in the second part of this notebook.)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00001&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 12:45:41: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-03-07 12:45:41: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># (The second glacier here we will only use in the second part of this notebook.)</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00001&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:533,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">    </span><span class="mi">531</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;dl_verify&#39;</span><span class="p">]:</span>
+<span class="g g-Whitespace">    </span><span class="mi">532</span>         <span class="n">utils</span><span class="o">.</span><span class="n">get_dl_verify_data</span><span class="p">(</span><span class="s1">&#39;cluster.klima.uni-bremen.de&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">533</span>     <span class="n">gdirs</span> <span class="o">=</span> <span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gdir_from_prepro</span><span class="p">,</span> <span class="n">entities</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">534</span>                                 <span class="n">from_prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">535</span>                                 <span class="n">prepro_border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">536</span>                                 <span class="n">prepro_rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">537</span>                                 <span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">538</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">539</span>     <span class="c1"># We can set the intersects file automatically here</span>
+<span class="g g-Whitespace">    </span><span class="mi">540</span>     <span class="k">if</span> <span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_intersects&#39;</span><span class="p">]</span> <span class="ow">and</span>
+<span class="g g-Whitespace">    </span><span class="mi">541</span>             <span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;intersects_gdf&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span>
+<span class="g g-Whitespace">    </span><span class="mi">542</span>             <span class="ow">not</span> <span class="n">from_tar</span><span class="p">):</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">execute_entity_task</span><span class="nt">(task, gdirs, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:108,</span> in <span class="ni">_pickle_copier.__call__</span><span class="nt">(self, arg)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_func</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="n">func</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">func</span>
+<span class="ne">--&gt; </span><span class="mi">108</span>     <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_internal</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">return</span> <span class="n">res</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:102,</span> in <span class="ni">_pickle_copier._call_internal</span><span class="nt">(self, call_func, gdir, kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>     <span class="n">gdir</span><span class="p">,</span> <span class="n">gdir_kwargs</span> <span class="o">=</span> <span class="n">gdir</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>     <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gdir_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">102</span> <span class="k">return</span> <span class="n">call_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:251,</span> in <span class="ni">gdir_from_prepro</span><span class="nt">(entity, from_prepro_level, prepro_border, prepro_rgi_version, base_url)</span>
+<span class="g g-Whitespace">    </span><span class="mi">248</span> <span class="n">tar_base</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_gdir</span><span class="p">(</span><span class="n">prepro_rgi_version</span><span class="p">,</span> <span class="n">rid</span><span class="p">,</span> <span class="n">prepro_border</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span>                                  <span class="n">from_prepro_level</span><span class="p">,</span> <span class="n">base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span> <span class="n">from_tar</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tar_base</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.tar&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span> <span class="n">rid</span> <span class="o">+</span> <span class="s1">&#39;.tar.gz&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">251</span> <span class="k">return</span> <span class="n">oggm</span><span class="o">.</span><span class="n">GlacierDirectory</span><span class="p">(</span><span class="n">entity</span><span class="p">,</span> <span class="n">from_tar</span><span class="o">=</span><span class="n">from_tar</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2529,</span> in <span class="ni">GlacierDirectory.__init__</span><span class="nt">(self, rgi_entity, base_dir, reset, from_tar, delete_tar)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2525</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;RGI Version not supported: &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2526</span>                        <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rgi_version</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">2528</span> <span class="c1"># remove spurious characters and trailing blanks</span>
+<span class="ne">-&gt; </span><span class="mi">2529</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">filter_rgi_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2531</span> <span class="c1"># region</span>
+<span class="g g-Whitespace">   </span><span class="mi">2532</span> <span class="n">reg_names</span><span class="p">,</span> <span class="n">subreg_names</span> <span class="o">=</span> <span class="n">parse_rgi_meta</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rgi_version</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_funcs.py:734,</span> in <span class="ni">filter_rgi_name</span><span class="nt">(name)</span>
+<span class="g g-Whitespace">    </span><span class="mi">728</span> <span class="k">def</span> <span class="nf">filter_rgi_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">729</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Remove spurious characters and trailing blanks from RGI glacier name.</span>
+<span class="g g-Whitespace">    </span><span class="mi">730</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">731</span><span class="sd">     This seems to be unnecessary with RGI V6</span>
+<span class="g g-Whitespace">    </span><span class="mi">732</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">734</span>     <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">735</span>         <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">737</span>     <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;À&#39;</span><span class="p">,</span> <span class="s1">&#39;È&#39;</span><span class="p">,</span> <span class="s1">&#39;è&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x9c</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;Ð&#39;</span><span class="p">,</span> <span class="s1">&#39;°&#39;</span><span class="p">,</span> <span class="s1">&#39;¾&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">738</span>                     <span class="s1">&#39;</span><span class="se">\r</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x93</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;¤&#39;</span><span class="p">,</span> <span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="s1">&#39;`&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;@&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">739</span>                     <span class="s1">&#39;Å&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x06</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\x10</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;å&#39;</span><span class="p">,</span> <span class="s1">&#39;;&#39;</span><span class="p">]:</span>
+
+<span class="ne">TypeError</span>: object of type &#39;numpy.float64&#39; has no len()
+</pre></div>
+</div>
+</div>
+</div>
+<section id="with-a-static-geometry">
+<h2>With a static geometry<a class="headerlink" href="#with-a-static-geometry" title="Permalink to this headline">#</a></h2>
+<p>That’s by far the easiest - that is how we mostly test and develop mass-balance models ourselves.</p>
+<section id="the-very-easy-way">
+<h3>The very easy way<a class="headerlink" href="#the-very-easy-way" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the calibrated mass-balance model - the default is to use OGGM&#39;s &quot;PastMassBalanceModel&quot;</span>
+<span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MultipleFlowlineMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+
+<span class="c1"># Compute the specific MB for this glacier</span>
+<span class="n">fls</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;model_flowlines&#39;</span><span class="p">)</span>
+<span class="n">years</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1950</span><span class="p">,</span> <span class="mi">2019</span><span class="p">)</span>
+<span class="n">mb_ts</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">fls</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">years</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">years</span><span class="p">,</span> <span class="n">mb_ts</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Specific MB (mm w.e.)&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this particular case (Hintereisferner), we can also plot the measured data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the reference mass-balance from the WGMS</span>
+<span class="n">ref_df</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_ref_mb_data</span><span class="p">()</span>
+<span class="c1"># Get OGGM MB at the same dates</span>
+<span class="n">ref_df</span><span class="p">[</span><span class="s1">&#39;OGGM&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">fls</span><span class="o">=</span><span class="n">fls</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ref_df</span><span class="o">.</span><span class="n">OGGM</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ref_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ref_df</span><span class="o">.</span><span class="n">ANNUAL_BALANCE</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;WGMS&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Specific MB (mm w.e.)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mass-balance-profiles-on-flowlines">
+<h3>Mass-balance profiles on flowlines<a class="headerlink" href="#mass-balance-profiles-on-flowlines" title="Permalink to this headline">#</a></h3>
+<p>Let’s start by noting that I used the <code class="docutils literal notranslate"><span class="pre">MultipleFlowlineMassBalance</span></code> model here. This is what OGGM uses for its runs, because we allow different model parameters for different flowlines. In many cases we don’t need this, but sometimes we do. Let’s see if we have different temperature sensititivites for Hintereisferner or not:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">flmod</span> <span class="ow">in</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">flowline_mb_models</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">flmod</span><span class="o">.</span><span class="n">mu_star</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>So here we have the same model parameters for each flowline (that’s frequently the case). To get the mass-balance as a function of height we have several possibilities:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Where the flowlines are:</span>
+<span class="n">heights</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">mb</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_annual_mb_on_flowlines</span><span class="p">(</span><span class="n">fls</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="c1"># units kg ice per second to mm w.e. per year:</span>
+<span class="n">mb</span> <span class="o">=</span> <span class="n">mb</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">SEC_IN_YEAR</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">]</span> 
+
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mb</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2000&#39;</span><span class="p">);</span>
+
+<span class="c1"># Another year:</span>
+<span class="n">heights</span><span class="p">,</span> <span class="n">widths</span><span class="p">,</span> <span class="n">mb</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_annual_mb_on_flowlines</span><span class="p">(</span><span class="n">fls</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2001</span><span class="p">)</span>
+<span class="c1"># units kg ice per second to mm w.e. per year:</span>
+<span class="n">mb</span> <span class="o">=</span> <span class="n">mb</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">SEC_IN_YEAR</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">]</span> 
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mb</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2001&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Elevation (m a.s.l.)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;MB (mm w.e. yr$^{-1}$)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mass-balance-at-any-height">
+<h3>Mass-balance at any height<a class="headerlink" href="#mass-balance-at-any-height" title="Permalink to this headline">#</a></h3>
+<p>For this, we can either “pick” one of the single flowline mass-balance models or use the multiple one (it’s the same):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">4000</span><span class="p">)</span>
+<span class="c1"># Method 1</span>
+<span class="n">mbmod1</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">flowline_mb_models</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">mb</span> <span class="o">=</span> <span class="n">mbmod1</span><span class="o">.</span><span class="n">get_annual_mb</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2001</span><span class="p">)</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">SEC_IN_YEAR</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">]</span> 
+<span class="c1"># Method 2</span>
+<span class="n">mb2</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_annual_mb</span><span class="p">(</span><span class="n">heights</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="mi">2001</span><span class="p">,</span> <span class="n">fl_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">SEC_IN_YEAR</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">]</span> 
+<span class="n">np</span><span class="o">.</span><span class="n">testing</span><span class="o">.</span><span class="n">assert_allclose</span><span class="p">(</span><span class="n">mb</span><span class="p">,</span> <span class="n">mb2</span><span class="p">)</span>
+<span class="c1"># Plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mb</span><span class="p">,</span> <span class="n">heights</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2001&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Elevation (m a.s.l.)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;MB (mm w.e. yr$^{-1}$)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>But again, for certain glaciers the mass-balance might change from one flowline to another!</p>
+</section>
+</section>
+<section id="mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm">
+<h2>Mass-balance during a transient run + bonus info (timestamps in OGGM)<a class="headerlink" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm" title="Permalink to this headline">#</a></h2>
+<section id="specific-glacier-wide-mb">
+<h3>Specific (glacier-wide) MB<a class="headerlink" href="#specific-glacier-wide-mb" title="Permalink to this headline">#</a></h3>
+<p>At the time of writing, we only store the glacier volume, which is roughly equivalent to the mass-balance (up to numerical accuracy in the dynamical model).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We want to use these flowline files for the AAR (see later)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_fl_diagnostics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># Run from outline inventory year (2003 for HEF) to 2017 (end of CRU data in hydro year convention, see below)</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_diag</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">))</span>
+<span class="n">ds_diag</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Volume evolution of Hintereisferner&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="important-timestamps-in-oggm">
+<h3>Important: timestamps in OGGM<a class="headerlink" href="#important-timestamps-in-oggm" title="Permalink to this headline">#</a></h3>
+<p>This can be a bit of a headache, so let’s spend some time explaining this. OGGM was developed to follow the traditional “hydrological year” convention. So in the OGGM output files (and in the model internals), we use the same convention (history will tell if it was a good idea, I sometimes <a class="reference external" href="https://github.com/OGGM/oggm/issues/1020">regret it</a>).</p>
+<p>We use what we call a “floating year” time stamp, which can be converted to real dates easily in the model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm.utils</span> <span class="kn">import</span> <span class="n">floatyear_to_date</span><span class="p">,</span> <span class="n">hydrodate_to_calendardate</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hydro dates&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">floatyear_to_date</span><span class="p">(</span><span class="mf">2003.0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">floatyear_to_date</span><span class="p">(</span><span class="mf">2003.99</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Calendar dates&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hydrodate_to_calendardate</span><span class="p">(</span><span class="o">*</span><span class="n">floatyear_to_date</span><span class="p">(</span><span class="mf">2003.0</span><span class="p">),</span> <span class="n">start_month</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hydrodate_to_calendardate</span><span class="p">(</span><span class="o">*</span><span class="n">floatyear_to_date</span><span class="p">(</span><span class="mf">2003.99</span><span class="p">),</span> <span class="n">start_month</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The timestamp used in the OGGM output files uses the same convention:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">calendar_year</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">calendar_month</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>So the simulation started in year 2004.0 (as of the OGGM update from 19.05.2020), which corresponds to the real date October 2003. This is in accordance with the RGI inventory date (probably based on satellite imagery taken in the summer 2003):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Similarly, the simulation ends at the last possible date for which we have climate data for (i.e. the simulation stops at the end of September 2019, which translates to the beginning of hydrological year 2020):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">calendar_year</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">calendar_month</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Therefore, you have to be careful about how you interpret these data or report them to others.</p>
+</section>
+<section id="specific-mb-from-volume-change-time-series">
+<h3>Specific MB from volume change time series<a class="headerlink" href="#specific-mb-from-volume-change-time-series" title="Permalink to this headline">#</a></h3>
+<p>We compute the specific MB from the delta volume divided by the glacier area, and compare it to observations and to the mass-balance computed with a fixed geometry:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Specific MB over time (i.e. with changing geometry feedbacks)</span>
+<span class="n">smb</span> <span class="o">=</span> <span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="n">ds_diag</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">smb</span> <span class="o">=</span> <span class="n">smb</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">]</span>  <span class="c1"># in mm</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ds_diag</span><span class="o">.</span><span class="n">time</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">smb</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM (dynamics)&#39;</span><span class="p">);</span> 
+<span class="c1"># The SMB from WGMS and fixed geometry we already have</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ref_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2004</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ref_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2004</span><span class="p">:]</span><span class="o">.</span><span class="n">OGGM</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM (fixed geom)&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ref_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2004</span><span class="p">:]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">ref_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2004</span><span class="p">:]</span><span class="o">.</span><span class="n">ANNUAL_BALANCE</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;WGMS&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A few comments:</p>
+<ul class="simple">
+<li><p>the systematic difference between WGMS and OGGM is due to the calibration of the model, which is done with fixed geometry (the bias is zero over the entire calibration period but changes sign over the 50 year period, see plot above)</p></li>
+<li><p>the difference between OGGM dynamics and fixed geometry (so small that they are barely visible for this short time period) is due to:</p>
+<ul>
+<li><p>the changes in geometry during the simulation time (i.e. this difference grows with time)</p></li>
+<li><p>melt at the tongue which might be larger than the glacier thickness is not accounted for in the fixed geometry data (these are assumed to be small)</p></li>
+<li><p>numerical differences in the dynamical model (these are assumed to be small as well)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="mb-profiles">
+<h3>MB profiles<a class="headerlink" href="#mb-profiles" title="Permalink to this headline">#</a></h3>
+<p>At time of writing, we do not store the mass-balance profiles during a transient run, although we could (and <a class="reference external" href="https://github.com/OGGM/oggm/issues/1022">should</a>). To get the profiles with a dynamically changing geometry, there is no other way than either get the mass-balance during the simulation, or to fetch the model output and re-compute the mass-balance retroactively.</p>
+<p><strong>Note: the MB profiles themselves of course are not really affected by the changing geometry - what changes from one year to another is the altitude at which the model will compute the MB.</strong> In other terms, if you are interested in the mass-balance profiles you are better of to use the fixed geometries approaches explained at the beginning of the notebook.</p>
+<section id="retrospective-mb-from-model-output">
+<h4>Retrospective MB from model output<a class="headerlink" href="#retrospective-mb-from-model-output" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This reads the model output file and makes it look like an OGGM flowline model</span>
+<span class="n">dyn_mod</span> <span class="o">=</span> <span class="n">flowline</span><span class="o">.</span><span class="n">FileModel</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_geometry&#39;</span><span class="p">))</span>
+<span class="c1"># Get the calibrated mass-balance model</span>
+<span class="n">mbmod</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MultipleFlowlineMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="c1"># We can loop over the years and read the flowlines for each year</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2004</span><span class="p">,</span> <span class="mi">2017</span><span class="p">):</span>
+    <span class="n">dyn_mod</span><span class="o">.</span><span class="n">run_until</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+    <span class="c1"># Compute the SMB from the mass balance model and the flowlines heights at each year</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">smb</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">fl_id</span><span class="p">,</span> <span class="n">fl</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dyn_mod</span><span class="o">.</span><span class="n">fls</span><span class="p">):</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">fl</span><span class="o">.</span><span class="n">surface_h</span><span class="p">)</span>
+        <span class="n">mb</span> <span class="o">=</span> <span class="n">mbmod</span><span class="o">.</span><span class="n">get_annual_mb</span><span class="p">(</span><span class="n">fl</span><span class="o">.</span><span class="n">surface_h</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">fl_id</span><span class="o">=</span><span class="n">fl_id</span><span class="p">)</span> 
+        <span class="n">smb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">smb</span><span class="p">,</span> <span class="n">mb</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">SEC_IN_YEAR</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">]</span> <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smb</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="compute-the-mb-during-the-simulation">
+<h4>Compute the MB during the simulation<a class="headerlink" href="#compute-the-mb-during-the-simulation" title="Permalink to this headline">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO - add the same, but based on the new flowline outputs (like for AAR below)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="equilibrium-line-altitude">
+<h2>Equilibrium Line Altitude<a class="headerlink" href="#equilibrium-line-altitude" title="Permalink to this headline">#</a></h2>
+<p>The second part of this notebook shows how you can compute the Equilbrium Line Altitude (ELA, the altitude at which the MB is equal to 0) with OGGM.</p>
+<p>As the ELA in OGGM only depends on the <a class="reference external" href="https://docs.oggm.org/en/stable/mass-balance.html">mass balance model</a> itself (not on glacier geometry), there is no need to do a full model run to collect these values. This is also the reason why the ELA is no longer a part of the model run output, but is instead  a diagnostic variable that can be computed separately since OGGM v1.6.</p>
+<section id="compute-and-compile-the-ela">
+<h3>Compute and compile the ELA<a class="headerlink" href="#compute-and-compile-the-ela" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_tasks</span><span class="o">.</span><span class="n">compile_ela</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2019</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Per default, the file will be stored in the working directory and named <code class="docutils literal notranslate"><span class="pre">ELA.hdf</span></code> (you can choose to save the data in a <code class="docutils literal notranslate"><span class="pre">csv</span></code> file instead by setting the <code class="docutils literal notranslate"><span class="pre">csv</span></code> keyword to <code class="docutils literal notranslate"><span class="pre">True</span></code>). The location where the file is saved can be changed by specifying the <code class="docutils literal notranslate"><span class="pre">path</span></code> keyword.</p>
+<p>Let’s read the file and plot it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the file</span>
+<span class="n">ela_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;ELA.hdf&#39;</span><span class="p">))</span>
+
+<span class="c1"># Plot it</span>
+<span class="n">ela_df</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ELA [m]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>When looking at many glaciers it might be useful to also plot the mean or average of the data. Let’s plot the mean ELA and the glacier area weighted ELA average:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">areas</span> <span class="o">=</span> <span class="p">[</span><span class="n">gd</span><span class="o">.</span><span class="n">rgi_area_km2</span> <span class="k">for</span> <span class="n">gd</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+
+<span class="n">avg</span> <span class="o">=</span> <span class="n">ela_df</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="n">avg</span><span class="p">[</span><span class="s1">&#39;weighted average&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">ela_df</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">areas</span><span class="p">)</span>
+
+<span class="n">avg</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;year&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ELA [m]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>How would to ELA look like if the climate is 1° warmer? Lets have a look at one of the glaciers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_tasks</span><span class="o">.</span><span class="n">compile_ela</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2019</span><span class="p">,</span> <span class="n">temperature_bias</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_t1&#39;</span><span class="p">)</span>
+<span class="n">ela_df_t1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;ELA_t1.hdf&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ela_df</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;default climate&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ela_df_t1</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;default climate +1℃&#39;</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;year CE&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ELA [m]&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By using the <code class="docutils literal notranslate"><span class="pre">precipitation_factor</span></code> keyword, you can change the precipitation. Feel free to try that by yourself!</p>
+<p>Lets look at a longer timeseries, for one glacier only:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_tasks</span><span class="o">.</span><span class="n">compile_ela</span><span class="p">(</span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ys</span><span class="o">=</span><span class="mi">1902</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2019</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_1901_2019&#39;</span><span class="p">,</span> <span class="n">csv</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ela_df_long</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;ELA_1901_2019.csv&#39;</span><span class="p">),</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The ELA can have a high year-to-year variability. Therefore we plot in addition to the regular ELA timeseries, the 5-year moving average.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span> <span class="o">=</span> <span class="n">ela_df_long</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<span class="n">ela_df_long</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;year CE&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ELA [m]&#39;</span><span class="p">);</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s2">&quot;Annual&quot;</span><span class="p">,</span> <span class="s2">&quot;5-yr average&quot;</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In case you’re only intrested in specific years there is an option to just compute the ELA in those years. There is actually no need to save this data. Therefore we now just compute the ELA.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">yrs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">1950</span><span class="p">,</span> <span class="mi">1980</span><span class="p">,</span> <span class="mi">1960</span><span class="p">]</span>
+<span class="n">ela_yrs</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">compute_ela</span><span class="p">(</span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">years</span><span class="o">=</span><span class="n">yrs</span><span class="p">)</span>
+<span class="n">ela_yrs</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>See in this case you can use any year as long as you have climate available for that year. However for plotting purposes it might be worth to sort the data, otherwise the following happens ;)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ela_yrs</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ela_yrs</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;year CE&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;ELA [m]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>By now we have addressed most of the keyword agruments of the compile_ela and compute_ela functions. To use different climate than the default climate, you can make use of the <code class="docutils literal notranslate"><span class="pre">climate_filename</span></code> and <code class="docutils literal notranslate"><span class="pre">climate_input_filesuffix</span></code> keywords. In case you’re not familiar with those yet, please check out the <a class="reference internal" href="run_with_gcm.html"><span class="doc std std-doc">run_with_gcm</span></a> notebook.</p>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="accumulation-area-ratio">
+<h1>Accumulation Area Ratio<a class="headerlink" href="#accumulation-area-ratio" title="Permalink to this headline">#</a></h1>
+<p>Like the ELA, the Accumulation Area Ratio (AAR) is a diagostic variable. The AAR is currently not an output
+variable in OGGM, but it can easily be computed. It is even a part of the <a class="reference external" href="https://bokeh.oggm.org/simulator/app">glacier simulator</a> and its <a class="reference external" href="https://edu.oggm.org/en/latest/simulator.html#aar-accumulation-area-ratio">documentation</a>. Below we give an example of how it can be computed after a model run. From the ELA
+computation, we already know the height where the mass balance is equal to zero. Now we need to compute the area
+of the glacier that is located above that line. Let’s start with a <strong>static geometry</strong> glacier with multiple flowlines.</p>
+<p>We first search the points along the flowlines that are above the ELA in a given year. Lets use Hintereisferner.</p>
+<p>We use a <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code> array saying which part is above the ELA and sum the corresponding area at each timestep:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_id</span> <span class="o">=</span> <span class="s1">&#39;RGI60-11.00897&#39;</span>
+
+<span class="n">tot_area</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tot_area_above</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">fl</span> <span class="ow">in</span> <span class="n">fls</span><span class="p">:</span>
+    <span class="c1"># The area is constant</span>
+    <span class="n">tot_area</span> <span class="o">+=</span> <span class="n">fl</span><span class="o">.</span><span class="n">area_m2</span>
+    <span class="c1"># The area above a certain limit is not - we make a (nx, nt) array</span>
+    <span class="c1"># This is a little bit of dimensional juggling (broadcasting)</span>
+    <span class="n">is_above</span> <span class="o">=</span> <span class="p">(</span><span class="n">fl</span><span class="o">.</span><span class="n">surface_h</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">]</span> <span class="o">&gt;</span> <span class="n">ela_df</span><span class="p">[</span><span class="n">rgi_id</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+    <span class="c1"># Here too - but the time dim is constant</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">bin_area_m2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ela_df</span><span class="p">))</span>
+    <span class="n">tot_area_above</span> <span class="o">+=</span> <span class="p">(</span><span class="n">area</span> <span class="o">*</span> <span class="n">is_above</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Write the output</span>
+<span class="n">fixed_aar</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">ela_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">fixed_aar</span><span class="p">[</span><span class="s1">&#39;AAR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tot_area_above</span> <span class="o">/</span> <span class="n">tot_area</span>
+
+<span class="c1"># Plot ELA and AAR on the same plot</span>
+<span class="n">fixed_aar</span><span class="p">[</span><span class="s1">&#39;ELA&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ela_df</span><span class="p">[</span><span class="n">rgi_id</span><span class="p">]</span>
+<span class="n">fixed_aar</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">secondary_y</span><span class="o">=</span><span class="s1">&#39;ELA&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Unsurprisingly, the AAR is strongly correlated to the ELA, but it is not fully linear due to the area distribution of the glacier:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fixed_aar</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;AAR&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;ELA&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now that we have looked at the static case, let’s to the same for glaciers with changing surface height:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We start by reading the flowline geometry diagnostic files</span>
+<span class="n">tot_area</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tot_area_above</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">ela_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">ela_df</span><span class="p">[</span><span class="n">rgi_id</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fls</span><span class="p">)):</span>
+    <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;fl_diagnostics&#39;</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;fl_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fn</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    <span class="n">tot_area</span> <span class="o">+=</span> <span class="n">ds</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Compute the surface elevation</span>
+    <span class="n">surface_h</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">thickness_m</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">bed_h</span>
+
+    <span class="c1"># In xarray things are much easier - the broadcasting is automatic</span>
+    <span class="n">is_above</span> <span class="o">=</span> <span class="n">surface_h</span> <span class="o">&gt;</span> <span class="n">ela_ds</span>
+    <span class="n">area</span> <span class="o">=</span> <span class="n">is_above</span> <span class="o">*</span> <span class="n">ds</span><span class="o">.</span><span class="n">area_m2</span>
+    <span class="n">tot_area_above</span> <span class="o">+=</span> <span class="p">(</span><span class="n">area</span> <span class="o">*</span> <span class="n">is_above</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">)</span>
+
+<span class="c1"># Write the output</span>
+<span class="n">dyna_aar</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">tot_area_above</span><span class="o">.</span><span class="n">time</span><span class="p">)</span>
+<span class="n">dyna_aar</span><span class="p">[</span><span class="s1">&#39;AAR_dyna&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tot_area_above</span> <span class="o">/</span> <span class="n">tot_area</span>
+<span class="n">dyna_aar</span><span class="p">[</span><span class="s1">&#39;AAR_fixed&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixed_aar</span><span class="p">[</span><span class="s1">&#39;AAR&#39;</span><span class="p">]</span>
+
+<span class="n">dyna_aar</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;AAR&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can see in the plot that the difference between the AAR calculated from the dynamic glacier and the one of the
+static glacier is quite similar. Over time you can expect that this difference becomes larger. Feel free to play
+around with that.</p>
+<p>Keep in mind that this is just an example for computing the AAR. For a different glacier experiment you might need
+to adjust the code. e.g. if the glacier flowlines would have different temperature sensitivities, you need to take
+that in to consideration.</p>
+<p>Here we computed the AAR from the “model perspective”, where the glacier is located in bins. You can however also
+choose to do some interpolation between the grid point above and below the ELA.</p>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="elevation_bands_vs_centerlines.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">OGGM centerlines versus elevation-band flowlines: a quick comparison</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="area_length_filter.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Filter the glacier length and area time series</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By OGGM e.V. and OGGM Contributors<br/>
+  
+    <div class="extra_footer">
+      <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

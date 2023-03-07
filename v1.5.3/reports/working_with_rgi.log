@@ -1,0 +1,144 @@
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from oggm import cfg, workflow, tasks
+cfg.initialize(logging_level='WARNING')
+cfg.PARAMS['continue_on_error'] = True
+cfg.PARAMS['use_multiprocessing'] = True
+cfg.PARAMS['border'] = 80
+cfg.PATHS['working_dir'] = utils.gettempdir(dirname='OGGM-Rofental', reset=True)
+
+gdirs = workflow.init_glacier_directories(gdf_sel, from_prepro_level=4)
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mRemoteTraceback[0m                           Traceback (most recent call last)
+[0;31mRemoteTraceback[0m: 
+"""
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py", line 108, in __call__
+    res = self._call_internal(func, arg, kwargs)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py", line 102, in _call_internal
+    return call_func(gdir, **kwargs)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py", line 251, in gdir_from_prepro
+    return oggm.GlacierDirectory(entity, from_tar=from_tar)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py", line 2529, in __init__
+    self.name = filter_rgi_name(name)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_funcs.py", line 734, in filter_rgi_name
+    if name is None or len(name) == 0:
+TypeError: object of type 'float' has no len()
+"""
+
+The above exception was the direct cause of the following exception:
+
+[0;31mTypeError[0m                                 Traceback (most recent call last)
+Cell [0;32mIn[15], line 8[0m
+[1;32m      5[0m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mborder[39m[38;5;124m'[39m] [38;5;241m=[39m [38;5;241m80[39m
+[1;32m      6[0m cfg[38;5;241m.[39mPATHS[[38;5;124m'[39m[38;5;124mworking_dir[39m[38;5;124m'[39m] [38;5;241m=[39m utils[38;5;241m.[39mgettempdir(dirname[38;5;241m=[39m[38;5;124m'[39m[38;5;124mOGGM-Rofental[39m[38;5;124m'[39m, reset[38;5;241m=[39m[38;5;28;01mTrue[39;00m)
+[0;32m----> 8[0m gdirs [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43mgdf_sel[49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m4[39;49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:533[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
+[1;32m    531[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mdl_verify[39m[38;5;124m'[39m]:
+[1;32m    532[0m         utils[38;5;241m.[39mget_dl_verify_data([38;5;124m'[39m[38;5;124mcluster.klima.uni-bremen.de[39m[38;5;124m'[39m)
+[0;32m--> 533[0m     gdirs [38;5;241m=[39m [43mexecute_entity_task[49m[43m([49m[43mgdir_from_prepro[49m[43m,[49m[43m [49m[43mentities[49m[43m,[49m
+[1;32m    534[0m [43m                                [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[43mfrom_prepro_level[49m[43m,[49m
+[1;32m    535[0m [43m                                [49m[43mprepro_border[49m[38;5;241;43m=[39;49m[43mprepro_border[49m[43m,[49m
+[1;32m    536[0m [43m                                [49m[43mprepro_rgi_version[49m[38;5;241;43m=[39;49m[43mprepro_rgi_version[49m[43m,[49m
+[1;32m    537[0m [43m                                [49m[43mbase_url[49m[38;5;241;43m=[39;49m[43mprepro_base_url[49m[43m)[49m
+[1;32m    538[0m [38;5;28;01melse[39;00m:
+[1;32m    539[0m     [38;5;66;03m# We can set the intersects file automatically here[39;00m
+[1;32m    540[0m     [38;5;28;01mif[39;00m (cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124muse_intersects[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m
+[1;32m    541[0m             [38;5;28mlen[39m(cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mintersects_gdf[39m[38;5;124m'[39m]) [38;5;241m==[39m [38;5;241m0[39m [38;5;129;01mand[39;00m
+[1;32m    542[0m             [38;5;129;01mnot[39;00m from_tar):
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:185[0m, in [0;36mexecute_entity_task[0;34m(task, gdirs, **kwargs)[0m
+[1;32m    183[0m [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124muse_multiprocessing[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m ng [38;5;241m>[39m [38;5;241m1[39m:
+[1;32m    184[0m     mppool [38;5;241m=[39m init_mp_pool(cfg[38;5;241m.[39mCONFIG_MODIFIED)
+[0;32m--> 185[0m     out [38;5;241m=[39m [43mmppool[49m[38;5;241;43m.[39;49m[43mmap[49m[43m([49m[43mpc[49m[43m,[49m[43m [49m[43mgdirs[49m[43m,[49m[43m [49m[43mchunksize[49m[38;5;241;43m=[39;49m[38;5;241;43m1[39;49m[43m)[49m
+[1;32m    186[0m [38;5;28;01melse[39;00m:
+[1;32m    187[0m     [38;5;28;01mif[39;00m ng [38;5;241m>[39m [38;5;241m3[39m:
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py:367[0m, in [0;36mPool.map[0;34m(self, func, iterable, chunksize)[0m
+[1;32m    362[0m [38;5;28;01mdef[39;00m [38;5;21mmap[39m([38;5;28mself[39m, func, iterable, chunksize[38;5;241m=[39m[38;5;28;01mNone[39;00m):
+[1;32m    363[0m [38;5;250m    [39m[38;5;124;03m'''[39;00m
+[1;32m    364[0m [38;5;124;03m    Apply `func` to each element in `iterable`, collecting the results[39;00m
+[1;32m    365[0m [38;5;124;03m    in a list that is returned.[39;00m
+[1;32m    366[0m [38;5;124;03m    '''[39;00m
+[0;32m--> 367[0m     [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_map_async[49m[43m([49m[43mfunc[49m[43m,[49m[43m [49m[43miterable[49m[43m,[49m[43m [49m[43mmapstar[49m[43m,[49m[43m [49m[43mchunksize[49m[43m)[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py:774[0m, in [0;36mApplyResult.get[0;34m(self, timeout)[0m
+[1;32m    772[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_value
+[1;32m    773[0m [38;5;28;01melse[39;00m:
+[0;32m--> 774[0m     [38;5;28;01mraise[39;00m [38;5;28mself[39m[38;5;241m.[39m_value
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py:125[0m, in [0;36mworker[0;34m()[0m
+[1;32m    123[0m job, i, func, args, kwds [38;5;241m=[39m task
+[1;32m    124[0m [38;5;28;01mtry[39;00m:
+[0;32m--> 125[0m     result [38;5;241m=[39m ([38;5;28;01mTrue[39;00m, func([38;5;241m*[39margs, [38;5;241m*[39m[38;5;241m*[39mkwds))
+[1;32m    126[0m [38;5;28;01mexcept[39;00m [38;5;167;01mException[39;00m [38;5;28;01mas[39;00m e:
+[1;32m    127[0m     [38;5;28;01mif[39;00m wrap_exception [38;5;129;01mand[39;00m func [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m _helper_reraises_exception:
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py:48[0m, in [0;36mmapstar[0;34m()[0m
+[1;32m     47[0m [38;5;28;01mdef[39;00m [38;5;21mmapstar[39m(args):
+[0;32m---> 48[0m     [38;5;28;01mreturn[39;00m [38;5;28mlist[39m([38;5;28mmap[39m([38;5;241m*[39margs))
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:108[0m, in [0;36m__call__[0;34m()[0m
+[1;32m    106[0m [38;5;28;01mfor[39;00m func [38;5;129;01min[39;00m [38;5;28mself[39m[38;5;241m.[39mcall_func:
+[1;32m    107[0m     func, kwargs [38;5;241m=[39m func
+[0;32m--> 108[0m     res [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_call_internal(func, arg, kwargs)
+[1;32m    109[0m [38;5;28;01mreturn[39;00m res
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:102[0m, in [0;36m_call_internal[0;34m()[0m
+[1;32m     99[0m     gdir, gdir_kwargs [38;5;241m=[39m gdir
+[1;32m    100[0m     kwargs[38;5;241m.[39mupdate(gdir_kwargs)
+[0;32m--> 102[0m [38;5;28;01mreturn[39;00m call_func(gdir, [38;5;241m*[39m[38;5;241m*[39mkwargs)
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:251[0m, in [0;36mgdir_from_prepro[0;34m()[0m
+[1;32m    248[0m tar_base [38;5;241m=[39m utils[38;5;241m.[39mget_prepro_gdir(prepro_rgi_version, rid, prepro_border,
+[1;32m    249[0m                                  from_prepro_level, base_url[38;5;241m=[39mbase_url)
+[1;32m    250[0m from_tar [38;5;241m=[39m os[38;5;241m.[39mpath[38;5;241m.[39mjoin(tar_base[38;5;241m.[39mreplace([38;5;124m'[39m[38;5;124m.tar[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m'[39m), rid [38;5;241m+[39m [38;5;124m'[39m[38;5;124m.tar.gz[39m[38;5;124m'[39m)
+[0;32m--> 251[0m [38;5;28;01mreturn[39;00m oggm[38;5;241m.[39mGlacierDirectory(entity, from_tar[38;5;241m=[39mfrom_tar)
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2529[0m, in [0;36m__init__[0;34m()[0m
+[1;32m   2525[0m     [38;5;28;01mraise[39;00m [38;5;167;01mRuntimeError[39;00m([38;5;124m'[39m[38;5;124mRGI Version not supported: [39m[38;5;124m'[39m
+[1;32m   2526[0m                        [38;5;124m'[39m[38;5;132;01m{}[39;00m[38;5;124m'[39m[38;5;241m.[39mformat([38;5;28mself[39m[38;5;241m.[39mrgi_version))
+[1;32m   2528[0m [38;5;66;03m# remove spurious characters and trailing blanks[39;00m
+[0;32m-> 2529[0m [38;5;28mself[39m[38;5;241m.[39mname [38;5;241m=[39m filter_rgi_name(name)
+[1;32m   2531[0m [38;5;66;03m# region[39;00m
+[1;32m   2532[0m reg_names, subreg_names [38;5;241m=[39m parse_rgi_meta(version[38;5;241m=[39m[38;5;28mself[39m[38;5;241m.[39mrgi_version[[38;5;241m0[39m])
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_funcs.py:734[0m, in [0;36mfilter_rgi_name[0;34m()[0m
+[1;32m    728[0m [38;5;28;01mdef[39;00m [38;5;21mfilter_rgi_name[39m(name):
+[1;32m    729[0m [38;5;250m    [39m[38;5;124;03m"""Remove spurious characters and trailing blanks from RGI glacier name.[39;00m
+[1;32m    730[0m 
+[1;32m    731[0m [38;5;124;03m    This seems to be unnecessary with RGI V6[39;00m
+[1;32m    732[0m [38;5;124;03m    """[39;00m
+[0;32m--> 734[0m     [38;5;28;01mif[39;00m name [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m [38;5;129;01mor[39;00m [38;5;28mlen[39m(name) [38;5;241m==[39m [38;5;241m0[39m:
+[1;32m    735[0m         [38;5;28;01mreturn[39;00m [38;5;124m'[39m[38;5;124m'[39m
+[1;32m    737[0m     [38;5;28;01mif[39;00m name[[38;5;241m-[39m[38;5;241m1[39m] [38;5;129;01min[39;00m [[38;5;124m'[39m[38;5;124mÀ[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mÈ[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mè[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;130;01m\x9c[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m3[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mÐ[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m°[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m¾[39m[38;5;124m'[39m,
+[1;32m    738[0m                     [38;5;124m'[39m[38;5;130;01m\r[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;130;01m\x93[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m¤[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m0[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m`[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mC[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m@[39m[38;5;124m'[39m,
+[1;32m    739[0m                     [38;5;124m'[39m[38;5;124mÅ[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;130;01m\x06[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;130;01m\x10[39;00m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m^[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124må[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m;[39m[38;5;124m'[39m]:
+
+[0;31mTypeError[0m: object of type 'float' has no len()
+TypeError: object of type 'float' has no len()
+
