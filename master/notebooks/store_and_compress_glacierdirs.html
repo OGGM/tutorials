@@ -259,7 +259,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="massbalance_calibration.html">
-   A quick look into the mass-balance calibration procedure
+   A quick look into different mass-balance calibration options
   </a>
  </li>
  <li class="toctree-l1">
@@ -632,7 +632,7 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="storing-glacier-directories-for-later-use">
 <h1>Storing glacier directories for later use<a class="headerlink" href="#storing-glacier-directories-for-later-use" title="Permalink to this headline">#</a></h1>
 <p>“Glacier directories” are the fundamental data structure used by OGGM. They allow to share data between runs, between the OGGM developers and users, and between users themselves.</p>
-<p>GLacier directories can also be confusing at times, and can contain a high number of files, making them hard to move between clusters or computers. This notebook explains how these directories are structured and how to store them for move and later use.</p>
+<p>Glacier directories can also be confusing at times, and can contain a high number of files, making them hard to move between clusters or computers. This notebook explains how these directories are structured and how to store them for move and later use.</p>
 <p>The main use-cases documented by this notebook are:</p>
 <ul class="simple">
 <li><p>pre-process a number of glacier directories</p></li>
@@ -671,49 +671,24 @@ title="Print to PDF"
 <span class="n">rgi_ids</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_glacier_entities</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">])</span>
 
 <span class="c1"># Go - get the pre-processed glacier directories</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
+            <span class="s1">&#39;L3-L5_files/2023.1/elev_bands/W5E5/&#39;</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-07 11:58:01: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-03-07 11:58:01: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-03-07 11:58:01: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-03-07 11:58:02: oggm.cfg: PARAMS[&#39;border&#39;] changed from `40` to `80`.
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">InvalidParamsError</span><span class="g g-Whitespace">                        </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">rgi_ids</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_glacier_entities</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">])</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="c1"># Go - get the pre-processed glacier directories</span>
-<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:364,</span> in <span class="ni">init_glacier_directories</span><span class="nt">(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)</span>
-<span class="g g-Whitespace">    </span><span class="mi">361</span>     <span class="n">reset</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">query_yes_no</span><span class="p">(</span><span class="s1">&#39;Delete all glacier directories?&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">363</span> <span class="k">if</span> <span class="n">from_prepro_level</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">364</span>     <span class="n">url</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_prepro_base_url</span><span class="p">(</span><span class="n">base_url</span><span class="o">=</span><span class="n">prepro_base_url</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">365</span>                                     <span class="n">border</span><span class="o">=</span><span class="n">prepro_border</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">366</span>                                     <span class="n">prepro_level</span><span class="o">=</span><span class="n">from_prepro_level</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">367</span>                                     <span class="n">rgi_version</span><span class="o">=</span><span class="n">prepro_rgi_version</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">368</span>     <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;has_internet&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">utils</span><span class="o">.</span><span class="n">url_exists</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">369</span>         <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s2">&quot;base url seems unreachable with these &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">370</span>                                  <span class="s2">&quot;parameters: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
-
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_downloads.py:1278,</span> in <span class="ni">get_prepro_base_url</span><span class="nt">(base_url, rgi_version, border, prepro_level)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1275</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Extended base url where to find the desired gdirs.&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1277</span> <span class="k">if</span> <span class="n">base_url</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1278</span>     <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s1">&#39;Starting with v1.6, users now have to &#39;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1279</span>                              <span class="s1">&#39;explicitly indicate the url they want &#39;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1280</span>                              <span class="s1">&#39;to start from.&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1282</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">base_url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1283</span>     <span class="n">base_url</span> <span class="o">+=</span> <span class="s1">&#39;/&#39;</span>
-
-<span class="ne">InvalidParamsError</span>: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:32:59: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-08 10:32:59: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-08 10:32:59: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-08 10:33:01: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-03-08 10:33:01: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
 </div>
+<p>Note that in OGGM v1.6 you have to explicitly indicate the url from where you want to start from,
+we will use here a preprocessed directory with elevation band flowlines and used W5E5 for calibration. In the future, <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/">other preprocessed directories might exist</a> and you can use them by changing the base_url.</p>
 <p>OGGM downloaded the pre-processed directories, stored the tar files in your cache, and extracted them in your working directory. But how is this working directory structured? Let’s have a look:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -738,12 +713,27 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
+  per_glacier/
+    RGI60-11/
+      RGI60-11.00/
+        RGI60-11.00787/
+        RGI60-11.00897/
+</pre></div>
+</div>
+</div>
 </div>
 <p>OK, so from the <code class="docutils literal notranslate"><span class="pre">WORKING_DIR</span></code>, OGGM creates a <code class="docutils literal notranslate"><span class="pre">per_glacier</span></code> folder (always)  where the glacier directories are stored. In order to avoid a large cluttering of the folder (and for other reasons which become apparent later), the directories are organised in regional (here <code class="docutils literal notranslate"><span class="pre">RGI60-16</span></code>) and then in  folders containing up to 1000 glaciers (here <code class="docutils literal notranslate"><span class="pre">RGI60-16.02</span></code>, i.e. for ids <code class="docutils literal notranslate"><span class="pre">RGI60-16.020000</span></code> to <code class="docutils literal notranslate"><span class="pre">RGI60-16.029999</span></code>).</p>
 <p>Our files are located in the final folders of this tree (not shown in the tree). For example:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;dem&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;WORKING_DIR&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;WORKING_DIR/per_glacier/RGI60-11/RGI60-11.00/RGI60-11.00787/dem.tif&#39;
 </pre></div>
 </div>
 </div>
@@ -755,6 +745,11 @@ title="Print to PDF"
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
                              <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup&#39;</span><span class="p">,</span>  <span class="c1"># to use the files as input later on</span>
                              <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:09: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -778,6 +773,11 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:10: oggm.workflow: init_glacier_directories by parsing all available folders (this takes time: if possible, provide rgidf instead).
+</pre></div>
+</div>
+</div>
 </div>
 <p>The step above can be quite slow (because OGGM has to parse quite some info from the directories). Better is to start from the list of glaciers you want to work with:</p>
 <div class="cell docutils container">
@@ -787,8 +787,13 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:11: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+</pre></div>
 </div>
-<p><strong>!!!CAREFUL!!!</strong> do <strong>not</strong> start from a preprocessed level (or from a tar file), or your local directories (which may contain new data) will be overwritten, i.e. <code class="docutils literal notranslate"><span class="pre">workflow.init_glacier_directories(rgi_ids,</span> <span class="pre">from_prepro_level=3)</span></code> will always start from the pre-processed, fresh state.</p>
+</div>
+</div>
+<p><strong>!!!CAREFUL!!!</strong> do <strong>not</strong> start from a preprocessed level (or from a tar file), or your local directories (which may contain new data) will be overwritten, i.e. <code class="docutils literal notranslate"><span class="pre">workflow.init_glacier_directories(rgi_ids,</span> <span class="pre">from_prepro_level=3,</span> <span class="pre">prepro_base_url=base_url)</span></code> will always start from the pre-processed, fresh state.</p>
 </section>
 <section id="store-the-single-glacier-directories-into-tar-files">
 <h2>Store the single glacier directories into tar files<a class="headerlink" href="#store-the-single-glacier-directories-into-tar-files" title="Permalink to this headline">#</a></h2>
@@ -807,12 +812,40 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
+  per_glacier/
+    RGI60-11/
+      RGI60-11.00/
+        RGI60-11.00787/
+        RGI60-11.00897/
+        RGI60-11.00787.tar.gz
+        RGI60-11.00897.tar.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:11: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
+</pre></div>
+</div>
+</div>
 </div>
 <p>Most of the time, you will actually want to delete the orginal directories because they are not needed for this run anymore:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">gdir_to_tar</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 <span class="n">file_tree_print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
+  per_glacier/
+    RGI60-11/
+      RGI60-11.00/
+        RGI60-11.00787.tar.gz
+        RGI60-11.00897.tar.gz
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:11: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -823,6 +856,19 @@ title="Print to PDF"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_tar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">delete_tar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">file_tree_print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
+  per_glacier/
+    RGI60-11/
+      RGI60-11.00/
+        RGI60-11.00787/
+        RGI60-11.00897/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:11: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -850,12 +896,37 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
+  per_glacier/
+    RGI60-11/
+      RGI60-11.00.tar
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:11: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
+</pre></div>
+</div>
+</div>
 </div>
 <p>Now, the glacier directories are bundled in a file at a higher level even. This is even more convenient to move around (less files), but is not a mandatory step. The nice part about this bundling is that you can still select individual glaciers, as we will see in the next section. In the meantime, you can do:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_tar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">file_tree_print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
+  per_glacier/
+    RGI60-11/
+      RGI60-11.00/
+      RGI60-11.00.tar
+        RGI60-11.00787/
+        RGI60-11.00897/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:11: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -875,7 +946,7 @@ title="Print to PDF"
 <span class="c1"># Lets start from a clean state</span>
 <span class="c1"># Beware! If you use `reset=True` in `utils.mkdir`, ALL DATA in this folder will be deleted! Use with caution!</span>
 <span class="n">utils</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
 
 <span class="c1"># Then tar the gdirs and bundle</span>
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">gdir_to_tar</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -883,6 +954,13 @@ title="Print to PDF"
 
 <span class="c1"># Copy the outcome in a new directory: scratch folder, new machine, etc.</span>
 <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">WORKING_DIR</span><span class="p">,</span> <span class="s1">&#39;per_glacier&#39;</span><span class="p">),</span> <span class="n">PREPRO_DIR</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:12: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-03-08 10:33:12: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+2023-03-08 10:33:12: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -896,6 +974,19 @@ title="Print to PDF"
 <span class="c1"># It uses the files you prepared beforehand to start the dirs</span>
 <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_tar</span><span class="o">=</span><span class="n">PREPRO_DIR</span><span class="p">)</span>
 <span class="n">file_tree_print</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cfg.PATHS[&#39;working_dir&#39;]/
+  per_glacier/
+    RGI60-11/
+      RGI60-11.00/
+        RGI60-11.00787/
+        RGI60-11.00897/
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:33:12: oggm.workflow: Execute entity tasks [gdir_from_tar] on 2 glaciers
 </pre></div>
 </div>
 </div>

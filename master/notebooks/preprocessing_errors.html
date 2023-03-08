@@ -259,7 +259,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="massbalance_calibration.html">
-   A quick look into the mass-balance calibration procedure
+   A quick look into different mass-balance calibration options
   </a>
  </li>
  <li class="toctree-l1">
@@ -611,7 +611,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="error-analysis-of-the-global-pre-processing-workflow">
 <h1>Error analysis of the global pre-processing workflow<a class="headerlink" href="#error-analysis-of-the-global-pre-processing-workflow" title="Permalink to this headline">#</a></h1>
-<p>Here we reproduce the error analysis shown in <a class="reference external" href="https://www.geosci-model-dev.net/12/909/2019/">Maussion et al. (2019)</a> <strong>for the pre-processing part only, and for the glacier directories (version 1.4)</strong>. The error analysis of user runs needs a separate handling, see the <a class="reference internal" href="deal_with_errors.html"><span class="doc std std-doc">deal_with_errors</span></a> notebook for more information.</p>
+<p>Here we reproduce the error analysis shown in <a class="reference external" href="https://www.geosci-model-dev.net/12/909/2019/">Maussion et al. (2019)</a> <strong>for the pre-processing part only, and for the glacier directories (version 1.6 and 1.4)</strong>. The error analysis of user runs needs a separate handling, see the <a class="reference internal" href="deal_with_errors.html"><span class="doc std std-doc">deal_with_errors</span></a> notebook for more information.</p>
 <section id="get-the-files">
 <h2>Get the files<a class="headerlink" href="#get-the-files" title="Permalink to this headline">#</a></h2>
 <p>We download the <code class="docutils literal notranslate"><span class="pre">glacier_statistics</span></code> files from the preprocessed directories folders, at the level 5. That is, we are going to count all errors that happened during the pre-processing chain.</p>
@@ -624,10 +624,12 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+<p>We will start with a preprocessed directory for OGGM v1.6 (W5E5 with elev_bands):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is CRU + centerlines. But you can try CRU+elev_bands, or ERA5+elev_bands, etc!</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_040/L5/summary/&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is W5E5 + elev_bands using OGGM v1.6, in the future there might be more preprocessed gdirs</span>
+<span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
+       <span class="s1">&#39;L3-L5_files/2023.1/centerlines/W5E5/RGI62/b_080/L5/summary/&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -654,7 +656,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/preprocessing_errors_8_0.png" src="../_images/preprocessing_errors_8_0.png" />
+<img alt="../_images/preprocessing_errors_9_0.png" src="../_images/preprocessing_errors_9_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -664,27 +666,28 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors all sources: 3.24%&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors all sources: 0.40%&#39;
 </pre></div>
 </div>
 </div>
 </div>
-<p>Most errors occur because the interpolation of tstar did not work.</p>
-<p>We now look at the errors that occur already before applying the climate tasks:</p>
+<p>Most errors occur when making a gridded mask of the glacier outlines (‘glacier_mask’).</p>
+<p>We now look at the errors that occur already before applying the climate tasks (i.e., before applying <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_scalar_mb</span></code>):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfe</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
-<span class="n">dfe</span> <span class="o">=</span> <span class="n">dfe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">dfe</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;local_t_star&#39;</span><span class="p">,</span> <span class="s1">&#39;mu_star_calibration&#39;</span><span class="p">])]</span>
+<span class="n">dfe</span> <span class="o">=</span> <span class="n">dfe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">dfe</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;mb_calibration_from_scalar_mb&#39;</span><span class="p">])]</span>
 <span class="s2">&quot;</span><span class="si">% a</span><span class="s2">rea errors before climate: </span><span class="si">{:.2f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dfe</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors before climate: 0.41%&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors before climate: 0.38%&#39;
 </pre></div>
 </div>
 </div>
 </div>
+<p>In the % of the area, much less glaciers fail due to the  option.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;error_task&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">dfe</span><span class="p">);</span>
@@ -692,7 +695,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/preprocessing_errors_12_0.png" src="../_images/preprocessing_errors_12_0.png" />
+<img alt="../_images/preprocessing_errors_14_0.png" src="../_images/preprocessing_errors_14_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -734,58 +737,10 @@ title="Print to PDF"
   </thead>
   <tbody>
     <tr>
-      <th>RGI60-17.15804</th>
-      <td>790.282</td>
-      <td>mu_star_calibration</td>
-      <td>MassBalanceCalibrationError: RGI60-17.15804 mu...</td>
-    </tr>
-    <tr>
-      <th>RGI60-17.15808</th>
-      <td>721.950</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-17.15808: m...</td>
-    </tr>
-    <tr>
       <th>RGI60-13.54431</th>
       <td>663.729</td>
       <td>flowline_model_run_historical</td>
       <td>RuntimeError: CFL error: required time step sm...</td>
-    </tr>
-    <tr>
-      <th>RGI60-17.15897</th>
-      <td>428.505</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-17.15897: m...</td>
-    </tr>
-    <tr>
-      <th>RGI60-05.10735</th>
-      <td>392.607</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-05.10735: m...</td>
-    </tr>
-    <tr>
-      <th>RGI60-05.10634</th>
-      <td>388.067</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-05.10634: m...</td>
-    </tr>
-    <tr>
-      <th>RGI60-05.10617</th>
-      <td>373.290</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-05.10617: m...</td>
-    </tr>
-    <tr>
-      <th>RGI60-05.10762</th>
-      <td>309.061</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-05.10762: m...</td>
-    </tr>
-    <tr>
-      <th>RGI60-05.10748</th>
-      <td>289.188</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-05.10748: m...</td>
     </tr>
     <tr>
       <th>RGI60-13.43483</th>
@@ -794,34 +749,82 @@ title="Print to PDF"
       <td>RuntimeError: CFL error: required time step sm...</td>
     </tr>
     <tr>
-      <th>RGI60-17.15898</th>
-      <td>268.749</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-17.15898: m...</td>
-    </tr>
-    <tr>
-      <th>RGI60-01.16377</th>
-      <td>254.841</td>
+      <th>RGI60-17.01218</th>
+      <td>110.978</td>
       <td>flowline_model_run_historical</td>
       <td>RuntimeError: CFL error: required time step sm...</td>
     </tr>
     <tr>
-      <th>RGI60-05.10988</th>
-      <td>207.766</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-05.10988: m...</td>
-    </tr>
-    <tr>
-      <th>RGI60-14.04404</th>
-      <td>203.336</td>
+      <th>RGI60-17.13796</th>
+      <td>69.313</td>
       <td>flowline_model_run_historical</td>
       <td>RuntimeError: CFL error: required time step sm...</td>
     </tr>
     <tr>
-      <th>RGI60-05.10959</th>
-      <td>183.850</td>
-      <td>local_t_star</td>
-      <td>MassBalanceCalibrationError: RGI60-05.10959: m...</td>
+      <th>RGI60-10.00002</th>
+      <td>48.144</td>
+      <td>glacier_masks</td>
+      <td>GeometryError: RGI60-10.00002 is a nominal gla...</td>
+    </tr>
+    <tr>
+      <th>RGI60-13.01430</th>
+      <td>43.094</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
+    </tr>
+    <tr>
+      <th>RGI60-14.10738</th>
+      <td>39.506</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
+    </tr>
+    <tr>
+      <th>RGI60-15.04151</th>
+      <td>36.050</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
+    </tr>
+    <tr>
+      <th>RGI60-03.04079</th>
+      <td>35.752</td>
+      <td>initialize_flowlines</td>
+      <td>RuntimeError: Altitude range of main flowline ...</td>
+    </tr>
+    <tr>
+      <th>RGI60-13.04943</th>
+      <td>34.599</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
+    </tr>
+    <tr>
+      <th>RGI60-13.13612</th>
+      <td>30.578</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
+    </tr>
+    <tr>
+      <th>RGI60-14.08485</th>
+      <td>29.861</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
+    </tr>
+    <tr>
+      <th>RGI60-17.13799</th>
+      <td>29.768</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
+    </tr>
+    <tr>
+      <th>RGI60-02.02622</th>
+      <td>28.163</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
+    </tr>
+    <tr>
+      <th>RGI60-14.08487</th>
+      <td>27.122</td>
+      <td>flowline_model_run_historical</td>
+      <td>RuntimeError: CFL error: required time step sm...</td>
     </tr>
   </tbody>
 </table>
@@ -835,15 +838,30 @@ title="Print to PDF"
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ERA5 uses a different precipitation factor </span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/ERA5/centerlines/qc3/pcp1.6/no_match/RGI62/b_040/L5/summary/&#39;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is CRU + centerlines. But you can try CRU+elev_bands, or ERA5+elev_bands, etc!</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/centerlines/qc3/pcp2.5/no_match/RGI62/b_040/L5/summary/&#39;</span>
 <span class="c1"># this can take some time</span>
-<span class="n">df_era5</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">df_cru_v14</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="c1"># we don&#39;t look at RGI19 (Antarctic glaciers), because no climate available for CRU</span>
 <span class="k">for</span> <span class="n">rgi_reg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">):</span>
     <span class="n">fpath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;glacier_statistics_</span><span class="si">{</span><span class="n">rgi_reg</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
-    <span class="n">df_era5</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-<span class="n">df_era5</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_era5</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+    <span class="n">df_cru_v14</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">df_cru_v14</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_cru_v14</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ERA5 uses a different precipitation factor </span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/ERA5/centerlines/qc3/pcp1.6/no_match/RGI62/b_040/L5/summary/&#39;</span>
+<span class="c1"># this can take some time</span>
+<span class="n">df_era5_v14</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># we don&#39;t look at RGI19 (Antarctic glaciers), because no climate available for CRU</span>
+<span class="k">for</span> <span class="n">rgi_reg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">):</span>
+    <span class="n">fpath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;glacier_statistics_</span><span class="si">{</span><span class="n">rgi_reg</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
+    <span class="n">df_era5_v14</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="n">df_era5_v14</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_era5_v14</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -856,7 +874,13 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors all sources for ERA5 is 0.92% compared to CRU (3.24%)&#39;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="s2">&quot;</span><span class="si">% a</span><span class="s2">rea errors all sources for ERA5 is </span><span class="si">{:.2f}% c</span><span class="s2">ompared to CRU (</span><span class="si">{:.2f}</span><span class="s2">%)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df_era5</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_era5</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df_era5</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>                                                                               <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;df_era5&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -868,7 +892,8 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CRU elevation bands</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/elev_bands/qc3/pcp2.5/no_match/RGI62/b_040/L5/summary/&#39;</span>
+<span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
+       <span class="s1">&#39;L3-L5_files/2023.1/elev_bands/W5E5/RGI62/b_080/L5/summary/&#39;</span><span class="p">)</span>
 <span class="c1"># this can take some time</span>
 <span class="n">df_elev</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="c1"># we don&#39;t look at RGI19 (Antarctic glaciers), because no climate available for CRU</span>
@@ -882,13 +907,15 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;</span><span class="si">% a</span><span class="s2">rea errors all sources for elevation band flowlines is </span><span class="si">{:.2f}% c</span><span class="s2">ompared to centerlines (</span><span class="si">{:.2f}</span><span class="s2">%) with CRU&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df_elev</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_elev</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df_elev</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;</span><span class="si">% a</span><span class="s2">rea errors all sources for elevation band flowlines is </span><span class="si">{:.2f}% c</span><span class="s2">ompared to centerlines (</span><span class="si">{:.2f}</span><span class="s2">%) with W5E5&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df_elev</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_elev</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df_elev</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span>
                                                                               <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors all sources for elevation band flowlines is 2.46% compared to centerlines (3.24%) with CRU&#39;
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_elev</span><span class="o">.</span><span class="n">error_msg</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

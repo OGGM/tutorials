@@ -17,33 +17,33 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# We use a relatively large border value to allow the glacier to grow during spinup
-gdirs = workflow.init_glacier_directories(rgi_ids, from_prepro_level=3, prepro_border=160, prepro_base_url=base_url)
+# We use a recent gdir setting, calibated on a glacier per glacier basis
+base_url = 'https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/ERA5/elev_bands/qc0/pcp1.6/match_geod_pergla/'
+
+# These parameters correspond to the settings of the base url
+cfg.PARAMS['prcp_scaling_factor'] = 1.6
+cfg.PARAMS['climate_qc_months'] = 0
+cfg.PARAMS['hydro_month_nh'] = 1
+cfg.PARAMS['hydro_month_sh'] = 1
+cfg.PARAMS['max_mu_star'] = 600
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mInvalidParamsError[0m                        Traceback (most recent call last)
-Cell [0;32mIn[8], line 2[0m
-[1;32m      1[0m [38;5;66;03m# We use a relatively large border value to allow the glacier to grow during spinup[39;00m
-[0;32m----> 2[0m gdirs [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43mrgi_ids[49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m3[39;49m[43m,[49m[43m [49m[43mprepro_border[49m[38;5;241;43m=[39;49m[38;5;241;43m160[39;49m[43m,[49m[43m [49m[43mprepro_base_url[49m[38;5;241;43m=[39;49m[43mbase_url[49m[43m)[49m
+Cell [0;32mIn[7], line 5[0m
+[1;32m      2[0m base_url [38;5;241m=[39m [38;5;124m'[39m[38;5;124mhttps://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/ERA5/elev_bands/qc0/pcp1.6/match_geod_pergla/[39m[38;5;124m'[39m
+[1;32m      4[0m [38;5;66;03m# These parameters correspond to the settings of the base url[39;00m
+[0;32m----> 5[0m [43mcfg[49m[38;5;241;43m.[39;49m[43mPARAMS[49m[43m[[49m[38;5;124;43m'[39;49m[38;5;124;43mprcp_scaling_factor[39;49m[38;5;124;43m'[39;49m[43m][49m [38;5;241m=[39m [38;5;241m1.6[39m
+[1;32m      6[0m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mclimate_qc_months[39m[38;5;124m'[39m] [38;5;241m=[39m [38;5;241m0[39m
+[1;32m      7[0m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhydro_month_nh[39m[38;5;124m'[39m] [38;5;241m=[39m [38;5;241m1[39m
 
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:369[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
-[1;32m    364[0m url [38;5;241m=[39m utils[38;5;241m.[39mget_prepro_base_url(base_url[38;5;241m=[39mprepro_base_url,
-[1;32m    365[0m                                 border[38;5;241m=[39mprepro_border,
-[1;32m    366[0m                                 prepro_level[38;5;241m=[39mfrom_prepro_level,
-[1;32m    367[0m                                 rgi_version[38;5;241m=[39mprepro_rgi_version)
-[1;32m    368[0m [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhas_internet[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m utils[38;5;241m.[39murl_exists(url):
-[0;32m--> 369[0m     [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m"[39m[38;5;124mbase url seems unreachable with these [39m[38;5;124m"[39m
-[1;32m    370[0m                              [38;5;124m"[39m[38;5;124mparameters: [39m[38;5;132;01m{}[39;00m[38;5;124m"[39m[38;5;241m.[39mformat(url))
-[1;32m    371[0m [38;5;28;01mif[39;00m ([38;5;124m'[39m[38;5;124moggm_v1.4[39m[38;5;124m'[39m [38;5;129;01min[39;00m url [38;5;129;01mand[39;00m
-[1;32m    372[0m         from_prepro_level [38;5;241m>[39m[38;5;241m=[39m [38;5;241m3[39m [38;5;129;01mand[39;00m
-[1;32m    373[0m         [38;5;129;01mnot[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mprcp_scaling_factor[39m[38;5;124m'[39m]):
-[1;32m    374[0m     log[38;5;241m.[39mwarning([38;5;124m'[39m[38;5;124mYou seem to be using v1.4 directories with a more [39m[38;5;124m'[39m
-[1;32m    375[0m                 [38;5;124m'[39m[38;5;124mrecent version of OGGM. While this is possible, be [39m[38;5;124m'[39m
-[1;32m    376[0m                 [38;5;124m'[39m[38;5;124maware that some defaults parameters have changed. [39m[38;5;124m'[39m
-[1;32m    377[0m                 [38;5;124m'[39m[38;5;124mSee the documentation for details: [39m[38;5;124m'[39m
-[1;32m    378[0m                 [38;5;124m'[39m[38;5;124mhttp://docs.oggm.org/en/stable/whats-new.html[39m[38;5;124m'[39m)
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/cfg.py:119[0m, in [0;36mParamsLoggingDict.__setitem__[0;34m(self, key, value)[0m
+[1;32m    117[0m [38;5;28;01mif[39;00m [38;5;28mself[39m[38;5;241m.[39mdo_log:
+[1;32m    118[0m     [38;5;28;01mif[39;00m key [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m [38;5;28mself[39m:
+[0;32m--> 119[0m         [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124mf[39m[38;5;124m'[39m[38;5;124mParameter `[39m[38;5;132;01m{[39;00mkey[38;5;132;01m}[39;00m[38;5;124m` not in PARAMS[39m[38;5;124m'[39m)
+[1;32m    120[0m     [38;5;28mself[39m[38;5;241m.[39m_log_param_change(key, value)
+[1;32m    121[0m ResettingOrderedDict[38;5;241m.[39m[38;5;21m__setitem__[39m([38;5;28mself[39m, key, value)
 
-[0;31mInvalidParamsError[0m: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/ERA5/elev_bands/qc0/pcp1.6/match_geod_pergla/RGI62/b_160/L3/
-InvalidParamsError: base url seems unreachable with these parameters: https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/ERA5/elev_bands/qc0/pcp1.6/match_geod_pergla/RGI62/b_160/L3/
+[0;31mInvalidParamsError[0m: Parameter `prcp_scaling_factor` not in PARAMS
+InvalidParamsError: Parameter `prcp_scaling_factor` not in PARAMS
 

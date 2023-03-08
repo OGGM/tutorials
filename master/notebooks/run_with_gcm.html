@@ -259,7 +259,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="massbalance_calibration.html">
-   A quick look into the mass-balance calibration procedure
+   A quick look into different mass-balance calibration options
   </a>
  </li>
  <li class="toctree-l1">
@@ -557,8 +557,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#download-and-process-gcm-data-from-cmip5">
-   Download and process GCM data from CMIP5
+  <a class="reference internal nav-link" href="#download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6">
+   Download and process GCM data from ISIMIP3b (bias-corrected CMIP6)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -572,8 +572,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#new-and-now-from-cmip6">
-   New: and now from CMIP6!
+  <a class="reference internal nav-link" href="#download-and-process-gcm-data-from-cmip5-or-cmip6">
+   Download and process GCM data from CMIP5 or CMIP6
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -617,8 +617,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#download-and-process-gcm-data-from-cmip5">
-   Download and process GCM data from CMIP5
+  <a class="reference internal nav-link" href="#download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6">
+   Download and process GCM data from ISIMIP3b (bias-corrected CMIP6)
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -632,8 +632,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#new-and-now-from-cmip6">
-   New: and now from CMIP6!
+  <a class="reference internal nav-link" href="#download-and-process-gcm-data-from-cmip5-or-cmip6">
+   Download and process GCM data from CMIP5 or CMIP6
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -653,10 +653,10 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="run-oggm-with-gcm-data">
 <h1>Run OGGM with GCM data<a class="headerlink" href="#run-oggm-with-gcm-data" title="Permalink to this headline">#</a></h1>
-<p>In this example, we illustrate how to do a typical “projection run”, i.e. using GCM data (here CMIP5 and CMIP6). There are two important steps:</p>
+<p>In this example, we illustrate how to do a typical “projection run”, i.e. using GCM data. Here we will first use already bias-corrected CMIP6 data from <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment/">ISIMIP3b</a>, but also show alternatives when using pure CMIP5 or CMIP6 data. There are two important steps:</p>
 <ul class="simple">
-<li><p>simulate all glaciers from their inventory date up to a “present day” geometry (<strong>New in version 1.4: this is already available in the pre-processed directories</strong>)</p></li>
-<li><p>simulate their future evolution from the present day state</p></li>
+<li><p>simulate all glaciers from their inventory date up to a “present day” geometry, i.e., until the end of the applied climate dataset (end of 2019) used for calibration (<strong>New from OGGM version 1.4 onwards: this is already available in the pre-processed directories</strong>)</p></li>
+<li><p>simulate their future evolution from the present day state (2020-2100)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -667,19 +667,7 @@ title="Print to PDF"
 <span class="c1"># Locals</span>
 <span class="kn">import</span> <span class="nn">oggm.cfg</span> <span class="k">as</span> <span class="nn">cfg</span>
 <span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
-<span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">gcm_climate</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ImportError</span><span class="g g-Whitespace">                               </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span> <span class="nn">oggm.cfg</span> <span class="k">as</span> <span class="nn">cfg</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
-<span class="ne">----&gt; </span><span class="mi">8</span> <span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">gcm_climate</span>
-
-<span class="ne">ImportError</span>: cannot import name &#39;gcm_climate&#39; from &#39;oggm.core&#39; (/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/__init__.py)
+<span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">gcm_climate</span>
 </pre></div>
 </div>
 </div>
@@ -695,8 +683,8 @@ title="Print to PDF"
 <span class="c1"># Here we override some of the default parameters</span>
 <span class="c1"># How many grid points around the glacier?</span>
 <span class="c1"># Make it large if you expect your glaciers to grow large:</span>
-<span class="c1"># here, 40 is more than enough</span>
-<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="c1"># here, 80 is more than enough</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span> <span class="c1"># maybe change it back to 10</span>
 
 <span class="c1"># Local working directory (where OGGM will write its output)</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_gcm_run&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -705,7 +693,21 @@ title="Print to PDF"
 <span class="n">rgi_ids</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_glacier_entities</span><span class="p">([</span><span class="s1">&#39;RGI60-15.03473&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-15.03733&#39;</span><span class="p">])</span>
 
 <span class="c1"># Go - get the pre-processed glacier directories</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="c1"># in OGGM v1.6 you have to explicitly indicate the url from where you want to start from</span>
+<span class="c1"># we will use here the elevation band flowlines which are much simpler than the centerlines</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
+            <span class="s1">&#39;L3-L5_files/2023.1/elev_bands/W5E5/&#39;</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                         <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:32:39: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-08 10:32:39: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-08 10:32:39: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-08 10:32:46: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
+2023-03-08 10:32:46: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -713,7 +715,7 @@ title="Print to PDF"
 </section>
 <section id="new-in-version-1-4-the-historical-runs">
 <h2>New in version 1.4: the <code class="docutils literal notranslate"><span class="pre">_historical</span></code> runs<a class="headerlink" href="#new-in-version-1-4-the-historical-runs" title="Permalink to this headline">#</a></h2>
-<p>As of v1.4, the level 5 files now come with a pre-computed model run from the RGI outline date to the last possible date given by the historical climate data. These files are stored in the directory with a <code class="docutils literal notranslate"><span class="pre">_historical</span></code> suffix. Let’s compile them for our two glaciers:</p>
+<p>As of v1.4, the level 5 files now come with a pre-computed model run from the RGI outline date to the last possible date given by the historical climate data. In case of the new default climate dataset <a class="reference external" href="https://www.isimip.org/gettingstarted/input-data-bias-adjustment/details/80/">GSWP3_W5E5</a>, this is until the end of 2019, so the volume is computed until the beginning of 2020. These files are stored in the directory with a <code class="docutils literal notranslate"><span class="pre">_historical</span></code> suffix. Let’s compile them for our two glaciers:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">)</span>
@@ -721,11 +723,23 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:32:47: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-03-08 10:32:47: oggm.utils: Applying compile_run_output on 2 gdirs.
+</pre></div>
+</div>
+<img alt="../_images/run_with_gcm_8_21.png" src="../_images/run_with_gcm_8_21.png" />
+</div>
 </div>
 <p>Each RGI glacier has an “inventory date”, the time at which the ouline is valid. It can change between glaciers:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rgi_date</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(2000, 2002)
 </pre></div>
 </div>
 </div>
@@ -736,6 +750,380 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.DataArray &#x27;time&#x27; ()&gt;
+array(2020.)
+Coordinates:
+    time            float64 2.02e+03
+    hydro_year      int64 2020
+    hydro_month     int64 4
+    calendar_year   int64 2020
+    calendar_month  int64 1
+Attributes:
+    description:  Floating year</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.DataArray</div><div class='xr-array-name'>'time'</div></div><ul class='xr-sections'><li class='xr-section-item'><div class='xr-array-wrap'><input id='section-d115c496-0cd1-4e99-b031-a6b4c0baf379' class='xr-array-in' type='checkbox' checked><label for='section-d115c496-0cd1-4e99-b031-a6b4c0baf379' title='Show/hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-array-preview xr-preview'><span>2.02e+03</span></div><div class='xr-array-data'><pre>array(2020.)</pre></div></div></li><li class='xr-section-item'><input id='section-d399fd61-087f-4694-b607-68340449c7c0' class='xr-section-summary-in' type='checkbox'  checked><label for='section-d399fd61-087f-4694-b607-68340449c7c0' class='xr-section-summary' >Coordinates: <span>(5)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>time</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.02e+03</div><input id='attrs-f5785dd2-2fd1-41a0-812e-f7ed28018bd1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f5785dd2-2fd1-41a0-812e-f7ed28018bd1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-fe9b0416-ccd4-4871-a954-2f153e0abf24' class='xr-var-data-in' type='checkbox'><label for='data-fe9b0416-ccd4-4871-a954-2f153e0abf24' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating year</dd></dl></div><div class='xr-var-data'><pre>array(2020.)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_year</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>2020</div><input id='attrs-a707cac0-d153-4c0d-b69f-7baf5c7ba4f1' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a707cac0-d153-4c0d-b69f-7baf5c7ba4f1' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9234ba6f-e6f6-4f13-b9f6-a0c2df6c6c27' class='xr-var-data-in' type='checkbox'><label for='data-9234ba6f-e6f6-4f13-b9f6-a0c2df6c6c27' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological year</dd></dl></div><div class='xr-var-data'><pre>array(2020)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_month</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>4</div><input id='attrs-e3b4759c-2b3c-4ec3-9d2c-9497935fc51a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e3b4759c-2b3c-4ec3-9d2c-9497935fc51a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ed2849f3-4d7a-49a7-b75b-20fd320fea76' class='xr-var-data-in' type='checkbox'><label for='data-ed2849f3-4d7a-49a7-b75b-20fd320fea76' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological month</dd></dl></div><div class='xr-var-data'><pre>array(4)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_year</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>2020</div><input id='attrs-ee49d3c2-be85-4dae-9c2a-a31ac7533f9a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ee49d3c2-be85-4dae-9c2a-a31ac7533f9a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a06cfba7-1f51-47a9-8405-0c1c989b26b3' class='xr-var-data-in' type='checkbox'><label for='data-a06cfba7-1f51-47a9-8405-0c1c989b26b3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar year</dd></dl></div><div class='xr-var-data'><pre>array(2020)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month</span></div><div class='xr-var-dims'>()</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1</div><input id='attrs-49fc29ea-d3cd-4043-8b24-93e7c6c32b91' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-49fc29ea-d3cd-4043-8b24-93e7c6c32b91' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-32d296fa-f122-4def-ab27-900e4151a76b' class='xr-var-data-in' type='checkbox'><label for='data-32d296fa-f122-4def-ab27-900e4151a76b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar month</dd></dl></div><div class='xr-var-data'><pre>array(1)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-3407cc2e-382e-4a7e-83f5-1ea60b78f830' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-3407cc2e-382e-4a7e-83f5-1ea60b78f830' class='xr-section-summary'  title='Expand/collapse section'>Indexes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'></ul></div></li><li class='xr-section-item'><input id='section-e961e858-ed97-47f1-bad9-94b0f7f9d9a2' class='xr-section-summary-in' type='checkbox'  checked><label for='section-e961e858-ed97-47f1-bad9-94b0f7f9d9a2' class='xr-section-summary' >Attributes: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating year</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <p>The command that was run on preprocessing was the <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.run_from_climate_data.html#oggm.tasks.run_from_climate_data">run_from_climate_data</a> which will run OGGM from this inventory date up to a desired date (here, the last year with valid historical climate data). So the data above is strictly equivalent to:</p>
 <div class="cell docutils container">
@@ -748,6 +1136,14 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:32:47: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+2023-03-08 10:32:48: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-03-08 10:32:48: oggm.utils: Applying compile_run_output on 2 gdirs.
+</pre></div>
+</div>
+<img alt="../_images/run_with_gcm_13_3.png" src="../_images/run_with_gcm_13_3.png" />
+</div>
 </div>
 <p>One thing to remember here is that although we try hard to avoid spin-up issues, the glacier after the inversion is not in a perfect dynamical state. Some variable (in particular glacier length) might need some years to adjust:</p>
 <div class="cell docutils container">
@@ -756,38 +1152,117 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/run_with_gcm_15_0.png" src="../_images/run_with_gcm_15_0.png" />
+</div>
 </div>
 </section>
-<section id="download-and-process-gcm-data-from-cmip5">
-<h2>Download and process GCM data from CMIP5<a class="headerlink" href="#download-and-process-gcm-data-from-cmip5" title="Permalink to this headline">#</a></h2>
-<p>A typical use case for OGGM will be to use climate model output (here CMIP5). We use some of the files <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng">we store online</a> here, but you can use whichever you want. The above mentioned storage contains information about the data, <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/ABOUT">how to cite them</a> and <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/gcm_table.html">tabular summaries</a> of the available GCMs.</p>
-<p>We download the files and bias correct them to the calibration data (here: CRU, see <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.process_gcm_data.html#oggm.shop.gcm_climate.process_gcm_data">process_gcm_data</a> which is called by <code class="docutils literal notranslate"><span class="pre">process_cmip_data</span></code>). This step is very important, as the model is very sensitive to temperature variability.</p>
+<section id="download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6">
+<h2>Download and process GCM data from ISIMIP3b (bias-corrected CMIP6)<a class="headerlink" href="#download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bp</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/pr/pr_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
-<span class="n">bt</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/tas/tas_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
-<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span>
-    <span class="c1"># Download the files</span>
-    <span class="n">ft</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
-    <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can choose one of these 5 different GCMs:</span>
+<span class="c1">#[&#39;gfdl-esm4_r1i1p1f1&#39;, &#39;ipsl-cm6a-lr_r1i1p1f1&#39;,</span>
+<span class="c1"># &#39;mpi-esm1-2-hr_r1i1p1f1&#39;, &#39;mri-esm2-0_r1i1p1f1&#39;,</span>
+<span class="c1"># &#39;ukesm1-0-ll_r1i1p1f2&#39;]</span>
+<span class="n">ensemble</span> <span class="o">=</span> <span class="s1">&#39;mri-esm2-0_r1i1p1f1&#39;</span> 
+
+<span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span><span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
     <span class="c1"># bias correct them</span>
-    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
-                                 <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">),</span>  <span class="c1"># recognize the climate file for later</span>
-                                 <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
-                                 <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>  <span class="c1"># precip projections</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_monthly_isimip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
+                                 <span class="n">ssp</span> <span class="o">=</span> <span class="n">ssp</span><span class="p">,</span>
+                                 <span class="c1"># gcm ensemble -&gt; you can choose another one</span>
+                                 <span class="n">ensemble</span><span class="o">=</span><span class="n">ensemble</span><span class="p">,</span>
+                                 <span class="c1"># recognize the climate file for later</span>
+                                 <span class="n">output_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">ensemble</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span>
                                  <span class="p">);</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-08 10:32:48: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+2023-03-08 10:32:50: oggm.shop.gcm_climate: TypeError occurred during task process_gcm_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126 on RGI60-15.03473: process_gcm_data() got an unexpected keyword argument &#39;ensemble&#39;
+2023-03-08 10:32:50: oggm.shop.gcm_climate: TypeError occurred during task process_monthly_isimip_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126 on RGI60-15.03473: process_gcm_data() got an unexpected keyword argument &#39;ensemble&#39;
+</pre></div>
 </div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">ensemble</span> <span class="o">=</span> <span class="s1">&#39;mri-esm2-0_r1i1p1f1&#39;</span> 
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span><span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="c1"># bias correct them</span>
+<span class="ne">----&gt; </span><span class="mi">9</span>     <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_monthly_isimip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
+<span class="g g-Whitespace">     </span><span class="mi">10</span>                                  <span class="n">ssp</span> <span class="o">=</span> <span class="n">ssp</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>                                  <span class="c1"># gcm ensemble -&gt; you can choose another one</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>                                  <span class="n">ensemble</span><span class="o">=</span><span class="n">ensemble</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>                                  <span class="c1"># recognize the climate file for later</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>                                  <span class="n">output_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">ensemble</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>                                  <span class="p">);</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">execute_entity_task</span><span class="nt">(task, gdirs, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="k">if</span> <span class="n">ng</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span>         <span class="n">log</span><span class="o">.</span><span class="n">workflow</span><span class="p">(</span><span class="s1">&#39;WARNING: you are trying to run an entity task on &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span>                      <span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> glaciers with multiprocessing turned off. OGGM &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">190</span>                      <span class="s1">&#39;will run faster with multiprocessing turned on.&#39;</span><span class="p">,</span> <span class="n">ng</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">191</span>     <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">pc</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">193</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:108,</span> in <span class="ni">_pickle_copier.__call__</span><span class="nt">(self, arg)</span>
+<span class="g g-Whitespace">    </span><span class="mi">106</span> <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_func</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">107</span>     <span class="n">func</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">func</span>
+<span class="ne">--&gt; </span><span class="mi">108</span>     <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call_internal</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span> <span class="k">return</span> <span class="n">res</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:102,</span> in <span class="ni">_pickle_copier._call_internal</span><span class="nt">(self, call_func, gdir, kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>     <span class="n">gdir</span><span class="p">,</span> <span class="n">gdir_kwargs</span> <span class="o">=</span> <span class="n">gdir</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>     <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gdir_kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">102</span> <span class="k">return</span> <span class="n">call_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
+<span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/shop/gcm_climate.py:293,</span> in <span class="ni">process_monthly_isimip_data</span><span class="nt">(gdir, output_filesuffix, member, ssp, year_range, apply_bias_correction, testing, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">290</span>     <span class="n">dimo</span> <span class="o">=</span> <span class="p">[</span><span class="n">cfg</span><span class="o">.</span><span class="n">DAYS_IN_MONTH</span><span class="p">[</span><span class="n">m</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;time.month&#39;</span><span class="p">]]</span>
+<span class="g g-Whitespace">    </span><span class="mi">291</span>     <span class="n">precip</span> <span class="o">=</span> <span class="n">precip</span> <span class="o">*</span> <span class="n">dimo</span> <span class="o">*</span> <span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">293</span> <span class="n">process_gcm_data</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">output_filesuffix</span><span class="p">,</span> <span class="n">prcp</span><span class="o">=</span><span class="n">precip</span><span class="p">,</span> <span class="n">temp</span><span class="o">=</span><span class="n">temp</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">294</span>                  <span class="n">year_range</span><span class="o">=</span><span class="n">year_range</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">output_filesuffix</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">295</span>                  <span class="n">apply_bias_correction</span><span class="o">=</span><span class="n">apply_bias_correction</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">296</span>                  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
+<span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="ne">TypeError</span>: process_gcm_data() got an unexpected keyword argument &#39;ensemble&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>A typical use case for OGGM will be to use climate model output (here bias-corrected CMIP6 GCMs from <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment/">ISIMIP3b</a>). We use some of the files <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/isimip3b/flat/monthly/">we store online</a> here, but you can use whichever you want. From ISIMIP3b, we have 5 GCMs and 3 SSPs on the cluster. You can find more information inside of <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment/">https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment/</a></p>
+<p>If you want to bias-correct yourself the projections and want to have a larger variety of GCMs, you can also use the pure CMIP5 or CMIP6 GCMs -&gt; more information is in <a class="reference external" href="#Download-and-process-GCM-data-from-CMIP5-or-CMIP6">this section</a>.</p>
 </section>
 <section id="projection-runs">
 <h2>Projection runs<a class="headerlink" href="#projection-runs" title="Permalink to this headline">#</a></h2>
 <p>We now run OGGM under various scenarios <strong>and start from the end year of the historical run</strong>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span>
-    <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
+    <span class="n">rid</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">ensemble</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> 
                                  <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
                                  <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
@@ -804,20 +1279,66 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span>
-    <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
+<span class="n">color_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;ssp126&#39;</span><span class="p">:</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">:</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span><span class="s1">&#39;ssp370&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
+    <span class="n">rid</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">ensemble</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">)</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">);</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">);</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">ssp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict</span><span class="p">[</span><span class="n">ssp</span><span class="p">]);</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">ssp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict</span><span class="p">[</span><span class="n">ssp</span><span class="p">]);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="new-and-now-from-cmip6">
-<h2>New: and now from CMIP6!<a class="headerlink" href="#new-and-now-from-cmip6" title="Permalink to this headline">#</a></h2>
-<p>Very similar steps, although some links have changed and RCPs are now SSPs! See <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/gcm_table.html">this table</a> for a summary of available GCMs.</p>
+<section id="download-and-process-gcm-data-from-cmip5-or-cmip6">
+<h2>Download and process GCM data from CMIP5 or CMIP6<a class="headerlink" href="#download-and-process-gcm-data-from-cmip5-or-cmip6" title="Permalink to this headline">#</a></h2>
+<p>Instead, we can also use the CMIP5 or CMIP5 GCMs directly. However, these need to be bias-corrected first to the applied calibration data (here: GSWP3_W5E5, see <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.process_gcm_data.html#oggm.shop.gcm_climate.process_gcm_data">process_gcm_data</a>. This bias-correction is automatically done inside of <code class="docutils literal notranslate"><span class="pre">process_cmip_data</span></code> and is very important, as the model is very sensitive to temperature variability.</p>
+<ul class="simple">
+<li><p>CMIP5 has 4 different RCP scenarios and a variety of GCMs, online you can find them <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng">here</a>. The above mentioned storage contains information about the data, <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/ABOUT">how to cite them</a> and <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/gcm_table.html">tabular summaries</a> of the available GCMs.</p></li>
+<li><p>CMIP6 has 4 different SSP scenarios, see <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/gcm_table.html">this table</a> for a summary of available GCMs. There are even some CMIP6 runs that go until <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/gcm_table_2300.html">2300</a>.</p></li>
+</ul>
+<blockquote>
+<div><p>Note, that the CMIP5 and CMIP6 files are much larger than the ISIMIP3b files. This is because we use a simple flattening trick for the ISIMIP3b GCM files as we only save the glacier gridpoints, instead of  each longitude and latitude. <strong>So, only run the following code, if it is ok, to download some gigabytes.</strong></p>
+</div></blockquote>
+<p>Download, run the projections and plot the model output by using CMIP5 (note that another GCM is used compared to ISIMIP3b):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bp</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/pr/pr_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
+<span class="n">bt</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/tas/tas_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
+<span class="n">color_dict_rcp</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rcp26&#39;</span><span class="p">:</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">:</span><span class="s1">&#39;violet&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span>  <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1">#&#39;rcp60&#39;,</span>
+    <span class="c1"># Download the files</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+    <span class="c1"># bias correct them</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
+                                 <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">),</span>  <span class="c1"># recognize the climate file for later</span>
+                                 <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
+                                 <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>  <span class="c1"># precip projections</span>
+                                 <span class="p">);</span>
+<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span>  <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1">#&#39;rcp60&#39;,</span>
+    <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> 
+                                 <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
+                                 <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
+                                 <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
+                                 <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># recognize the run for later</span>
+                                <span class="p">);</span>
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1">#&#39;rcp60&#39;,</span>
+    <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">)</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict_rcp</span><span class="p">[</span><span class="n">rcp</span><span class="p">]);</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict_rcp</span><span class="p">[</span><span class="n">rcp</span><span class="p">]);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now, the same for CMIP6 but instead of RCPs, now SSPs and again with another GCM:</p>
+<p>(Attention: this will take some time when you run it first, as it needs to download the files first … )</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bp</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip6/GCM/CESM2/CESM2_</span><span class="si">{}</span><span class="s1">_r1i1p1f1_pr.nc&#39;</span>
@@ -828,17 +1349,12 @@ title="Print to PDF"
     <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssp</span><span class="p">))</span>
     <span class="c1"># bias correct them</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
+                                 <span class="c1">#year_range=(&#39;1979&#39;, &#39;2014&#39;),</span>
                                  <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CMIP6_CESM2_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssp</span><span class="p">),</span>  <span class="c1"># recognize the climate file for later</span>
                                  <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
                                  <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>  <span class="c1"># precip projections</span>
                                  <span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
     <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP6_CESM2_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssp</span><span class="p">)</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> 
                                  <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
@@ -846,18 +1362,14 @@ title="Print to PDF"
                                  <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
                                  <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># recognize the run for later</span>
                                 <span class="p">);</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
     <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP6_CESM2_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssp</span><span class="p">)</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">)</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">ssp</span><span class="p">);</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">ssp</span><span class="p">);</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">ssp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict</span><span class="p">[</span><span class="n">ssp</span><span class="p">]);</span>
+    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">ssp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict</span><span class="p">[</span><span class="n">ssp</span><span class="p">]);</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>

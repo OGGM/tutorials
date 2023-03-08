@@ -17,34 +17,53 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-gdirs = workflow.init_glacier_directories(['RGI60-11.00787', 'RGI60-11.00897'], from_prepro_level=3)
+mb_calibration_from_scalar_mb(gdir_2, ref_mb=ref_mb, ref_period = cfg.PARAMS['geodetic_mb_period'])
+# you could also calibrate on the WGMS data instead
+# as this glacier has in-situ MB observations
+# mb_calibration_from_wgms_mb(gdir_2, overwrite_gdir=True)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mInvalidParamsError[0m                        Traceback (most recent call last)
-Cell [0;32mIn[3], line 1[0m
-[0;32m----> 1[0m gdirs [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43m[[49m[38;5;124;43m'[39;49m[38;5;124;43mRGI60-11.00787[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mRGI60-11.00897[39;49m[38;5;124;43m'[39;49m[43m][49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m3[39;49m[43m)[49m
+[0;31mValueError[0m                                Traceback (most recent call last)
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/massbalance.py:1787[0m, in [0;36mmb_calibration_from_scalar_mb[0;34m(gdir, ref_mb, ref_mb_err, ref_period, ref_mb_years, write_to_gdir, overwrite_gdir, calibrate_param1, calibrate_param2, calibrate_param3, melt_f, melt_f_min, melt_f_max, prcp_fac, prcp_fac_min, prcp_fac_max, temp_bias, temp_bias_min, temp_bias_max, mb_model_class)[0m
+[1;32m   1786[0m [38;5;28;01mtry[39;00m:
+[0;32m-> 1787[0m     optim_param1 [38;5;241m=[39m [43moptimize[49m[38;5;241;43m.[39;49m[43mbrentq[49m[43m([49m[43mto_minimize[49m[43m,[49m
+[1;32m   1788[0m [43m                                   [49m[43mmin_range[49m[43m,[49m[43m [49m[43mmax_range[49m[43m,[49m
+[1;32m   1789[0m [43m                                   [49m[43margs[49m[38;5;241;43m=[39;49m[43m([49m[43mcalibrate_param1[49m[43m,[49m[43m)[49m
+[1;32m   1790[0m [43m                                   [49m[43m)[49m
+[1;32m   1791[0m [38;5;28;01mexcept[39;00m [38;5;167;01mValueError[39;00m:
 
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:364[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
-[1;32m    361[0m     reset [38;5;241m=[39m utils[38;5;241m.[39mquery_yes_no([38;5;124m'[39m[38;5;124mDelete all glacier directories?[39m[38;5;124m'[39m)
-[1;32m    363[0m [38;5;28;01mif[39;00m from_prepro_level:
-[0;32m--> 364[0m     url [38;5;241m=[39m [43mutils[49m[38;5;241;43m.[39;49m[43mget_prepro_base_url[49m[43m([49m[43mbase_url[49m[38;5;241;43m=[39;49m[43mprepro_base_url[49m[43m,[49m
-[1;32m    365[0m [43m                                    [49m[43mborder[49m[38;5;241;43m=[39;49m[43mprepro_border[49m[43m,[49m
-[1;32m    366[0m [43m                                    [49m[43mprepro_level[49m[38;5;241;43m=[39;49m[43mfrom_prepro_level[49m[43m,[49m
-[1;32m    367[0m [43m                                    [49m[43mrgi_version[49m[38;5;241;43m=[39;49m[43mprepro_rgi_version[49m[43m)[49m
-[1;32m    368[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhas_internet[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m utils[38;5;241m.[39murl_exists(url):
-[1;32m    369[0m         [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m"[39m[38;5;124mbase url seems unreachable with these [39m[38;5;124m"[39m
-[1;32m    370[0m                                  [38;5;124m"[39m[38;5;124mparameters: [39m[38;5;132;01m{}[39;00m[38;5;124m"[39m[38;5;241m.[39mformat(url))
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/scipy/optimize/_zeros_py.py:783[0m, in [0;36mbrentq[0;34m(f, a, b, args, xtol, rtol, maxiter, full_output, disp)[0m
+[1;32m    782[0m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m([38;5;124m"[39m[38;5;124mrtol too small ([39m[38;5;132;01m%g[39;00m[38;5;124m < [39m[38;5;132;01m%g[39;00m[38;5;124m)[39m[38;5;124m"[39m [38;5;241m%[39m (rtol, _rtol))
+[0;32m--> 783[0m r [38;5;241m=[39m [43m_zeros[49m[38;5;241;43m.[39;49m[43m_brentq[49m[43m([49m[43mf[49m[43m,[49m[43m [49m[43ma[49m[43m,[49m[43m [49m[43mb[49m[43m,[49m[43m [49m[43mxtol[49m[43m,[49m[43m [49m[43mrtol[49m[43m,[49m[43m [49m[43mmaxiter[49m[43m,[49m[43m [49m[43margs[49m[43m,[49m[43m [49m[43mfull_output[49m[43m,[49m[43m [49m[43mdisp[49m[43m)[49m
+[1;32m    784[0m [38;5;28;01mreturn[39;00m results_c(full_output, r)
 
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_downloads.py:1278[0m, in [0;36mget_prepro_base_url[0;34m(base_url, rgi_version, border, prepro_level)[0m
-[1;32m   1275[0m [38;5;250m[39m[38;5;124;03m"""Extended base url where to find the desired gdirs."""[39;00m
-[1;32m   1277[0m [38;5;28;01mif[39;00m base_url [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
-[0;32m-> 1278[0m     [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m'[39m[38;5;124mStarting with v1.6, users now have to [39m[38;5;124m'[39m
-[1;32m   1279[0m                              [38;5;124m'[39m[38;5;124mexplicitly indicate the url they want [39m[38;5;124m'[39m
-[1;32m   1280[0m                              [38;5;124m'[39m[38;5;124mto start from.[39m[38;5;124m'[39m)
-[1;32m   1282[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m base_url[38;5;241m.[39mendswith([38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m):
-[1;32m   1283[0m     base_url [38;5;241m+[39m[38;5;241m=[39m [38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m
+[0;31mValueError[0m: f(a) and f(b) must have different signs
 
-[0;31mInvalidParamsError[0m: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
-InvalidParamsError: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
+During handling of the above exception, another exception occurred:
+
+[0;31mRuntimeError[0m                              Traceback (most recent call last)
+Cell [0;32mIn[31], line 1[0m
+[0;32m----> 1[0m [43mmb_calibration_from_scalar_mb[49m[43m([49m[43mgdir_2[49m[43m,[49m[43m [49m[43mref_mb[49m[38;5;241;43m=[39;49m[43mref_mb[49m[43m,[49m[43m [49m[43mref_period[49m[43m [49m[38;5;241;43m=[39;49m[43m [49m[43mcfg[49m[38;5;241;43m.[39;49m[43mPARAMS[49m[43m[[49m[38;5;124;43m'[39;49m[38;5;124;43mgeodetic_mb_period[39;49m[38;5;124;43m'[39;49m[43m][49m[43m)[49m
+[1;32m      2[0m [38;5;66;03m# you could also calibrate on the WGMS data instead[39;00m
+[1;32m      3[0m [38;5;66;03m# as this glacier has in-situ MB observations[39;00m
+[1;32m      4[0m [38;5;66;03m# mb_calibration_from_wgms_mb(gdir_2, overwrite_gdir=True)[39;00m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491[0m, in [0;36mentity_task.__call__.<locals>._entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    489[0m     signal[38;5;241m.[39malarm(cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m])
+[1;32m    490[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime()
+[0;32m--> 491[0m out [38;5;241m=[39m [43mtask_func[49m[43m([49m[43mgdir[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+[1;32m    492[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime() [38;5;241m-[39m ex_t
+[1;32m    493[0m [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m] [38;5;241m>[39m [38;5;241m0[39m:
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/massbalance.py:1793[0m, in [0;36mmb_calibration_from_scalar_mb[0;34m(gdir, ref_mb, ref_mb_err, ref_period, ref_mb_years, write_to_gdir, overwrite_gdir, calibrate_param1, calibrate_param2, calibrate_param3, melt_f, melt_f_min, melt_f_max, prcp_fac, prcp_fac_min, prcp_fac_max, temp_bias, temp_bias_min, temp_bias_max, mb_model_class)[0m
+[1;32m   1791[0m [38;5;28;01mexcept[39;00m [38;5;167;01mValueError[39;00m:
+[1;32m   1792[0m     [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m calibrate_param2:
+[0;32m-> 1793[0m         [38;5;28;01mraise[39;00m [38;5;167;01mRuntimeError[39;00m([38;5;124mf[39m[38;5;124m'[39m[38;5;132;01m{[39;00mgdir[38;5;241m.[39mrgi_id[38;5;132;01m}[39;00m[38;5;124m: ref mb not matched. [39m[38;5;124m'[39m
+[1;32m   1794[0m                            [38;5;124mf[39m[38;5;124m'[39m[38;5;124mTry to set calibrate_param2.[39m[38;5;124m'[39m)
+[1;32m   1796[0m     [38;5;66;03m# Check which direction we need to go[39;00m
+[1;32m   1797[0m     diff_1 [38;5;241m=[39m to_minimize(min_range, calibrate_param1)
+
+[0;31mRuntimeError[0m: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
+RuntimeError: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
 
