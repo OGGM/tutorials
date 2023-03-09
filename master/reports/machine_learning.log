@@ -17,42 +17,87 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# Initialize OGGM and set up the default run parameters
-cfg.initialize(logging_level='WARNING')
-cfg.PARAMS['use_multiprocessing'] = False
-# Local working directory (where OGGM will write its output)
-cfg.PATHS['working_dir'] = utils.gettempdir('OGGM_Toy_Thickness_Model')
-# We start at level 3, because we need all data for the attributes
-gdirs = workflow.init_glacier_directories(['RGI60-01.16195'], from_prepro_level=3, prepro_border=10)
+# Tested tasks
+task_list = [
+    tasks.gridded_attributes,
+    tasks.gridded_mb_attributes,
+]
+for task in task_list:
+    workflow.execute_entity_task(task, gdirs)
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mInvalidParamsError[0m                        Traceback (most recent call last)
-Cell [0;32mIn[2], line 7[0m
-[1;32m      5[0m cfg[38;5;241m.[39mPATHS[[38;5;124m'[39m[38;5;124mworking_dir[39m[38;5;124m'[39m] [38;5;241m=[39m utils[38;5;241m.[39mgettempdir([38;5;124m'[39m[38;5;124mOGGM_Toy_Thickness_Model[39m[38;5;124m'[39m)
-[1;32m      6[0m [38;5;66;03m# We start at level 3, because we need all data for the attributes[39;00m
-[0;32m----> 7[0m gdirs [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43m[[49m[38;5;124;43m'[39;49m[38;5;124;43mRGI60-01.16195[39;49m[38;5;124;43m'[39;49m[43m][49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m3[39;49m[43m,[49m[43m [49m[43mprepro_border[49m[38;5;241;43m=[39;49m[38;5;241;43m10[39;49m[43m)[49m
+[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [0;32mIn[12], line 7[0m
+[1;32m      2[0m task_list [38;5;241m=[39m [
+[1;32m      3[0m     tasks[38;5;241m.[39mgridded_attributes,
+[1;32m      4[0m     tasks[38;5;241m.[39mgridded_mb_attributes,
+[1;32m      5[0m ]
+[1;32m      6[0m [38;5;28;01mfor[39;00m task [38;5;129;01min[39;00m task_list:
+[0;32m----> 7[0m     [43mworkflow[49m[38;5;241;43m.[39;49m[43mexecute_entity_task[49m[43m([49m[43mtask[49m[43m,[49m[43m [49m[43mgdirs[49m[43m)[49m
 
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:364[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
-[1;32m    361[0m     reset [38;5;241m=[39m utils[38;5;241m.[39mquery_yes_no([38;5;124m'[39m[38;5;124mDelete all glacier directories?[39m[38;5;124m'[39m)
-[1;32m    363[0m [38;5;28;01mif[39;00m from_prepro_level:
-[0;32m--> 364[0m     url [38;5;241m=[39m [43mutils[49m[38;5;241;43m.[39;49m[43mget_prepro_base_url[49m[43m([49m[43mbase_url[49m[38;5;241;43m=[39;49m[43mprepro_base_url[49m[43m,[49m
-[1;32m    365[0m [43m                                    [49m[43mborder[49m[38;5;241;43m=[39;49m[43mprepro_border[49m[43m,[49m
-[1;32m    366[0m [43m                                    [49m[43mprepro_level[49m[38;5;241;43m=[39;49m[43mfrom_prepro_level[49m[43m,[49m
-[1;32m    367[0m [43m                                    [49m[43mrgi_version[49m[38;5;241;43m=[39;49m[43mprepro_rgi_version[49m[43m)[49m
-[1;32m    368[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhas_internet[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m utils[38;5;241m.[39murl_exists(url):
-[1;32m    369[0m         [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m"[39m[38;5;124mbase url seems unreachable with these [39m[38;5;124m"[39m
-[1;32m    370[0m                                  [38;5;124m"[39m[38;5;124mparameters: [39m[38;5;132;01m{}[39;00m[38;5;124m"[39m[38;5;241m.[39mformat(url))
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191[0m, in [0;36mexecute_entity_task[0;34m(task, gdirs, **kwargs)[0m
+[1;32m    187[0m     [38;5;28;01mif[39;00m ng [38;5;241m>[39m [38;5;241m3[39m:
+[1;32m    188[0m         log[38;5;241m.[39mworkflow([38;5;124m'[39m[38;5;124mWARNING: you are trying to run an entity task on [39m[38;5;124m'[39m
+[1;32m    189[0m                      [38;5;124m'[39m[38;5;132;01m%d[39;00m[38;5;124m glaciers with multiprocessing turned off. OGGM [39m[38;5;124m'[39m
+[1;32m    190[0m                      [38;5;124m'[39m[38;5;124mwill run faster with multiprocessing turned on.[39m[38;5;124m'[39m, ng)
+[0;32m--> 191[0m     out [38;5;241m=[39m [pc(gdir) [38;5;28;01mfor[39;00m gdir [38;5;129;01min[39;00m gdirs]
+[1;32m    193[0m [38;5;28;01mreturn[39;00m out
 
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_downloads.py:1278[0m, in [0;36mget_prepro_base_url[0;34m(base_url, rgi_version, border, prepro_level)[0m
-[1;32m   1275[0m [38;5;250m[39m[38;5;124;03m"""Extended base url where to find the desired gdirs."""[39;00m
-[1;32m   1277[0m [38;5;28;01mif[39;00m base_url [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
-[0;32m-> 1278[0m     [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m'[39m[38;5;124mStarting with v1.6, users now have to [39m[38;5;124m'[39m
-[1;32m   1279[0m                              [38;5;124m'[39m[38;5;124mexplicitly indicate the url they want [39m[38;5;124m'[39m
-[1;32m   1280[0m                              [38;5;124m'[39m[38;5;124mto start from.[39m[38;5;124m'[39m)
-[1;32m   1282[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m base_url[38;5;241m.[39mendswith([38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m):
-[1;32m   1283[0m     base_url [38;5;241m+[39m[38;5;241m=[39m [38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:191[0m, in [0;36m<listcomp>[0;34m(.0)[0m
+[1;32m    187[0m     [38;5;28;01mif[39;00m ng [38;5;241m>[39m [38;5;241m3[39m:
+[1;32m    188[0m         log[38;5;241m.[39mworkflow([38;5;124m'[39m[38;5;124mWARNING: you are trying to run an entity task on [39m[38;5;124m'[39m
+[1;32m    189[0m                      [38;5;124m'[39m[38;5;132;01m%d[39;00m[38;5;124m glaciers with multiprocessing turned off. OGGM [39m[38;5;124m'[39m
+[1;32m    190[0m                      [38;5;124m'[39m[38;5;124mwill run faster with multiprocessing turned on.[39m[38;5;124m'[39m, ng)
+[0;32m--> 191[0m     out [38;5;241m=[39m [[43mpc[49m[43m([49m[43mgdir[49m[43m)[49m [38;5;28;01mfor[39;00m gdir [38;5;129;01min[39;00m gdirs]
+[1;32m    193[0m [38;5;28;01mreturn[39;00m out
 
-[0;31mInvalidParamsError[0m: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
-InvalidParamsError: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:108[0m, in [0;36m_pickle_copier.__call__[0;34m(self, arg)[0m
+[1;32m    106[0m [38;5;28;01mfor[39;00m func [38;5;129;01min[39;00m [38;5;28mself[39m[38;5;241m.[39mcall_func:
+[1;32m    107[0m     func, kwargs [38;5;241m=[39m func
+[0;32m--> 108[0m     res [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_call_internal[49m[43m([49m[43mfunc[49m[43m,[49m[43m [49m[43marg[49m[43m,[49m[43m [49m[43mkwargs[49m[43m)[49m
+[1;32m    109[0m [38;5;28;01mreturn[39;00m res
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:102[0m, in [0;36m_pickle_copier._call_internal[0;34m(self, call_func, gdir, kwargs)[0m
+[1;32m     99[0m     gdir, gdir_kwargs [38;5;241m=[39m gdir
+[1;32m    100[0m     kwargs[38;5;241m.[39mupdate(gdir_kwargs)
+[0;32m--> 102[0m [38;5;28;01mreturn[39;00m [43mcall_func[49m[43m([49m[43mgdir[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491[0m, in [0;36mentity_task.__call__.<locals>._entity_task[0;34m(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)[0m
+[1;32m    489[0m     signal[38;5;241m.[39malarm(cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m])
+[1;32m    490[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime()
+[0;32m--> 491[0m out [38;5;241m=[39m [43mtask_func[49m[43m([49m[43mgdir[49m[43m,[49m[43m [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mkwargs[49m[43m)[49m
+[1;32m    492[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime() [38;5;241m-[39m ex_t
+[1;32m    493[0m [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m] [38;5;241m>[39m [38;5;241m0[39m:
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/gis.py:1209[0m, in [0;36mgridded_mb_attributes[0;34m(gdir)[0m
+[1;32m   1206[0m     glacier_mask_2d [38;5;241m=[39m glacier_mask_2d [38;5;241m==[39m [38;5;241m1[39m
+[1;32m   1207[0m     catchment_mask_2d [38;5;241m=[39m glacier_mask_2d [38;5;241m*[39m np[38;5;241m.[39mNaN
+[0;32m-> 1209[0m [38;5;28mcls[39m [38;5;241m=[39m [43mgdir[49m[38;5;241;43m.[39;49m[43mread_pickle[49m[43m([49m[38;5;124;43m'[39;49m[38;5;124;43mcenterlines[39;49m[38;5;124;43m'[39;49m[43m)[49m
+[1;32m   1211[0m [38;5;66;03m# Catchment areas[39;00m
+[1;32m   1212[0m cis [38;5;241m=[39m gdir[38;5;241m.[39mread_pickle([38;5;124m'[39m[38;5;124mgeometries[39m[38;5;124m'[39m)[[38;5;124m'[39m[38;5;124mcatchment_indices[39m[38;5;124m'[39m]
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2980[0m, in [0;36mGlacierDirectory.read_pickle[0;34m(self, filename, use_compression, filesuffix)[0m
+[1;32m   2978[0m _open [38;5;241m=[39m gzip[38;5;241m.[39mopen [38;5;28;01mif[39;00m use_comp [38;5;28;01melse[39;00m [38;5;28mopen[39m
+[1;32m   2979[0m fp [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mget_filepath(filename, filesuffix[38;5;241m=[39mfilesuffix)
+[0;32m-> 2980[0m [38;5;28;01mwith[39;00m [43m_open[49m[43m([49m[43mfp[49m[43m,[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mrb[39;49m[38;5;124;43m'[39;49m[43m)[49m [38;5;28;01mas[39;00m f:
+[1;32m   2981[0m     out [38;5;241m=[39m pickle[38;5;241m.[39mload(f)
+[1;32m   2983[0m [38;5;66;03m# Some new attrs to add to old pre-processed directories[39;00m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/gzip.py:58[0m, in [0;36mopen[0;34m(filename, mode, compresslevel, encoding, errors, newline)[0m
+[1;32m     56[0m gz_mode [38;5;241m=[39m mode[38;5;241m.[39mreplace([38;5;124m"[39m[38;5;124mt[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124m"[39m)
+[1;32m     57[0m [38;5;28;01mif[39;00m [38;5;28misinstance[39m(filename, ([38;5;28mstr[39m, [38;5;28mbytes[39m, os[38;5;241m.[39mPathLike)):
+[0;32m---> 58[0m     binary_file [38;5;241m=[39m [43mGzipFile[49m[43m([49m[43mfilename[49m[43m,[49m[43m [49m[43mgz_mode[49m[43m,[49m[43m [49m[43mcompresslevel[49m[43m)[49m
+[1;32m     59[0m [38;5;28;01melif[39;00m [38;5;28mhasattr[39m(filename, [38;5;124m"[39m[38;5;124mread[39m[38;5;124m"[39m) [38;5;129;01mor[39;00m [38;5;28mhasattr[39m(filename, [38;5;124m"[39m[38;5;124mwrite[39m[38;5;124m"[39m):
+[1;32m     60[0m     binary_file [38;5;241m=[39m GzipFile([38;5;28;01mNone[39;00m, gz_mode, compresslevel, filename)
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/gzip.py:174[0m, in [0;36mGzipFile.__init__[0;34m(self, filename, mode, compresslevel, fileobj, mtime)[0m
+[1;32m    172[0m     mode [38;5;241m+[39m[38;5;241m=[39m [38;5;124m'[39m[38;5;124mb[39m[38;5;124m'[39m
+[1;32m    173[0m [38;5;28;01mif[39;00m fileobj [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
+[0;32m--> 174[0m     fileobj [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mmyfileobj [38;5;241m=[39m [43mbuiltins[49m[38;5;241;43m.[39;49m[43mopen[49m[43m([49m[43mfilename[49m[43m,[49m[43m [49m[43mmode[49m[43m [49m[38;5;129;43;01mor[39;49;00m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mrb[39;49m[38;5;124;43m'[39;49m[43m)[49m
+[1;32m    175[0m [38;5;28;01mif[39;00m filename [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
+[1;32m    176[0m     filename [38;5;241m=[39m [38;5;28mgetattr[39m(fileobj, [38;5;124m'[39m[38;5;124mname[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124m'[39m)
+
+[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: '/tmp/OGGM/OGGM_Toy_Thickness_Model/per_glacier/RGI60-01/RGI60-01.16/RGI60-01.16195/centerlines.pkl'
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/OGGM/OGGM_Toy_Thickness_Model/per_glacier/RGI60-01/RGI60-01.16/RGI60-01.16195/centerlines.pkl'
 
