@@ -17,55 +17,287 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# Initialize OGGM and set up the default run parameters
-cfg.initialize(logging_level='WARNING')
+if option == 'isimip3b_CMIP6':
+    all_GCM = ['gfdl-esm4_r1i1p1f1', 'ipsl-cm6a-lr_r1i1p1f1',
+               'mpi-esm1-2-hr_r1i1p1f1',
+               'mri-esm2-0_r1i1p1f1', 'ukesm1-0-ll_r1i1p1f2']
 
-# change border around the individual glaciers
-cfg.PARAMS['border'] = 40
+    # define the SSP scenarios
+    all_scenario = ['ssp126', 'ssp370', 'ssp585']
 
-# Use Multiprocessing
-cfg.PARAMS['use_multiprocessing'] = True
+    for GCM in all_GCM:
+        for ssp in all_scenario:
+            # Download and process them:
+            workflow.execute_entity_task(gcm_climate.process_monthly_isimip_data, gdirs, 
+                                         ssp = ssp,
+                                         # gcm ensemble -> you can choose another one
+                                         member=GCM,
+                                         # recognize the climate file for later
+                                         output_filesuffix=f'_{GCM}_{ssp}'
+                                         );
+elif option=='CMIP5':
+    # define the GCM models you want to use
+    all_GCM = ['CCSM4',
+               'CNRM-CM5',
+               'CSIRO-Mk3-6-0',
+              ]
 
-# For hydro output
-cfg.PARAMS['store_model_geometry'] = True
+    # define the rcp scenarios to use
+    all_scenario = ['rcp26',
+                   #'rcp45',# let's only take three scenarios, that is faster
+                   'rcp60', 
+                   'rcp85']
 
-# Local working directory (where OGGM will write its output)
-cfg.PATHS['working_dir'] = utils.gettempdir('OGGM_merge_gcm_runs', reset=True)
+    # download locations for precipitation and temperature
+    bp = 'https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/pr/pr_mon_{}_{}_r1i1p1_g025.nc'
+    bt = 'https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/tas/tas_mon_{}_{}_r1i1p1_g025.nc'
 
-# RGI glaciers: Ngojumba and Khumbu
-rgi_ids = utils.get_rgi_glacier_entities(['RGI60-15.03473', 'RGI60-15.03733'])
+    for GCM in all_GCM:
+        for rcp in all_scenario:
+            # Download the files
+            ft = utils.file_downloader(bt.format(GCM, rcp))
+            fp = utils.file_downloader(bp.format(GCM, rcp))
 
-# Go - get the pre-processed glacier directories
-gdirs = workflow.init_glacier_directories(rgi_ids, from_prepro_level=5)
+            try:
+                # bias correct them
+                workflow.execute_entity_task(gcm_climate.process_cmip_data, gdirs, 
+                                             filesuffix='_{}_{}'.format(GCM, rcp),  # recognize the climate file for later
+                                             fpath_temp=ft,  # temperature projections
+                                             fpath_precip=fp,  # precip projections
+                                             );
+            except ValueError:
+                # if a certain scenario is not available for a GCM we land here
+                # and we inidcate this by printing a message so the user knows
+                # this scenario is missing
+                print('No ' + GCM +' run with scenario ' + rcp + ' available!')
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
-[0;31mInvalidParamsError[0m                        Traceback (most recent call last)
-Cell [0;32mIn[2], line 20[0m
-[1;32m     17[0m rgi_ids [38;5;241m=[39m utils[38;5;241m.[39mget_rgi_glacier_entities([[38;5;124m'[39m[38;5;124mRGI60-15.03473[39m[38;5;124m'[39m, [38;5;124m'[39m[38;5;124mRGI60-15.03733[39m[38;5;124m'[39m])
-[1;32m     19[0m [38;5;66;03m# Go - get the pre-processed glacier directories[39;00m
-[0;32m---> 20[0m gdirs [38;5;241m=[39m [43mworkflow[49m[38;5;241;43m.[39;49m[43minit_glacier_directories[49m[43m([49m[43mrgi_ids[49m[43m,[49m[43m [49m[43mfrom_prepro_level[49m[38;5;241;43m=[39;49m[38;5;241;43m5[39;49m[43m)[49m
+[0;31mRemoteTraceback[0m                           Traceback (most recent call last)
+[0;31mRemoteTraceback[0m: 
+"""
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/file_manager.py", line 210, in _acquire_with_cache_info
+    file = self._cache[self._key]
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/lru_cache.py", line 56, in __getitem__
+    value = self._cache[key]
+KeyError: [<class 'netCDF4._netCDF4.Dataset'>, ('/github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/cmip6/isimip3b/flat/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers.nc',), 'r', (('clobber', True), ('diskless', False), ('format', 'NETCDF4'), ('persist', False)), '4b057c62-3461-487f-b513-38d92aaa1fbf']
 
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:364[0m, in [0;36minit_glacier_directories[0;34m(rgidf, reset, force, from_prepro_level, prepro_border, prepro_rgi_version, prepro_base_url, from_tar, delete_tar)[0m
-[1;32m    361[0m     reset [38;5;241m=[39m utils[38;5;241m.[39mquery_yes_no([38;5;124m'[39m[38;5;124mDelete all glacier directories?[39m[38;5;124m'[39m)
-[1;32m    363[0m [38;5;28;01mif[39;00m from_prepro_level:
-[0;32m--> 364[0m     url [38;5;241m=[39m [43mutils[49m[38;5;241;43m.[39;49m[43mget_prepro_base_url[49m[43m([49m[43mbase_url[49m[38;5;241;43m=[39;49m[43mprepro_base_url[49m[43m,[49m
-[1;32m    365[0m [43m                                    [49m[43mborder[49m[38;5;241;43m=[39;49m[43mprepro_border[49m[43m,[49m
-[1;32m    366[0m [43m                                    [49m[43mprepro_level[49m[38;5;241;43m=[39;49m[43mfrom_prepro_level[49m[43m,[49m
-[1;32m    367[0m [43m                                    [49m[43mrgi_version[49m[38;5;241;43m=[39;49m[43mprepro_rgi_version[49m[43m)[49m
-[1;32m    368[0m     [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mhas_internet[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m [38;5;129;01mnot[39;00m utils[38;5;241m.[39murl_exists(url):
-[1;32m    369[0m         [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m"[39m[38;5;124mbase url seems unreachable with these [39m[38;5;124m"[39m
-[1;32m    370[0m                                  [38;5;124m"[39m[38;5;124mparameters: [39m[38;5;132;01m{}[39;00m[38;5;124m"[39m[38;5;241m.[39mformat(url))
+During handling of the above exception, another exception occurred:
 
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_downloads.py:1278[0m, in [0;36mget_prepro_base_url[0;34m(base_url, rgi_version, border, prepro_level)[0m
-[1;32m   1275[0m [38;5;250m[39m[38;5;124;03m"""Extended base url where to find the desired gdirs."""[39;00m
-[1;32m   1277[0m [38;5;28;01mif[39;00m base_url [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
-[0;32m-> 1278[0m     [38;5;28;01mraise[39;00m InvalidParamsError([38;5;124m'[39m[38;5;124mStarting with v1.6, users now have to [39m[38;5;124m'[39m
-[1;32m   1279[0m                              [38;5;124m'[39m[38;5;124mexplicitly indicate the url they want [39m[38;5;124m'[39m
-[1;32m   1280[0m                              [38;5;124m'[39m[38;5;124mto start from.[39m[38;5;124m'[39m)
-[1;32m   1282[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m base_url[38;5;241m.[39mendswith([38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m):
-[1;32m   1283[0m     base_url [38;5;241m+[39m[38;5;241m=[39m [38;5;124m'[39m[38;5;124m/[39m[38;5;124m'[39m
+Traceback (most recent call last):
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py", line 108, in __call__
+    res = self._call_internal(func, arg, kwargs)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py", line 102, in _call_internal
+    return call_func(gdir, **kwargs)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py", line 491, in _entity_task
+    out = task_func(gdir, **kwargs)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/shop/gcm_climate.py", line 269, in process_monthly_isimip_data
+    with xr.open_dataset(fpath_precip_h, use_cftime=True) as precipds_hist, \
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/api.py", line 526, in open_dataset
+    backend_ds = backend.open_dataset(
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py", line 577, in open_dataset
+    store = NetCDF4DataStore.open(
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py", line 382, in open
+    return cls(manager, group=group, mode=mode, lock=lock, autoclose=autoclose)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py", line 329, in __init__
+    self.format = self.ds.data_model
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py", line 391, in ds
+    return self._acquire()
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py", line 385, in _acquire
+    with self._manager.acquire_context(needs_lock) as root:
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/file_manager.py", line 198, in acquire_context
+    file, cached = self._acquire_with_cache_info(needs_lock)
+  File "/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/file_manager.py", line 216, in _acquire_with_cache_info
+    file = self._opener(*self._args, **kwargs)
+  File "src/netCDF4/_netCDF4.pyx", line 2449, in netCDF4._netCDF4.Dataset.__init__
+  File "src/netCDF4/_netCDF4.pyx", line 2012, in netCDF4._netCDF4._ensure_nc_success
+OSError: [Errno -101] NetCDF: HDF error: '/github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/cmip6/isimip3b/flat/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers.nc'
+"""
 
-[0;31mInvalidParamsError[0m: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
-InvalidParamsError: Starting with v1.6, users now have to explicitly indicate the url they want to start from.
+The above exception was the direct cause of the following exception:
+
+[0;31mOSError[0m                                   Traceback (most recent call last)
+Cell [0;32mIn[4], line 12[0m
+[1;32m      9[0m     [38;5;28;01mfor[39;00m GCM [38;5;129;01min[39;00m all_GCM:
+[1;32m     10[0m         [38;5;28;01mfor[39;00m ssp [38;5;129;01min[39;00m all_scenario:
+[1;32m     11[0m             [38;5;66;03m# Download and process them:[39;00m
+[0;32m---> 12[0m             [43mworkflow[49m[38;5;241;43m.[39;49m[43mexecute_entity_task[49m[43m([49m[43mgcm_climate[49m[38;5;241;43m.[39;49m[43mprocess_monthly_isimip_data[49m[43m,[49m[43m [49m[43mgdirs[49m[43m,[49m[43m [49m
+[1;32m     13[0m [43m                                         [49m[43mssp[49m[43m [49m[38;5;241;43m=[39;49m[43m [49m[43mssp[49m[43m,[49m
+[1;32m     14[0m [43m                                         [49m[38;5;66;43;03m# gcm ensemble -> you can choose another one[39;49;00m
+[1;32m     15[0m [43m                                         [49m[43mmember[49m[38;5;241;43m=[39;49m[43mGCM[49m[43m,[49m
+[1;32m     16[0m [43m                                         [49m[38;5;66;43;03m# recognize the climate file for later[39;49;00m
+[1;32m     17[0m [43m                                         [49m[43moutput_filesuffix[49m[38;5;241;43m=[39;49m[38;5;124;43mf[39;49m[38;5;124;43m'[39;49m[38;5;124;43m_[39;49m[38;5;132;43;01m{[39;49;00m[43mGCM[49m[38;5;132;43;01m}[39;49;00m[38;5;124;43m_[39;49m[38;5;132;43;01m{[39;49;00m[43mssp[49m[38;5;132;43;01m}[39;49;00m[38;5;124;43m'[39;49m
+[1;32m     18[0m [43m                                         [49m[43m)[49m;
+[1;32m     19[0m [38;5;28;01melif[39;00m option[38;5;241m==[39m[38;5;124m'[39m[38;5;124mCMIP5[39m[38;5;124m'[39m:
+[1;32m     20[0m     [38;5;66;03m# define the GCM models you want to use[39;00m
+[1;32m     21[0m     all_GCM [38;5;241m=[39m [[38;5;124m'[39m[38;5;124mCCSM4[39m[38;5;124m'[39m,
+[1;32m     22[0m                [38;5;124m'[39m[38;5;124mCNRM-CM5[39m[38;5;124m'[39m,
+[1;32m     23[0m                [38;5;124m'[39m[38;5;124mCSIRO-Mk3-6-0[39m[38;5;124m'[39m,
+[1;32m     24[0m               ]
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:185[0m, in [0;36mexecute_entity_task[0;34m(task, gdirs, **kwargs)[0m
+[1;32m    183[0m [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124muse_multiprocessing[39m[38;5;124m'[39m] [38;5;129;01mand[39;00m ng [38;5;241m>[39m [38;5;241m1[39m:
+[1;32m    184[0m     mppool [38;5;241m=[39m init_mp_pool(cfg[38;5;241m.[39mCONFIG_MODIFIED)
+[0;32m--> 185[0m     out [38;5;241m=[39m [43mmppool[49m[38;5;241;43m.[39;49m[43mmap[49m[43m([49m[43mpc[49m[43m,[49m[43m [49m[43mgdirs[49m[43m,[49m[43m [49m[43mchunksize[49m[38;5;241;43m=[39;49m[38;5;241;43m1[39;49m[43m)[49m
+[1;32m    186[0m [38;5;28;01melse[39;00m:
+[1;32m    187[0m     [38;5;28;01mif[39;00m ng [38;5;241m>[39m [38;5;241m3[39m:
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py:367[0m, in [0;36mPool.map[0;34m(self, func, iterable, chunksize)[0m
+[1;32m    362[0m [38;5;28;01mdef[39;00m [38;5;21mmap[39m([38;5;28mself[39m, func, iterable, chunksize[38;5;241m=[39m[38;5;28;01mNone[39;00m):
+[1;32m    363[0m [38;5;250m    [39m[38;5;124;03m'''[39;00m
+[1;32m    364[0m [38;5;124;03m    Apply `func` to each element in `iterable`, collecting the results[39;00m
+[1;32m    365[0m [38;5;124;03m    in a list that is returned.[39;00m
+[1;32m    366[0m [38;5;124;03m    '''[39;00m
+[0;32m--> 367[0m     [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_map_async[49m[43m([49m[43mfunc[49m[43m,[49m[43m [49m[43miterable[49m[43m,[49m[43m [49m[43mmapstar[49m[43m,[49m[43m [49m[43mchunksize[49m[43m)[49m[38;5;241;43m.[39;49m[43mget[49m[43m([49m[43m)[49m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py:774[0m, in [0;36mApplyResult.get[0;34m(self, timeout)[0m
+[1;32m    772[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_value
+[1;32m    773[0m [38;5;28;01melse[39;00m:
+[0;32m--> 774[0m     [38;5;28;01mraise[39;00m [38;5;28mself[39m[38;5;241m.[39m_value
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py:125[0m, in [0;36mworker[0;34m()[0m
+[1;32m    123[0m job, i, func, args, kwds [38;5;241m=[39m task
+[1;32m    124[0m [38;5;28;01mtry[39;00m:
+[0;32m--> 125[0m     result [38;5;241m=[39m ([38;5;28;01mTrue[39;00m, func([38;5;241m*[39margs, [38;5;241m*[39m[38;5;241m*[39mkwds))
+[1;32m    126[0m [38;5;28;01mexcept[39;00m [38;5;167;01mException[39;00m [38;5;28;01mas[39;00m e:
+[1;32m    127[0m     [38;5;28;01mif[39;00m wrap_exception [38;5;129;01mand[39;00m func [38;5;129;01mis[39;00m [38;5;129;01mnot[39;00m _helper_reraises_exception:
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/multiprocessing/pool.py:48[0m, in [0;36mmapstar[0;34m()[0m
+[1;32m     47[0m [38;5;28;01mdef[39;00m [38;5;21mmapstar[39m(args):
+[0;32m---> 48[0m     [38;5;28;01mreturn[39;00m [38;5;28mlist[39m([38;5;28mmap[39m([38;5;241m*[39margs))
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:108[0m, in [0;36m__call__[0;34m()[0m
+[1;32m    106[0m [38;5;28;01mfor[39;00m func [38;5;129;01min[39;00m [38;5;28mself[39m[38;5;241m.[39mcall_func:
+[1;32m    107[0m     func, kwargs [38;5;241m=[39m func
+[0;32m--> 108[0m     res [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_call_internal(func, arg, kwargs)
+[1;32m    109[0m [38;5;28;01mreturn[39;00m res
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/workflow.py:102[0m, in [0;36m_call_internal[0;34m()[0m
+[1;32m     99[0m     gdir, gdir_kwargs [38;5;241m=[39m gdir
+[1;32m    100[0m     kwargs[38;5;241m.[39mupdate(gdir_kwargs)
+[0;32m--> 102[0m [38;5;28;01mreturn[39;00m call_func(gdir, [38;5;241m*[39m[38;5;241m*[39mkwargs)
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491[0m, in [0;36m_entity_task[0;34m()[0m
+[1;32m    489[0m     signal[38;5;241m.[39malarm(cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m])
+[1;32m    490[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime()
+[0;32m--> 491[0m out [38;5;241m=[39m task_func(gdir, [38;5;241m*[39m[38;5;241m*[39mkwargs)
+[1;32m    492[0m ex_t [38;5;241m=[39m time[38;5;241m.[39mtime() [38;5;241m-[39m ex_t
+[1;32m    493[0m [38;5;28;01mif[39;00m cfg[38;5;241m.[39mPARAMS[[38;5;124m'[39m[38;5;124mtask_timeout[39m[38;5;124m'[39m] [38;5;241m>[39m [38;5;241m0[39m:
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/shop/gcm_climate.py:269[0m, in [0;36mprocess_monthly_isimip_data[0;34m()[0m
+[1;32m    265[0m     temp[[38;5;124m'[39m[38;5;124mlat[39m[38;5;124m'[39m] [38;5;241m=[39m temp_a[38;5;241m.[39mlatitude
+[1;32m    267[0m     temp[38;5;241m.[39mlon[38;5;241m.[39mvalues [38;5;241m=[39m temp[38;5;241m.[39mlon [38;5;28;01mif[39;00m temp[38;5;241m.[39mlon [38;5;241m<[39m[38;5;241m=[39m [38;5;241m180[39m [38;5;28;01melse[39;00m temp[38;5;241m.[39mlon [38;5;241m-[39m [38;5;241m360[39m
+[0;32m--> 269[0m [38;5;28;01mwith[39;00m xr[38;5;241m.[39mopen_dataset(fpath_precip_h, use_cftime[38;5;241m=[39m[38;5;28;01mTrue[39;00m) [38;5;28;01mas[39;00m precipds_hist, \
+[1;32m    270[0m         xr[38;5;241m.[39mopen_dataset(fpath_precip, use_cftime[38;5;241m=[39m[38;5;28;01mTrue[39;00m) [38;5;28;01mas[39;00m precipds_gcm:
+[1;32m    272[0m     c [38;5;241m=[39m ((precipds_gcm[38;5;241m.[39mlongitude [38;5;241m-[39m glon) [38;5;241m*[39m[38;5;241m*[39m [38;5;241m2[39m [38;5;241m+[39m
+[1;32m    273[0m          (precipds_gcm[38;5;241m.[39mlatitude [38;5;241m-[39m glat) [38;5;241m*[39m[38;5;241m*[39m [38;5;241m2[39m)
+[1;32m    274[0m     precip_a_gcm [38;5;241m=[39m precipds_gcm[38;5;241m.[39misel(points[38;5;241m=[39mnp[38;5;241m.[39margmin(c[38;5;241m.[39mdata))
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/api.py:526[0m, in [0;36mopen_dataset[0;34m()[0m
+[1;32m    514[0m decoders [38;5;241m=[39m _resolve_decoders_kwargs(
+[1;32m    515[0m     decode_cf,
+[1;32m    516[0m     open_backend_dataset_parameters[38;5;241m=[39mbackend[38;5;241m.[39mopen_dataset_parameters,
+[0;32m   (...)[0m
+[1;32m    522[0m     decode_coords[38;5;241m=[39mdecode_coords,
+[1;32m    523[0m )
+[1;32m    525[0m overwrite_encoded_chunks [38;5;241m=[39m kwargs[38;5;241m.[39mpop([38;5;124m"[39m[38;5;124moverwrite_encoded_chunks[39m[38;5;124m"[39m, [38;5;28;01mNone[39;00m)
+[0;32m--> 526[0m backend_ds [38;5;241m=[39m backend[38;5;241m.[39mopen_dataset(
+[1;32m    527[0m     filename_or_obj,
+[1;32m    528[0m     drop_variables[38;5;241m=[39mdrop_variables,
+[1;32m    529[0m     [38;5;241m*[39m[38;5;241m*[39mdecoders,
+[1;32m    530[0m     [38;5;241m*[39m[38;5;241m*[39mkwargs,
+[1;32m    531[0m )
+[1;32m    532[0m ds [38;5;241m=[39m _dataset_from_backend_dataset(
+[1;32m    533[0m     backend_ds,
+[1;32m    534[0m     filename_or_obj,
+[0;32m   (...)[0m
+[1;32m    542[0m     [38;5;241m*[39m[38;5;241m*[39mkwargs,
+[1;32m    543[0m )
+[1;32m    544[0m [38;5;28;01mreturn[39;00m ds
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py:577[0m, in [0;36mopen_dataset[0;34m()[0m
+[1;32m    557[0m [38;5;28;01mdef[39;00m [38;5;21mopen_dataset[39m(
+[1;32m    558[0m     [38;5;28mself[39m,
+[1;32m    559[0m     filename_or_obj,
+[0;32m   (...)[0m
+[1;32m    574[0m     autoclose[38;5;241m=[39m[38;5;28;01mFalse[39;00m,
+[1;32m    575[0m ):
+[1;32m    576[0m     filename_or_obj [38;5;241m=[39m _normalize_path(filename_or_obj)
+[0;32m--> 577[0m     store [38;5;241m=[39m NetCDF4DataStore[38;5;241m.[39mopen(
+[1;32m    578[0m         filename_or_obj,
+[1;32m    579[0m         mode[38;5;241m=[39mmode,
+[1;32m    580[0m         [38;5;28mformat[39m[38;5;241m=[39m[38;5;28mformat[39m,
+[1;32m    581[0m         group[38;5;241m=[39mgroup,
+[1;32m    582[0m         clobber[38;5;241m=[39mclobber,
+[1;32m    583[0m         diskless[38;5;241m=[39mdiskless,
+[1;32m    584[0m         persist[38;5;241m=[39mpersist,
+[1;32m    585[0m         lock[38;5;241m=[39mlock,
+[1;32m    586[0m         autoclose[38;5;241m=[39mautoclose,
+[1;32m    587[0m     )
+[1;32m    589[0m     store_entrypoint [38;5;241m=[39m StoreBackendEntrypoint()
+[1;32m    590[0m     [38;5;28;01mwith[39;00m close_on_error(store):
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py:382[0m, in [0;36mopen[0;34m()[0m
+[1;32m    376[0m kwargs [38;5;241m=[39m [38;5;28mdict[39m(
+[1;32m    377[0m     clobber[38;5;241m=[39mclobber, diskless[38;5;241m=[39mdiskless, persist[38;5;241m=[39mpersist, [38;5;28mformat[39m[38;5;241m=[39m[38;5;28mformat[39m
+[1;32m    378[0m )
+[1;32m    379[0m manager [38;5;241m=[39m CachingFileManager(
+[1;32m    380[0m     netCDF4[38;5;241m.[39mDataset, filename, mode[38;5;241m=[39mmode, kwargs[38;5;241m=[39mkwargs
+[1;32m    381[0m )
+[0;32m--> 382[0m [38;5;28;01mreturn[39;00m [38;5;28mcls[39m(manager, group[38;5;241m=[39mgroup, mode[38;5;241m=[39mmode, lock[38;5;241m=[39mlock, autoclose[38;5;241m=[39mautoclose)
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py:329[0m, in [0;36m__init__[0;34m()[0m
+[1;32m    327[0m [38;5;28mself[39m[38;5;241m.[39m_group [38;5;241m=[39m group
+[1;32m    328[0m [38;5;28mself[39m[38;5;241m.[39m_mode [38;5;241m=[39m mode
+[0;32m--> 329[0m [38;5;28mself[39m[38;5;241m.[39mformat [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mds[38;5;241m.[39mdata_model
+[1;32m    330[0m [38;5;28mself[39m[38;5;241m.[39m_filename [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39mds[38;5;241m.[39mfilepath()
+[1;32m    331[0m [38;5;28mself[39m[38;5;241m.[39mis_remote [38;5;241m=[39m is_remote_uri([38;5;28mself[39m[38;5;241m.[39m_filename)
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py:391[0m, in [0;36mds[0;34m()[0m
+[1;32m    389[0m [38;5;129m@property[39m
+[1;32m    390[0m [38;5;28;01mdef[39;00m [38;5;21mds[39m([38;5;28mself[39m):
+[0;32m--> 391[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_acquire()
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/netCDF4_.py:385[0m, in [0;36m_acquire[0;34m()[0m
+[1;32m    384[0m [38;5;28;01mdef[39;00m [38;5;21m_acquire[39m([38;5;28mself[39m, needs_lock[38;5;241m=[39m[38;5;28;01mTrue[39;00m):
+[0;32m--> 385[0m     [38;5;28;01mwith[39;00m [38;5;28mself[39m[38;5;241m.[39m_manager[38;5;241m.[39macquire_context(needs_lock) [38;5;28;01mas[39;00m root:
+[1;32m    386[0m         ds [38;5;241m=[39m _nc4_require_group(root, [38;5;28mself[39m[38;5;241m.[39m_group, [38;5;28mself[39m[38;5;241m.[39m_mode)
+[1;32m    387[0m     [38;5;28;01mreturn[39;00m ds
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/contextlib.py:135[0m, in [0;36m__enter__[0;34m()[0m
+[1;32m    133[0m [38;5;28;01mdel[39;00m [38;5;28mself[39m[38;5;241m.[39margs, [38;5;28mself[39m[38;5;241m.[39mkwds, [38;5;28mself[39m[38;5;241m.[39mfunc
+[1;32m    134[0m [38;5;28;01mtry[39;00m:
+[0;32m--> 135[0m     [38;5;28;01mreturn[39;00m [38;5;28mnext[39m([38;5;28mself[39m[38;5;241m.[39mgen)
+[1;32m    136[0m [38;5;28;01mexcept[39;00m [38;5;167;01mStopIteration[39;00m:
+[1;32m    137[0m     [38;5;28;01mraise[39;00m [38;5;167;01mRuntimeError[39;00m([38;5;124m"[39m[38;5;124mgenerator didn[39m[38;5;124m'[39m[38;5;124mt yield[39m[38;5;124m"[39m) [38;5;28;01mfrom[39;00m [38;5;28mNone[39m
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/file_manager.py:198[0m, in [0;36macquire_context[0;34m()[0m
+[1;32m    195[0m [38;5;129m@contextlib[39m[38;5;241m.[39mcontextmanager
+[1;32m    196[0m [38;5;28;01mdef[39;00m [38;5;21macquire_context[39m([38;5;28mself[39m, needs_lock[38;5;241m=[39m[38;5;28;01mTrue[39;00m):
+[1;32m    197[0m [38;5;250m    [39m[38;5;124;03m"""Context manager for acquiring a file."""[39;00m
+[0;32m--> 198[0m     file, cached [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_acquire_with_cache_info(needs_lock)
+[1;32m    199[0m     [38;5;28;01mtry[39;00m:
+[1;32m    200[0m         [38;5;28;01myield[39;00m file
+
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/backends/file_manager.py:216[0m, in [0;36m_acquire_with_cache_info[0;34m()[0m
+[1;32m    214[0m     kwargs [38;5;241m=[39m kwargs[38;5;241m.[39mcopy()
+[1;32m    215[0m     kwargs[[38;5;124m"[39m[38;5;124mmode[39m[38;5;124m"[39m] [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_mode
+[0;32m--> 216[0m file [38;5;241m=[39m [38;5;28mself[39m[38;5;241m.[39m_opener([38;5;241m*[39m[38;5;28mself[39m[38;5;241m.[39m_args, [38;5;241m*[39m[38;5;241m*[39mkwargs)
+[1;32m    217[0m [38;5;28;01mif[39;00m [38;5;28mself[39m[38;5;241m.[39m_mode [38;5;241m==[39m [38;5;124m"[39m[38;5;124mw[39m[38;5;124m"[39m:
+[1;32m    218[0m     [38;5;66;03m# ensure file doesn't get overridden when opened again[39;00m
+[1;32m    219[0m     [38;5;28mself[39m[38;5;241m.[39m_mode [38;5;241m=[39m [38;5;124m"[39m[38;5;124ma[39m[38;5;124m"[39m
+
+File [0;32msrc/netCDF4/_netCDF4.pyx:2449[0m, in [0;36mnetCDF4._netCDF4.Dataset.__init__[0;34m()[0m
+
+File [0;32msrc/netCDF4/_netCDF4.pyx:2012[0m, in [0;36mnetCDF4._netCDF4._ensure_nc_success[0;34m()[0m
+
+[0;31mOSError[0m: [Errno -101] NetCDF: HDF error: '/github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/cmip6/isimip3b/flat/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers.nc'
+OSError: [Errno -101] NetCDF: HDF error: '/github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/cmip6/isimip3b/flat/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers.nc'
 

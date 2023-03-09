@@ -17,23 +17,27 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# Since we overwrote the inversion flowlines we have to do stuff again
-utils.apply_test_ref_tstars()
-tasks.local_t_star(gdir)
-tasks.mu_star_calibration(gdir)
-tasks.prepare_for_inversion(gdir, add_debug_var=True)
-tasks.mass_conservation_inversion(gdir)
-tasks.compute_velocities(gdir)
+# get the velocity data
+u = ds.itslive_vx.where(ds.glacier_mask == 1) #obs_ice_vel_x
+v = ds.itslive_vy.where(ds.glacier_mask == 1)
+ws = (u**2 + v**2)**0.5
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mAttributeError[0m                            Traceback (most recent call last)
-Cell [0;32mIn[37], line 2[0m
-[1;32m      1[0m [38;5;66;03m# Since we overwrote the inversion flowlines we have to do stuff again[39;00m
-[0;32m----> 2[0m [43mutils[49m[38;5;241;43m.[39;49m[43mapply_test_ref_tstars[49m()
-[1;32m      3[0m tasks[38;5;241m.[39mlocal_t_star(gdir)
-[1;32m      4[0m tasks[38;5;241m.[39mmu_star_calibration(gdir)
+Cell [0;32mIn[22], line 2[0m
+[1;32m      1[0m [38;5;66;03m# get the velocity data[39;00m
+[0;32m----> 2[0m u [38;5;241m=[39m [43mds[49m[38;5;241;43m.[39;49m[43mitslive_vx[49m[38;5;241m.[39mwhere(ds[38;5;241m.[39mglacier_mask [38;5;241m==[39m [38;5;241m1[39m) [38;5;66;03m#obs_ice_vel_x[39;00m
+[1;32m      3[0m v [38;5;241m=[39m ds[38;5;241m.[39mitslive_vy[38;5;241m.[39mwhere(ds[38;5;241m.[39mglacier_mask [38;5;241m==[39m [38;5;241m1[39m)
+[1;32m      4[0m ws [38;5;241m=[39m (u[38;5;241m*[39m[38;5;241m*[39m[38;5;241m2[39m [38;5;241m+[39m v[38;5;241m*[39m[38;5;241m*[39m[38;5;241m2[39m)[38;5;241m*[39m[38;5;241m*[39m[38;5;241m0.5[39m
 
-[0;31mAttributeError[0m: module 'oggm.utils' has no attribute 'apply_test_ref_tstars'
-AttributeError: module 'oggm.utils' has no attribute 'apply_test_ref_tstars'
+File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/common.py:268[0m, in [0;36mAttrAccessMixin.__getattr__[0;34m(self, name)[0m
+[1;32m    266[0m         [38;5;28;01mwith[39;00m suppress([38;5;167;01mKeyError[39;00m):
+[1;32m    267[0m             [38;5;28;01mreturn[39;00m source[name]
+[0;32m--> 268[0m [38;5;28;01mraise[39;00m [38;5;167;01mAttributeError[39;00m(
+[1;32m    269[0m     [38;5;124mf[39m[38;5;124m"[39m[38;5;132;01m{[39;00m[38;5;28mtype[39m([38;5;28mself[39m)[38;5;241m.[39m[38;5;18m__name__[39m[38;5;132;01m!r}[39;00m[38;5;124m object has no attribute [39m[38;5;132;01m{[39;00mname[38;5;132;01m!r}[39;00m[38;5;124m"[39m
+[1;32m    270[0m )
+
+[0;31mAttributeError[0m: 'Dataset' object has no attribute 'itslive_vx'
+AttributeError: 'Dataset' object has no attribute 'itslive_vx'
 

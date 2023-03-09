@@ -1,0 +1,908 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Filter the glacier length and area time series &#8212; OGGM tutorials</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Merging glaciers for past climate simulations" href="merging_glaciers.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  10 minutes tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/preprocessed_directories.html">
+   10 minutes to… a preprocessed directory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/run_with_gcm.html">
+   10 minutes to… a glacier change projection with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/machine_learning.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">
+   10 minutes to… understand the differences between “elevation band” and “centerline” flowlines in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/dynamical_spinup.html">
+   10 minutes to… understand the new dynamical spinup in OGGM v1.6
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/full_prepro_workflow.html">
+   What’s in my preprocessed directories? A full OGGM workflow, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/hydrological_output.html">
+   Hydrological mass-balance output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/dynamical_spinup.html">
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/centerlines_to_shape.html">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/massbalance_calibration.html">
+   A quick look into different mass-balance calibration options
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related to OGGM
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../others/holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../others/dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  In (re-)construction
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/construction/area_length_filter.ipynb%26branch%3Dmaster"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/construction/area_length_filter.ipynb&branch=master"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OGGM/tutorials"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/construction/area_length_filter.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/construction/area_length_filter.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/notebooks/construction/area_length_filter.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set-up
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-glaciers-for-the-run">
+     Define the glaciers for the run
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#glacier-directories">
+     Glacier directories
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run">
+   Run
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-problem">
+   The problem
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#workaround">
+   Workaround
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Filter the glacier length and area time series</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set-up
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-the-glaciers-for-the-run">
+     Define the glaciers for the run
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#glacier-directories">
+     Glacier directories
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#run">
+   Run
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-problem">
+   The problem
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#workaround">
+   Workaround
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="filter-the-glacier-length-and-area-time-series">
+<h1>Filter the glacier length and area time series<a class="headerlink" href="#filter-the-glacier-length-and-area-time-series" title="Permalink to this headline">#</a></h1>
+<p>In this short tutorial, we show how to deal with unwanted “spikes” in the length and area time series of individual glaciers. These happen because OGGM currently doesn’t differentiate between snow and ice, i.e. occasional years with large snowfall can artificially increase the glacier area.</p>
+<p>While the best solution would be to deal with this in OGGM, this is currently not possible because we do not have a generally applicable solution to this problem. In the meantime, we recommend a simple workaround.</p>
+<section id="set-up">
+<h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">os</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:43:31: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-09 11:43:31: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-09 11:43:31: oggm.cfg: Multiprocessing: using all available processors (N=2)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGM-Filter&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="define-the-glaciers-for-the-run">
+<h3>Define the glaciers for the run<a class="headerlink" href="#define-the-glaciers-for-the-run" title="Permalink to this headline">#</a></h3>
+<p>We take the Kesselwandferner in the Austrian Alps:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="glacier-directories">
+<h3>Glacier directories<a class="headerlink" href="#glacier-directories" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># in OGGM v1.6 you have to explicitly indicate the url from where you want to start from</span>
+<span class="c1"># we will use here the elevation band flowlines which are much simpler than the centerlines</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
+            <span class="s1">&#39;L3-L5_files/2023.1/elev_bands/W5E5/&#39;</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
+                                         <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:43:31: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
+2023-03-09 11:43:31: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2023-03-09 11:43:31: oggm.utils: No known hash for cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/elev_bands/W5E5/RGI62/b_080/L5/RGI60-11/RGI60-11.00.tar
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="run">
+<h2>Run<a class="headerlink" href="#run" title="Permalink to this headline">#</a></h2>
+<p>We can step directly to a new experiment! This runs under a random climate representative for the recent climate (1985-2015) and a warm temperature bias:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
+                             <span class="n">nyears</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                             <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_commitment&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:43:32: oggm.workflow: Execute entity tasks [run_random_climate] on 1 glaciers
+2023-03-09 11:43:32: oggm.core.flowline: (RGI60-11.00787) run_random_climate_commitment
+2023-03-09 11:43:32: oggm.core.flowline: (RGI60-11.00787) flowline_model_run_commitment
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-problem">
+<h2>The problem<a class="headerlink" href="#the-problem" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_commitment&#39;</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># take just the one glacier</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:43:33: oggm.utils: Applying global task compile_run_output on 1 glaciers
+2023-03-09 11:43:33: oggm.utils: Applying compile_run_output on 1 gdirs.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/area_length_filter_16_0.png" src="../../_images/area_length_filter_16_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/area_length_filter_17_0.png" src="../../_images/area_length_filter_17_0.png" />
+</div>
+</div>
+<p>For small areas, the glacier has the unrealistic “spikes” described above.</p>
+</section>
+<section id="workaround">
+<h2>Workaround<a class="headerlink" href="#workaround" title="Permalink to this headline">#</a></h2>
+<p>A good way to deal with the issue is to run a moving filter which keeps the smallest area or length in a given window size:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">roll_yrs</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Take the minimum out of 5 years</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">roll_yrs</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">roll_yrs</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">roll_yrs</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">);</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Filtered&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/area_length_filter_23_0.png" src="../../_images/area_length_filter_23_0.png" />
+</div>
+</div>
+<p>It works the same with length:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Take the minimum out of 5 years</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">roll_yrs</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">roll_yrs</span><span class="p">]</span> <span class="o">=</span> <span class="n">ts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">roll_yrs</span><span class="p">]</span>
+<span class="c1"># Plot</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">length</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Original&#39;</span><span class="p">);</span>
+<span class="n">ts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Filtered&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/area_length_filter_25_0.png" src="../../_images/area_length_filter_25_0.png" />
+</div>
+</div>
+</section>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="../welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/construction"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="merging_glaciers.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Merging glaciers for past climate simulations</p>
+        </div>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By OGGM e.V. and OGGM Contributors<br/>
+  
+    <div class="extra_footer">
+      <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

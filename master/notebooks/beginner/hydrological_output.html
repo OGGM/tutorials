@@ -1,0 +1,1740 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Hydrological mass-balance output &#8212; OGGM tutorials</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="OGGM-Shop and Glacier Directories in OGGM" href="oggm_shop.html" />
+    <link rel="prev" title="Ice thickness inversion" href="inversion.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  10 minutes tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/preprocessed_directories.html">
+   10 minutes to… a preprocessed directory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/run_with_gcm.html">
+   10 minutes to… a glacier change projection with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/machine_learning.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">
+   10 minutes to… understand the differences between “elevation band” and “centerline” flowlines in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/dynamical_spinup.html">
+   10 minutes to… understand the new dynamical spinup in OGGM v1.6
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="full_prepro_workflow.html">
+   What’s in my preprocessed directories? A full OGGM workflow, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Hydrological mass-balance output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/dynamical_spinup.html">
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/centerlines_to_shape.html">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/massbalance_calibration.html">
+   A quick look into different mass-balance calibration options
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related to OGGM
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../others/holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../others/dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  In (re-)construction
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction/kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction/merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction/area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/beginner/hydrological_output.ipynb%26branch%3Dmaster"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/beginner/hydrological_output.ipynb&branch=master"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OGGM/tutorials"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/beginner/hydrological_output.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/beginner/hydrological_output.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/notebooks/beginner/hydrological_output.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-the-glacier-we-will-play-with">
+   Define the glacier we will play with
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-the-glacier-data">
+   Preparing the glacier data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#commitment-run">
+   “Commitment run”
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#annual-runoff">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#monthly-runoff">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#random-climate-commitment-run">
+   Random climate commitment run
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cmip5-projection-run">
+   CMIP5 projection run
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#historical-run-for-the-reference-climate-period">
+     “Historical” run for the reference climate period
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#projection-run">
+     Projection run
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rcp2-6">
+   RCP2.6
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rcp8-5">
+   RCP8.5
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calculating-peak-water-under-different-climate-scenarios">
+   Calculating peak water under different climate scenarios
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Hydrological mass-balance output</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#define-the-glacier-we-will-play-with">
+   Define the glacier we will play with
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparing-the-glacier-data">
+   Preparing the glacier data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#commitment-run">
+   “Commitment run”
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#annual-runoff">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#monthly-runoff">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#random-climate-commitment-run">
+   Random climate commitment run
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cmip5-projection-run">
+   CMIP5 projection run
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#historical-run-for-the-reference-climate-period">
+     “Historical” run for the reference climate period
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#projection-run">
+     Projection run
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rcp2-6">
+   RCP2.6
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rcp8-5">
+   RCP8.5
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Annual runoff
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Monthly runoff
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calculating-peak-water-under-different-climate-scenarios">
+   Calculating peak water under different climate scenarios
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="hydrological-mass-balance-output">
+<h1>Hydrological mass-balance output<a class="headerlink" href="#hydrological-mass-balance-output" title="Permalink to this headline">#</a></h1>
+<p><strong>New in version 1.5!</strong></p>
+<p>In two recent PRs (<a class="reference external" href="https://github.com/OGGM/oggm/pull/1224">GH1224</a>, <a class="reference external" href="https://github.com/OGGM/oggm/pull/1232">GH1232</a> and <a class="reference external" href="https://github.com/OGGM/oggm/pull/1242">GH1242</a>), we have added a new task in OGGM, <code class="docutils literal notranslate"><span class="pre">run_with_hydro</span></code>, which adds mass-balance and runoff diagnostics to the OGGM output files.</p>
+<p>This task is still experimental - it is tested for consistency and mass-conservation and we trust its output, but its API and functionalites might change in the future (in particular to make it faster and to add more functionality, as explained below).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Make pretty plots</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="s1">&#39;ticks&#39;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_context</span><span class="p">(</span><span class="s1">&#39;notebook&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGMHydro&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Hydro outputs needs the full model geometry</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:32:49: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-09 11:32:49: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-09 11:32:49: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-09 11:32:49: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="define-the-glacier-we-will-play-with">
+<h2>Define the glacier we will play with<a class="headerlink" href="#define-the-glacier-we-will-play-with" title="Permalink to this headline">#</a></h2>
+<p>For this notebook we use the Hintereisferner, Austria. Some other possibilities to play with:</p>
+<ul class="simple">
+<li><p>Shallap Glacier: RGI60-16.02207</p></li>
+<li><p>Artesonraju: RGI60-16.02444 (<a class="reference external" href="https://cluster.klima.uni-bremen.de/~github/crossval/1.1.2.dev45+g792ae9c/web/RGI60-16.02444.html">reference glacier</a>)</p></li>
+<li><p>Hintereisferner: RGI60-11.00897 (<a class="reference external" href="https://cluster.klima.uni-bremen.de/~github/crossval/1.1.2.dev45+g792ae9c/web/RGI60-11.00897.html">reference glacier</a>)</p></li>
+</ul>
+<p>And virtually any glacier you can find the RGI Id from, e.g. in the <a class="reference external" href="https://www.glims.org/maps/glims">GLIMS viewer</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Hintereisferner</span>
+<span class="n">rgi_id</span> <span class="o">=</span> <span class="s1">&#39;RGI60-11.00897&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="preparing-the-glacier-data">
+<h2>Preparing the glacier data<a class="headerlink" href="#preparing-the-glacier-data" title="Permalink to this headline">#</a></h2>
+<p>This can take up to a few minutes on the first call because of the download of the required data:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We pick the elevation-bands glaciers because they run a bit faster</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.4/L3-L5_files/CRU/elev_bands/qc3/pcp2.5/no_match&#39;</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="n">rgi_id</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:32:50: oggm.workflow: You seem to be using v1.4 directories with a more recent version of OGGM. While this is possible, be aware that some defaults parameters have changed. See the documentation for details: http://docs.oggm.org/en/stable/whats-new.html
+2023-03-09 11:32:50: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
+2023-03-09 11:32:50: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="commitment-run">
+<h2>“Commitment run”<a class="headerlink" href="#commitment-run" title="Permalink to this headline">#</a></h2>
+<p>This runs a simulation for 100 yrs under a constant climate based on the climate of the last 11 years:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># file identifier where the model output is saved</span>
+<span class="n">file_id</span> <span class="o">=</span> <span class="s1">&#39;_ct&#39;</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2014</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2974: UserWarning: Unpickling a shapely &lt;2.0 geometry object. Please save the pickle again; shapely 2.1 will not have this compatibility.
+  out = pickle.load(f)
+2023-03-09 11:32:50: oggm.core.flowline: FileNotFoundError occurred during task run_constant_climate_ct on RGI60-11.00897: [Errno 2] No such file or directory: &#39;/tmp/OGGM/OGGMHydro/per_glacier/RGI60-11/RGI60-11.00/RGI60-11.00897/mb_calib.json&#39;
+2023-03-09 11:32:50: oggm.core.flowline: FileNotFoundError occurred during task run_with_hydro_ct on RGI60-11.00897: [Errno 2] No such file or directory: &#39;/tmp/OGGM/OGGMHydro/per_glacier/RGI60-11/RGI60-11.00/RGI60-11.00897/mb_calib.json&#39;
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># file identifier where the model output is saved</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">file_id</span> <span class="o">=</span> <span class="s1">&#39;_ct&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2014</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                      <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">);</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
+<span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/flowline.py:3663,</span> in <span class="ni">run_with_hydro</span><span class="nt">(gdir, run_task, store_monthly_hydro, fixed_geometry_spinup_yr, ref_area_from_y0, ref_area_yr, ref_geometry_filesuffix, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3660</span> <span class="k">if</span> <span class="n">fixed_geometry_spinup_yr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3661</span>     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;fixed_geometry_spinup_yr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fixed_geometry_spinup_yr</span>
+<span class="ne">-&gt; </span><span class="mi">3663</span> <span class="n">out</span> <span class="o">=</span> <span class="n">run_task</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3665</span> <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3666</span>     <span class="k">raise</span> <span class="n">InvalidWorkflowError</span><span class="p">(</span><span class="s1">&#39;The run task (</span><span class="si">{}</span><span class="s1">) did not run &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">3667</span>                                <span class="s1">&#39;successfully.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">run_task</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
+<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
+<span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/flowline.py:3422,</span> in <span class="ni">run_constant_climate</span><span class="nt">(gdir, nyears, y0, halfsize, bias, temperature_bias, precipitation_factor, store_monthly_step, store_model_geometry, store_fl_diagnostics, init_model_filesuffix, init_model_yr, output_filesuffix, climate_filename, mb_model_class, climate_input_filesuffix, init_model_fls, zero_initial_glacier, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3343</span> <span class="nd">@entity_task</span><span class="p">(</span><span class="n">log</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3344</span> <span class="k">def</span> <span class="nf">run_constant_climate</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3345</span>                          <span class="n">bias</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">temperature_bias</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3357</span>                          <span class="n">zero_initial_glacier</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3358</span>                          <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3359</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Runs the constant mass balance model for a given number of years.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3360</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3361</span><span class="sd">     This will initialize a</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3419</span><span class="sd">         kwargs to pass to the FluxBasedModel instance</span>
+<span class="g g-Whitespace">   </span><span class="mi">3420</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">3422</span>     <span class="n">mb_model</span> <span class="o">=</span> <span class="n">MultipleFlowlineMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3423</span>                                            <span class="n">mb_model_class</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3424</span>                                                <span class="n">ConstantMassBalance</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3425</span>                                                <span class="n">mb_model_class</span><span class="o">=</span><span class="n">mb_model_class</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">3426</span>                                            <span class="n">y0</span><span class="o">=</span><span class="n">y0</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="n">halfsize</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3427</span>                                            <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3428</span>                                            <span class="n">filename</span><span class="o">=</span><span class="n">climate_filename</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3429</span>                                            <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">climate_input_filesuffix</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3431</span>     <span class="k">if</span> <span class="n">temperature_bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3432</span>         <span class="n">mb_model</span><span class="o">.</span><span class="n">temp_bias</span> <span class="o">+=</span> <span class="n">temperature_bias</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/massbalance.py:1194,</span> in <span class="ni">MultipleFlowlineMassBalance.__init__</span><span class="nt">(self, gdir, fls, mb_model_class, use_inversion_flowlines, input_filesuffix, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1190</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1191</span>         <span class="n">rgi_filesuffix</span> <span class="o">=</span> <span class="n">input_filesuffix</span>
+<span class="g g-Whitespace">   </span><span class="mi">1193</span>     <span class="bp">self</span><span class="o">.</span><span class="n">flowline_mb_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+<span class="ne">-&gt; </span><span class="mi">1194</span>         <span class="n">mb_model_class</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">rgi_filesuffix</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1195</span>                        <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">1197</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flowline_mb_models</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">valid_bounds</span>
+<span class="g g-Whitespace">   </span><span class="mi">1198</span> <span class="bp">self</span><span class="o">.</span><span class="n">hemisphere</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">hemisphere</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/massbalance.py:702,</span> in <span class="ni">ConstantMassBalance.__init__</span><span class="nt">(self, gdir, mb_model_class, y0, halfsize, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">685</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Initialize</span>
+<span class="g g-Whitespace">    </span><span class="mi">686</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">687</span><span class="sd"> Parameters</span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">    </span><span class="mi">698</span><span class="sd">     keyword arguments to pass to the mb_model_class</span>
+<span class="g g-Whitespace">    </span><span class="mi">699</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">701</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="ne">--&gt; </span><span class="mi">702</span> <span class="bp">self</span><span class="o">.</span><span class="n">mbmod</span> <span class="o">=</span> <span class="n">mb_model_class</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">703</span>                             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">705</span> <span class="k">if</span> <span class="n">y0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">706</span>     <span class="k">raise</span> <span class="n">InvalidParamsError</span><span class="p">(</span><span class="s1">&#39;Please set `y0` explicitly&#39;</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/massbalance.py:384,</span> in <span class="ni">MonthlyTIModel.__init__</span><span class="nt">(self, gdir, filename, input_filesuffix, fl_id, melt_f, temp_bias, prcp_fac, bias, ys, ye, repeat, check_calib_params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">381</span> <span class="bp">self</span><span class="o">.</span><span class="n">gdir</span> <span class="o">=</span> <span class="n">gdir</span>
+<span class="g g-Whitespace">    </span><span class="mi">383</span> <span class="k">if</span> <span class="n">melt_f</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">384</span>     <span class="n">melt_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calib_params</span><span class="p">[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">386</span> <span class="k">if</span> <span class="n">temp_bias</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">387</span>     <span class="n">temp_bias</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calib_params</span><span class="p">[</span><span class="s1">&#39;temp_bias&#39;</span><span class="p">]</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:298,</span> in <span class="ni">lazy_property.&lt;locals&gt;._lazy_property</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">294</span> <span class="nd">@property</span>
+<span class="g g-Whitespace">    </span><span class="mi">295</span> <span class="nd">@wraps</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">296</span> <span class="k">def</span> <span class="nf">_lazy_property</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">297</span>     <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">298</span>         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">fn</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">299</span>     <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/massbalance.py:546,</span> in <span class="ni">MonthlyTIModel.calib_params</span><span class="nt">(self)</span>
+<span class="g g-Whitespace">    </span><span class="mi">543</span> <span class="nd">@lazy_property</span>
+<span class="g g-Whitespace">    </span><span class="mi">544</span> <span class="k">def</span> <span class="nf">calib_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">545</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fl_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">546</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">547</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">548</span>         <span class="k">try</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:3039,</span> in <span class="ni">GlacierDirectory.read_json</span><span class="nt">(self, filename, filesuffix, allow_empty)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3037</span>         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="g g-Whitespace">   </span><span class="mi">3038</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3039</span>     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3040</span>         <span class="n">out</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3041</span> <span class="k">return</span> <span class="n">out</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/tmp/OGGM/OGGMHydro/per_glacier/RGI60-11/RGI60-11.00/RGI60-11.00897/mb_calib.json&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s have a look at the output:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="c1"># The last step of hydrological output is NaN (we can&#39;t compute it for this year)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>There are plenty of new variables in this dataset! We can list them with:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="annual-runoff">
+<h3>Annual runoff<a class="headerlink" href="#annual-runoff" title="Permalink to this headline">#</a></h3>
+<p>The annual variables are stored as usual with the time dimension. For example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The new hydrological variables are also available. Let’s make a pandas DataFrame of all “1D” (annual) variables:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+<span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The hydrological variables are computed on the largest possible area that was covered by glacier ice in the simulation. This is equivalent to the runoff that would be measured at a fixed-gauge station at the glacier terminus. The total annual runoff is:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">runoff_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;melt_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;melt_on_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_on_glacier&#39;</span><span class="p">]</span>
+<span class="n">df_runoff</span> <span class="o">=</span> <span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Mt&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It consists of the following components:</p>
+<ul class="simple">
+<li><p>melt off-glacier: snow melt on areas that are now glacier free (i.e. 0 in the year of largest glacier extent, in this example at the start of the simulation)</p></li>
+<li><p>melt on-glacier: ice + seasonal snow melt on the glacier</p></li>
+<li><p>liquid precipitaton on- and off-glacier (the latter being zero at the year of largest glacial extent, in this example at start of the simulation)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>As the glacier retreats, total runoff decreases as a result of the decreasing glacier contribution.</p>
+</section>
+<section id="monthly-runoff">
+<h3>Monthly runoff<a class="headerlink" href="#monthly-runoff" title="Permalink to this headline">#</a></h3>
+<p>The “2D” variables contain the same data but at monthly resolution, with the dimension (time, month). For example, runoff can be computed the
+same way:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">monthly_runoff</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;melt_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;melt_on_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;liq_prcp_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;liq_prcp_on_glacier_monthly&#39;</span><span class="p">]</span> 
+<span class="n">monthly_runoff</span> <span class="o">*=</span> <span class="mf">1e-9</span>
+<span class="n">monthly_runoff</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;Mt&#39;</span><span class="p">});</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Something is a bit wrong: the coordinates are hydrological months - let’s make this better:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This should work in both hemispheres maybe?</span>
+<span class="n">ds_roll</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">month_2d</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;calendar_month_2d&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">roll_coords</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;month_2d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;calendar_month_2d&#39;</span><span class="p">]</span>
+
+<span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">monthly_runoff</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;melt_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;melt_on_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;liq_prcp_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;liq_prcp_on_glacier_monthly&#39;</span><span class="p">]</span> 
+<span class="n">monthly_runoff</span> <span class="o">*=</span> <span class="mf">1e-9</span>
+<span class="n">monthly_runoff</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;Mt&#39;</span><span class="p">});</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monthly_runoff</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">month_2d</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;month_2d&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The runoff is approx. zero in the winter months, and is high in summer. The annual cycle changes as the glacier retreats:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">monthly_runoff</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">99</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Annual cycle&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s distinguish between the various components of the monthly runnoff for two 10 years periods (begining and end of the 100 year simulation):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pick the variables we need (the 2d ones)</span>
+<span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds_roll</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">in</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+
+<span class="c1"># Pick the first decade and average it</span>
+<span class="n">df_m_s</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="c1"># Rename the columns for readability</span>
+<span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_monthly&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="c1"># Because of floating point precision sometimes runoff can be slightly below zero, clip</span>
+<span class="n">df_m_s</span> <span class="o">=</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Same for end</span>
+<span class="n">df_m_e</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="n">df_m_e</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_monthly&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">df_m_e</span> <span class="o">=</span> <span class="n">df_m_e</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">df_m_s</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year 0-10&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span>
+<span class="n">df_m_e</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year 90-100&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Monthly runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="random-climate-commitment-run">
+<h2>Random climate commitment run<a class="headerlink" href="#random-climate-commitment-run" title="Permalink to this headline">#</a></h2>
+<p>Same as before, but this time randomly shuffling each year of the last 11 years:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># file identifier where the model output is saved</span>
+<span class="n">file_id</span> <span class="o">=</span> <span class="s1">&#39;_rd&#39;</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2014</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">unique_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="c1"># The last step of hydrological output is NaN (we can&#39;t compute it for this year)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id1">
+<h3>Annual runoff<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+<span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">runoff_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;melt_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;melt_on_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_on_glacier&#39;</span><span class="p">]</span>
+<span class="n">df_runoff</span> <span class="o">=</span> <span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id2">
+<h3>Monthly runoff<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_roll</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">month_2d</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;calendar_month_2d&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">roll_coords</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;month_2d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;calendar_month_2d&#39;</span><span class="p">]</span>
+
+<span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">monthly_runoff</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;melt_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;melt_on_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;liq_prcp_off_glacier_monthly&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;liq_prcp_on_glacier_monthly&#39;</span><span class="p">]</span> 
+<span class="n">monthly_runoff</span> <span class="o">*=</span> <span class="mf">1e-9</span>
+<span class="n">monthly_runoff</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;Mt&#39;</span><span class="p">});</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pick the variables we need (the 2d ones)</span>
+<span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds_roll</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">in</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+
+<span class="c1"># Pick the first decade and average it</span>
+<span class="n">df_m_s</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="c1"># Rename the columns for readability</span>
+<span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_monthly&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="c1"># Because of floating point precision sometimes runoff can be slightly below zero, clip</span>
+<span class="n">df_m_s</span> <span class="o">=</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Same for end</span>
+<span class="n">df_m_e</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="n">df_m_e</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_monthly&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">df_m_e</span> <span class="o">=</span> <span class="n">df_m_e</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">df_m_s</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year 0-10&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span>
+<span class="n">df_m_e</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year 90-100&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Monthly runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="cmip5-projection-run">
+<h2>CMIP5 projection run<a class="headerlink" href="#cmip5-projection-run" title="Permalink to this headline">#</a></h2>
+<p>This time, let’s start from the estimated glacier state in 2020 and run a projection from there. See the <span class="xref myst">run_with_gcm</span> tutorial for more info.</p>
+<p>For illustrative purposes, we also show how you can use two new keywords <strong>added in OGGM v1.5.3</strong> to:</p>
+<ul class="simple">
+<li><p>compute hydrological outputs with a fixed geometry prior to the RGI date</p></li>
+<li><p>compute the hydrological outputs with the same reference glacier area in the projections and the past simulation</p></li>
+</ul>
+<p><strong>For an (experimental) use of a dynamic spinup instead of this fixed geometry spinup, visit <span class="xref myst">dynamical_spinup.ipynb</span></strong>.</p>
+<section id="historical-run-for-the-reference-climate-period">
+<h3>“Historical” run for the reference climate period<a class="headerlink" href="#historical-run-for-the-reference-climate-period" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the historical period with a fixed geometry spinup</span>
+<span class="n">file_id</span> <span class="o">=</span> <span class="s1">&#39;_hist_hydro&#39;</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span>
+                     <span class="n">fixed_geometry_spinup_yr</span><span class="o">=</span><span class="mi">1990</span><span class="p">,</span>  <span class="c1"># this tells to do spinup</span>
+                     <span class="n">ref_area_from_y0</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># </span>
+                     <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the data</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    <span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+    <span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">df_annual</span><span class="p">[[</span><span class="s1">&#39;volume_m3&#39;</span><span class="p">,</span> <span class="s1">&#39;area_m2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">secondary_y</span><span class="o">=</span><span class="s1">&#39;area_m2&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Glacier volume and area with fixed geometry spinup (RGI date: </span><span class="si">{</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The plot shows what OGGM has done: glacier area is left constant until the RGI date, after which the dynamical model is used. Glacier volume however does vary, and is consistent with the glacier surface mass-balance (albeit without geometry feedbacks). The hydrological output is also consistent with climate and a fixed glacier geometry:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+<span class="p">(</span><span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="projection-run">
+<h3>Projection run<a class="headerlink" href="#projection-run" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;Downscale&quot; the climate data</span>
+<span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">gcm_climate</span>
+<span class="n">bp</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/pr/pr_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
+<span class="n">bt</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/tas/tas_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
+<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span>
+    <span class="c1"># Download the files</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+    <span class="c1"># bias correct them</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="p">[</span><span class="n">gdir</span><span class="p">],</span>
+                                 <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">),</span>  <span class="c1"># recognize the climate file for later</span>
+                                 <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
+                                 <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>  <span class="c1"># precip projections</span>
+                                 <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span>
+    <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
+    <span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span>
+                         <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
+                         <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
+                         <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_hydro&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
+                         <span class="n">ref_geometry_filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_hydro&#39;</span><span class="p">,</span>  <span class="c1"># also use this as area reference</span>
+                         <span class="n">ref_area_from_y0</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># and keep the same reference area as for the historical simulations</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># recognize the run for later</span>
+                         <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># add monthly diagnostics</span>
+                         <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="rcp2-6">
+<h2>RCP2.6<a class="headerlink" href="#rcp2-6" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_id</span> <span class="o">=</span> <span class="s1">&#39;_CCSM4_rcp26&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="c1"># The last step of hydrological output is NaN (we can&#39;t compute it for this year)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id3">
+<h3>Annual runoff<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+<span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">runoff_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;melt_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;melt_on_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_on_glacier&#39;</span><span class="p">]</span>
+<span class="n">df_runoff</span> <span class="o">=</span> <span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-9</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that “melt_off_glacier” is not zero at the beginning of the simulation - indeed the reference area is that of the 2003 glacier.</p>
+</section>
+<section id="id4">
+<h3>Monthly runoff<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_roll</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">month_2d</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;calendar_month_2d&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">roll_coords</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;month_2d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;calendar_month_2d&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pick the variables we need (the 2d ones)</span>
+<span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds_roll</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">in</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+
+<span class="c1"># Pick the first decade and average it</span>
+<span class="n">df_m_s</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="c1"># Rename the columns for readability</span>
+<span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_monthly&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="c1"># Because of floating point precision sometimes runoff can be slightly below zero, clip</span>
+<span class="n">df_m_s</span> <span class="o">=</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Same for end</span>
+<span class="n">df_m_e</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="n">df_m_e</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_monthly&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">df_m_e</span> <span class="o">=</span> <span class="n">df_m_e</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">df_m_s</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year 0-10&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span>
+<span class="n">df_m_e</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year 90-100&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Monthly runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="rcp8-5">
+<h2>RCP8.5<a class="headerlink" href="#rcp8-5" title="Permalink to this headline">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">file_id</span> <span class="o">=</span> <span class="s1">&#39;_CCSM4_rcp85&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="c1"># The last step of hydrological output is NaN (we can&#39;t compute it for this year)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id5">
+<h3>Annual runoff<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+<span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select only the runoff variables and convert them to megatonnes (instead of kg)</span>
+<span class="n">runoff_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;melt_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;melt_on_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_on_glacier&#39;</span><span class="p">]</span>
+<span class="n">df_runoff</span> <span class="o">=</span> <span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1e-9</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">));</span>
+<span class="n">df_runoff</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id6">
+<h3>Monthly runoff<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds_roll</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">month_2d</span><span class="o">=</span><span class="n">ds</span><span class="p">[</span><span class="s1">&#39;calendar_month_2d&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">roll_coords</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;month_2d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="s1">&#39;calendar_month_2d&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pick the variables we need (the 2d ones)</span>
+<span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds_roll</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">in</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+
+<span class="c1"># Pick the first decade and average it</span>
+<span class="n">df_m_s</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="c1"># Rename the columns for readability</span>
+<span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_monthly&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="c1"># Because of floating point precision sometimes runoff can be slightly below zero, clip</span>
+<span class="n">df_m_s</span> <span class="o">=</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Same for end</span>
+<span class="n">df_m_e</span> <span class="o">=</span> <span class="n">ds_roll</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e-9</span>
+<span class="n">df_m_e</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_monthly&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df_m_s</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">df_m_e</span> <span class="o">=</span> <span class="n">df_m_e</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+<span class="n">df_m_s</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year 0-10&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span>
+<span class="n">df_m_e</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">area</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year 90-100&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">));</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Monthly runoff (Mt)&#39;</span><span class="p">);</span> <span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span> <span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Month&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="calculating-peak-water-under-different-climate-scenarios">
+<h2>Calculating peak water under different climate scenarios<a class="headerlink" href="#calculating-peak-water-under-different-climate-scenarios" title="Permalink to this headline">#</a></h2>
+<p>A typical usecase for simulating and analysing the hydrological ouptuts of glaciers are for <strong>peak water</strong> estimations. For instance, we might want to know the point in time when the annual total runoff from a glacier reaches its maximum under a certain climate scenario.</p>
+<p>The total runoff is a sum of the melt and liquid precipitation, from both on and off the glacier. <strong>Peak water</strong> can be calculated from the 11-year moving average of the total runoff (<a class="reference external" href="http://www.nature.com/articles/s41558-017-0049-x">Huss and Hock, 2018</a>).</p>
+<p>For Hintereisferner we have alredy run the simulations for the different climate scenarios, so we can sum up the runoff variables and plot the output.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the figure</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Loop all scenarios</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]):</span>
+    <span class="n">file_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;_CCSM4_</span><span class="si">{</span><span class="n">rcp</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="c1"># Open the corresponding data.</span>
+    <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span>
+                                           <span class="n">filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+        <span class="c1"># Load the data into a dataframe</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+    <span class="c1"># Select annual variables</span>
+    <span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+    <span class="c1"># And create a dataframe</span>
+    <span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+    <span class="c1"># Select the variables relevant for runoff.</span>
+    <span class="n">runoff_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;melt_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;melt_on_glacier&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;liq_prcp_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_on_glacier&#39;</span><span class="p">]</span>
+    <span class="c1"># Convert to mega tonnes instead of kg.</span>
+    <span class="n">df_runoff</span> <span class="o">=</span> <span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-9</span>
+    <span class="c1"># Sum the variables each year &quot;axis=1&quot;, take the 11 year rolling mean</span>
+    <span class="c1"># and plot it.</span>
+    <span class="n">running</span> <span class="o">=</span> <span class="n">df_runoff</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">running</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">)[</span><span class="n">i</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Annual runoff (Mt)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For Hintereisferner, runoff continues to decrease throughout the 21st-century for all scenarios, indicating that <strong>peak water</strong> has already been reached sometime in the past. This is the case for many European glaciers. Let us take a look at another glacier, in a different climatical setting where a different hydrological projection can be expected.</p>
+<p>We pick a glacier (RGI60-15.02420, unnamed) in the Eastern Himalayas. First we need to initialize its glacier directory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Unnamed glacier</span>
+<span class="n">rgi_id</span> <span class="o">=</span> <span class="s1">&#39;RGI60-15.02420&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="n">rgi_id</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, we have to process the climate data for the new glacier.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do we need to download data again? I guess it is stored somewhere,</span>
+<span class="c1"># but this is an easy way to loop over it for bias correction.</span>
+<span class="n">bp</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/pr/pr_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
+<span class="n">bt</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/tas/tas_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
+<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span>
+    <span class="c1"># Download the files</span>
+    <span class="n">ft</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="p">[</span><span class="n">gdir</span><span class="p">],</span>
+                                 <span class="c1"># Name file to recognize it later</span>
+                                 <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">),</span>  
+                                 <span class="c1"># temperature projections</span>
+                                 <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>
+                                 <span class="c1"># precip projections</span>
+                                 <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>
+                                 <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With this done, we can run the simulations for the different climate scenarios (for simplicity here, we don’t care about historical simulations).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span>
+    <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
+    <span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>
+                         <span class="c1"># use gcm_data, not climate_historical</span>
+                         <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>
+                         <span class="c1"># use the chosen scenario</span>
+                         <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>
+                         <span class="c1"># this is important! Start from 2020 glacier</span>
+                         <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">,</span>
+                         <span class="c1"># recognize the run for later</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>
+                         <span class="c1"># add monthly diagnostics</span>
+                         <span class="n">store_monthly_hydro</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can create the same plot as before in order to visualize <strong>peak water</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create the figure</span>
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="c1"># Loop all scenarios</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp60&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]):</span>
+    <span class="n">file_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;_CCSM4_</span><span class="si">{</span><span class="n">rcp</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="c1"># Open the corresponding data in a context manager.</span>
+    <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span>
+                                           <span class="n">filesuffix</span><span class="o">=</span><span class="n">file_id</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+        <span class="c1"># Load the data into a dataframe</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+    <span class="c1"># Select annual variables</span>
+    <span class="n">sel_vars</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span> <span class="k">if</span> <span class="s1">&#39;month_2d&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="p">[</span><span class="n">v</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">]</span>
+    <span class="c1"># And create a dataframe</span>
+    <span class="n">df_annual</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">sel_vars</span><span class="p">]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+    <span class="c1"># Select the variables relevant for runoff.</span>
+    <span class="n">runoff_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;melt_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;melt_on_glacier&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;liq_prcp_off_glacier&#39;</span><span class="p">,</span> <span class="s1">&#39;liq_prcp_on_glacier&#39;</span><span class="p">]</span>
+    <span class="c1"># Convert to mega tonnes instead of kg.</span>
+    <span class="n">df_runoff</span> <span class="o">=</span> <span class="n">df_annual</span><span class="p">[</span><span class="n">runoff_vars</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1e-9</span>
+    <span class="c1"># Sum the variables each year &quot;axis=1&quot;, take the 11 year rolling mean</span>
+    <span class="c1"># and plot it.</span>
+    <span class="n">df_runoff</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">window</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">,</span>
+                                  <span class="n">color</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">&quot;rocket&quot;</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
+                                  <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Annual runoff (Mt)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_id</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Unlike for Hintereisferner, these projections indicate that the annual runoff will increase in all the scenarios for the first half of the century. The higher RCP scenarios can reach <strong>peak water</strong> later in the century, since the excess melt can continue to increase. For the lower RCP scenarios on the other hand, the glacier might be approaching a new equilibirum, which reduces the runoff earlier in the century (<a class="reference external" href="https://www.frontiersin.org/articles/10.3389/feart.2019.00331/full">Rounce et. al., 2020</a>). After <strong>peak water</strong> is reached (RCP2.6: ~2055, RCP8.5: ~2070 in these projections), the annual runoff begin to decrease. This decrease occurs because the shrinking glacier is no longer able to support the high levels of melt.</p>
+</section>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="../welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/beginner"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="inversion.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Ice thickness inversion</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="oggm_shop.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">OGGM-Shop and Glacier Directories in OGGM</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By OGGM e.V. and OGGM Contributors<br/>
+  
+    <div class="extra_footer">
+      <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

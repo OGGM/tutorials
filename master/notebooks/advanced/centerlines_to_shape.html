@@ -1,0 +1,1059 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Compute smoother centerlines for shapefile output &#8212; OGGM tutorials</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="A quick look into different mass-balance calibration options" href="massbalance_calibration.html" />
+    <link rel="prev" title="Using your our own glacier inventory with OGGM" href="use_your_own_inventory.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-106829797-2', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../../_static/logo.png" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  10 minutes tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/preprocessed_directories.html">
+   10 minutes to… a preprocessed directory
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/run_with_gcm.html">
+   10 minutes to… a glacier change projection with GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/machine_learning.html">
+   A toy statistical model of ice thickness
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">
+   10 minutes to… understand the differences between “elevation band” and “centerline” flowlines in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../10minutes/dynamical_spinup.html">
+   10 minutes to… understand the new dynamical spinup in OGGM v1.6
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Beginner tutorials
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/working_with_rgi.html">
+   Working with the RGI files
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/full_prepro_workflow.html">
+   What’s in my preprocessed directories? A full OGGM workflow, step by step
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/store_and_compress_glacierdirs.html">
+   Storing glacier directories for later use
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/plot_mass_balance.html">
+   Plotting the OGGM surface mass-balance, the ELA and AAR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/deal_with_errors.html">
+   Dealing with errors after a run
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/inversion.html">
+   Ice thickness inversion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/hydrological_output.html">
+   Hydrological mass-balance output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../beginner/oggm_shop.html">
+   OGGM-Shop and Glacier Directories in OGGM
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Advanced tutorials
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preprocessing_errors.html">
+   Error analysis of the global pre-processing workflow
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
+   Run with a spinup and GCM data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dynamical_spinup.html">
+   Dynamic spinup and dynamic
+   <span class="math notranslate nohighlight">
+    \(\mu^*\)
+   </span>
+   calibration for past simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dem_sources.html">
+   Create local topography maps from different DEM sources with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="use_your_own_inventory.html">
+   Using your our own glacier inventory with OGGM
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Compute smoother centerlines for shapefile output
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="massbalance_calibration.html">
+   A quick look into different mass-balance calibration options
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="where_are_the_flowlines.html">
+   OGGM flowlines: where are they?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
+   Ingest gridded products such as ice velocity into OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
+   Merge, analyse and visualize OGGM GCM runs
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Related to OGGM
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../others/holoviz_intro.html">
+   Small overview of HoloViz capability of data exploration
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../others/dem_comparison.html">
+   Compare different DEMs for individual glaciers
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  In (re-)construction
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">
+   Ice thickness inversion with frontal ablation: a case study
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction/kcalving_parameterization.html">
+   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction/merging_glaciers.html">
+   Merging glaciers for past climate simulations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../construction/area_length_filter.html">
+   Filter the glacier length and area time series
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/advanced/centerlines_to_shape.ipynb%26branch%3Dmaster"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/advanced/centerlines_to_shape.ipynb&branch=master"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on JupyterHub"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="headerbtn__text-container">JupyterHub</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/OGGM/tutorials"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/advanced/centerlines_to_shape.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/advanced/centerlines_to_shape.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../../_sources/notebooks/advanced/centerlines_to_shape.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-preparation">
+   Data preparation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-the-centerlines">
+   Compute the centerlines
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#write-the-data-to-a-shapefile-with-optional-smoothing">
+   Write the data to a shapefile with optional smoothing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#final-remarks">
+   Final remarks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Compute smoother centerlines for shapefile output</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-preparation">
+   Data preparation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-the-centerlines">
+   Compute the centerlines
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#write-the-data-to-a-shapefile-with-optional-smoothing">
+   Write the data to a shapefile with optional smoothing
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#final-remarks">
+   Final remarks
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-s-next">
+   What’s next?
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="compute-smoother-centerlines-for-shapefile-output">
+<h1>Compute smoother centerlines for shapefile output<a class="headerlink" href="#compute-smoother-centerlines-for-shapefile-output" title="Permalink to this headline">#</a></h1>
+<p>This notebook describes how to compute centerlines with OGGM and write them to disk. It is meant for users who are mostly interested in the centerlines, not so much the rest of the OGGM model.</p>
+<p>We use an example of a user-provided glacier inventory and DEM (thanks to <a class="reference external" href="https://www.nve.no/hydrology/our-researchers/liss-marie-andreassen/">Liss Andreassen</a> for providing the data).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rioxr</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="data-preparation">
+<h2>Data preparation<a class="headerlink" href="#data-preparation" title="Permalink to this headline">#</a></h2>
+<p>Download the demo data. This is a subset of a regional glacier inventory and DEM in Norway:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fpath_inventory</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/tutorials/Norway_Inventory_sel.zip&#39;</span><span class="p">)</span>
+<span class="n">fpath_dem</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/tutorials/Norway_DEM_sel.tif&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Read the data and plot it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inventory</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">fpath_inventory</span><span class="p">)</span>
+<span class="n">dem</span> <span class="o">=</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">fpath_dem</span><span class="p">)</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">dem</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;terrain&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">);</span>
+<span class="n">inventory</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/centerlines_to_shape_7_0.png" src="../../_images/centerlines_to_shape_7_0.png" />
+</div>
+</div>
+<p>The resolution of the DEM is 10m:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">((</span><span class="n">dem</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">dem</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>In this inventory, one geometry has a topological error (the figure of eight where the outlines touch):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inventory</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">inventory</span><span class="o">.</span><span class="n">is_valid</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/centerlines_to_shape_11_0.png" src="../../_images/centerlines_to_shape_11_0.png" />
+</div>
+</div>
+<p>Let’s correct it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inventory</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">inventory</span><span class="o">.</span><span class="n">is_valid</span><span class="p">,</span> <span class="s1">&#39;geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">inventory</span><span class="o">.</span><span class="n">is_valid</span><span class="p">]</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A final preparation step is to convert the format of the inventory to a file which resembles the RGI (see <a class="reference internal" href="use_your_own_inventory.html"><span class="doc std std-doc">use_your_own_inventory.ipynb</span></a>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We keep the original ID for later reference</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">cook_rgidf</span><span class="p">(</span><span class="n">inventory</span><span class="p">,</span> <span class="n">o1_region</span><span class="o">=</span><span class="s1">&#39;08&#39;</span><span class="p">,</span> <span class="n">assign_column_values</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;breID&#39;</span><span class="p">:</span><span class="s1">&#39;breID&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="compute-the-centerlines">
+<h2>Compute the centerlines<a class="headerlink" href="#compute-the-centerlines" title="Permalink to this headline">#</a></h2>
+<p>We use the standard OGGM procedure for this:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+
+<span class="c1"># Parameters</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># this is often a good idea</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_rgi_area&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># this is required for user-defined inventories</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_intersects&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>  <span class="c1"># we don&#39;t care about intersects for centerlines</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># no need to make a large map</span>
+
+<span class="c1"># Optional: change the grid resolution</span>
+<span class="c1"># E.g. fixed grid spacing</span>
+<span class="c1"># cfg.PARAMS[&#39;grid_dx_method&#39;] = &#39;fixed&#39;</span>
+<span class="c1"># cfg.PARAMS[&#39;fixed_dx&#39;] = 10</span>
+<span class="c1"># Or variable but twice higher than default </span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;grid_dx_method&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;square&#39;</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;d1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1"># (default is 14)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;d2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># (default is 10)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;dmax&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># (default is 100)</span>
+
+<span class="c1"># Tell OGGM to use our user DEM (important!)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;dem_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fpath_dem</span>
+
+<span class="c1"># Where to work</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;NORWAY_CENTERLINES&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:26:35: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-09 11:26:35: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-09 11:26:35: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-09 11:26:35: oggm.cfg: Multiprocessing switched ON after user settings.
+2023-03-09 11:26:35: oggm.cfg: PARAMS[&#39;use_rgi_area&#39;] changed from `True` to `False`.
+2023-03-09 11:26:35: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+2023-03-09 11:26:35: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
+2023-03-09 11:26:35: oggm.cfg: PARAMS[&#39;d1&#39;] changed from `14.0` to `7`.
+2023-03-09 11:26:35: oggm.cfg: PARAMS[&#39;d2&#39;] changed from `10.0` to `5`.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now the workflow:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">gdf</span><span class="p">)</span>
+
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;USER&#39;</span><span class="p">);</span>  <span class="c1"># Use the user DEM</span>
+
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">glacier_masks</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">compute_centerlines</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:26:35: oggm.workflow: Execute entity tasks [GlacierDirectory] on 102 glaciers
+2023-03-09 11:26:38: oggm.workflow: Execute entity tasks [define_glacier_region] on 102 glaciers
+2023-03-09 11:27:25: oggm.workflow: Execute entity tasks [glacier_masks] on 102 glaciers
+2023-03-09 11:27:51: oggm.workflow: Execute entity tasks [compute_centerlines] on 102 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Note: the default in OGGM is to use a grid size of varying resolution for each glacier. I think it makes sense in many cases, but you may prefer to use the native resolution of your DEM. You can do so by commenting / un-commenting the options above.</strong></p>
+</section>
+<section id="write-the-data-to-a-shapefile-with-optional-smoothing">
+<h2>Write the data to a shapefile with optional smoothing<a class="headerlink" href="#write-the-data-to-a-shapefile-with-optional-smoothing" title="Permalink to this headline">#</a></h2>
+<p>The relevant task is “write_centerlines_to_shape”, which writes everything to a shapefile:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm.utils</span> <span class="kn">import</span> <span class="n">write_centerlines_to_shape</span><span class="p">,</span> <span class="n">mkdir</span>
+
+<span class="c1"># We want to write in here</span>
+<span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;outputs&#39;</span><span class="p">)</span>
+
+<span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span>  <span class="c1"># The glaciers to process</span>
+                           <span class="n">path</span><span class="o">=</span><span class="s1">&#39;outputs/Norway_Centerlines.shp&#39;</span><span class="p">,</span>  <span class="c1"># The output file</span>
+                           <span class="n">to_tar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># set to True to put everything into one single tar file</span>
+                           <span class="n">to_crs</span><span class="o">=</span><span class="n">inventory</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>  <span class="c1"># Write into the projection of the original inventory</span>
+                           <span class="n">keep_main_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Write only the main flowline and discard the tributaries</span>
+                           <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:27:52: oggm.utils: Applying global task write_centerlines_to_shape on 102 glaciers
+2023-03-09 11:27:52: oggm.utils: write_centerlines_to_shape on outputs/Norway_Centerlines.shp ...
+2023-03-09 11:27:52: oggm.workflow: Execute entity tasks [get_centerline_lonlat] on 102 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s have a look at the output:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cls_default</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;outputs/Norway_Centerlines.shp&#39;</span><span class="p">)</span>
+<span class="n">cls_default</span><span class="p">[</span><span class="s1">&#39;breID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;breID&#39;</span><span class="p">]</span>  <span class="c1"># This only works this way because we have one centerline per glacier!</span>
+
+<span class="n">cls_default</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>RGIID</th>
+      <th>SEGMENT_ID</th>
+      <th>LE_SEGMENT</th>
+      <th>MAIN</th>
+      <th>geometry</th>
+      <th>breID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>RGI60-08.00001</td>
+      <td>0</td>
+      <td>633.0</td>
+      <td>1</td>
+      <td>LINESTRING (471259.347 7433335.143, 471268.347...</td>
+      <td>1169</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>RGI60-08.00002</td>
+      <td>0</td>
+      <td>266.0</td>
+      <td>1</td>
+      <td>LINESTRING (471072.559 7433008.446, 471078.622...</td>
+      <td>5545</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>RGI60-08.00003</td>
+      <td>0</td>
+      <td>590.0</td>
+      <td>1</td>
+      <td>LINESTRING (470683.140 7432870.887, 470676.217...</td>
+      <td>1171</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>RGI60-08.00004</td>
+      <td>0</td>
+      <td>210.0</td>
+      <td>1</td>
+      <td>LINESTRING (470772.796 7432860.787, 470766.860...</td>
+      <td>1170</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>RGI60-08.00005</td>
+      <td>0</td>
+      <td>293.0</td>
+      <td>1</td>
+      <td>LINESTRING (469810.348 7432769.874, 469804.415...</td>
+      <td>5546</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">LE_SEGMENT</span></code> is the length of the centerline in meters. The RGI “IDs” are fake (OGGM needs them) but the breID are real. Lets use them as index for the file:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cls_default</span> <span class="o">=</span> <span class="n">cls_default</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;breID&#39;</span><span class="p">)</span>
+<span class="n">orig_inventory</span> <span class="o">=</span> <span class="n">inventory</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;breID&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can plot an example:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel_breID</span> <span class="o">=</span> <span class="mi">1189</span>  <span class="c1"># 5570</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">orig_inventory</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">sel_breID</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">);</span>
+<span class="n">cls_default</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">sel_breID</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/centerlines_to_shape_30_0.png" src="../../_images/centerlines_to_shape_30_0.png" />
+</div>
+</div>
+<p>What can we see?</p>
+<p>-the centerline does not end <em>exactly</em> at the glacier outline
+-the line seems “crooked”, it has sudden turns</p>
+<p>Both effects are due to the algorithm we use to compute the centerlines (<a class="reference external" href="https://tc.copernicus.org/articles/8/503/2014/">Kienholz et al., (2014)</a>),
+which works on the underlying glacier grid. Each vertice (point) in the line corresponds to the center of the grid point.</p>
+<p><strong>We have implemented a few new options in OGGM v1.6, which allow to circumvent these limitations</strong>. We illustrate them here:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span>  <span class="c1"># The glaciers to process</span>
+                           <span class="n">path</span><span class="o">=</span><span class="s1">&#39;outputs/Norway_Centerlines_smooth.shp&#39;</span><span class="p">,</span>  <span class="c1"># The output file</span>
+                           <span class="n">to_tar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># set to True to put everything into one single tar file</span>
+                           <span class="n">to_crs</span><span class="o">=</span><span class="n">inventory</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>  <span class="c1"># Write into the projection of the original inventory</span>
+                           <span class="n">keep_main_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Write only the main flowline and discard the tributaries</span>
+                           <span class="n">ensure_exterior_match</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># NEW! Ensure that the lines are touching the outlines</span>
+                           <span class="n">simplify_line</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>  <span class="c1"># NEW! this option reduces the number of vertices along the line</span>
+                           <span class="n">corner_cutting</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>  <span class="c1"># BEW! this then augments the number of vertices again</span>
+                          <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-09 11:27:54: oggm.utils: Applying global task write_centerlines_to_shape on 102 glaciers
+2023-03-09 11:27:54: oggm.utils: write_centerlines_to_shape on outputs/Norway_Centerlines_smooth.shp ...
+2023-03-09 11:27:54: oggm.workflow: Execute entity tasks [get_centerline_lonlat] on 102 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">simplify_line</span></code> and <code class="docutils literal notranslate"><span class="pre">corner_cutting</span></code> options are cosmetic and subjective. The former will simplify the line, by making it look less edgy but also less precise, while the latter then “smoothes” it. Users may try different combinations to see their effect (see the <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.global_tasks.write_centerlines_to_shape.html">documentation</a>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cls_smooth</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="s1">&#39;outputs/Norway_Centerlines_smooth.shp&#39;</span><span class="p">)</span>
+<span class="n">cls_smooth</span><span class="p">[</span><span class="s1">&#39;breID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[</span><span class="s1">&#39;breID&#39;</span><span class="p">]</span>
+<span class="n">cls_smooth</span> <span class="o">=</span> <span class="n">cls_smooth</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;breID&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sel_breID</span> <span class="o">=</span> <span class="mi">1189</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">orig_inventory</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">sel_breID</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;lightblue&#39;</span><span class="p">);</span>
+<span class="n">cls_default</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">sel_breID</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
+<span class="n">cls_smooth</span><span class="o">.</span><span class="n">loc</span><span class="p">[[</span><span class="n">sel_breID</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/centerlines_to_shape_35_0.png" src="../../_images/centerlines_to_shape_35_0.png" />
+</div>
+</div>
+</section>
+<section id="final-remarks">
+<h2>Final remarks<a class="headerlink" href="#final-remarks" title="Permalink to this headline">#</a></h2>
+<p>While the centerline algorithm is quite robust, the results will vary as a function of the resolution of the underlying grid, and the smoothing options. After trying a little, it seems difficult to find a setting which works “best” in all circumstances, and we encourage users to try several options and see what they prefer. The option likely to have the most impact (assuming smoothing with <code class="docutils literal notranslate"><span class="pre">(0.5,</span> <span class="pre">5)</span></code> is the underlying grid resolution.</p>
+</section>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="../welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/advanced"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="use_your_own_inventory.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Using your our own glacier inventory with OGGM</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="massbalance_calibration.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">A quick look into different mass-balance calibration options</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By OGGM e.V. and OGGM Contributors<br/>
+  
+    <div class="extra_footer">
+      <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+    </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
