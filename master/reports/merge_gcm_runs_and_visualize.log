@@ -17,89 +17,36 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# calculate mean and std with the previously defined function
-total_volume_mean, total_volume_std = calculate_total_mean_and_std(ds_merged, 'volume')
+# Initialize OGGM and set up the default run parameters
+cfg.initialize(logging_level='WARNING')
 
-# select only on RCP scenario
-total_volume_mean_rcp85 = total_volume_mean.loc[{'RCP': 'rcp85'}]
+# change border around the individual glaciers
+cfg.PARAMS['border'] = 80
 
-# plot a curve
-x = total_volume_mean_rcp85.coords['time']
-y = total_volume_mean_rcp85
-hv.Curve((x, y),
-         kdims=x.name,
-         vdims=y.name,
-        ).opts(xlabel=x.attrs['description'],
-               ylabel=f"{y.attrs['description']} in {y.attrs['unit']}")
+# Use Multiprocessing
+cfg.PARAMS['use_multiprocessing'] = True
+
+# For hydro output
+cfg.PARAMS['store_model_geometry'] = True
+
+# Local working directory (where OGGM will write its output)
+cfg.PATHS['working_dir'] = utils.gettempdir('OGGM_merge_gcm_runs', reset=True)
+
+# RGI glaciers: Ngojumba and Khumbu
+rgi_ids = utils.get_rgi_glacier_entities(['RGI60-15.03473', 'RGI60-15.03733'])
+
+# Go - get the pre-processed glacier directories
+# in OGGM v1.6 you have to explicitly indicate the url from where you want to start from
+# we will use here the elevation band flowlines which are much simpler than the centerlines
+base_url = 'https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/elev_bands/W5E5/')
+gdirs = workflow.init_glacier_directories(rgi_ids, from_prepro_level=5,
+                                          prepro_base_url=base_url)
 ------------------
 
-[0;31m---------------------------------------------------------------------------[0m
-[0;31mKeyError[0m                                  Traceback (most recent call last)
-Cell [0;32mIn[21], line 5[0m
-[1;32m      2[0m total_volume_mean, total_volume_std [38;5;241m=[39m calculate_total_mean_and_std(ds_merged, [38;5;124m'[39m[38;5;124mvolume[39m[38;5;124m'[39m)
-[1;32m      4[0m [38;5;66;03m# select only on RCP scenario[39;00m
-[0;32m----> 5[0m total_volume_mean_rcp85 [38;5;241m=[39m [43mtotal_volume_mean[49m[38;5;241;43m.[39;49m[43mloc[49m[43m[[49m[43m{[49m[38;5;124;43m'[39;49m[38;5;124;43mRCP[39;49m[38;5;124;43m'[39;49m[43m:[49m[43m [49m[38;5;124;43m'[39;49m[38;5;124;43mrcp85[39;49m[38;5;124;43m'[39;49m[43m}[49m[43m][49m
-[1;32m      7[0m [38;5;66;03m# plot a curve[39;00m
-[1;32m      8[0m x [38;5;241m=[39m total_volume_mean_rcp85[38;5;241m.[39mcoords[[38;5;124m'[39m[38;5;124mtime[39m[38;5;124m'[39m]
+[0;36m  Cell [0;32mIn[2], line 22[0;36m[0m
+[0;31m    base_url = 'https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/elev_bands/W5E5/')[0m
+[0m                                                                                                              ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m unmatched ')'
 
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/dataarray.py:207[0m, in [0;36m_LocIndexer.__getitem__[0;34m(self, key)[0m
-[1;32m    205[0m     labels [38;5;241m=[39m indexing[38;5;241m.[39mexpanded_indexer(key, [38;5;28mself[39m[38;5;241m.[39mdata_array[38;5;241m.[39mndim)
-[1;32m    206[0m     key [38;5;241m=[39m [38;5;28mdict[39m([38;5;28mzip[39m([38;5;28mself[39m[38;5;241m.[39mdata_array[38;5;241m.[39mdims, labels))
-[0;32m--> 207[0m [38;5;28;01mreturn[39;00m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43mdata_array[49m[38;5;241;43m.[39;49m[43msel[49m[43m([49m[43mkey[49m[43m)[49m
-
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/dataarray.py:1524[0m, in [0;36mDataArray.sel[0;34m(self, indexers, method, tolerance, drop, **indexers_kwargs)[0m
-[1;32m   1414[0m [38;5;28;01mdef[39;00m [38;5;21msel[39m(
-[1;32m   1415[0m     [38;5;28mself[39m: T_DataArray,
-[1;32m   1416[0m     indexers: Mapping[Any, Any] [38;5;241m|[39m [38;5;28;01mNone[39;00m [38;5;241m=[39m [38;5;28;01mNone[39;00m,
-[0;32m   (...)[0m
-[1;32m   1420[0m     [38;5;241m*[39m[38;5;241m*[39mindexers_kwargs: Any,
-[1;32m   1421[0m ) [38;5;241m-[39m[38;5;241m>[39m T_DataArray:
-[1;32m   1422[0m [38;5;250m    [39m[38;5;124;03m"""Return a new DataArray whose data is given by selecting index[39;00m
-[1;32m   1423[0m [38;5;124;03m    labels along the specified dimension(s).[39;00m
-[1;32m   1424[0m 
-[0;32m   (...)[0m
-[1;32m   1522[0m [38;5;124;03m    Dimensions without coordinates: points[39;00m
-[1;32m   1523[0m [38;5;124;03m    """[39;00m
-[0;32m-> 1524[0m     ds [38;5;241m=[39m [38;5;28;43mself[39;49m[38;5;241;43m.[39;49m[43m_to_temp_dataset[49m[43m([49m[43m)[49m[38;5;241;43m.[39;49m[43msel[49m[43m([49m
-[1;32m   1525[0m [43m        [49m[43mindexers[49m[38;5;241;43m=[39;49m[43mindexers[49m[43m,[49m
-[1;32m   1526[0m [43m        [49m[43mdrop[49m[38;5;241;43m=[39;49m[43mdrop[49m[43m,[49m
-[1;32m   1527[0m [43m        [49m[43mmethod[49m[38;5;241;43m=[39;49m[43mmethod[49m[43m,[49m
-[1;32m   1528[0m [43m        [49m[43mtolerance[49m[38;5;241;43m=[39;49m[43mtolerance[49m[43m,[49m
-[1;32m   1529[0m [43m        [49m[38;5;241;43m*[39;49m[38;5;241;43m*[39;49m[43mindexers_kwargs[49m[43m,[49m
-[1;32m   1530[0m [43m    [49m[43m)[49m
-[1;32m   1531[0m     [38;5;28;01mreturn[39;00m [38;5;28mself[39m[38;5;241m.[39m_from_temp_dataset(ds)
-
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/dataset.py:2572[0m, in [0;36mDataset.sel[0;34m(self, indexers, method, tolerance, drop, **indexers_kwargs)[0m
-[1;32m   2511[0m [38;5;250m[39m[38;5;124;03m"""Returns a new dataset with each array indexed by tick labels[39;00m
-[1;32m   2512[0m [38;5;124;03malong the specified dimension(s).[39;00m
-[1;32m   2513[0m 
-[0;32m   (...)[0m
-[1;32m   2569[0m [38;5;124;03mDataArray.sel[39;00m
-[1;32m   2570[0m [38;5;124;03m"""[39;00m
-[1;32m   2571[0m indexers [38;5;241m=[39m either_dict_or_kwargs(indexers, indexers_kwargs, [38;5;124m"[39m[38;5;124msel[39m[38;5;124m"[39m)
-[0;32m-> 2572[0m query_results [38;5;241m=[39m [43mmap_index_queries[49m[43m([49m
-[1;32m   2573[0m [43m    [49m[38;5;28;43mself[39;49m[43m,[49m[43m [49m[43mindexers[49m[38;5;241;43m=[39;49m[43mindexers[49m[43m,[49m[43m [49m[43mmethod[49m[38;5;241;43m=[39;49m[43mmethod[49m[43m,[49m[43m [49m[43mtolerance[49m[38;5;241;43m=[39;49m[43mtolerance[49m
-[1;32m   2574[0m [43m[49m[43m)[49m
-[1;32m   2576[0m [38;5;28;01mif[39;00m drop:
-[1;32m   2577[0m     no_scalar_variables [38;5;241m=[39m {}
-
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/indexing.py:175[0m, in [0;36mmap_index_queries[0;34m(obj, indexers, method, tolerance, **indexers_kwargs)[0m
-[1;32m    172[0m     options [38;5;241m=[39m {[38;5;124m"[39m[38;5;124mmethod[39m[38;5;124m"[39m: method, [38;5;124m"[39m[38;5;124mtolerance[39m[38;5;124m"[39m: tolerance}
-[1;32m    174[0m indexers [38;5;241m=[39m either_dict_or_kwargs(indexers, indexers_kwargs, [38;5;124m"[39m[38;5;124mmap_index_queries[39m[38;5;124m"[39m)
-[0;32m--> 175[0m grouped_indexers [38;5;241m=[39m [43mgroup_indexers_by_index[49m[43m([49m[43mobj[49m[43m,[49m[43m [49m[43mindexers[49m[43m,[49m[43m [49m[43moptions[49m[43m)[49m
-[1;32m    177[0m results [38;5;241m=[39m []
-[1;32m    178[0m [38;5;28;01mfor[39;00m index, labels [38;5;129;01min[39;00m grouped_indexers:
-
-File [0;32m/usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/indexing.py:139[0m, in [0;36mgroup_indexers_by_index[0;34m(obj, indexers, options)[0m
-[1;32m    137[0m     [38;5;28;01mraise[39;00m [38;5;167;01mKeyError[39;00m([38;5;124mf[39m[38;5;124m"[39m[38;5;124mno index found for coordinate [39m[38;5;132;01m{[39;00mkey[38;5;132;01m!r}[39;00m[38;5;124m"[39m)
-[1;32m    138[0m [38;5;28;01melif[39;00m key [38;5;129;01mnot[39;00m [38;5;129;01min[39;00m obj[38;5;241m.[39mdims:
-[0;32m--> 139[0m     [38;5;28;01mraise[39;00m [38;5;167;01mKeyError[39;00m([38;5;124mf[39m[38;5;124m"[39m[38;5;132;01m{[39;00mkey[38;5;132;01m!r}[39;00m[38;5;124m is not a valid dimension or coordinate[39m[38;5;124m"[39m)
-[1;32m    140[0m [38;5;28;01melif[39;00m [38;5;28mlen[39m(options):
-[1;32m    141[0m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
-[1;32m    142[0m         [38;5;124mf[39m[38;5;124m"[39m[38;5;124mcannot supply selection options [39m[38;5;132;01m{[39;00moptions[38;5;132;01m!r}[39;00m[38;5;124m for dimension [39m[38;5;132;01m{[39;00mkey[38;5;132;01m!r}[39;00m[38;5;124m"[39m
-[1;32m    143[0m         [38;5;124m"[39m[38;5;124mthat has no associated coordinate or index[39m[38;5;124m"[39m
-[1;32m    144[0m     )
-
-[0;31mKeyError[0m: "'RCP' is not a valid dimension or coordinate"
-KeyError: "'RCP' is not a valid dimension or coordinate"
+SyntaxError: unmatched ')' (813393662.py, line 22)
 
