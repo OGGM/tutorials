@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>A quick look into different mass-balance calibration options &#8212; OGGM tutorials</title>
+    <title>A deeper look into different mass-balance calibration options &#8212; OGGM tutorials</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -221,15 +221,6 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dynamical_spinup.html">
-   Dynamic spinup and dynamic
-   <span class="math notranslate nohighlight">
-    \(\mu^*\)
-   </span>
-   calibration for past simulations
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="dem_sources.html">
    Create local topography maps from different DEM sources with OGGM
   </a>
@@ -246,7 +237,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   A quick look into different mass-balance calibration options
+   A deeper look into different mass-balance calibration options
   </a>
  </li>
  <li class="toctree-l1">
@@ -555,16 +546,14 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#default-mass-balance-calibration-oggm-v1-6-and-variants">
-   Default mass-balance calibration (OGGM &gt;=v1.6) and variants
+  <a class="reference internal nav-link" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">
+   Calibrated mass balance parameters in OGGM v1.6 pre-processed directories
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#other-calibration-variants">
-     Other calibration variants
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-new-flexible-calibration-scheme-in-oggm">
+   The new flexible calibration scheme in OGGM
+  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#calibrate-on-direct-glaciological-in-situ-mb-observations">
@@ -582,6 +571,33 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#overparameteristion-or-the-magic-choice-of-the-best-calibration-option">
    Overparameteristion or the magic choice of the best calibration option:
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6">
+   Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#first-step-data-informed-precipitation-factor">
+     First step: data informed precipitation factor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#second-step-data-informed-temperature-bias">
+     Second step: data informed temperature bias
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses">
+     Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-look-into-the-global-parameter-distributions">
+     A look into the global parameter distributions
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#take-home-points">
@@ -602,7 +618,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>A quick look into different mass-balance calibration options</h1>
+                <h1>A deeper look into different mass-balance calibration options</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -618,16 +634,14 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#default-mass-balance-calibration-oggm-v1-6-and-variants">
-   Default mass-balance calibration (OGGM &gt;=v1.6) and variants
+  <a class="reference internal nav-link" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">
+   Calibrated mass balance parameters in OGGM v1.6 pre-processed directories
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#other-calibration-variants">
-     Other calibration variants
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-new-flexible-calibration-scheme-in-oggm">
+   The new flexible calibration scheme in OGGM
+  </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#calibrate-on-direct-glaciological-in-situ-mb-observations">
@@ -645,6 +659,33 @@ title="Print to PDF"
   <a class="reference internal nav-link" href="#overparameteristion-or-the-magic-choice-of-the-best-calibration-option">
    Overparameteristion or the magic choice of the best calibration option:
   </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6">
+   Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#first-step-data-informed-precipitation-factor">
+     First step: data informed precipitation factor
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#second-step-data-informed-temperature-bias">
+     Second step: data informed temperature bias
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses">
+     Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#a-look-into-the-global-parameter-distributions">
+     A look into the global parameter distributions
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#take-home-points">
@@ -666,15 +707,16 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="a-quick-look-into-different-mass-balance-calibration-options">
-<h1>A quick look into different mass-balance calibration options<a class="headerlink" href="#a-quick-look-into-different-mass-balance-calibration-options" title="Permalink to this headline">#</a></h1>
-<p>The default mass-balance (MB) model of OGGM is a very standard <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0022169403002579">temperature index melt model</a>. At the beginning, OGGM had a complicated calibration procedure where the glaciers with in-situ data were calibrated and then a so-called <em>tstar</em> got interpolated for glaciers without observations (see the <a class="reference external" href="https://www.the-cryosphere.net/6/1295/2012/tc-6-1295-2012.html">original publication</a>). This method was very powerful, however, as new observational datasets emerged, we can finally calibrate on a glacier-per-glacier basis. With the new era of geodetic observations, OGGM uses per default the average geodetic observations from Jan 2000–Jan 2020 of <a class="reference external" href="https://www.nature.com/articles/s41586-021-03436-z">Hugonnet al. 2021</a>, that are now available for almost every glacier world-wide.</p>
-<p>In this tutorial, we will:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="a-deeper-look-into-different-mass-balance-calibration-options">
+<h1>A deeper look into different mass-balance calibration options<a class="headerlink" href="#a-deeper-look-into-different-mass-balance-calibration-options" title="Permalink to this headline">#</a></h1>
+<p>The default mass-balance (MB) model of OGGM is a very standard <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0022169403002579">temperature index melt model</a>.</p>
+<p>In versions before 1.6, OGGM had a complex calibration procedure which originated from the times where we had only observations from a few hundred glaciers. We used them to calibrate the model and then a so-called <em>tstar</em> (famous in only very niche circles) which was interpolated to glaciers without observations (see the <a class="reference external" href="https://www.the-cryosphere.net/6/1295/2012/tc-6-1295-2012.html">original publication</a>). This method was very powerful but, as new observational datasets emerged, we can now calibrate on a glacier-per-glacier basis. With the new era of geodetic observations, OGGM uses per default the average geodetic observations from Jan 2000–Jan 2020 of <a class="reference external" href="https://www.nature.com/articles/s41586-021-03436-z">Hugonnet al. 2021</a>, that are now available for almost every glacier world-wide.</p>
+<p>Pre-processed directories from OGGM (from the Bremen server) have been calibrated for you, based on a specific climate dataset (W5E5) and our own dedicated calibration strategy. But, what if you want to use another climate dataset? Or another reference dataset?</p>
+<p>In this notebook, we will:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="#Default-mass-balance-calibration-(OGGM-%3E=v1.6)-and-variants">introduce the new default calibration procedure and variants</a>)</p></li>
-<li><p><a class="reference external" href="#Calibrate-on-direct-glaciological-in-situ-MB-observations">show how to calibrate on glaciers with in-situ observations</a></p></li>
-<li><p><a class="reference external" href="#Dealing-with-errors-and-including-your-own-mass-balance-observations">show how to deal with errors and how to calibrate on other data</a></p></li>
-<li><p><a class="reference external" href="#Overparameteristion-or-the-magic-choice-of-the-best-calibration-option:">show the influence of different calibration options and explain the overparameterisation problem</a> (more details are e.g. in <a class="reference external" href="https://doi.org/10.31223/X5C65S">Schuster et al., 2023, in review</a>)</p></li>
+<li><p>introduce the new flexible calibration method available to all users since OGGM v1.6: <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.tasks.mb_calibration_from_scalar_mb.html">mb_calibration_from_scalar_mb</a></p></li>
+<li><p>show how users can apply it (and extend it) for their own workflow</p></li>
+<li><p>explain how we used it to calibrate the OGGM pre-processed directories</p></li>
 </ul>
 <section id="set-up">
 <h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">#</a></h2>
@@ -703,10 +745,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:43:23: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-03-10 09:43:23: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-03-10 09:43:23: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-03-10 09:43:23: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:27:11: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-10 17:27:11: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-10 17:27:11: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-10 17:27:11: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
 </pre></div>
 </div>
 </div>
@@ -714,48 +756,15 @@ title="Print to PDF"
 <p>We start from two well known glaciers in the Austrian Alps, Kesselwandferner and Hintereisferner. But you can also choose any other other glacier, e.g. from <a class="reference external" href="https://github.com/OGGM/oggm-sample-data/blob/master/wgms/rgi_wgms_links_20220112.csv">this list</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we start from preprocessing level 2</span>
-<span class="c1"># in OGGM v1.6 you have to explicitly indicate the url from where you want to start from</span>
-<span class="c1"># we will use here the elevation band flowlines which are much simpler than the centerlines</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
-            <span class="s1">&#39;L1-L2_files/elev_bands&#39;</span><span class="p">)</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">,</span>  <span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                          <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># we start from preprocessing level 3</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/elev_bands/W5E5/&#39;</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00787&#39;</span><span class="p">,</span>  <span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:43:23: oggm.workflow: init_glacier_directories from prepro level 2 on 2 glaciers.
-2023-03-10 09:43:23: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
-</pre></div>
-</div>
-</div>
-</div>
-<p>We use the preprocessed level 2, so we also need to process the climate ourselves:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># the climate that OGGM uses per default:</span>
-<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;baseline_climate&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;GSWP3_W5E5&#39;
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creates a climate file with the baseline climate, </span>
-<span class="c1"># if you want to change the climate, you have to do that,</span>
-<span class="c1"># before the calibration!</span>
-<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">process_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:43:25: oggm.workflow: Execute entity tasks [process_climate_data] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:27:12: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-03-10 17:27:12: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -770,126 +779,90 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_11_0.png" src="../../_images/massbalance_calibration_11_0.png" />
+<img alt="../../_images/massbalance_calibration_8_0.png" src="../../_images/massbalance_calibration_8_0.png" />
 </div>
 </div>
 </section>
-<section id="default-mass-balance-calibration-oggm-v1-6-and-variants">
-<h2>Default mass-balance calibration (OGGM &gt;=v1.6) and variants<a class="headerlink" href="#default-mass-balance-calibration-oggm-v1-6-and-variants" title="Permalink to this headline">#</a></h2>
+<section id="calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">
+<h2>Calibrated mass balance parameters in OGGM v1.6 pre-processed directories<a class="headerlink" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories" title="Permalink to this headline">#</a></h2>
+<p>We just downloaded the data. Let’s have a look at the climate data we used and the calibrated parameters:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pick each glacier</span>
+<span class="n">gdir_kwf</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">gdir_hef</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir_hef</span><span class="o">.</span><span class="n">get_climate_info</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;2000-01-01_2020-01-01&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;,
+ &#39;baseline_yr_0&#39;: 1901,
+ &#39;baseline_yr_1&#39;: 2019,
+ &#39;baseline_climate_ref_hgt&#39;: 2252.0,
+ &#39;baseline_climate_ref_pix_lon&#39;: 10.75,
+ &#39;baseline_climate_ref_pix_lat&#39;: 46.75}
 </pre></div>
 </div>
 </div>
 </div>
-<p>Per default the <a class="reference external" href="https://www.nature.com/articles/s41586-021-03436-z">Hugonnet et al. (2021)</a> average geodetic observation is used over the entire time period Jan 2000 to Jan 2020 to calibrate the MB model parameter(s) for every single glacier. Note, that, currently, all calibration options available in OGGM only match a scalar average MB estimate of any kind or length.</p>
-<p><strong><code class="docutils literal notranslate"><span class="pre">informed_threestep</span></code> with pre-calibrated gridpoint-dependent temperature bias</strong></p>
-<p>In the <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/">preprocessed directories</a>, per default <code class="docutils literal notranslate"><span class="pre">informed_threestep=True</span></code> and MB model calibration is done by using <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_geodetic_mb</span></code> to determine the MB model parameters. We will reproduce the option from the preprocessed directories first:</p>
+<p>This is called the “baseline climate” in OGGM and is necessary to calibrate the model against observations. Ideally, the baseline climate should be real observations as perfect as possible, but in reality this is not the case. Often, gridded climate datasets have biases - we need to take this into accound during our calibration. Let’s have a look at the mass balance parameters for both glaciers:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">mb_calibration_from_geodetic_mb</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">informed_threestep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:43:27: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 2 glaciers
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;rgi_id&#39;: &#39;RGI60-11.00787&#39;,
-  &#39;bias&#39;: 0,
-  &#39;melt_f&#39;: 5.0,
-  &#39;prcp_fac&#39;: 2.96302677905353,
-  &#39;temp_bias&#39;: 1.758147556769245,
-  &#39;reference_mb&#39;: -514.8000000000001,
-  &#39;reference_mb_err&#39;: 136.3,
-  &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
-  &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
-   &#39;temp_all_solid&#39;: 0.0,
-   &#39;temp_all_liq&#39;: 2.0,
-   &#39;temp_melt&#39;: -1.0},
-  &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;},
- {&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
-  &#39;bias&#39;: 0,
-  &#39;melt_f&#39;: 5.0,
-  &#39;prcp_fac&#39;: 3.5324792824205744,
-  &#39;temp_bias&#39;: 1.758147556769245,
-  &#39;reference_mb&#39;: -1100.3,
-  &#39;reference_mb_err&#39;: 171.8,
-  &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
-  &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
-   &#39;temp_all_solid&#39;: 0.0,
-   &#39;temp_all_liq&#39;: 2.0,
-   &#39;temp_melt&#39;: -1.0},
-  &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: 5.0,
+ &#39;prcp_fac&#39;: 3.532479282420574,
+ &#39;temp_bias&#39;: 1.758147556769245,
+ &#39;reference_mb&#39;: -1100.3,
+ &#39;reference_mb_err&#39;: 171.8,
+ &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if you want to know more about that function</span>
-<span class="c1"># check out the docstring:</span>
-<span class="c1"># mb_calibration_from_geodetic_mb?</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>The output shows you the calibrated MB model parameters, the used observed reference MB for the calibration (<code class="docutils literal notranslate"><span class="pre">ref_mb</span></code>), the time period and the climate source. Between the two glaciers, only the precipitation factor (<code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>) changed.</p>
-<hr class="docutils" />
-<p><em><strong>A short excursus to explain the calibration procedure applied for the preprocessed directories:</strong></em></p>
-<ul class="simple">
-<li><p>First a pre-calibration is done where the temperature bias (<code class="docutils literal notranslate"><span class="pre">temp_bias</span></code>) is calibrated, while the melt factor (<code class="docutils literal notranslate"><span class="pre">melt_f</span></code>) is fixed at 5 kg m-2 day-1 K-1 and <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> is chosen from a relation to the average winter precipitation which is the same for the two neighbouring glaciers (they get their climate from the same climate gridpoint).</p>
-<ul>
-<li><p>Fig.1a shows the used relationship between winter precipitation and <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>. It was calibrated by adapting <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> and <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> to match the average geodetic and winter MB on around 100 glaciers with both informations available. The found relationship of decreasing <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> for increasing winter precipitation makes sense, as glaciers with already a large winter precipitation should not be corrected with a large multiplicative <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>.</p></li>
-</ul>
-</li>
-<li><p>Then, the median temperature bias for every gridpoint that is used to extract climate data for a glacier is estimated . The distribution of it is shown on Fig. 1b.</p></li>
-<li><p>Finally, the actual calibration starts with:</p>
-<ul>
-<li><p>a <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> of 5 kg m-2 day-1 K-1,</p></li>
-<li><p>a <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> as estimated from <code class="docutils literal notranslate"><span class="pre">utils.get_temp_bias_dataframe()['median_temp_bias_w_err_grouped']</span></code> (i.e., different for every gridpoint),</p></li>
-<li><p>and a <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> that is in the range of <span class="math notranslate nohighlight">\([0.8,1.2]\times\)</span> <code class="docutils literal notranslate"><span class="pre">prcp_fac</span> <span class="pre">(Fig.</span> <span class="pre">1a)</span></code>.</p></li>
-</ul>
-</li>
-<li><p>If that worked, the calibration stops. Otherwise, the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> is changed within a range (and the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>) is at the upper or lower limit of the <span class="math notranslate nohighlight">\([0.8,1.2]\)</span> range. If it still fails, the <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> is adapated again.</p></li>
-</ul>
-<p><strong>This informed step-wise calibration is the option that is used operationally in OGGM&gt;=v1.6 in the preprocessed directories (L&gt;=3) for all glaciers world-wide!</strong>
-A detailed explanation of the default calibration will be inside of the OGGM documentation</p>
-<hr class="docutils" />
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_prcp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="c1"># we basically do here the same as in massbalance.decide_winter_precip_factor(gdir)</span>
-<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;winter_prcp_fac_ab&#39;</span><span class="p">]</span>
-<span class="n">r0</span><span class="p">,</span> <span class="n">r1</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_fac_min&#39;</span><span class="p">],</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_fac_max&#39;</span><span class="p">]</span>
-<span class="n">prcp_fac</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">w_prcp_array</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
-<span class="c1"># don&#39;t allow extremely low/high prcp. factors!!!</span>
-<span class="n">prcp_fac_array</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">clip_array</span><span class="p">(</span><span class="n">prcp_fac</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_prcp_array</span><span class="p">,</span> <span class="n">prcp_fac_array</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;winter daily mean precipitation&#39;</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;(kg m$^{-2}$ day$^{-1}$)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;precipitation factor (prcp_fac)&#39;</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fig. 1a&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
-<span class="n">temp_b_precalib</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_temp_bias_dataframe</span><span class="p">()[</span><span class="s1">&#39;median_temp_bias_w_err_grouped&#39;</span><span class="p">]</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">temp_b_precalib</span><span class="p">);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;temp_bias (°C)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;gridpoint frequency&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fig. 1b&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir_kwf</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_20_0.png" src="../../_images/massbalance_calibration_20_0.png" />
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.00787&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: 5.0,
+ &#39;prcp_fac&#39;: 2.96302677905353,
+ &#39;temp_bias&#39;: 1.758147556769245,
+ &#39;reference_mb&#39;: -514.8000000000001,
+ &#39;reference_mb_err&#39;: 136.3,
+ &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
+</pre></div>
 </div>
 </div>
+</div>
+<p>We will explain later what all these mean. Lets focus on these for now: <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>, and <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> which have been calibrated with <code class="docutils literal notranslate"><span class="pre">reference_mb</span></code> over the reference period <code class="docutils literal notranslate"><span class="pre">reference_period</span></code>.</p>
+<p>Per default the <a class="reference external" href="https://www.nature.com/articles/s41586-021-03436-z">Hugonnet et al. (2021)</a> average geodetic observation is used over the entire time period Jan 2000 to Jan 2020 to calibrate the MB model parameter(s) for every single glacier.</p>
 <p>For our two neighboring example glaciers, that share the same climate gridpoint, the same pre-calibrated <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> and the same <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> is used. The <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> is slighly different, hence in that example, changing the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> within the narrow range of <span class="math notranslate nohighlight">\([0.8,1.2]\)</span> was sufficient to match the MB model to the observations.</p>
 <p>Note that the two glaciers are in the same climate (from the forcing data) but are very different in size, orientation and geometry. So, at least one of the MB model parameters is different (here the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>) and also the observed MB values vary:</p>
 <div class="cell docutils container">
@@ -910,14 +883,16 @@ RGI60-11.00897 : average MB 2000-2020 = -1100.3 kg m-2,  prcp_fac: 3.53
 </div>
 </div>
 </div>
-<p><em>Kesselwandferner has a less negative MB than its neighbor, probably because it is smaller in size and spans less altitude.</em></p>
-<p><em>To simplify things, we will now focus just on one glacier (Hintereisferner), but you can repeat it of course with other glaciers:</em></p>
-<p>We will change the three MB model parameters (<code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> and <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>) later and see their influence on the calibration.</p>
-<p>There are also some global MB parameters (<code class="docutils literal notranslate"><span class="pre">mb_global_params</span></code>), which we assume to be the same globally for every glacier.</p>
+<p><em>Kesselwandferner has a less negative MB than its neighbor, probably because it is smaller in size and spans less altitude. To simplify things, we will now focus just on one glacier (Hintereisferner), but you can repeat it of course with other glaciers.</em></p>
+<div class="alert alert-info">
+    <b>
+        How are these parameters calibrated by OGGM? How can I calibrate them for my use case? <br>
+        These are the questions we want to address in the rest of the notebook. We  will change the three MB model parameters (melt_f, temp_bias and prcp_fac) and see their influence on the calibration, to allow users to make an informed decision on how to calibrate them for their purpose. Then we will go back to the calibration method used by OGGM for the preprocessed directories.
+    </b>
+</div><p>Note alst that there are some global MB parameters (<code class="docutils literal notranslate"><span class="pre">mb_global_params</span></code>), which we assume to be the same globally for every glacier:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir_hef</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;mb_global_params&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;mb_global_params&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -931,9 +906,9 @@ RGI60-11.00897 : average MB 2000-2020 = -1100.3 kg m-2,  prcp_fac: 3.53
 </div>
 </div>
 <p>These global MB parameter values were found to represent best the in-situ observations during a cross-validation for glaciers with additional observations. Of course, they could also be changed for different glaciers, but this would need even more data to justify the differences! The influence of using a different temperature lapse rate gradient to the default -0.0065 K/km are analysed in <a class="reference external" href="https://doi.org/10.31223/X5C65S">Schuster et al. (2023, in review)</a>.</p>
-<p>Let’s check if the calibration worked:</p>
+<p>First, let’s check if the OGGM calibration worked at all</p>
 <ul class="simple">
-<li><p>We will get first the average modelled MB,</p></li>
+<li><p>we will get first the average modelled MB:</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -954,7 +929,7 @@ dtype: float64
 </div>
 </div>
 <ul class="simple">
-<li><p>then get the observed geodetic MB that we calibrated our mass-balance to.</p></li>
+<li><p>then get the observed geodetic MB that we calibrated our mass-balance to:</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -984,11 +959,12 @@ reference MB time period: 2000-01-01_2020-01-01
 </div>
 </div>
 <p>Perfect! Our MB model reproduces the average observed MB, so the calibrated worked!</p>
-<section id="other-calibration-variants">
-<h3>Other calibration variants<a class="headerlink" href="#other-calibration-variants" title="Permalink to this headline">#</a></h3>
+</section>
+<section id="the-new-flexible-calibration-scheme-in-oggm">
+<h2>The new flexible calibration scheme in OGGM<a class="headerlink" href="#the-new-flexible-calibration-scheme-in-oggm" title="Permalink to this headline">#</a></h2>
 <p>We have now used the option that is applied in the preprocessed directories. However, there are many other calibration options. We will show you some, but you could also invent your own for your purposes.</p>
 <p><strong>Calibrate <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, fixed <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and <code class="docutils literal notranslate"><span class="pre">temp_bìas</span></code></strong></p>
-<p>For example, let’s calibrate the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> to match the same observations as before (i.e., average geodetic observation) and fix the other parameters. We will now use the more general function <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_scalar_mb</span></code> as it is more flexible. However, it always needs you to give manually the observed MB on which you want to calibrate:</p>
+<p>For example, let’s calibrate the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> to match the same observations as before (i.e., average geodetic observation) and fix the other parameters. We will use the more general function <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.tasks.mb_calibration_from_scalar_mb.html">mb_calibration_from_scalar_mb</a> which is most flexible. However, it requires you to give manually the observed MB on which you want to calibrate:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if you use the default calibration data from Hugonnet et al., 2021, </span>
@@ -1015,7 +991,7 @@ reference MB time period: 2000-01-01_2020-01-01
 <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span>
                               <span class="n">ref_mb</span> <span class="o">=</span> <span class="n">ref_mb</span><span class="p">,</span> 
                               <span class="n">ref_period</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span>
-                              <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                              <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 
 <span class="n">mb_melt_f</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">)</span>
 <span class="n">mbdf</span><span class="p">[</span><span class="s1">&#39;mod_mb_melt_f&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mb_melt_f</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">mbdf</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
@@ -1048,7 +1024,7 @@ reference MB time period: 2000-01-01_2020-01-01
 </div>
 </div>
 </div>
-<p>Only the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> is used to calibrate the MB model. <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> was chosen depending on the average winter precipitation (see Fig. 1a) and <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> is 0.</p>
+<p>Only <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> is used to calibrate the MB model. <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> was chosen depending on the average winter precipitation (explained below) and <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> is 0.</p>
 <p><strong>Calibrate <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code>, fixed <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and <code class="docutils literal notranslate"><span class="pre">melt_f</span></code></strong></p>
 <p>We will now instead fix the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> and the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>, and use the <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> as free variable for calibration. For that we overwrite the default value of <code class="docutils literal notranslate"><span class="pre">calibrate_param1</span></code>:</p>
 <div class="cell docutils container">
@@ -1070,7 +1046,8 @@ reference MB time period: 2000-01-01_2020-01-01
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;temp_bias&#39;</span><span class="p">],</span> <span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">],</span> <span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_params</span> <span class="o">=</span> <span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)</span>
+<span class="n">mb_params</span><span class="p">[</span><span class="s1">&#39;temp_bias&#39;</span><span class="p">],</span> <span class="n">mb_params</span><span class="p">[</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">],</span> <span class="n">mb_params</span><span class="p">[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1082,7 +1059,7 @@ reference MB time period: 2000-01-01_2020-01-01
 </div>
 <p>Here we used the median <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> (i.e., 5 kg m-2 day-1 K-1) and the same <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> as in the previous option, but changed <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> until the <code class="docutils literal notranslate"><span class="pre">ref_mb</span></code> is matched. As the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> is lower than in the previous calibration option, we need to have a positive <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> to get to the same average MB (i.e., <code class="docutils literal notranslate"><span class="pre">ref_mb</span></code>).</p>
 <p><strong>Calibrate <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>, fixed <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> and <code class="docutils literal notranslate"><span class="pre">melt_f</span></code></strong></p>
-<p>We can also just calibrate on the precipitation factor (<code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>).</p>
+<p>Similarly, we can also just calibrate on the precipitation factor (<code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s calibrate on the prcp_fac instead</span>
@@ -1096,7 +1073,9 @@ reference MB time period: 2000-01-01_2020-01-01
 
 <span class="n">mb_prcp_fac</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">)</span>
 <span class="n">mbdf</span><span class="p">[</span><span class="s1">&#39;mod_mb_prcp_fac&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mb_prcp_fac</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">mbdf</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-<span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;temp_bias&#39;</span><span class="p">],</span> <span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">],</span> <span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span>
+
+<span class="n">mb_params</span> <span class="o">=</span> <span class="n">gdir_hef</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)</span>
+<span class="n">mb_params</span><span class="p">[</span><span class="s1">&#39;temp_bias&#39;</span><span class="p">],</span> <span class="n">mb_params</span><span class="p">[</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">],</span> <span class="n">mb_params</span><span class="p">[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1120,9 +1099,9 @@ We will get the in-situ observations like that:</p>
 <p>Let’s plot how well we match the interannual observations for the different calibration options:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf</span><span class="p">[</span><span class="s1">&#39;in_situ_mb&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;in-situ observations</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;average 2000-2020: </span><span class="si">{</span><span class="n">mbdf</span><span class="o">.</span><span class="n">in_situ_mb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> &#39;</span><span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;kg m$^{-2}$&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf</span><span class="p">[</span><span class="s1">&#39;in_situ_mb&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;in-situ observations</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;average 2000-2020: </span><span class="si">{</span><span class="n">mbdf</span><span class="o">.</span><span class="n">in_situ_mb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> &#39;</span><span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;kg m$^{-2}$&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf</span><span class="p">[</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">],</span>
-         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;modelled mass-balance via `informed_threestep`</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;average 2000-2020: </span><span class="si">{</span><span class="n">mbdf</span><span class="o">.</span><span class="n">mod_mb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> &#39;</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;kg m$^{-2}$&#39;</span><span class="p">)</span>
+         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;modelled mass-balance via preprocessed directories</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;average 2000-2020: </span><span class="si">{</span><span class="n">mbdf</span><span class="o">.</span><span class="n">mod_mb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> &#39;</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;kg m$^{-2}$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf</span><span class="p">[</span><span class="s1">&#39;mod_mb_melt_f&#39;</span><span class="p">],</span>
          <span class="n">label</span><span class="o">=</span><span class="s1">&#39;modelled mass-balance via calibrating melt_f</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="sa">f</span><span class="s1">&#39;average 2000-2020: </span><span class="si">{</span><span class="n">mbdf</span><span class="o">.</span><span class="n">mod_mb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> &#39;</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;kg m$^{-2}$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf</span><span class="p">[</span><span class="s1">&#39;mod_mb_temp_b&#39;</span><span class="p">],</span>
@@ -1137,12 +1116,11 @@ We will get the in-situ observations like that:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_54_0.png" src="../../_images/massbalance_calibration_54_0.png" />
+<img alt="../../_images/massbalance_calibration_50_0.png" src="../../_images/massbalance_calibration_50_0.png" />
 </div>
 </div>
 <p>For this glacier, over the same time period (here 2000-2020), the average MB is quite similar between the geodetic and in-situ observation and could even be explained by the fact that the in-situ observations are in hydrological years (starting in October of the previous year) and the geodetic observations are in calendar years. If you repeat the analysis for other glaciers with in-situ observations over that time period, you might see larger discrepancies.</p>
-<p>You can also see, that there are differences in the annual MB between the calibration options and the in-situ observations. We will analyse these differences more systematically later! Note, that the <code class="docutils literal notranslate"><span class="pre">informed_threestep</span></code> option is for that glacier very similar to the option where the <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> is calibrated, however, this is different on other glaciers.</p>
-</section>
+<p>You can also see, that there are differences in the annual MB between the calibration options and the in-situ observations. We will analyse these differences more systematically later!</p>
 </section>
 <section id="calibrate-on-direct-glaciological-in-situ-mb-observations">
 <h2>Calibrate on direct glaciological in-situ MB observations<a class="headerlink" href="#calibrate-on-direct-glaciological-in-situ-mb-observations" title="Permalink to this headline">#</a></h2>
@@ -1202,7 +1180,7 @@ but applies directly the average annual in-situ MB observations from the WGMS. P
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_61_0.png" src="../../_images/massbalance_calibration_61_0.png" />
+<img alt="../../_images/massbalance_calibration_57_0.png" src="../../_images/massbalance_calibration_57_0.png" />
 </div>
 </div>
 <p>The average MB over the entire time period is matched as we calibrate to it. However, the interannual mass-balance variability is different. How well the modelled annual mass-balance time series matches the observations can be for example assessed by looking at the correlation between modelled and observed annual MB</p>
@@ -1221,15 +1199,11 @@ but applies directly the average annual in-situ MB observations from the WGMS. P
 <p>or by looking into the standard deviation of interannual MB variability, where we see a much larger variability for the modelled MB:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">std</span><span class="p">()[[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">,</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbdf_in_situ</span><span class="p">[[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">,</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_5947/3039749986.py:1: FutureWarning: The default value of numeric_only in DataFrame.std is deprecated. In a future version, it will default to False. In addition, specifying &#39;numeric_only=None&#39; is deprecated. Select only valid columns or specify the value of numeric_only to silence this warning.
-  mbdf_in_situ.std()[[&#39;ref_mb&#39;,&#39;mod_mb&#39;]]
-</pre></div>
-</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ref_mb     624.538759
 mod_mb    1276.246655
 dtype: float64
@@ -1242,30 +1216,29 @@ dtype: float64
 <p>Let’s look at another glacier, now in Central Asia, for example the Golubin glacier:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir_2</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-13.11609&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                         <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir_gol</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-13.11609&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="n">tasks</span><span class="o">.</span><span class="n">process_climate_data</span><span class="p">(</span><span class="n">gdir_2</span><span class="p">)</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">process_climate_data</span><span class="p">(</span><span class="n">gdir_gol</span><span class="p">)</span>
 
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">graphics</span><span class="o">.</span><span class="n">plot_googlemap</span><span class="p">([</span><span class="n">gdir_2</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_googlemap</span><span class="p">([</span><span class="n">gdir_gol</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:43:30: oggm.workflow: init_glacier_directories from prepro level 2 on 1 glaciers.
-2023-03-10 09:43:30: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:27:20: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2023-03-10 17:27:20: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
-<img alt="../../_images/massbalance_calibration_69_2.png" src="../../_images/massbalance_calibration_69_2.png" />
+<img alt="../../_images/massbalance_calibration_64_2.png" src="../../_images/massbalance_calibration_64_2.png" />
 </div>
 </div>
 <p>Let’s calibrate that glacier by only changing the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, default in <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_scalar_mb</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># first need to get the MB observations again</span>
-<span class="n">ref_mb_df</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_geodetic_mb_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdir_2</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">]</span>
+<span class="n">ref_mb_df</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_geodetic_mb_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdir_gol</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">]</span>
 <span class="n">ref_mb_df</span> <span class="o">=</span> <span class="n">ref_mb_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ref_mb_df</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">]]</span>
 <span class="c1"># dmdtda: in meters water-equivalent per year -&gt; we convert to kg m-2 yr-1</span>
 <span class="n">ref_mb</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">ref_mb_df</span><span class="p">[</span><span class="s1">&#39;dmdtda&#39;</span><span class="p">])</span> <span class="o">*</span> <span class="mi">1000</span>
@@ -1281,15 +1254,13 @@ dtype: float64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_2</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> <span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">])</span>
-<span class="c1"># you could also calibrate on the WGMS data instead</span>
-<span class="c1"># as this glacier has in-situ MB observations</span>
-<span class="c1"># mb_calibration_from_wgms_mb(gdir_2, overwrite_gdir=True)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note that this will create an error!</span>
+<span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_gol</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> <span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:43:32: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-13.11609: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:27:26: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-13.11609: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -1312,11 +1283,9 @@ dtype: float64
 <span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
 
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">31</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_2</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> <span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">])</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># you could also calibrate on the WGMS data instead</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># as this glacier has in-situ MB observations</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># mb_calibration_from_wgms_mb(gdir_2, overwrite_gdir=True)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">29</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Note that this will create an error!</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_gol</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> <span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">])</span>
 
 <span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
@@ -1347,16 +1316,41 @@ dtype: float64
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1.5, 17.0)
+</pre></div>
+</div>
+</div>
 </div>
 <p>If we believe that our observations are true, maybe the climate or the processes represented by the MB model are erroneous.</p>
 <p>What can we do to still match the <code class="docutils literal notranslate"><span class="pre">ref_mb</span></code>? We can either change the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> ranges by setting other values to the parameters above or we can allow that another MB model parameter is changed (i.e., <code class="docutils literal notranslate"><span class="pre">calibrate_param2</span></code>). This is basically very similar to the three-step-calibration
-first introduced in <a class="reference external" href="https://doi.org/10.3389/feart.2015.00054">Huss &amp; Hock 2015</a> or in the new <code class="docutils literal notranslate"><span class="pre">informed_threestep</span></code> option for the preprocessed directories in OGGM&gt;=v1.6, but here you can choose your parameter ranges and parameter order yourself.</p>
+first introduced in <a class="reference external" href="https://doi.org/10.3389/feart.2015.00054">Huss &amp; Hock 2015</a>, but here you can choose your parameter ranges and parameter order yourself.</p>
 <p>To reduce these MB model calibration errors, you can first change the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, fix it at the lower or upper limit, and then change the <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Allowing another parameter to change is done by defining calibrate_param2</span>
-<span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_2</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> <span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span> 
+<span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_gol</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> 
+                              <span class="n">write_to_gdir</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">ref_period</span> <span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span> 
+                              <span class="n">calibrate_param1</span><span class="o">=</span><span class="s1">&#39;melt_f&#39;</span><span class="p">,</span> 
                               <span class="n">calibrate_param2</span><span class="o">=</span><span class="s1">&#39;temp_bias&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-13.11609&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: 1.5,
+ &#39;prcp_fac&#39;: 3.7686569086250965,
+ &#39;temp_bias&#39;: -0.5558387442516765,
+ &#39;reference_mb&#39;: -255.9,
+ &#39;reference_mb_err&#39;: None,
+ &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
 </pre></div>
 </div>
 </div>
@@ -1369,8 +1363,9 @@ first introduced in <a class="reference external" href="https://doi.org/10.3389/
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_period</span> <span class="o">=</span> <span class="s1">&#39;2000-01-01_2010-01-01&#39;</span>
 <span class="n">ref_mb</span> <span class="o">=</span> <span class="mi">2000</span> <span class="c1"># Let&#39;s use an unrealistically positive  mass-balance</span>
 <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span>
-                                <span class="n">ref_period</span><span class="o">=</span><span class="n">ref_period</span><span class="p">,</span> <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                               <span class="n">calibrate_param2</span><span class="o">=</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">);</span>
+                              <span class="n">ref_period</span><span class="o">=</span><span class="n">ref_period</span><span class="p">,</span> 
+                              <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                              <span class="n">calibrate_param2</span><span class="o">=</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1386,12 +1381,34 @@ first introduced in <a class="reference external" href="https://doi.org/10.3389/
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: 1.5,
+ &#39;prcp_fac&#39;: 4.217210907878396,
+ &#39;temp_bias&#39;: 0,
+ &#39;reference_mb&#39;: 2000,
+ &#39;reference_mb_err&#39;: None,
+ &#39;reference_period&#39;: &#39;2000-01-01_2010-01-01&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
+</pre></div>
+</div>
+</div>
 </div>
 <p>Ok, in that case, the climate was too warm to allow for such a positive MB. Even the smallest <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> did not allow for such a positive MB. Therefore, the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> was increased to allow that more (solid) precipitation can occur.</p>
 <p>However, also the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> has a limited range:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_fac_min&#39;</span><span class="p">],</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_fac_max&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.1, 10.0)
 </pre></div>
 </div>
 </div>
@@ -1416,12 +1433,34 @@ Let’s try it out, by using now the same order as in <a class="reference extern
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: 1.5,
+ &#39;prcp_fac&#39;: 10.0,
+ &#39;temp_bias&#39;: -0.8132605320838399,
+ &#39;reference_mb&#39;: 6000,
+ &#39;reference_mb_err&#39;: None,
+ &#39;reference_period&#39;: &#39;2000-01-01_2010-01-01&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
+</pre></div>
+</div>
+</div>
 </div>
 <p>In that case, the minimum <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> and the maximum <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> are applied. The <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> is set to a negative value as this results in more solid precipitation. If you increased the <code class="docutils literal notranslate"><span class="pre">ref_mb</span></code> even further, the method will not find any combination as the <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> also has a limited
 range. If you really want to match the observation, then you would need to change the parameter ranges.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;temp_bias_min&#39;</span><span class="p">],</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;temp_bias_max&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-15.0, 15.0)
 </pre></div>
 </div>
 </div>
@@ -1485,6 +1524,9 @@ range. If you really want to match the observation, then you would need to chang
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/massbalance_calibration_89_0.png" src="../../_images/massbalance_calibration_89_0.png" />
+</div>
 </div>
 <p>All these combinations match the average <code class="docutils literal notranslate"><span class="pre">ref_mb</span></code> equally. The larger the chosen <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>, the larger needs to be the calibrated <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> when matching to the same average MB.</p>
 <p>What is the influence on the chosen parameter combination on other estimates than the average MB?</p>
@@ -1507,6 +1549,9 @@ range. If you really want to match the observation, then you would need to chang
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/massbalance_calibration_91_0.png" src="../../_images/massbalance_calibration_91_0.png" />
+</div>
 </div>
 <p>The larger the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, the larger is the interannual MB variability. For glaciers with in-situ observations, we can find a combination of <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> that has a similar interannnual MB variability than the observations. For example, you can choose a MB model parameter combination where the standard deviation quotient of the annual the modelled and observed MB is near to 1:</p>
 <div class="cell docutils container">
@@ -1516,6 +1561,43 @@ range. If you really want to match the observation, then you would need to chang
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>melt_f</th>
+      <th>std_quot_annual_mb</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1.6</th>
+      <td>6.012949</td>
+      <td>0.952705</td>
+    </tr>
+    <tr>
+      <th>1.9</th>
+      <td>6.533331</td>
+      <td>1.052461</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 <p>For the Hintereisferner glacier, the best MB model combination to match the interannual MB variability would be for a <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> between 1.6 and 1.9 and a <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> between 6 and 6.5 (more in <a class="reference external" href="https://doi.org/10.31223/X5C65S">Schuster et al., 2023, in review</a>).</p>
 <p><strong>We can also fix the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>, and change the <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> and <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> instead:</strong></p>
@@ -1537,6 +1619,18 @@ range. If you really want to match the observation, then you would need to chang
         <span class="n">spec_mb_temp_b_sens_dict</span><span class="p">[</span><span class="n">temp_bias</span><span class="p">]</span> <span class="o">=</span> <span class="n">mb_temp_b_sens</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2020</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span> <span class="c1">#, &#39;RGI60-11.00897: ref mb not matched. Try to set calibrate_param2&#39;</span>
         <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:27:28: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:28: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:28: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:28: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:28: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:28: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:28: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:28: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1571,6 +1665,9 @@ range. If you really want to match the observation, then you would need to chang
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/massbalance_calibration_97_0.png" src="../../_images/massbalance_calibration_97_0.png" />
+</div>
 </div>
 <p>A lower <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> is needed if a positive <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> is applied… and with that the interannual MB variability gets smaller.</p>
 <p><strong>Or we change <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code>, and fix the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code></strong>:</p>
@@ -1593,6 +1690,19 @@ range. If you really want to match the observation, then you would need to chang
         <span class="n">spec_mb_pf_temp_b_sens_dict</span><span class="p">[</span><span class="n">temp_bias</span><span class="p">]</span> <span class="o">=</span> <span class="n">mb_pf_temp_b_sens</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2020</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span> <span class="c1">#, &#39;RGI60-11.00897: ref mb not matched. Try to set calibrate_param2&#39;</span>
         <span class="k">pass</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:27:30: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:30: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:30: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:30: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:30: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:30: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:30: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:30: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-10 17:27:31: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1627,10 +1737,111 @@ range. If you really want to match the observation, then you would need to chang
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/massbalance_calibration_101_0.png" src="../../_images/massbalance_calibration_101_0.png" />
+</div>
 </div>
 <p>A larger <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> needs a larger <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> … and with that the interannual MB variability gets larger.</p>
 <p>The parameter combination choice or calibration option also influences the modelled seasonal MB or elevation-dependent MB over the calibration period. Additionally, volume and runoff are influenced by the model parameter choice. If you are further interested in that, you can have a look into <a class="reference external" href="https://doi.org/10.31223/X5C65S">Schuster et al (2023, in review)</a>, which analyses the “Glacier projections sensitivity to temperature-index model choices and calibration strategies”.</p>
-<p>Using prior knowledge on the MB model parameters by a Bayesian calibration scheme is a good option to constrain the parameter ranges. Like that you can also directly include the MB observation uncertainties and quantify the parameter uncertainties. You can read about that in <a class="reference external" href="https://doi.org/10.1017/jog.2019.91">Rounce et al., 2020</a>! We are working on including a Bayesian calibration framework into OGGM by using the <code class="docutils literal notranslate"><span class="pre">informed_threestep</span></code> calibration procedure as prior estimates.</p>
+<p>Using prior knowledge on the MB model parameters by a Bayesian calibration scheme is a good option to constrain the parameter ranges. Like that you can also directly include the MB observation uncertainties and quantify the parameter uncertainties. You can read about that in <a class="reference external" href="https://doi.org/10.1017/jog.2019.91">Rounce et al., 2020</a>!</p>
+<p>We are working on including a Bayesian calibration framework into OGGM by using the calibration procedure explained below as prior estimates.</p>
+</section>
+<section id="back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6">
+<h2>Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?<a class="headerlink" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6" title="Permalink to this headline">#</a></h2>
+<p>There are no easy solutions to the problem of overparameterisation. Here we explain the steps taken by OGGM to calibrate the parameters globally for our users who don’t want to care about calibration.</p>
+<p>In the <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/">preprocessed directories</a> MB model calibration is done by using <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_geodetic_mb</span></code> to determine the MB model parameters. We will reproduce the option from the preprocessed directory first:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">mb_calibration_from_geodetic_mb</span><span class="p">,</span> 
+                             <span class="n">gdir_hef</span><span class="p">,</span> 
+                             <span class="n">informed_threestep</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   <span class="c1"># &quot;informed_threestep&quot; is what OGGM used for 1.6</span>
+                             <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:27:31: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
+  &#39;bias&#39;: 0,
+  &#39;melt_f&#39;: 5.0,
+  &#39;prcp_fac&#39;: 3.5324792824205744,
+  &#39;temp_bias&#39;: 1.758147556769245,
+  &#39;reference_mb&#39;: -1100.3,
+  &#39;reference_mb_err&#39;: 171.8,
+  &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
+  &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+   &#39;temp_all_solid&#39;: 0.0,
+   &#39;temp_all_liq&#39;: 2.0,
+   &#39;temp_melt&#39;: -1.0},
+  &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if you want to know more about that function</span>
+<span class="c1"># check out the docstring:</span>
+<span class="c1"># mb_calibration_from_geodetic_mb?</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now how did OGGM come to these parameters?</p>
+<section id="first-step-data-informed-precipitation-factor">
+<h3>First step: data informed precipitation factor<a class="headerlink" href="#first-step-data-informed-precipitation-factor" title="Permalink to this headline">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> is chosen from a relation to the average winter precipitation. Fig.1a (below) shows the used relationship between winter precipitation and <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>.</p>
+<p>It was calibrated by adapting <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> and <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> to match the average geodetic and winter MB on around 100 glaciers with both informations available. The found relationship of decreasing <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> for increasing winter precipitation makes sense, as glaciers with already a large winter precipitation should not be corrected with a large multiplicative <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>.</p>
+</section>
+<section id="second-step-data-informed-temperature-bias">
+<h3>Second step: data informed temperature bias<a class="headerlink" href="#second-step-data-informed-temperature-bias" title="Permalink to this headline">#</a></h3>
+<p>Using this data-informed precipitation factore, with then do a global calibration where the temperature bias (<code class="docutils literal notranslate"><span class="pre">temp_bias</span></code>) is calibrated, while the melt factor (<code class="docutils literal notranslate"><span class="pre">melt_f</span></code>) is fixed at 5 kg m-2 day-1 K-1 (default value based on <a class="reference external" href="https://doi.org/10.31223/X5C65S">Schuster et al (2023, in review)</a>).</p>
+<p>The idea is that if many glaciers within the same grid point need a temperature bias to reach the obeserved MB, this indicates that a systematic correction is necessary (at least for this MB model in particular). In fact, we can plot the median bias required to match MB pbservations using this technique, which gives us the following plot:</p>
+<p><img alt="err" src="https://user-images.githubusercontent.com/10050469/224318400-ec1d8825-d7e7-4cdb-94f3-ebb95b8f7120.jpg" /></p>
+<p>The fact that the <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> parameter is spatially correlated (many regions are all blue or red) indicate that something in the data needs to be corrected for our model. It is this imformation that we use to inform the next step.</p>
+</section>
+<section id="third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses">
+<h3>Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses<a class="headerlink" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses" title="Permalink to this headline">#</a></h3>
+<p>Finally, we now run <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.tasks.mb_calibration_from_scalar_mb.html">mb_calibration_from_scalar_mb</a> again for each glacier, as follows:</p>
+<ul class="simple">
+<li><p>use the first guess: <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> = 5, <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> = data-informed from step 1, <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> = data-informed from step 2</p></li>
+<li><p>if this doesn’t match (this would be highly unlikely), allow <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> to vary again between 0.8 and 1.2 times the roiginal guess (<span class="math notranslate nohighlight">\(\pm\)</span>20%). This is justified by the fact that the first guess for precipitation is also highly uncertain. If that worked, the calibration stops (XX% of all glaciers worldwide are calibrated this way).</p></li>
+<li><p>if the above did not work, allow <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> to vary again. If that worked, the calibration stops (XX% of all glaciers worldwide are calibrated this way).</p></li>
+<li><p>finally, if the above did not work, allow <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> to vary again.</p></li>
+</ul>
+<p><strong>This informed step-wise calibration is the option that is used operationally in OGGM&gt;=v1.6 in the preprocessed directories (L&gt;=3) for all glaciers world-wide!</strong></p>
+</section>
+<section id="a-look-into-the-global-parameter-distributions">
+<h3>A look into the global parameter distributions<a class="headerlink" href="#a-look-into-the-global-parameter-distributions" title="Permalink to this headline">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_prcp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># we basically do here the same as in massbalance.decide_winter_precip_factor(gdir)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;winter_prcp_fac_ab&#39;</span><span class="p">]</span>
+<span class="n">r0</span><span class="p">,</span> <span class="n">r1</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_fac_min&#39;</span><span class="p">],</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;prcp_fac_max&#39;</span><span class="p">]</span>
+<span class="n">prcp_fac</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">w_prcp_array</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+<span class="c1"># don&#39;t allow extremely low/high prcp. factors!!!</span>
+<span class="n">prcp_fac_array</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">clip_array</span><span class="p">(</span><span class="n">prcp_fac</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_prcp_array</span><span class="p">,</span> <span class="n">prcp_fac_array</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;winter daily mean precipitation&#39;</span> <span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;(kg m$^{-2}$ day$^{-1}$)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;precipitation factor (prcp_fac)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fig. 1a&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">temp_b_precalib</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_temp_bias_dataframe</span><span class="p">()[</span><span class="s1">&#39;median_temp_bias_w_err_grouped&#39;</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">temp_b_precalib</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;temp_bias (°C)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;gridpoint frequency&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Fig. 1b&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/massbalance_calibration_118_0.png" src="../../_images/massbalance_calibration_118_0.png" />
+</div>
+</div>
+<p>TODO: here we could also add the global distrib of melt_f and prcp_f btw</p>
+</section>
 </section>
 <section id="take-home-points">
 <h2>Take home points<a class="headerlink" href="#take-home-points" title="Permalink to this headline">#</a></h2>

@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Using your our own glacier inventory with OGGM" href="use_your_own_inventory.html" />
-    <link rel="prev" title="Dynamic spinup and dynamic \(\mu^*\) calibration for past simulations" href="dynamical_spinup.html" />
+    <link rel="prev" title="Run with a spinup and GCM data" href="run_with_a_spinup_and_gcm_data.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -218,15 +218,6 @@ const thebe_selector_output = ".output, .cell_output"
    Run with a spinup and GCM data
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dynamical_spinup.html">
-   Dynamic spinup and dynamic
-   <span class="math notranslate nohighlight">
-    \(\mu^*\)
-   </span>
-   calibration for past simulations
-  </a>
- </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Create local topography maps from different DEM sources with OGGM
@@ -244,7 +235,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="massbalance_calibration.html">
-   A quick look into different mass-balance calibration options
+   A deeper look into different mass-balance calibration options
   </a>
  </li>
  <li class="toctree-l1">
@@ -695,10 +686,10 @@ It is also possible to use your own DEM data in OGGM.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:40:37: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-03-10 09:40:37: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-03-10 09:40:37: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-03-10 09:40:37: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:27: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-10 17:25:27: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-10 17:25:27: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-10 17:25:27: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
 </pre></div>
 </div>
 </div>
@@ -734,7 +725,7 @@ we choose the <strong>SRTM</strong> source as example DEM (no registration neces
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:40:41: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:32: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -852,9 +843,9 @@ The default DEM source for low and mid-latitudes (60°S-60°N), <strong>NASADEM<
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:40:44: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
-2023-03-10 09:40:44: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2023-03-10 09:40:45: oggm.workflow: Execute entity tasks [select_dem_from_dir] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:34: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+2023-03-10 17:25:34: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2023-03-10 17:25:35: oggm.workflow: Execute entity tasks [select_dem_from_dir] on 1 glaciers
 </pre></div>
 </div>
 <img alt="../../_images/dem_sources_23_3.png" src="../../_images/dem_sources_23_3.png" />
@@ -877,7 +868,7 @@ The default DEM source for low and mid-latitudes (60°S-60°N), <strong>NASADEM<
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:40:45: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:36: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -950,45 +941,17 @@ L32.tif
 <span class="k">try</span><span class="p">:</span>
     <span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">entity</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;GIMP&#39;</span><span class="p">)</span>
-<span class="k">except</span> <span class="n">oggm</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidDEMError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+<span class="k">except</span> <span class="n">oggm</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidWorkflowError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 09:40:49: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
-2023-03-10 09:40:50: oggm.core.gis: InvalidWorkflowError occurred during task define_glacier_region on RGI60-11.00897: Source: GIMP is not available for glacier RGI60-11.00897 with border 10
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Source: GIMP is not available for glacier RGI60-11.00897 with border 10
 </pre></div>
 </div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">InvalidWorkflowError</span><span class="g g-Whitespace">                      </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">entity</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;GIMP&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">except</span> <span class="n">oggm</span><span class="o">.</span><span class="n">exceptions</span><span class="o">.</span><span class="n">InvalidDEMError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
-
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
-<span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
-<span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/gis.py:345,</span> in <span class="ni">define_glacier_region</span><span class="nt">(gdir, entity, source)</span>
-<span class="g g-Whitespace">    </span><span class="mi">342</span>     <span class="n">source_exists</span> <span class="o">=</span> <span class="n">is_dem_source_available</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">extent_ll</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">344</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">source_exists</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">345</span>     <span class="k">raise</span> <span class="n">InvalidWorkflowError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Source: </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s1"> is not available for &#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">346</span>                                <span class="sa">f</span><span class="s1">&#39;glacier </span><span class="si">{</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="si">}</span><span class="s1"> with border &#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">347</span>                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">348</span> <span class="n">dem_list</span><span class="p">,</span> <span class="n">dem_source</span> <span class="o">=</span> <span class="n">get_topo_file</span><span class="p">((</span><span class="n">minlon</span><span class="p">,</span> <span class="n">maxlon</span><span class="p">),</span> <span class="p">(</span><span class="n">minlat</span><span class="p">,</span> <span class="n">maxlat</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">349</span>                                      <span class="n">rgi_id</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">350</span>                                      <span class="n">dx_meter</span><span class="o">=</span><span class="n">dx</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">351</span>                                      <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">352</span> <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;(</span><span class="si">%s</span><span class="s1">) DEM source: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">,</span> <span class="n">dem_source</span><span class="p">)</span>
-
-<span class="ne">InvalidWorkflowError</span>: Source: GIMP is not available for glacier RGI60-11.00897 with border 10
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:39: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+2023-03-10 17:25:40: oggm.core.gis: InvalidWorkflowError occurred during task define_glacier_region on RGI60-11.00897: Source: GIMP is not available for glacier RGI60-11.00897 with border 10
 </pre></div>
 </div>
 </div>
@@ -1001,6 +964,11 @@ L32.tif
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">custom_dem_path</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_demo_file</span><span class="p">(</span><span class="s1">&#39;hef_srtm.tif&#39;</span><span class="p">)</span>
 <span class="n">custom_dem_path</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;/github/home/.oggm/oggm-sample-data-398729eef5f8baeb01d466a2d3038ee7ccd2724d/test-files/hef_srtm.tif&#39;
 </pre></div>
 </div>
 </div>
@@ -1021,6 +989,11 @@ L32.tif
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:40: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+</pre></div>
+</div>
+</div>
 </div>
 <p>Now the user provided DEM is used:</p>
 <div class="cell docutils container">
@@ -1031,6 +1004,9 @@ L32.tif
 <span class="n">gdir</span><span class="o">.</span><span class="n">read_shapefile</span><span class="p">(</span><span class="s1">&#39;outlines&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/dem_sources_42_0.png" src="../../_images/dem_sources_42_0.png" />
 </div>
 </div>
 </section>
@@ -1045,10 +1021,20 @@ L32.tif
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:41: oggm.cfg: PARAMS[&#39;border&#39;] changed from `10` to `1`.
 </pre></div>
 </div>
 </div>
@@ -1067,10 +1053,21 @@ L32.tif
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:41: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+</pre></div>
+</div>
+<img alt="../../_images/dem_sources_47_1.png" src="../../_images/dem_sources_47_1.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:44: oggm.cfg: PARAMS[&#39;border&#39;] changed from `1` to `100`.
 </pre></div>
 </div>
 </div>
@@ -1088,6 +1085,12 @@ L32.tif
 <span class="n">gdir</span><span class="o">.</span><span class="n">read_shapefile</span><span class="p">(</span><span class="s1">&#39;outlines&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 17:25:44: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+</pre></div>
+</div>
+<img alt="../../_images/dem_sources_49_1.png" src="../../_images/dem_sources_49_1.png" />
 </div>
 </div>
 </section>
@@ -1127,11 +1130,11 @@ L32.tif
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="dynamical_spinup.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="run_with_a_spinup_and_gcm_data.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Dynamic spinup and dynamic <span class="math notranslate nohighlight">\(\mu^*\)</span> calibration for past simulations</p>
+            <p class="prev-next-title">Run with a spinup and GCM data</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="use_your_own_inventory.html" title="next page">
