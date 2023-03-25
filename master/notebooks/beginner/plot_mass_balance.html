@@ -1,120 +1,160 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Plotting the OGGM surface mass-balance, the ELA and AAR &#8212; OGGM tutorials</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106829797-2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'UA-106829797-2');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/beginner/plot_mass_balance';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Dealing with errors after a run" href="deal_with_errors.html" />
     <link rel="prev" title="Storing glacier directories for later use" href="store_and_compress_glacierdirs.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-106829797-2', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../welcome.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../../_static/logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -123,636 +163,350 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  10 minutes tutorials
- </span>
-</p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">10 minutes tutorials</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/preprocessed_directories.html">
-   10 minutes to… a preprocessed directory
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/run_with_gcm.html">
-   10 minutes to… a glacier change projection with GCM data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/machine_learning.html">
-   10 minutes to… OGGM as an accelerator for modelling and machine learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">
-   10 minutes to… “elevation band” and “centerline” flowlines
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/dynamical_spinup.html">
-   10 minutes to… understand the new dynamical spinup in OGGM v1.6
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/preprocessed_directories.html">10 minutes to… a preprocessed directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for modelling and machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Beginner tutorials
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="working_with_rgi.html">
-   Working with the RGI files
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="store_and_compress_glacierdirs.html">
-   Storing glacier directories for later use
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Plotting the OGGM surface mass-balance, the ELA and AAR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="deal_with_errors.html">
-   Dealing with errors after a run
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="inversion.html">
-   Ice thickness inversion
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="hydrological_output.html">
-   Hydrological mass-balance output
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="oggm_shop.html">
-   OGGM-Shop and Glacier Directories in OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="full_prepro_workflow.html">
-   What’s in my preprocessed directories with centerlines? A full OGGM workflow, step by step
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="working_with_rgi.html">Working with the RGI files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="deal_with_errors.html">Dealing with errors after a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inversion.html">Ice thickness inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="full_prepro_workflow.html">What’s in my preprocessed directories with centerlines? A full OGGM workflow, step by step</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Advanced tutorials
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced tutorials</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/preprocessing_errors.html">
-   Error analysis of the global pre-processing workflow
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/run_with_a_spinup_and_gcm_data.html">
-   Run with a spinup and GCM data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/dem_sources.html">
-   Create local topography maps from different DEM sources with OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/use_your_own_inventory.html">
-   Using your our own glacier inventory with OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/centerlines_to_shape.html">
-   Compute smoother centerlines for shapefile output
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/massbalance_calibration.html">
-   A look into the new mass balance calibration in OGGM v1.6
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/where_are_the_flowlines.html">
-   OGGM flowlines: where are they?
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">
-   Ingest gridded products such as ice velocity into OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">
-   Merge, analyse and visualize OGGM GCM runs
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/preprocessing_errors.html">Error analysis of the global pre-processing workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/run_with_a_spinup_and_gcm_data.html">Run with a spinup and GCM data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Related to OGGM
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../others/holoviz_intro.html">
-   Small overview of HoloViz capability of data exploration
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../others/dem_comparison.html">
-   Compare different DEMs for individual glaciers
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../others/holoviz_intro.html">Small overview of HoloViz capability of data exploration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/dem_comparison.html">Compare different DEMs for individual glaciers</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  In (re-)construction
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">In (re-)construction</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">
-   Ice thickness inversion with frontal ablation: a case study
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/kcalving_parameterization.html">
-   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/merging_glaciers.html">
-   Merging glaciers for past climate simulations
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/area_length_filter.html">
-   Filter the glacier length and area time series
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation: a case study</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
 
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/beginner/plot_mass_balance.ipynb%26branch%3Dmaster"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/beginner/plot_mass_balance.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
     <img src="../../_static/images/logo_binder.svg">
   </span>
-<span class="headerbtn__text-container">Binder</span>
+<span class="btn__text-container">Binder</span>
 </a>
-
-      </li>
+</li>
       
-      <li>
-        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/beginner/plot_mass_balance.ipynb&branch=master"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on JupyterHub"
+      
+      
+      
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/beginner/plot_mass_balance.ipynb&branch=master" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
     <img src="../../_static/images/logo_jupyterhub.svg">
   </span>
-<span class="headerbtn__text-container">JupyterHub</span>
+<span class="btn__text-container">JupyterHub</span>
 </a>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/beginner/plot_mass_balance.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/beginner/plot_mass_balance.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/beginner/plot_mass_balance.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/OGGM/tutorials"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/beginner/plot_mass_balance.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/beginner/plot_mass_balance.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Edit this page"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="headerbtn__text-container">suggest edit</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../../_sources/notebooks/beginner/plot_mass_balance.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Plotting the OGGM surface mass-balance, the ELA and AAR
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#with-a-static-geometry">
-     With a static geometry
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#the-very-easy-way">
-       The very easy way
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#mass-balance-profiles-on-flowlines">
-       Mass-balance profiles on flowlines
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#mass-balance-at-any-height">
-       Mass-balance at any height
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm">
-     Mass-balance during a transient run + bonus info (timestamps in OGGM)
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#specific-glacier-wide-mass-balance">
-       Specific (glacier-wide) mass-balance
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#important-timestamps-in-oggm">
-       Important: timestamps in OGGM
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#specific-mass-balance-from-volume-change-time-series">
-       Specific mass-balance from volume change time series
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#mass-balance-profiles">
-       Mass-balance profiles
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h4 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#retrospective-mass-balance-from-model-output">
-         Retrospective mass-balance from model output
-        </a>
-       </li>
-       <li class="toc-h4 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#compute-the-mass-balance-during-the-simulation">
-         Compute the mass-balance during the simulation
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#equilibrium-line-altitude">
-     Equilibrium Line Altitude
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#compute-and-compile-the-ela">
-       Compute and compile the ELA
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#accumulation-area-ratio">
-   Accumulation Area Ratio
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-s-next">
-     What’s next?
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Plotting the OGGM surface mass-balance, the ELA and AAR</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Plotting the OGGM surface mass-balance, the ELA and AAR
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#with-a-static-geometry">
-     With a static geometry
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#the-very-easy-way">
-       The very easy way
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#mass-balance-profiles-on-flowlines">
-       Mass-balance profiles on flowlines
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#mass-balance-at-any-height">
-       Mass-balance at any height
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm">
-     Mass-balance during a transient run + bonus info (timestamps in OGGM)
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#specific-glacier-wide-mass-balance">
-       Specific (glacier-wide) mass-balance
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#important-timestamps-in-oggm">
-       Important: timestamps in OGGM
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#specific-mass-balance-from-volume-change-time-series">
-       Specific mass-balance from volume change time series
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#mass-balance-profiles">
-       Mass-balance profiles
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h4 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#retrospective-mass-balance-from-model-output">
-         Retrospective mass-balance from model output
-        </a>
-       </li>
-       <li class="toc-h4 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#compute-the-mass-balance-during-the-simulation">
-         Compute the mass-balance during the simulation
-        </a>
-       </li>
-      </ul>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#equilibrium-line-altitude">
-     Equilibrium Line Altitude
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#compute-and-compile-the-ela">
-       Compute and compile the ELA
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#accumulation-area-ratio">
-   Accumulation Area Ratio
-  </a>
-  <ul class="visible nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#what-s-next">
-     What’s next?
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Plotting the OGGM surface mass-balance, the ELA and AAR</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Plotting the OGGM surface mass-balance, the ELA and AAR</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#with-a-static-geometry">With a static geometry</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-very-easy-way">The very easy way</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-balance-profiles-on-flowlines">Mass-balance profiles on flowlines</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-balance-at-any-height">Mass-balance at any height</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm">Mass-balance during a transient run + bonus info (timestamps in OGGM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-glacier-wide-mass-balance">Specific (glacier-wide) mass-balance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-timestamps-in-oggm">Important: timestamps in OGGM</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-mass-balance-from-volume-change-time-series">Specific mass-balance from volume change time series</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-balance-profiles">Mass-balance profiles</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#retrospective-mass-balance-from-model-output">Retrospective mass-balance from model output</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-mass-balance-during-the-simulation">Compute the mass-balance during the simulation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibrium-line-altitude">Equilibrium Line Altitude</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-and-compile-the-ela">Compute and compile the ELA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#accumulation-area-ratio">Accumulation Area Ratio</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="plotting-the-oggm-surface-mass-balance-the-ela-and-aar">
-<h1>Plotting the OGGM surface mass-balance, the ELA and AAR<a class="headerlink" href="#plotting-the-oggm-surface-mass-balance-the-ela-and-aar" title="Permalink to this headline">#</a></h1>
+<h1>Plotting the OGGM surface mass-balance, the ELA and AAR<a class="headerlink" href="#plotting-the-oggm-surface-mass-balance-the-ela-and-aar" title="Permalink to this heading">#</a></h1>
 <p>A few recipes to help you to plot and analyse the mass-balance (MB) computed by OGGM.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -780,10 +534,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:37:35: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-03-10 19:37:35: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-03-10 19:37:35: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-03-10 19:37:35: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:13:06: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-25 11:13:06: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-25 11:13:06: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-25 11:13:06: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -808,18 +562,18 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:37:36: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-03-10 19:37:36: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
-2023-03-10 19:37:37: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:13:07: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-03-25 11:13:07: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+2023-03-25 11:13:08: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
 </pre></div>
 </div>
 </div>
 </div>
 <section id="with-a-static-geometry">
-<h2>With a static geometry<a class="headerlink" href="#with-a-static-geometry" title="Permalink to this headline">#</a></h2>
+<h2>With a static geometry<a class="headerlink" href="#with-a-static-geometry" title="Permalink to this heading">#</a></h2>
 <p>That’s by far the easiest - that is how we mostly test and develop mass-balance models ourselves.</p>
 <section id="the-very-easy-way">
-<h3>The very easy way<a class="headerlink" href="#the-very-easy-way" title="Permalink to this headline">#</a></h3>
+<h3>The very easy way<a class="headerlink" href="#the-very-easy-way" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the calibrated mass-balance model - the default is to use OGGM&#39;s &quot;MonthlyTIModel&quot;</span>
@@ -837,7 +591,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_9_0.png" src="../../_images/plot_mass_balance_9_0.png" />
+<img alt="../../_images/925ac95823cb185a8edc47d42e3eef7232df0a347bccf900381a4a2e42e80b37.png" src="../../_images/925ac95823cb185a8edc47d42e3eef7232df0a347bccf900381a4a2e42e80b37.png" />
 </div>
 </div>
 <p>In this particular case (Hintereisferner), we can also plot the measured data:</p>
@@ -856,12 +610,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_11_0.png" src="../../_images/plot_mass_balance_11_0.png" />
+<img alt="../../_images/7c34c2c84a063f89d66b183ecf89e5939277f73f7554a174eed551bcf595ac43.png" src="../../_images/7c34c2c84a063f89d66b183ecf89e5939277f73f7554a174eed551bcf595ac43.png" />
 </div>
 </div>
 </section>
 <section id="mass-balance-profiles-on-flowlines">
-<h3>Mass-balance profiles on flowlines<a class="headerlink" href="#mass-balance-profiles-on-flowlines" title="Permalink to this headline">#</a></h3>
+<h3>Mass-balance profiles on flowlines<a class="headerlink" href="#mass-balance-profiles-on-flowlines" title="Permalink to this heading">#</a></h3>
 <p>Let’s start by noting that I used the <code class="docutils literal notranslate"><span class="pre">MultipleFlowlineMassBalance</span></code> model here. This is what OGGM uses for its runs, because we allow different model parameters for different flowlines. In many cases we don’t need this, but sometimes we do. Let’s see if we have different mass-balance model parameters for Hintereisferner or not. Note, that the new calibration can cause any of the mass-balance model parameters (melt factor, temperature bias or precipitation factor) to be different (more in the <a class="reference internal" href="../advanced/massbalance_calibration.html"><span class="doc std std-doc">massbalance_calibration</span></a> notebook).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -900,12 +654,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_16_0.png" src="../../_images/plot_mass_balance_16_0.png" />
+<img alt="../../_images/8117d5b65031be600cdae5ecf0c2c802d97de66a313d6e270fe826ca49ab86e7.png" src="../../_images/8117d5b65031be600cdae5ecf0c2c802d97de66a313d6e270fe826ca49ab86e7.png" />
 </div>
 </div>
 </section>
 <section id="mass-balance-at-any-height">
-<h3>Mass-balance at any height<a class="headerlink" href="#mass-balance-at-any-height" title="Permalink to this headline">#</a></h3>
+<h3>Mass-balance at any height<a class="headerlink" href="#mass-balance-at-any-height" title="Permalink to this heading">#</a></h3>
 <p>For this, we can either “pick” one of the single flowline mass-balance models or use the multiple one (it’s the same):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -923,16 +677,16 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_19_0.png" src="../../_images/plot_mass_balance_19_0.png" />
+<img alt="../../_images/d75f851e7a6a6bd8f28884b62ecf95334165489fa99ae783f3db2472eb32b3aa.png" src="../../_images/d75f851e7a6a6bd8f28884b62ecf95334165489fa99ae783f3db2472eb32b3aa.png" />
 </div>
 </div>
 <p>But again, for certain glaciers the mass-balance might change from one flowline to another!</p>
 </section>
 </section>
 <section id="mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm">
-<h2>Mass-balance during a transient run + bonus info (timestamps in OGGM)<a class="headerlink" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm" title="Permalink to this headline">#</a></h2>
+<h2>Mass-balance during a transient run + bonus info (timestamps in OGGM)<a class="headerlink" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm" title="Permalink to this heading">#</a></h2>
 <section id="specific-glacier-wide-mass-balance">
-<h3>Specific (glacier-wide) mass-balance<a class="headerlink" href="#specific-glacier-wide-mass-balance" title="Permalink to this headline">#</a></h3>
+<h3>Specific (glacier-wide) mass-balance<a class="headerlink" href="#specific-glacier-wide-mass-balance" title="Permalink to this heading">#</a></h3>
 <p>At the time of writing, we only store the glacier volume, which is roughly equivalent to the mass-balance (up to numerical accuracy in the dynamical model).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -944,7 +698,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:37:38: oggm.cfg: PARAMS[&#39;store_fl_diagnostics&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:13:09: oggm.cfg: PARAMS[&#39;store_fl_diagnostics&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -957,12 +711,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_25_0.png" src="../../_images/plot_mass_balance_25_0.png" />
+<img alt="../../_images/843c08d3501fb486e4fdda0535c429d0b6b6166bbc553cd79054019835668671.png" src="../../_images/843c08d3501fb486e4fdda0535c429d0b6b6166bbc553cd79054019835668671.png" />
 </div>
 </div>
 </section>
 <section id="important-timestamps-in-oggm">
-<h3>Important: timestamps in OGGM<a class="headerlink" href="#important-timestamps-in-oggm" title="Permalink to this headline">#</a></h3>
+<h3>Important: timestamps in OGGM<a class="headerlink" href="#important-timestamps-in-oggm" title="Permalink to this heading">#</a></h3>
 <p>OGGM was initially developed to follow the traditional “hydrological year” convention. Since OGGM v1.6 or even earlier, we stopped using the hydrological year operationally and use instead simple calendar years. One of the reasons is that our geodetic data used for calibration are also in calendar years. We still give the hydrological year in output files, therefore we introduce it shortly:</p>
 <p>We use what we call a “floating year” time stamp, which can be converted to real dates easily in the model:</p>
 <div class="cell docutils container">
@@ -1056,7 +810,7 @@ Calendar dates
 <p>When interpreting the data or reporting them to others, be careful and mention which convention you use. For the moment, it is best to use the simple calendar years.</p>
 </section>
 <section id="specific-mass-balance-from-volume-change-time-series">
-<h3>Specific mass-balance from volume change time series<a class="headerlink" href="#specific-mass-balance-from-volume-change-time-series" title="Permalink to this headline">#</a></h3>
+<h3>Specific mass-balance from volume change time series<a class="headerlink" href="#specific-mass-balance-from-volume-change-time-series" title="Permalink to this heading">#</a></h3>
 <p>We compute the specific mass-balance from the delta volume divided by the glacier area, and compare it to observations and to the mass-balance computed with a fixed geometry:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1072,7 +826,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_40_0.png" src="../../_images/plot_mass_balance_40_0.png" />
+<img alt="../../_images/f628df82bdf148dadd7de97d94bda82164580c6c7d70ba17a2ecae70fcabe934.png" src="../../_images/f628df82bdf148dadd7de97d94bda82164580c6c7d70ba17a2ecae70fcabe934.png" />
 </div>
 </div>
 <p>A few comments:</p>
@@ -1088,11 +842,11 @@ Calendar dates
 </ul>
 </section>
 <section id="mass-balance-profiles">
-<h3>Mass-balance profiles<a class="headerlink" href="#mass-balance-profiles" title="Permalink to this headline">#</a></h3>
+<h3>Mass-balance profiles<a class="headerlink" href="#mass-balance-profiles" title="Permalink to this heading">#</a></h3>
 <p>At time of writing, we do not store the mass-balance profiles during a transient run, although we could (and <a class="reference external" href="https://github.com/OGGM/oggm/issues/1022">should</a>). To get the profiles with a dynamically changing geometry, there is no other way than either get the mass-balance during the simulation, or to fetch the model output and re-compute the mass-balance retroactively.</p>
 <p><strong>Note: the mass-balance profiles themselves of course are not really affected by the changing geometry - what changes from one year to another is the altitude at which the model will compute the mass-balance.</strong> In other terms, if you are interested in the mass-balance profiles you are better of to use the fixed geometries approaches explained at the beginning of the notebook.</p>
 <section id="retrospective-mass-balance-from-model-output">
-<h4>Retrospective mass-balance from model output<a class="headerlink" href="#retrospective-mass-balance-from-model-output" title="Permalink to this headline">#</a></h4>
+<h4>Retrospective mass-balance from model output<a class="headerlink" href="#retrospective-mass-balance-from-model-output" title="Permalink to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This reads the model output file and makes it look like an OGGM flowline model</span>
@@ -1117,12 +871,12 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_45_0.png" src="../../_images/plot_mass_balance_45_0.png" />
+<img alt="../../_images/96e6fab6b72a4b9493a9d87936b4e411440938f89e6e57fe3f2c7911839042cc.png" src="../../_images/96e6fab6b72a4b9493a9d87936b4e411440938f89e6e57fe3f2c7911839042cc.png" />
 </div>
 </div>
 </section>
 <section id="compute-the-mass-balance-during-the-simulation">
-<h4>Compute the mass-balance during the simulation<a class="headerlink" href="#compute-the-mass-balance-during-the-simulation" title="Permalink to this headline">#</a></h4>
+<h4>Compute the mass-balance during the simulation<a class="headerlink" href="#compute-the-mass-balance-during-the-simulation" title="Permalink to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO - add the same, but based on the new flowline outputs (like for AAR below)</span>
@@ -1134,11 +888,11 @@ Calendar dates
 </section>
 </section>
 <section id="equilibrium-line-altitude">
-<h2>Equilibrium Line Altitude<a class="headerlink" href="#equilibrium-line-altitude" title="Permalink to this headline">#</a></h2>
+<h2>Equilibrium Line Altitude<a class="headerlink" href="#equilibrium-line-altitude" title="Permalink to this heading">#</a></h2>
 <p>The second part of this notebook shows how you can compute the Equilbrium Line Altitude (ELA, the altitude at which the mass-balance is equal to 0) with OGGM.</p>
 <p>As the ELA in OGGM only depends on the <a class="reference external" href="https://docs.oggm.org/en/stable/mass-balance.html">mass balance model</a> itself (not on glacier geometry), there is no need to do a full model run to collect these values. This is also the reason why the ELA is no longer a part of the model run output, but is instead  a diagnostic variable that can be computed separately since OGGM v1.6.</p>
 <section id="compute-and-compile-the-ela">
-<h3>Compute and compile the ELA<a class="headerlink" href="#compute-and-compile-the-ela" title="Permalink to this headline">#</a></h3>
+<h3>Compute and compile the ELA<a class="headerlink" href="#compute-and-compile-the-ela" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">global_tasks</span><span class="o">.</span><span class="n">compile_ela</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2019</span><span class="p">);</span>
@@ -1146,8 +900,8 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:37:40: oggm.utils: Applying global task compile_ela on 2 glaciers
-2023-03-10 19:37:40: oggm.workflow: Execute entity tasks [compute_ela] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:13:11: oggm.utils: Applying global task compile_ela on 2 glaciers
+2023-03-25 11:13:11: oggm.workflow: Execute entity tasks [compute_ela] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -1166,7 +920,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_52_0.png" src="../../_images/plot_mass_balance_52_0.png" />
+<img alt="../../_images/0ce94160e32faf2546f540cf7d364fea11fbd6902a40a1d881b9c0fa01da4332.png" src="../../_images/0ce94160e32faf2546f540cf7d364fea11fbd6902a40a1d881b9c0fa01da4332.png" />
 </div>
 </div>
 <p>When looking at many glaciers it might be useful to also plot the mean or average of the data. Let’s plot the mean ELA and the glacier area weighted ELA average. Of course, if you only use a few glaciers, as here, it can be much more robust to use the median instead. In the code below, median and mean are the same, because we just used two glaciers ;-) :</p>
@@ -1184,7 +938,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_54_0.png" src="../../_images/plot_mass_balance_54_0.png" />
+<img alt="../../_images/703043b915e88e2c21c0484d73e67a67b0fe3ed0c3333504fb8ccb59ab60df18.png" src="../../_images/703043b915e88e2c21c0484d73e67a67b0fe3ed0c3333504fb8ccb59ab60df18.png" />
 </div>
 </div>
 <p>How would the ELA look like if the climate is 1° warmer? Lets have a look at one of the glaciers:</p>
@@ -1250,8 +1004,8 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:37:41: oggm.utils: Applying global task compile_ela on 1 glaciers
-2023-03-10 19:37:41: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:13:12: oggm.utils: Applying global task compile_ela on 1 glaciers
+2023-03-25 11:13:12: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1266,7 +1020,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_60_0.png" src="../../_images/plot_mass_balance_60_0.png" />
+<img alt="../../_images/6ead04e4aa89c373661607973e0c03172cc1dc077eb68bfa3b4e0df7a3b755ad.png" src="../../_images/6ead04e4aa89c373661607973e0c03172cc1dc077eb68bfa3b4e0df7a3b755ad.png" />
 </div>
 </div>
 <p>By using the <code class="docutils literal notranslate"><span class="pre">precipitation_factor</span></code> keyword, you can change the precipitation. Feel free to try that by yourself! At the moment, <code class="docutils literal notranslate"><span class="pre">gdirs[0].read_json('mb_calib')['prcp_fac']</span></code> is applied.</p>
@@ -1280,8 +1034,8 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:37:42: oggm.utils: Applying global task compile_ela on 1 glaciers
-2023-03-10 19:37:42: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:13:12: oggm.utils: Applying global task compile_ela on 1 glaciers
+2023-03-25 11:13:12: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1296,7 +1050,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_64_0.png" src="../../_images/plot_mass_balance_64_0.png" />
+<img alt="../../_images/0978ee118a844df6b15acc26720d7656d10bd53d8a0e6c01aa8297c3d291c239.png" src="../../_images/0978ee118a844df6b15acc26720d7656d10bd53d8a0e6c01aa8297c3d291c239.png" />
 </div>
 </div>
 <p>In case you’re only intrested in specific years there is an option to just compute the ELA in those years. There is actually no need to save this data. Therefore we now just compute the ELA.</p>
@@ -1326,7 +1080,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_68_0.png" src="../../_images/plot_mass_balance_68_0.png" />
+<img alt="../../_images/09d0dc7dbd223f0b34830120b97e4e622ab33a1929f5a76868e9ecaf9c1e5287.png" src="../../_images/09d0dc7dbd223f0b34830120b97e4e622ab33a1929f5a76868e9ecaf9c1e5287.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1337,7 +1091,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_69_0.png" src="../../_images/plot_mass_balance_69_0.png" />
+<img alt="../../_images/18fa2be62c053d0a8d5527d8483ce5f06e1dfdfc91b6c7053846645f58bd1227.png" src="../../_images/18fa2be62c053d0a8d5527d8483ce5f06e1dfdfc91b6c7053846645f58bd1227.png" />
 </div>
 </div>
 <p>By now we have addressed most of the keyword agruments of the compile_ela and compute_ela functions. To use different climate than the default climate, you can make use of the <code class="docutils literal notranslate"><span class="pre">climate_filename</span></code> and <code class="docutils literal notranslate"><span class="pre">climate_input_filesuffix</span></code> keywords. In case you’re not familiar with those yet, please check out the <a class="reference internal" href="../10minutes/run_with_gcm.html"><span class="doc std std-doc">run_with_gcm</span></a> notebook.</p>
@@ -1345,7 +1099,7 @@ dtype: float64
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="accumulation-area-ratio">
-<h1>Accumulation Area Ratio<a class="headerlink" href="#accumulation-area-ratio" title="Permalink to this headline">#</a></h1>
+<h1>Accumulation Area Ratio<a class="headerlink" href="#accumulation-area-ratio" title="Permalink to this heading">#</a></h1>
 <p>Like the ELA, the Accumulation Area Ratio (AAR) is a diagostic variable. The AAR is currently not an output
 variable in OGGM, but it can easily be computed. It is even a part of the <a class="reference external" href="https://bokeh.oggm.org/simulator/app">glacier simulator</a> and its <a class="reference external" href="https://edu.oggm.org/en/latest/simulator.html#aar-accumulation-area-ratio">documentation</a>. Below we give an example of how it can be computed after a model run. From the ELA
 computation, we already know the height where the mass balance is equal to zero. Now we need to compute the area
@@ -1379,7 +1133,7 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_74_0.png" src="../../_images/plot_mass_balance_74_0.png" />
+<img alt="../../_images/840f8498f94fffab74a594b9a17743c8bfe18e4537f49e67f106ed0fa223f69f.png" src="../../_images/840f8498f94fffab74a594b9a17743c8bfe18e4537f49e67f106ed0fa223f69f.png" />
 </div>
 </div>
 <p>Unsurprisingly, the AAR is strongly correlated to the ELA, but it is not fully linear due to the area distribution of the glacier:</p>
@@ -1390,7 +1144,7 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_76_0.png" src="../../_images/plot_mass_balance_76_0.png" />
+<img alt="../../_images/dcc753be4e36ef67ad25d1d5cb771f83f18384d61e08a4a13426e7c9367b256d.png" src="../../_images/dcc753be4e36ef67ad25d1d5cb771f83f18384d61e08a4a13426e7c9367b256d.png" />
 </div>
 </div>
 <p>Now that we have looked at the static case, let’s to the same for glaciers with changing surface height:</p>
@@ -1425,7 +1179,7 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/plot_mass_balance_78_0.png" src="../../_images/plot_mass_balance_78_0.png" />
+<img alt="../../_images/e412a687ae56aa477b5cd2b0bd2c9ed4226ea978984601eb543b430c6d91a4c3.png" src="../../_images/e412a687ae56aa477b5cd2b0bd2c9ed4226ea978984601eb543b430c6d91a4c3.png" />
 </div>
 </div>
 <p>You can see in the plot that the difference between the AAR calculated from the dynamic glacier and the one of the
@@ -1437,9 +1191,9 @@ that in to consideration.</p>
 <p>Here we computed the AAR from the “model perspective”, where the glacier is located in bins. You can however also
 choose to do some interpolation between the grid point above and below the ELA.</p>
 <section id="what-s-next">
-<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p>look at the <a class="reference external" href="https://docs.oggm.org/en/stable/input-data.html">OGGM-Shop documentation</a></p></li>
+<li><p>look at the <a class="reference external" href="https://docs.oggm.org/en/stable/input-data.html#">OGGM-Shop documentation</a></p></li>
 <li><p>back to the <a class="reference internal" href="../welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
 </ul>
 </section>
@@ -1465,57 +1219,128 @@ choose to do some interpolation between the grid point above and below the ELA.<
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="store_and_compress_glacierdirs.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Storing glacier directories for later use</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="store_and_compress_glacierdirs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Storing glacier directories for later use</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="deal_with_errors.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="deal_with_errors.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Dealing with errors after a run</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Plotting the OGGM surface mass-balance, the ELA and AAR</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#with-a-static-geometry">With a static geometry</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-very-easy-way">The very easy way</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-balance-profiles-on-flowlines">Mass-balance profiles on flowlines</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-balance-at-any-height">Mass-balance at any height</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-balance-during-a-transient-run-bonus-info-timestamps-in-oggm">Mass-balance during a transient run + bonus info (timestamps in OGGM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-glacier-wide-mass-balance">Specific (glacier-wide) mass-balance</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#important-timestamps-in-oggm">Important: timestamps in OGGM</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-mass-balance-from-volume-change-time-series">Specific mass-balance from volume change time series</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mass-balance-profiles">Mass-balance profiles</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#retrospective-mass-balance-from-model-output">Retrospective mass-balance from model output</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-mass-balance-during-the-simulation">Compute the mass-balance during the simulation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equilibrium-line-altitude">Equilibrium Line Altitude</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-and-compile-the-ela">Compute and compile the ELA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#accumulation-area-ratio">Accumulation Area Ratio</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
   
-    By OGGM e.V. and OGGM Contributors<br/>
+  <div class="footer-item">
+    
+<p class="component-author">
+By OGGM e.V. and OGGM Contributors
+</p>
+
+  </div>
   
-    <div class="extra_footer">
-      <p>
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
 &copy; Copyright 2014-2021.
 </p>
 
-    </div>
-</p>
-        </footer>
-    </div>
-    
 </div>
+  </div>
+  
+</div></div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

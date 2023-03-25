@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>A look into the new mass balance calibration in OGGM v1.6 &#8212; OGGM tutorials</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106829797-2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'UA-106829797-2');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,71 +70,93 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/advanced/massbalance_calibration';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="OGGM flowlines: where are they?" href="where_are_the_flowlines.html" />
     <link rel="prev" title="Compute smoother centerlines for shapefile output" href="centerlines_to_shape.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-106829797-2', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../welcome.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../../_static/logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -125,590 +165,338 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  10 minutes tutorials
- </span>
-</p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">10 minutes tutorials</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/preprocessed_directories.html">
-   10 minutes to… a preprocessed directory
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/run_with_gcm.html">
-   10 minutes to… a glacier change projection with GCM data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/machine_learning.html">
-   10 minutes to… OGGM as an accelerator for modelling and machine learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">
-   10 minutes to… “elevation band” and “centerline” flowlines
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/dynamical_spinup.html">
-   10 minutes to… understand the new dynamical spinup in OGGM v1.6
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/preprocessed_directories.html">10 minutes to… a preprocessed directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for modelling and machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Beginner tutorials
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../beginner/working_with_rgi.html">
-   Working with the RGI files
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../beginner/store_and_compress_glacierdirs.html">
-   Storing glacier directories for later use
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../beginner/plot_mass_balance.html">
-   Plotting the OGGM surface mass-balance, the ELA and AAR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../beginner/deal_with_errors.html">
-   Dealing with errors after a run
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../beginner/inversion.html">
-   Ice thickness inversion
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../beginner/hydrological_output.html">
-   Hydrological mass-balance output
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../beginner/oggm_shop.html">
-   OGGM-Shop and Glacier Directories in OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../beginner/full_prepro_workflow.html">
-   What’s in my preprocessed directories with centerlines? A full OGGM workflow, step by step
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/working_with_rgi.html">Working with the RGI files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../beginner/deal_with_errors.html">Dealing with errors after a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/inversion.html">Ice thickness inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/full_prepro_workflow.html">What’s in my preprocessed directories with centerlines? A full OGGM workflow, step by step</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Advanced tutorials
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced tutorials</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="preprocessing_errors.html">
-   Error analysis of the global pre-processing workflow
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">
-   Run with a spinup and GCM data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="dem_sources.html">
-   Create local topography maps from different DEM sources with OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="use_your_own_inventory.html">
-   Using your our own glacier inventory with OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="centerlines_to_shape.html">
-   Compute smoother centerlines for shapefile output
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   A look into the new mass balance calibration in OGGM v1.6
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="where_are_the_flowlines.html">
-   OGGM flowlines: where are they?
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="ingest_gridded_data_on_flowlines.html">
-   Ingest gridded products such as ice velocity into OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="merge_gcm_runs_and_visualize.html">
-   Merge, analyse and visualize OGGM GCM runs
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="preprocessing_errors.html">Error analysis of the global pre-processing workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">Run with a spinup and GCM data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Related to OGGM
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../others/holoviz_intro.html">
-   Small overview of HoloViz capability of data exploration
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../others/dem_comparison.html">
-   Compare different DEMs for individual glaciers
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../others/holoviz_intro.html">Small overview of HoloViz capability of data exploration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/dem_comparison.html">Compare different DEMs for individual glaciers</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  In (re-)construction
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">In (re-)construction</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">
-   Ice thickness inversion with frontal ablation: a case study
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/kcalving_parameterization.html">
-   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/merging_glaciers.html">
-   Merging glaciers for past climate simulations
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/area_length_filter.html">
-   Filter the glacier length and area time series
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation: a case study</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
 
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/advanced/massbalance_calibration.ipynb%26branch%3Dmaster"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/advanced/massbalance_calibration.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
     <img src="../../_static/images/logo_binder.svg">
   </span>
-<span class="headerbtn__text-container">Binder</span>
+<span class="btn__text-container">Binder</span>
 </a>
-
-      </li>
+</li>
       
-      <li>
-        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/advanced/massbalance_calibration.ipynb&branch=master"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on JupyterHub"
+      
+      
+      
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/advanced/massbalance_calibration.ipynb&branch=master" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
     <img src="../../_static/images/logo_jupyterhub.svg">
   </span>
-<span class="headerbtn__text-container">JupyterHub</span>
+<span class="btn__text-container">JupyterHub</span>
 </a>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/advanced/massbalance_calibration.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/advanced/massbalance_calibration.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/advanced/massbalance_calibration.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/OGGM/tutorials"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/advanced/massbalance_calibration.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/advanced/massbalance_calibration.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Edit this page"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="headerbtn__text-container">suggest edit</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../../_sources/notebooks/advanced/massbalance_calibration.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#set-up">
-   Set-up
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">
-   Calibrated mass balance parameters in OGGM v1.6 pre-processed directories
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-new-flexible-calibration-scheme-in-oggm">
-   The new flexible calibration scheme in OGGM
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#calibrate-on-direct-glaciological-in-situ-mb-observations">
-   Calibrate on direct glaciological in-situ MB observations
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#dealing-with-errors-and-including-your-own-mass-balance-observations">
-     Dealing with errors and including your own mass-balance observations
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#overparameteristion-or-the-magic-choice-of-the-best-calibration-option">
-   Overparameteristion or the magic choice of the best calibration option:
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6">
-   Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#first-step-data-informed-precipitation-factor">
-     First step: data informed precipitation factor
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#second-step-data-informed-temperature-bias">
-     Second step: data informed temperature bias
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses">
-     Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-look-into-the-global-parameter-distributions">
-     A look into the global parameter distributions
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#take-home-points">
-   Take home points
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-s-next">
-   What’s next?
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>A look into the new mass balance calibration in OGGM v1.6</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#set-up">
-   Set-up
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">
-   Calibrated mass balance parameters in OGGM v1.6 pre-processed directories
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#the-new-flexible-calibration-scheme-in-oggm">
-   The new flexible calibration scheme in OGGM
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#calibrate-on-direct-glaciological-in-situ-mb-observations">
-   Calibrate on direct glaciological in-situ MB observations
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#dealing-with-errors-and-including-your-own-mass-balance-observations">
-     Dealing with errors and including your own mass-balance observations
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#overparameteristion-or-the-magic-choice-of-the-best-calibration-option">
-   Overparameteristion or the magic choice of the best calibration option:
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6">
-   Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#first-step-data-informed-precipitation-factor">
-     First step: data informed precipitation factor
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#second-step-data-informed-temperature-bias">
-     Second step: data informed temperature bias
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses">
-     Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#a-look-into-the-global-parameter-distributions">
-     A look into the global parameter distributions
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#take-home-points">
-   Take home points
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-s-next">
-   What’s next?
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>A look into the new mass balance calibration in OGGM v1.6</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up">Set-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">Calibrated mass balance parameters in OGGM v1.6 pre-processed directories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-new-flexible-calibration-scheme-in-oggm">The new flexible calibration scheme in OGGM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrate-on-direct-glaciological-in-situ-mb-observations">Calibrate on direct glaciological in-situ MB observations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-errors-and-including-your-own-mass-balance-observations">Dealing with errors and including your own mass-balance observations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overparameteristion-or-the-magic-choice-of-the-best-calibration-option">Overparameteristion or the magic choice of the best calibration option:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6">Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-step-data-informed-precipitation-factor">First step: data informed precipitation factor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#second-step-data-informed-temperature-bias">Second step: data informed temperature bias</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses">Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-look-into-the-global-parameter-distributions">A look into the global parameter distributions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-points">Take home points</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="a-look-into-the-new-mass-balance-calibration-in-oggm-v1-6">
-<h1>A look into the new mass balance calibration in OGGM v1.6<a class="headerlink" href="#a-look-into-the-new-mass-balance-calibration-in-oggm-v1-6" title="Permalink to this headline">#</a></h1>
+<h1>A look into the new mass balance calibration in OGGM v1.6<a class="headerlink" href="#a-look-into-the-new-mass-balance-calibration-in-oggm-v1-6" title="Permalink to this heading">#</a></h1>
 <p>The default mass-balance (MB) model of OGGM is a very standard <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S0022169403002579">temperature index melt model</a>.</p>
 <p>In versions before 1.6, OGGM had a complex calibration procedure which originated from the times where we had only observations from a few hundred glaciers. We used them to calibrate the model and then a so-called <em>tstar</em> (famous in only very niche circles) which was interpolated to glaciers without observations (see the <a class="reference external" href="https://www.the-cryosphere.net/6/1295/2012/tc-6-1295-2012.html">original publication</a>). This method was very powerful but, as new observational datasets emerged, we can now calibrate on a glacier-per-glacier basis. With the new era of geodetic observations, OGGM uses per default the average geodetic observations from Jan 2000–Jan 2020 of <a class="reference external" href="https://www.nature.com/articles/s41586-021-03436-z">Hugonnet al. 2021</a>, that are now available for almost every glacier world-wide.</p>
 <p>Pre-processed directories from OGGM (from the Bremen server) have been calibrated for you, based on a specific climate dataset (W5E5) and our own dedicated calibration strategy. But, what if you want to use another climate dataset? Or another reference dataset?</p>
@@ -719,7 +507,7 @@ title="Print to PDF"
 <li><p>explain how we used it to calibrate the OGGM pre-processed directories</p></li>
 </ul>
 <section id="set-up">
-<h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this headline">#</a></h2>
+<h2>Set-up<a class="headerlink" href="#set-up" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -745,10 +533,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:21:23: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-03-10 19:21:23: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-03-10 19:21:23: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-03-10 19:21:23: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 10:54:24: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-03-25 10:54:24: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-03-25 10:54:24: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-03-25 10:54:24: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
 </pre></div>
 </div>
 </div>
@@ -763,8 +551,8 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:21:24: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-03-10 19:21:24: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 10:54:25: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-03-25 10:54:25: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -779,12 +567,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_8_0.png" src="../../_images/massbalance_calibration_8_0.png" />
+<img alt="../../_images/de482e947929b52f9761b45c89fab522fdd0ce3266e20e2d3945ca988665a83f.png" src="../../_images/de482e947929b52f9761b45c89fab522fdd0ce3266e20e2d3945ca988665a83f.png" />
 </div>
 </div>
 </section>
 <section id="calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">
-<h2>Calibrated mass balance parameters in OGGM v1.6 pre-processed directories<a class="headerlink" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories" title="Permalink to this headline">#</a></h2>
+<h2>Calibrated mass balance parameters in OGGM v1.6 pre-processed directories<a class="headerlink" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories" title="Permalink to this heading">#</a></h2>
 <p>We just downloaded the data. Let’s have a look at the climate data we used and the calibrated parameters:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -961,7 +749,7 @@ reference MB time period: 2000-01-01_2020-01-01
 <p>Perfect! Our MB model reproduces the average observed MB, so the calibrated worked!</p>
 </section>
 <section id="the-new-flexible-calibration-scheme-in-oggm">
-<h2>The new flexible calibration scheme in OGGM<a class="headerlink" href="#the-new-flexible-calibration-scheme-in-oggm" title="Permalink to this headline">#</a></h2>
+<h2>The new flexible calibration scheme in OGGM<a class="headerlink" href="#the-new-flexible-calibration-scheme-in-oggm" title="Permalink to this heading">#</a></h2>
 <p>We have now used the option that is applied in the preprocessed directories. However, there are many other calibration options. We will show you some, but you could also invent your own for your purposes.</p>
 <p><strong>Calibrate <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, fixed <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and <code class="docutils literal notranslate"><span class="pre">temp_bìas</span></code></strong></p>
 <p>For example, let’s calibrate the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> to match the same observations as before (i.e., average geodetic observation) and fix the other parameters. We will use the more general function <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.tasks.mb_calibration_from_scalar_mb.html">mb_calibration_from_scalar_mb</a> which is most flexible. However, it requires you to give manually the observed MB on which you want to calibrate:</p>
@@ -1116,14 +904,14 @@ We will get the in-situ observations like that:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_50_0.png" src="../../_images/massbalance_calibration_50_0.png" />
+<img alt="../../_images/b2a2cd360b1dafd8f4dadc27521cfa4f45ac75f49559cd259d6bbac673d0c978.png" src="../../_images/b2a2cd360b1dafd8f4dadc27521cfa4f45ac75f49559cd259d6bbac673d0c978.png" />
 </div>
 </div>
 <p>For this glacier, over the same time period (here 2000-2020), the average MB is quite similar between the geodetic and in-situ observation and could even be explained by the fact that the in-situ observations are in hydrological years (starting in October of the previous year) and the geodetic observations are in calendar years. If you repeat the analysis for other glaciers with in-situ observations over that time period, you might see larger discrepancies.</p>
 <p>You can also see, that there are differences in the annual MB between the calibration options and the in-situ observations. We will analyse these differences more systematically later!</p>
 </section>
 <section id="calibrate-on-direct-glaciological-in-situ-mb-observations">
-<h2>Calibrate on direct glaciological in-situ MB observations<a class="headerlink" href="#calibrate-on-direct-glaciological-in-situ-mb-observations" title="Permalink to this headline">#</a></h2>
+<h2>Calibrate on direct glaciological in-situ MB observations<a class="headerlink" href="#calibrate-on-direct-glaciological-in-situ-mb-observations" title="Permalink to this heading">#</a></h2>
 <p>Ok, but actually you might trust the in-situ observations much more than the geodetic observation. So if you are only interested in glaciers with these in-situ observations, you can also use the in-situ observations for calibration. This might allow you also to calibrate over a longer time period and to use additional informations (such as the interannual MB variability, seasonal MB, …). However, bare in mind that there are often gaps in the in-situ MB time series and make sure that you calibrate to the same modelled time period!</p>
 <p>Attention: For the Hintereisferner glacier with an almost 70-year long time series, the assumption that we make, i.e., that the area does not change over the time period, gets more problematic. So think twice before repeating this at home!</p>
 <div class="cell docutils container">
@@ -1180,7 +968,7 @@ but applies directly the average annual in-situ MB observations from the WGMS. P
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_57_0.png" src="../../_images/massbalance_calibration_57_0.png" />
+<img alt="../../_images/9365e7be4a869947b56c7c787226d3aa777a1d7c1e3d383d450b6e5cd0e403f5.png" src="../../_images/9365e7be4a869947b56c7c787226d3aa777a1d7c1e3d383d450b6e5cd0e403f5.png" />
 </div>
 </div>
 <p>The average MB over the entire time period is matched as we calibrate to it. However, the interannual mass-balance variability is different. How well the modelled annual mass-balance time series matches the observations can be for example assessed by looking at the correlation between modelled and observed annual MB</p>
@@ -1212,7 +1000,7 @@ dtype: float64
 </div>
 </div>
 <section id="dealing-with-errors-and-including-your-own-mass-balance-observations">
-<h3>Dealing with errors and including your own mass-balance observations<a class="headerlink" href="#dealing-with-errors-and-including-your-own-mass-balance-observations" title="Permalink to this headline">#</a></h3>
+<h3>Dealing with errors and including your own mass-balance observations<a class="headerlink" href="#dealing-with-errors-and-including-your-own-mass-balance-observations" title="Permalink to this heading">#</a></h3>
 <p>Let’s look at another glacier, now in Central Asia, for example the Golubin glacier:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1227,11 +1015,11 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:21:29: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2023-03-10 19:21:29: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 10:54:33: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2023-03-25 10:54:33: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
-<img alt="../../_images/massbalance_calibration_64_2.png" src="../../_images/massbalance_calibration_64_2.png" />
+<img alt="../../_images/8a2cf5760f8b6c5ec29c162596d565cdad1c5261d559a725d036c9a868634cc0.png" src="../../_images/8a2cf5760f8b6c5ec29c162596d565cdad1c5261d559a725d036c9a868634cc0.png" />
 </div>
 </div>
 <p>Let’s calibrate that glacier by only changing the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, default in <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_scalar_mb</span></code>:</p>
@@ -1260,7 +1048,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:21:32: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-13.11609: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 10:54:43: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-13.11609: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -1273,10 +1061,10 @@ dtype: float64
 <span class="g g-Whitespace">   </span><span class="mi">1781</span>                                    <span class="p">)</span>
 <span class="g g-Whitespace">   </span><span class="mi">1782</span> <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/scipy/optimize/_zeros_py.py:783,</span> in <span class="ni">brentq</span><span class="nt">(f, a, b, args, xtol, rtol, maxiter, full_output, disp)</span>
-<span class="g g-Whitespace">    </span><span class="mi">782</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rtol too small (</span><span class="si">%g</span><span class="s2"> &lt; </span><span class="si">%g</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rtol</span><span class="p">,</span> <span class="n">_rtol</span><span class="p">))</span>
-<span class="ne">--&gt; </span><span class="mi">783</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_zeros</span><span class="o">.</span><span class="n">_brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">full_output</span><span class="p">,</span> <span class="n">disp</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">784</span> <span class="k">return</span> <span class="n">results_c</span><span class="p">(</span><span class="n">full_output</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/scipy/optimize/_zeros_py.py:784,</span> in <span class="ni">brentq</span><span class="nt">(f, a, b, args, xtol, rtol, maxiter, full_output, disp)</span>
+<span class="g g-Whitespace">    </span><span class="mi">783</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rtol too small (</span><span class="si">%g</span><span class="s2"> &lt; </span><span class="si">%g</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rtol</span><span class="p">,</span> <span class="n">_rtol</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">784</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_zeros</span><span class="o">.</span><span class="n">_brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">full_output</span><span class="p">,</span> <span class="n">disp</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">785</span> <span class="k">return</span> <span class="n">results_c</span><span class="p">(</span><span class="n">full_output</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
 
 <span class="ne">ValueError</span>: f(a) and f(b) must have different signs
 
@@ -1477,7 +1265,7 @@ range. If you really want to match the observation, then you would need to chang
 </section>
 </section>
 <section id="overparameteristion-or-the-magic-choice-of-the-best-calibration-option">
-<h2>Overparameteristion or the magic choice of the best calibration option:<a class="headerlink" href="#overparameteristion-or-the-magic-choice-of-the-best-calibration-option" title="Permalink to this headline">#</a></h2>
+<h2>Overparameteristion or the magic choice of the best calibration option:<a class="headerlink" href="#overparameteristion-or-the-magic-choice-of-the-best-calibration-option" title="Permalink to this heading">#</a></h2>
 <p>We found already some combinations that equally well match the average MB over a given time period. As we only use only one observation per glacier (i.e., per default the average geodetic MB from 2000-2020), but have up to three free MB model parameters, the MB model is overparameterised. That means, there are in theory an infinite amount of calibration options possible that equally well match the one obervation. Let’s look a bit more systematically into that:</p>
 <p>We will use a range of different <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and then calibrate the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> accordingly to always match to the default average MB (<code class="docutils literal notranslate"><span class="pre">ref_mb</span></code>) over the reference period (<code class="docutils literal notranslate"><span class="pre">ref_period</span></code>).</p>
 <div class="cell docutils container">
@@ -1525,7 +1313,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_89_0.png" src="../../_images/massbalance_calibration_89_0.png" />
+<img alt="../../_images/10602519f13727ab38067159939fa1f72af499eb0eeccda66f63a38638269d63.png" src="../../_images/10602519f13727ab38067159939fa1f72af499eb0eeccda66f63a38638269d63.png" />
 </div>
 </div>
 <p>All these combinations match the average <code class="docutils literal notranslate"><span class="pre">ref_mb</span></code> equally. The larger the chosen <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>, the larger needs to be the calibrated <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> when matching to the same average MB.</p>
@@ -1550,7 +1338,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_91_0.png" src="../../_images/massbalance_calibration_91_0.png" />
+<img alt="../../_images/e58c196e8c40132d83d2477764559fba8816c51be1fd9ea6f3628411e205f792.png" src="../../_images/e58c196e8c40132d83d2477764559fba8816c51be1fd9ea6f3628411e205f792.png" />
 </div>
 </div>
 <p>The larger the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, the larger is the interannual MB variability. For glaciers with in-situ observations, we can find a combination of <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> that has a similar interannnual MB variability than the observations. For example, you can choose a MB model parameter combination where the standard deviation quotient of the annual the modelled and observed MB is near to 1:</p>
@@ -1623,14 +1411,14 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:21:35: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:35: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:35: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:35: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:35: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:35: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:35: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:35: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 10:54:46: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:46: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:46: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:46: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:46: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:46: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:46: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:46: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1666,7 +1454,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_97_0.png" src="../../_images/massbalance_calibration_97_0.png" />
+<img alt="../../_images/12f7f68e77b63320bf8bb76bf83f50acfa869615d5909599d0d8bf2671527a0c.png" src="../../_images/12f7f68e77b63320bf8bb76bf83f50acfa869615d5909599d0d8bf2671527a0c.png" />
 </div>
 </div>
 <p>A lower <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> is needed if a positive <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> is applied… and with that the interannual MB variability gets smaller.</p>
@@ -1694,15 +1482,15 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:21:36: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:36: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:36: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:37: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:37: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:37: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:37: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:37: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-03-10 19:21:37: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 10:54:48: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:48: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:48: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:48: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:48: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:48: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:48: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:48: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-03-25 10:54:49: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1738,7 +1526,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_101_0.png" src="../../_images/massbalance_calibration_101_0.png" />
+<img alt="../../_images/fec06b527052699882bab1a3d3f4b4a544e97d9cf78d654fb7af0744ffc7b0cb.png" src="../../_images/fec06b527052699882bab1a3d3f4b4a544e97d9cf78d654fb7af0744ffc7b0cb.png" />
 </div>
 </div>
 <p>A larger <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> needs a larger <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> … and with that the interannual MB variability gets larger.</p>
@@ -1747,7 +1535,7 @@ range. If you really want to match the observation, then you would need to chang
 <p>We are working on including a Bayesian calibration framework into OGGM by using the calibration procedure explained below as prior estimates.</p>
 </section>
 <section id="back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6">
-<h2>Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?<a class="headerlink" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6" title="Permalink to this headline">#</a></h2>
+<h2>Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?<a class="headerlink" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6" title="Permalink to this heading">#</a></h2>
 <p>There are no easy solutions to the problem of overparameterisation. Here we explain the steps taken by OGGM to calibrate the parameters globally for our users who don’t want to care about calibration.</p>
 <p>In the <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/">preprocessed directories</a> MB model calibration is done by using <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_geodetic_mb</span></code> to determine the MB model parameters. We will reproduce the option from the preprocessed directory first:</p>
 <div class="cell docutils container">
@@ -1760,7 +1548,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 19:21:38: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 10:54:49: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
@@ -1791,19 +1579,19 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 <p>Now how did OGGM come to these parameters?</p>
 <section id="first-step-data-informed-precipitation-factor">
-<h3>First step: data informed precipitation factor<a class="headerlink" href="#first-step-data-informed-precipitation-factor" title="Permalink to this headline">#</a></h3>
+<h3>First step: data informed precipitation factor<a class="headerlink" href="#first-step-data-informed-precipitation-factor" title="Permalink to this heading">#</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> is chosen from a relation to the average winter precipitation. Fig.1a (below) shows the used relationship between winter precipitation and <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>.</p>
 <p>It was calibrated by adapting <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> and <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> to match the average geodetic and winter MB on around 100 glaciers with both informations available. The found relationship of decreasing <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> for increasing winter precipitation makes sense, as glaciers with already a large winter precipitation should not be corrected with a large multiplicative <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>.</p>
 </section>
 <section id="second-step-data-informed-temperature-bias">
-<h3>Second step: data informed temperature bias<a class="headerlink" href="#second-step-data-informed-temperature-bias" title="Permalink to this headline">#</a></h3>
+<h3>Second step: data informed temperature bias<a class="headerlink" href="#second-step-data-informed-temperature-bias" title="Permalink to this heading">#</a></h3>
 <p>Using this data-informed precipitation factore, with then do a global calibration where the temperature bias (<code class="docutils literal notranslate"><span class="pre">temp_bias</span></code>) is calibrated, while the melt factor (<code class="docutils literal notranslate"><span class="pre">melt_f</span></code>) is fixed at 5 kg m-2 day-1 K-1 (default value based on <a class="reference external" href="https://doi.org/10.31223/X5C65S">Schuster et al (2023, in review)</a>).</p>
 <p>The idea is that if many glaciers within the same grid point need a temperature bias to reach the obeserved MB, this indicates that a systematic correction is necessary (at least for this MB model in particular). In fact, we can plot the median bias required to match MB pbservations using this technique, which gives us the following plot:</p>
 <p><img alt="err" src="https://user-images.githubusercontent.com/10050469/224318400-ec1d8825-d7e7-4cdb-94f3-ebb95b8f7120.jpg" /></p>
 <p>The fact that the <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> parameter is spatially correlated (many regions are all blue or red) indicate that something in the data needs to be corrected for our model. It is this imformation that we use to inform the next step.</p>
 </section>
 <section id="third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses">
-<h3>Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses<a class="headerlink" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses" title="Permalink to this headline">#</a></h3>
+<h3>Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses<a class="headerlink" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses" title="Permalink to this heading">#</a></h3>
 <p>Finally, we now run <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.tasks.mb_calibration_from_scalar_mb.html">mb_calibration_from_scalar_mb</a> again for each glacier, as follows:</p>
 <ul class="simple">
 <li><p>use the first guess: <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> = 5, <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> = data-informed from step 1, <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> = data-informed from step 2</p></li>
@@ -1814,7 +1602,7 @@ range. If you really want to match the observation, then you would need to chang
 <p><strong>This informed step-wise calibration is the option that is used operationally in OGGM&gt;=v1.6 in the preprocessed directories (L&gt;=3) for all glaciers world-wide!</strong></p>
 </section>
 <section id="a-look-into-the-global-parameter-distributions">
-<h3>A look into the global parameter distributions<a class="headerlink" href="#a-look-into-the-global-parameter-distributions" title="Permalink to this headline">#</a></h3>
+<h3>A look into the global parameter distributions<a class="headerlink" href="#a-look-into-the-global-parameter-distributions" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_prcp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
@@ -1837,14 +1625,14 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/massbalance_calibration_118_0.png" src="../../_images/massbalance_calibration_118_0.png" />
+<img alt="../../_images/ecb2808e5c2682762b005971c96504eb3363d8a8339e201592c9f75e38b9ff3c.png" src="../../_images/ecb2808e5c2682762b005971c96504eb3363d8a8339e201592c9f75e38b9ff3c.png" />
 </div>
 </div>
 <p>TODO: here we could also add the global distrib of melt_f and prcp_f btw</p>
 </section>
 </section>
 <section id="take-home-points">
-<h2>Take home points<a class="headerlink" href="#take-home-points" title="Permalink to this headline">#</a></h2>
+<h2>Take home points<a class="headerlink" href="#take-home-points" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>We illustrated how a mass-balance (MB) model of a glacier can be calibrated in OGGM.</p></li>
 <li><p>We can use different observational data for calibration:</p>
@@ -1864,7 +1652,7 @@ range. If you really want to match the observation, then you would need to chang
 </ul>
 </section>
 <section id="what-s-next">
-<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
 <li><p>back to the <a class="reference internal" href="../welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
@@ -1892,57 +1680,116 @@ range. If you really want to match the observation, then you would need to chang
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="centerlines_to_shape.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Compute smoother centerlines for shapefile output</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="centerlines_to_shape.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Compute smoother centerlines for shapefile output</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="where_are_the_flowlines.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="where_are_the_flowlines.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">OGGM flowlines: where are they?</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up">Set-up</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">Calibrated mass balance parameters in OGGM v1.6 pre-processed directories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-new-flexible-calibration-scheme-in-oggm">The new flexible calibration scheme in OGGM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrate-on-direct-glaciological-in-situ-mb-observations">Calibrate on direct glaciological in-situ MB observations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-errors-and-including-your-own-mass-balance-observations">Dealing with errors and including your own mass-balance observations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overparameteristion-or-the-magic-choice-of-the-best-calibration-option">Overparameteristion or the magic choice of the best calibration option:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#back-to-where-we-started-how-did-we-calibrate-the-default-pre-processed-directories-in-oggm-1-6">Back to where we started: how did we calibrate the default pre-processed directories in OGGM 1.6?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#first-step-data-informed-precipitation-factor">First step: data informed precipitation factor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#second-step-data-informed-temperature-bias">Second step: data informed temperature bias</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#third-step-local-calibration-using-the-data-informed-precipitation-factor-and-temperature-bias-as-first-guesses">Third step: local calibration using the data informed precipitation factor and temperature bias as first guesses</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-look-into-the-global-parameter-distributions">A look into the global parameter distributions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#take-home-points">Take home points</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            <div class="bd-footer-content__inner">
+<div class="bd-footer-content__inner container">
   
-    By OGGM e.V. and OGGM Contributors<br/>
+  <div class="footer-item">
+    
+<p class="component-author">
+By OGGM e.V. and OGGM Contributors
+</p>
+
+  </div>
   
-    <div class="extra_footer">
-      <p>
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
 &copy; Copyright 2014-2021.
 </p>
 
-    </div>
-</p>
-        </footer>
-    </div>
-    
 </div>
+  </div>
+  
+</div></div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
