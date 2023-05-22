@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,8 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -177,6 +177,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../beginner/store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../beginner/plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="../beginner/distribute_flowline.html">Compute area and thickness changes on a grid (experimental!)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../beginner/deal_with_errors.html">Dealing with errors after a run</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../beginner/inversion.html">Ice thickness inversion</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../beginner/hydrological_output.html">Hydrological mass-balance output</a></li>
@@ -670,9 +671,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:13:59: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-03-25 11:13:59: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-03-25 11:13:59: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-05-22 08:14:38: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-05-22 08:14:38: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-05-22 08:14:38: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -715,8 +716,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:13:59: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-03-25 11:13:59: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-05-22 08:14:39: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-05-22 08:14:39: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -761,29 +762,29 @@ document.write(`
 <span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># and save some reference values we can compare to later</span>
 <span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">area_reference</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span>  <span class="c1"># RGI area</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:3038,</span> in <span class="ni">GlacierDirectory.read_json</span><span class="nt">(self, filename, filesuffix, allow_empty)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3021</span> <span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">allow_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">3022</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Reads a JSON file located in the directory.</span>
-<span class="g g-Whitespace">   </span><span class="mi">3023</span><span class="sd"> </span>
-<span class="g g-Whitespace">   </span><span class="mi">3024</span><span class="sd">     Parameters</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/oggm/utils/_workflow.py:3104,</span> in <span class="ni">GlacierDirectory.read_json</span><span class="nt">(self, filename, filesuffix, allow_empty)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3087</span> <span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">allow_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3088</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Reads a JSON file located in the directory.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3089</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3090</span><span class="sd">     Parameters</span>
 <span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3035</span><span class="sd">     A dictionary read from the JSON file</span>
-<span class="g g-Whitespace">   </span><span class="mi">3036</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">3038</span>     <span class="n">fp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">filesuffix</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3039</span>     <span class="k">if</span> <span class="n">allow_empty</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">3040</span>         <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3101</span><span class="sd">     A dictionary read from the JSON file</span>
+<span class="g g-Whitespace">   </span><span class="mi">3102</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">3104</span>     <span class="n">fp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">filesuffix</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3105</span>     <span class="k">if</span> <span class="n">allow_empty</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3106</span>         <span class="k">try</span><span class="p">:</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2893,</span> in <span class="ni">GlacierDirectory.get_filepath</span><span class="nt">(self, filename, delete, filesuffix, _deprecation_check)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2875</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Absolute path to a specific file.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2876</span><span class="sd"> </span>
-<span class="g g-Whitespace">   </span><span class="mi">2877</span><span class="sd"> Parameters</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/oggm/utils/_workflow.py:2954,</span> in <span class="ni">GlacierDirectory.get_filepath</span><span class="nt">(self, filename, delete, filesuffix, _deprecation_check)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2936</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Absolute path to a specific file.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2937</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">2938</span><span class="sd"> Parameters</span>
 <span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2889</span><span class="sd"> The absolute path to the desired file</span>
-<span class="g g-Whitespace">   </span><span class="mi">2890</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">2892</span> <span class="k">if</span> <span class="n">filename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BASENAMES</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2893</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39; not in cfg.BASENAMES.&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2895</span> <span class="n">fname</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BASENAMES</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">2896</span> <span class="k">if</span> <span class="n">filesuffix</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2950</span><span class="sd"> The absolute path to the desired file</span>
+<span class="g g-Whitespace">   </span><span class="mi">2951</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2953</span> <span class="k">if</span> <span class="n">filename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BASENAMES</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2954</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39; not in cfg.BASENAMES.&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2956</span> <span class="n">fname</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BASENAMES</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">2957</span> <span class="k">if</span> <span class="n">filesuffix</span><span class="p">:</span>
 
 <span class="ne">ValueError</span>: local_mustar not in cfg.BASENAMES.
 </pre></div>
@@ -1072,29 +1073,29 @@ document.write(`
 <span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># and save some reference values we can compare to later</span>
 <span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">area_reference</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span>  <span class="c1"># RGI area</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:3038,</span> in <span class="ni">GlacierDirectory.read_json</span><span class="nt">(self, filename, filesuffix, allow_empty)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3021</span> <span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">allow_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">3022</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Reads a JSON file located in the directory.</span>
-<span class="g g-Whitespace">   </span><span class="mi">3023</span><span class="sd"> </span>
-<span class="g g-Whitespace">   </span><span class="mi">3024</span><span class="sd">     Parameters</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/oggm/utils/_workflow.py:3104,</span> in <span class="ni">GlacierDirectory.read_json</span><span class="nt">(self, filename, filesuffix, allow_empty)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3087</span> <span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">allow_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3088</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Reads a JSON file located in the directory.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3089</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">3090</span><span class="sd">     Parameters</span>
 <span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3035</span><span class="sd">     A dictionary read from the JSON file</span>
-<span class="g g-Whitespace">   </span><span class="mi">3036</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">3038</span>     <span class="n">fp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">filesuffix</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">3039</span>     <span class="k">if</span> <span class="n">allow_empty</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">3040</span>         <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3101</span><span class="sd">     A dictionary read from the JSON file</span>
+<span class="g g-Whitespace">   </span><span class="mi">3102</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">3104</span>     <span class="n">fp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">filesuffix</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3105</span>     <span class="k">if</span> <span class="n">allow_empty</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3106</span>         <span class="k">try</span><span class="p">:</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:2893,</span> in <span class="ni">GlacierDirectory.get_filepath</span><span class="nt">(self, filename, delete, filesuffix, _deprecation_check)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2875</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Absolute path to a specific file.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2876</span><span class="sd"> </span>
-<span class="g g-Whitespace">   </span><span class="mi">2877</span><span class="sd"> Parameters</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/oggm/utils/_workflow.py:2954,</span> in <span class="ni">GlacierDirectory.get_filepath</span><span class="nt">(self, filename, delete, filesuffix, _deprecation_check)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2936</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Absolute path to a specific file.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2937</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">2938</span><span class="sd"> Parameters</span>
 <span class="sd">   (...)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2889</span><span class="sd"> The absolute path to the desired file</span>
-<span class="g g-Whitespace">   </span><span class="mi">2890</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">2892</span> <span class="k">if</span> <span class="n">filename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BASENAMES</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2893</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39; not in cfg.BASENAMES.&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2895</span> <span class="n">fname</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BASENAMES</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">2896</span> <span class="k">if</span> <span class="n">filesuffix</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2950</span><span class="sd"> The absolute path to the desired file</span>
+<span class="g g-Whitespace">   </span><span class="mi">2951</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2953</span> <span class="k">if</span> <span class="n">filename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BASENAMES</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2954</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39; not in cfg.BASENAMES.&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2956</span> <span class="n">fname</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">BASENAMES</span><span class="p">[</span><span class="n">filename</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">2957</span> <span class="k">if</span> <span class="n">filesuffix</span><span class="p">:</span>
 
 <span class="ne">ValueError</span>: local_mustar not in cfg.BASENAMES.
 </pre></div>
@@ -1137,24 +1138,24 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:15:01: oggm.core.dynamic_spinup: No dynamic spinup could be conducted and the original model with no spinup is saved using the provided output_filesuffix &quot;_spinup_dynamic_area&quot;. The error message of the dynamic spinup is: Could not find mismatch smaller 1% (only 1.349507936627559%) in 30Iterations!
-2023-03-25 11:15:01: oggm.core.dynamic_spinup: RuntimeError occurred during task run_dynamic_spinup_spinup_dynamic_area on RGI60-11.00275: Could not find mismatch smaller 1% (only 1.349507936627559%) in 30Iterations!
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-05-22 08:16:08: oggm.core.dynamic_spinup: No dynamic spinup could be conducted and the original model with no spinup is saved using the provided output_filesuffix &quot;_spinup_dynamic_area&quot;. The error message of the dynamic spinup is: Could not find mismatch smaller 1% (only 1.349507936627559%) in 30Iterations!
+2023-05-22 08:16:08: oggm.core.dynamic_spinup: RuntimeError occurred during task run_dynamic_spinup_spinup_dynamic_area on RGI60-11.00275: Could not find mismatch smaller 1% (only 1.349507936627559%) in 30Iterations!
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/dynamic_spinup.py:816,</span> in <span class="ni">run_dynamic_spinup</span><span class="nt">(gdir, init_model_filesuffix, init_model_yr, init_model_fls, climate_input_filesuffix, evolution_model, mb_model_historical, mb_model_spinup, spinup_period, spinup_start_yr, min_spinup_period, spinup_start_yr_max, yr_rgi, minimise_for, precision_percent, precision_absolute, min_ice_thickness, first_guess_t_bias, t_bias_max_step_length, maxiter, output_filesuffix, store_model_geometry, store_fl_diagnostics, store_model_evolution, ignore_errors, return_t_bias_best, ye, model_flowline_filesuffix, make_compatible, add_fixed_geometry_spinup, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">815</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">816</span>     <span class="n">final_t_bias_guess</span><span class="p">,</span> <span class="n">final_mismatch</span> <span class="o">=</span> <span class="n">minimise_with_spline_fit</span><span class="p">(</span><span class="n">c_fun</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">817</span>     <span class="c1"># ok no error occurred so we succeeded</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/oggm/core/dynamic_spinup.py:817,</span> in <span class="ni">run_dynamic_spinup</span><span class="nt">(gdir, init_model_filesuffix, init_model_yr, init_model_fls, climate_input_filesuffix, evolution_model, mb_model_historical, mb_model_spinup, spinup_period, spinup_start_yr, min_spinup_period, spinup_start_yr_max, yr_rgi, minimise_for, precision_percent, precision_absolute, min_ice_thickness, first_guess_t_bias, t_bias_max_step_length, maxiter, output_filesuffix, store_model_geometry, store_fl_diagnostics, store_model_evolution, ignore_errors, return_t_bias_best, ye, model_flowline_filesuffix, add_fixed_geometry_spinup, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">816</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">817</span>     <span class="n">final_t_bias_guess</span><span class="p">,</span> <span class="n">final_mismatch</span> <span class="o">=</span> <span class="n">minimise_with_spline_fit</span><span class="p">(</span><span class="n">c_fun</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">818</span>     <span class="c1"># ok no error occurred so we succeeded</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/dynamic_spinup.py:761,</span> in <span class="ni">run_dynamic_spinup.&lt;locals&gt;.minimise_with_spline_fit</span><span class="nt">(fct_to_minimise)</span>
-<span class="g g-Whitespace">    </span><span class="mi">759</span> <span class="c1"># Ok when we end here the spinup could not find satisfying match after</span>
-<span class="g g-Whitespace">    </span><span class="mi">760</span> <span class="c1"># maxiter(ations)</span>
-<span class="ne">--&gt; </span><span class="mi">761</span> <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Could not find mismatch smaller &#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">762</span>                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">precision_percent</span><span class="si">}</span><span class="s1">% (only &#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">763</span>                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mismatch</span><span class="p">))</span><span class="si">}</span><span class="s1">%) in </span><span class="si">{</span><span class="n">maxiter</span><span class="si">}</span><span class="s1">&#39;</span>
-<span class="g g-Whitespace">    </span><span class="mi">764</span>                    <span class="sa">f</span><span class="s1">&#39;Iterations!&#39;</span><span class="p">)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/oggm/core/dynamic_spinup.py:762,</span> in <span class="ni">run_dynamic_spinup.&lt;locals&gt;.minimise_with_spline_fit</span><span class="nt">(fct_to_minimise)</span>
+<span class="g g-Whitespace">    </span><span class="mi">760</span> <span class="c1"># Ok when we end here the spinup could not find satisfying match after</span>
+<span class="g g-Whitespace">    </span><span class="mi">761</span> <span class="c1"># maxiter(ations)</span>
+<span class="ne">--&gt; </span><span class="mi">762</span> <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Could not find mismatch smaller &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">763</span>                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">precision_percent</span><span class="si">}</span><span class="s1">% (only &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">764</span>                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">mismatch</span><span class="p">))</span><span class="si">}</span><span class="s1">%) in </span><span class="si">{</span><span class="n">maxiter</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">765</span>                    <span class="sa">f</span><span class="s1">&#39;Iterations!&#39;</span><span class="p">)</span>
 
 <span class="ne">RuntimeError</span>: Could not find mismatch smaller 1% (only 1.349507936627559%) in 30Iterations!
 
@@ -1173,19 +1174,19 @@ document.write(`
 <span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="c1"># Read the output</span>
 <span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/oggm/utils/_workflow.py:491,</span> in <span class="ni">entity_task.__call__.&lt;locals&gt;._entity_task</span><span class="nt">(gdir, reset, print_log, return_value, continue_on_error, add_to_log_file, **kwargs)</span>
 <span class="g g-Whitespace">    </span><span class="mi">489</span>     <span class="n">signal</span><span class="o">.</span><span class="n">alarm</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">])</span>
 <span class="g g-Whitespace">    </span><span class="mi">490</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="ne">--&gt; </span><span class="mi">491</span> <span class="n">out</span> <span class="o">=</span> <span class="n">task_func</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
 <span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/oggm/core/dynamic_spinup.py:845,</span> in <span class="ni">run_dynamic_spinup</span><span class="nt">(gdir, init_model_filesuffix, init_model_yr, init_model_fls, climate_input_filesuffix, evolution_model, mb_model_historical, mb_model_spinup, spinup_period, spinup_start_yr, min_spinup_period, spinup_start_yr_max, yr_rgi, minimise_for, precision_percent, precision_absolute, min_ice_thickness, first_guess_t_bias, t_bias_max_step_length, maxiter, output_filesuffix, store_model_geometry, store_fl_diagnostics, store_model_evolution, ignore_errors, return_t_bias_best, ye, model_flowline_filesuffix, make_compatible, add_fixed_geometry_spinup, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">842</span>                 <span class="k">if</span> <span class="n">diag_path</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">diag_path</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">843</span>                     <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">diag_path</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">845</span>                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">847</span> <span class="c1"># hurray, dynamic spinup successfully</span>
-<span class="g g-Whitespace">    </span><span class="mi">848</span> <span class="n">gdir</span><span class="o">.</span><span class="n">add_to_diagnostics</span><span class="p">(</span><span class="s1">&#39;run_dynamic_spinup_success&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/oggm/core/dynamic_spinup.py:846,</span> in <span class="ni">run_dynamic_spinup</span><span class="nt">(gdir, init_model_filesuffix, init_model_yr, init_model_fls, climate_input_filesuffix, evolution_model, mb_model_historical, mb_model_spinup, spinup_period, spinup_start_yr, min_spinup_period, spinup_start_yr_max, yr_rgi, minimise_for, precision_percent, precision_absolute, min_ice_thickness, first_guess_t_bias, t_bias_max_step_length, maxiter, output_filesuffix, store_model_geometry, store_fl_diagnostics, store_model_evolution, ignore_errors, return_t_bias_best, ye, model_flowline_filesuffix, add_fixed_geometry_spinup, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">843</span>                 <span class="k">if</span> <span class="n">diag_path</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">diag_path</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">844</span>                     <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">diag_path</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">846</span>                 <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">848</span> <span class="c1"># hurray, dynamic spinup successfully</span>
+<span class="g g-Whitespace">    </span><span class="mi">849</span> <span class="n">gdir</span><span class="o">.</span><span class="n">add_to_diagnostics</span><span class="p">(</span><span class="s1">&#39;run_dynamic_spinup_success&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
 <span class="ne">RuntimeError</span>: Could not find mismatch smaller 1% (only 1.349507936627559%) in 30Iterations!
 </pre></div>
@@ -1253,7 +1254,7 @@ document.write(`
 <span class="ne">NameError</span>: name &#39;volume_reference&#39; is not defined
 </pre></div>
 </div>
-<img alt="../../_images/a69dc572442d4a14371051fa0ec24b20346ade398a88a7e3b96b0c17bafea50d.png" src="../../_images/a69dc572442d4a14371051fa0ec24b20346ade398a88a7e3b96b0c17bafea50d.png" />
+<img alt="../../_images/36476045613aa9514bc68072d0b91122da4291c94abc11c8ae86b857d06d2c77.png" src="../../_images/36476045613aa9514bc68072d0b91122da4291c94abc11c8ae86b857d06d2c77.png" />
 </div>
 </div>
 <p>In this example, you see that the dynamic spinup runs do not start in 1980 but other years. The reason for this are the two main problems and the coping strategy of reducing the spinup time, described <span class="xref myst">here</span> in more detail.
@@ -1289,7 +1290,7 @@ If you want to get an error when this is happening you can use the <code class="
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-25 11:15:02: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-05-22 08:16:09: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -1403,10 +1404,10 @@ same way:</p>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/dataset.py:1347,</span> in <span class="ni">Dataset._construct_dataarray</span><span class="nt">(self, name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1346</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1347</span>     <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1348</span> <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/xarray/core/dataset.py:1353,</span> in <span class="ni">Dataset._construct_dataarray</span><span class="nt">(self, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1352</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1353</span>     <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1354</span> <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
 
 <span class="ne">KeyError</span>: &#39;melt_off_glacier_monthly&#39;
 
@@ -1419,21 +1420,21 @@ same way:</p>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">monthly_runoff</span> <span class="o">*=</span> <span class="mf">1e-9</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">monthly_runoff</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">cbar_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;label&#39;</span><span class="p">:</span><span class="s1">&#39;Mt&#39;</span><span class="p">});</span> <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Months&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Years&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/dataset.py:1438,</span> in <span class="ni">Dataset.__getitem__</span><span class="nt">(self, key)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1436</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="o">**</span><span class="n">key</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1437</span> <span class="k">if</span> <span class="n">utils</span><span class="o">.</span><span class="n">hashable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1438</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_construct_dataarray</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1439</span> <span class="k">if</span> <span class="n">utils</span><span class="o">.</span><span class="n">iterable_of_hashable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1440</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_copy_listed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/xarray/core/dataset.py:1444,</span> in <span class="ni">Dataset.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1442</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="o">**</span><span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1443</span> <span class="k">if</span> <span class="n">utils</span><span class="o">.</span><span class="n">hashable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1444</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_construct_dataarray</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1445</span> <span class="k">if</span> <span class="n">utils</span><span class="o">.</span><span class="n">iterable_of_hashable</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1446</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_copy_listed</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/dataset.py:1349,</span> in <span class="ni">Dataset._construct_dataarray</span><span class="nt">(self, name)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1347</span>     <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1348</span> <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1349</span>     <span class="n">_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="n">_get_virtual_variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1351</span> <span class="n">needed_dims</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1353</span> <span class="n">coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Hashable</span><span class="p">,</span> <span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/xarray/core/dataset.py:1355,</span> in <span class="ni">Dataset._construct_dataarray</span><span class="nt">(self, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1353</span>     <span class="n">variable</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1354</span> <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1355</span>     <span class="n">_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">variable</span> <span class="o">=</span> <span class="n">_get_virtual_variable</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_variables</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1357</span> <span class="n">needed_dims</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">variable</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1359</span> <span class="n">coords</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Hashable</span><span class="p">,</span> <span class="n">Variable</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.10/lib/python3.10/site-packages/xarray/core/dataset.py:185,</span> in <span class="ni">_get_virtual_variable</span><span class="nt">(variables, key, dim_sizes)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.11/lib/python3.10/site-packages/xarray/core/dataset.py:185,</span> in <span class="ni">_get_virtual_variable</span><span class="nt">(variables, key, dim_sizes)</span>
 <span class="g g-Whitespace">    </span><span class="mi">183</span> <span class="n">split_key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="g g-Whitespace">    </span><span class="mi">184</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split_key</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
 <span class="ne">--&gt; </span><span class="mi">185</span>     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
@@ -1483,9 +1484,15 @@ same way:</p>
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -1526,7 +1533,7 @@ same way:</p>
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -1557,7 +1564,7 @@ These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/
 </div>
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -1566,8 +1573,8 @@ These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>
