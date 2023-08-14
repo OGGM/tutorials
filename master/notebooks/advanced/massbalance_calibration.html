@@ -197,6 +197,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
@@ -534,10 +535,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:07:43: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-06-22 09:07:43: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-06-22 09:07:43: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-06-22 09:07:44: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:04:16: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-14 13:04:16: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-14 13:04:16: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-14 13:04:17: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
 </pre></div>
 </div>
 </div>
@@ -552,8 +553,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:07:44: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-06-22 09:07:44: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:04:17: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-08-14 13:04:17: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -568,7 +569,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/de482e947929b52f9761b45c89fab522fdd0ce3266e20e2d3945ca988665a83f.png" src="../../_images/de482e947929b52f9761b45c89fab522fdd0ce3266e20e2d3945ca988665a83f.png" />
+<img alt="../../_images/6abbe22466861f223e03e5bef9e3943ab252f1c9472d4e69fcd5d8fcdffccc1e.png" src="../../_images/6abbe22466861f223e03e5bef9e3943ab252f1c9472d4e69fcd5d8fcdffccc1e.png" />
 </div>
 </div>
 </section>
@@ -767,7 +768,7 @@ reference MB time period: 2000-01-01_2020-01-01
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_4854/2826850919.py:6: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_5784/2826850919.py:6: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   ref_mb = float(ref_mb_df[&#39;dmdtda&#39;]) * 1000
 </pre></div>
 </div>
@@ -803,7 +804,7 @@ reference MB time period: 2000-01-01_2020-01-01
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
  &#39;bias&#39;: 0,
  &#39;melt_f&#39;: 9.06088881579363,
- &#39;prcp_fac&#39;: 3.357136316271367,
+ &#39;prcp_fac&#39;: 3.3571363162713674,
  &#39;temp_bias&#39;: 0,
  &#39;reference_mb&#39;: -1100.3,
  &#39;reference_mb_err&#39;: None,
@@ -845,7 +846,7 @@ reference MB time period: 2000-01-01_2020-01-01
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1.6621867397806107, 3.357136316271367, 5.0)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1.6621867397806114, 3.3571363162713674, 5.0)
 </pre></div>
 </div>
 </div>
@@ -909,7 +910,7 @@ We will get the in-situ observations like that:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/b2a2cd360b1dafd8f4dadc27521cfa4f45ac75f49559cd259d6bbac673d0c978.png" src="../../_images/b2a2cd360b1dafd8f4dadc27521cfa4f45ac75f49559cd259d6bbac673d0c978.png" />
+<img alt="../../_images/655033c5b98f00e6fe0cf3154f708277f6d7d3111be67982e27d355e53f5b599.png" src="../../_images/655033c5b98f00e6fe0cf3154f708277f6d7d3111be67982e27d355e53f5b599.png" />
 </div>
 </div>
 <p>For this glacier, over the same time period (here 2000-2020), the average MB is quite similar between the geodetic and in-situ observation and could even be explained by the fact that the in-situ observations are in hydrological years (starting in October of the previous year) and the geodetic observations are in calendar years. If you repeat the analysis for other glaciers with in-situ observations over that time period, you might see larger discrepancies.</p>
@@ -929,7 +930,7 @@ We will get the in-situ observations like that:</p>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
  &#39;bias&#39;: 0,
  &#39;melt_f&#39;: 11.27883598160852,
- &#39;prcp_fac&#39;: 3.357136316271367,
+ &#39;prcp_fac&#39;: 3.3571363162713674,
  &#39;temp_bias&#39;: 0,
  &#39;reference_mb&#39;: -648.223880597015,
  &#39;reference_mb_err&#39;: None,
@@ -973,7 +974,7 @@ but applies directly the average annual in-situ MB observations from the WGMS. P
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/9365e7be4a869947b56c7c787226d3aa777a1d7c1e3d383d450b6e5cd0e403f5.png" src="../../_images/9365e7be4a869947b56c7c787226d3aa777a1d7c1e3d383d450b6e5cd0e403f5.png" />
+<img alt="../../_images/e3c9fc997218c26361585c0bd0c0650badd7230ef61ce5abbc47a5e7ff851227.png" src="../../_images/e3c9fc997218c26361585c0bd0c0650badd7230ef61ce5abbc47a5e7ff851227.png" />
 </div>
 </div>
 <p>The average MB over the entire time period is matched as we calibrate to it. However, the interannual mass-balance variability is different. How well the modelled annual mass-balance time series matches the observations can be for example assessed by looking at the correlation between modelled and observed annual MB</p>
@@ -1020,11 +1021,11 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:07:54: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2023-06-22 09:07:54: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:04:25: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2023-08-14 13:04:25: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
-<img alt="../../_images/8a2cf5760f8b6c5ec29c162596d565cdad1c5261d559a725d036c9a868634cc0.png" src="../../_images/8a2cf5760f8b6c5ec29c162596d565cdad1c5261d559a725d036c9a868634cc0.png" />
+<img alt="../../_images/cf36b4a42206f5afd52dc5078b64907385a9679510ab4bda17d5a24ec6712bbd.png" src="../../_images/cf36b4a42206f5afd52dc5078b64907385a9679510ab4bda17d5a24ec6712bbd.png" />
 </div>
 </div>
 <p>Let’s calibrate that glacier by only changing the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, default in <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_scalar_mb</span></code>:</p>
@@ -1040,7 +1041,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_4854/1139011117.py:5: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_5784/1139011117.py:5: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   ref_mb = float(ref_mb_df[&#39;dmdtda&#39;]) * 1000
 </pre></div>
 </div>
@@ -1057,23 +1058,23 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:08:06: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-13.11609: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:04:37: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-13.11609: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/oggm/core/massbalance.py:1779,</span> in <span class="ni">mb_calibration_from_scalar_mb</span><span class="nt">(gdir, ref_mb, ref_mb_err, ref_period, ref_mb_years, write_to_gdir, overwrite_gdir, calibrate_param1, calibrate_param2, calibrate_param3, melt_f, melt_f_min, melt_f_max, prcp_fac, prcp_fac_min, prcp_fac_max, temp_bias, temp_bias_min, temp_bias_max, mb_model_class)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1778</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1779</span>     <span class="n">optim_param1</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">to_minimize</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1780</span>                                    <span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1781</span>                                    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">calibrate_param1</span><span class="p">,)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1782</span>                                    <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1783</span> <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/oggm/core/massbalance.py:1783,</span> in <span class="ni">mb_calibration_from_scalar_mb</span><span class="nt">(gdir, ref_mb, ref_mb_err, ref_period, ref_mb_years, write_to_gdir, overwrite_gdir, calibrate_param1, calibrate_param2, calibrate_param3, melt_f, melt_f_min, melt_f_max, prcp_fac, prcp_fac_min, prcp_fac_max, temp_bias, temp_bias_min, temp_bias_max, mb_model_class)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1782</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1783</span>     <span class="n">optim_param1</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">to_minimize</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1784</span>                                    <span class="n">min_range</span><span class="p">,</span> <span class="n">max_range</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1785</span>                                    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">calibrate_param1</span><span class="p">,)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1786</span>                                    <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1787</span> <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/scipy/optimize/_zeros_py.py:784,</span> in <span class="ni">brentq</span><span class="nt">(f, a, b, args, xtol, rtol, maxiter, full_output, disp)</span>
-<span class="g g-Whitespace">    </span><span class="mi">783</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;rtol too small (</span><span class="si">%g</span><span class="s2"> &lt; </span><span class="si">%g</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rtol</span><span class="p">,</span> <span class="n">_rtol</span><span class="p">))</span>
-<span class="ne">--&gt; </span><span class="mi">784</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_zeros</span><span class="o">.</span><span class="n">_brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">full_output</span><span class="p">,</span> <span class="n">disp</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">785</span> <span class="k">return</span> <span class="n">results_c</span><span class="p">(</span><span class="n">full_output</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/scipy/optimize/_zeros_py.py:799,</span> in <span class="ni">brentq</span><span class="nt">(f, a, b, args, xtol, rtol, maxiter, full_output, disp)</span>
+<span class="g g-Whitespace">    </span><span class="mi">798</span> <span class="n">f</span> <span class="o">=</span> <span class="n">_wrap_nan_raise</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">799</span> <span class="n">r</span> <span class="o">=</span> <span class="n">_zeros</span><span class="o">.</span><span class="n">_brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">xtol</span><span class="p">,</span> <span class="n">rtol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">full_output</span><span class="p">,</span> <span class="n">disp</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">800</span> <span class="k">return</span> <span class="n">results_c</span><span class="p">(</span><span class="n">full_output</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
 
 <span class="ne">ValueError</span>: f(a) and f(b) must have different signs
 
@@ -1091,13 +1092,13 @@ dtype: float64
 <span class="g g-Whitespace">    </span><span class="mi">492</span> <span class="n">ex_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">ex_t</span>
 <span class="g g-Whitespace">    </span><span class="mi">493</span> <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;task_timeout&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
 
-<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/oggm/core/massbalance.py:1785,</span> in <span class="ni">mb_calibration_from_scalar_mb</span><span class="nt">(gdir, ref_mb, ref_mb_err, ref_period, ref_mb_years, write_to_gdir, overwrite_gdir, calibrate_param1, calibrate_param2, calibrate_param3, melt_f, melt_f_min, melt_f_max, prcp_fac, prcp_fac_min, prcp_fac_max, temp_bias, temp_bias_min, temp_bias_max, mb_model_class)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1783</span> <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1784</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">calibrate_param2</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1785</span>         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="si">}</span><span class="s1">: ref mb not matched. &#39;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1786</span>                            <span class="sa">f</span><span class="s1">&#39;Try to set calibrate_param2.&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1788</span>     <span class="c1"># Check which direction we need to go</span>
-<span class="g g-Whitespace">   </span><span class="mi">1789</span>     <span class="n">diff_1</span> <span class="o">=</span> <span class="n">to_minimize</span><span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">calibrate_param1</span><span class="p">)</span>
+<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/oggm/core/massbalance.py:1789,</span> in <span class="ni">mb_calibration_from_scalar_mb</span><span class="nt">(gdir, ref_mb, ref_mb_err, ref_period, ref_mb_years, write_to_gdir, overwrite_gdir, calibrate_param1, calibrate_param2, calibrate_param3, melt_f, melt_f_min, melt_f_max, prcp_fac, prcp_fac_min, prcp_fac_max, temp_bias, temp_bias_min, temp_bias_max, mb_model_class)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1787</span> <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1788</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">calibrate_param2</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1789</span>         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="si">}</span><span class="s1">: ref mb not matched. &#39;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1790</span>                            <span class="sa">f</span><span class="s1">&#39;Try to set calibrate_param2.&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1792</span>     <span class="c1"># Check which direction we need to go</span>
+<span class="g g-Whitespace">   </span><span class="mi">1793</span>     <span class="n">diff_1</span> <span class="o">=</span> <span class="n">to_minimize</span><span class="p">(</span><span class="n">min_range</span><span class="p">,</span> <span class="n">calibrate_param1</span><span class="p">)</span>
 
 <span class="ne">RuntimeError</span>: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
@@ -1235,7 +1236,7 @@ Let’s try it out, by using now the same order as in <a class="reference extern
  &#39;bias&#39;: 0,
  &#39;melt_f&#39;: 1.5,
  &#39;prcp_fac&#39;: 10.0,
- &#39;temp_bias&#39;: -0.8132605320838412,
+ &#39;temp_bias&#39;: -0.8132605320838399,
  &#39;reference_mb&#39;: 6000,
  &#39;reference_mb_err&#39;: None,
  &#39;reference_period&#39;: &#39;2000-01-01_2010-01-01&#39;,
@@ -1287,7 +1288,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_4854/2386163853.py:4: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_5784/2386163853.py:4: FutureWarning: Calling float on a single element Series is deprecated and will raise a TypeError in the future. Use float(ser.iloc[0]) instead
   ref_mb = float(ref_mb_df[&#39;dmdtda&#39;]) * 1000
 </pre></div>
 </div>
@@ -1328,7 +1329,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/10602519f13727ab38067159939fa1f72af499eb0eeccda66f63a38638269d63.png" src="../../_images/10602519f13727ab38067159939fa1f72af499eb0eeccda66f63a38638269d63.png" />
+<img alt="../../_images/f71afcc6602dfe76309711aa741d33dc8c9655e8edc4e4bbd39eec018cfd0c36.png" src="../../_images/f71afcc6602dfe76309711aa741d33dc8c9655e8edc4e4bbd39eec018cfd0c36.png" />
 </div>
 </div>
 <p>All these combinations match the average <code class="docutils literal notranslate"><span class="pre">ref_mb</span></code> equally. The larger the chosen <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code>, the larger needs to be the calibrated <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> when matching to the same average MB.</p>
@@ -1353,7 +1354,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/e58c196e8c40132d83d2477764559fba8816c51be1fd9ea6f3628411e205f792.png" src="../../_images/e58c196e8c40132d83d2477764559fba8816c51be1fd9ea6f3628411e205f792.png" />
+<img alt="../../_images/938225edd807cd735a8380d8f82c1460c6bb1f8fcd8130f5afe37fad0155d9c5.png" src="../../_images/938225edd807cd735a8380d8f82c1460c6bb1f8fcd8130f5afe37fad0155d9c5.png" />
 </div>
 </div>
 <p>The larger the <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code>, the larger is the interannual MB variability. For glaciers with in-situ observations, we can find a combination of <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> and <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> that has a similar interannnual MB variability than the observations. For example, you can choose a MB model parameter combination where the standard deviation quotient of the annual the modelled and observed MB is near to 1:</p>
@@ -1426,14 +1427,14 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:08:10: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:10: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:10: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:10: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:10: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:10: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:10: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:10: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:04:39: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:39: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:39: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:39: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:40: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:40: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:40: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:40: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1469,7 +1470,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/12f7f68e77b63320bf8bb76bf83f50acfa869615d5909599d0d8bf2671527a0c.png" src="../../_images/12f7f68e77b63320bf8bb76bf83f50acfa869615d5909599d0d8bf2671527a0c.png" />
+<img alt="../../_images/98bc7429950edb98d75ff0cb55181c1b57c291c74c4575609543823ba9fc28ca.png" src="../../_images/98bc7429950edb98d75ff0cb55181c1b57c291c74c4575609543823ba9fc28ca.png" />
 </div>
 </div>
 <p>A lower <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> is needed if a positive <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> is applied… and with that the interannual MB variability gets smaller.</p>
@@ -1497,15 +1498,15 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:08:12: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:12: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:12: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:13: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:13: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:13: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:13: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:13: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2023-06-22 09:08:14: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:04:41: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:41: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:41: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:41: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:41: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:41: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:41: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:41: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2023-08-14 13:04:42: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1541,7 +1542,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/fec06b527052699882bab1a3d3f4b4a544e97d9cf78d654fb7af0744ffc7b0cb.png" src="../../_images/fec06b527052699882bab1a3d3f4b4a544e97d9cf78d654fb7af0744ffc7b0cb.png" />
+<img alt="../../_images/d691273d353c6334e87ccbeda11be0b04e8fea952125a882ab1dbbfc38a58042.png" src="../../_images/d691273d353c6334e87ccbeda11be0b04e8fea952125a882ab1dbbfc38a58042.png" />
 </div>
 </div>
 <p>A larger <code class="docutils literal notranslate"><span class="pre">temp_bias</span></code> needs a larger <code class="docutils literal notranslate"><span class="pre">prcp_fac</span></code> … and with that the interannual MB variability gets larger.</p>
@@ -1563,7 +1564,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:08:15: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:04:43: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
@@ -1640,7 +1641,7 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c555e145d48b4d43397a14f31e5ce90d0e97df8e17bcd94b87a5c13a619223e6.png" src="../../_images/c555e145d48b4d43397a14f31e5ce90d0e97df8e17bcd94b87a5c13a619223e6.png" />
+<img alt="../../_images/de7edaab7523fa7dd0279755bd3edf736de2f88e51fe0403acdf3bb8b2429b92.png" src="../../_images/de7edaab7523fa7dd0279755bd3edf736de2f88e51fe0403acdf3bb8b2429b92.png" />
 </div>
 </div>
 <p>TODO: here we could also add the global distrib of melt_f and prcp_f btw</p>

@@ -197,6 +197,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
@@ -534,9 +535,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:12:12: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-06-22 09:12:12: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-06-22 09:12:12: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:08:13: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-14 13:08:13: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-14 13:08:13: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -762,10 +763,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:12:39: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:08:38: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
 </pre></div>
 </div>
-<img alt="../../_images/d7614a16665fd13a76d6da21a963930950473b6e08a56887cc0c4d3800551ea4.png" src="../../_images/d7614a16665fd13a76d6da21a963930950473b6e08a56887cc0c4d3800551ea4.png" />
+<img alt="../../_images/6a0cd03409d915103c43beeaa0406aa012ea91707234a625478f46e3182e17d6.png" src="../../_images/6a0cd03409d915103c43beeaa0406aa012ea91707234a625478f46e3182e17d6.png" />
 </div>
 </div>
 <p>Obviously, the two smaller tongues used to flow in the main one but this is not the case anymore today. We need updated geometries.</p>
@@ -827,7 +828,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d3fd60766ad77a7936c23a58a4915045f442662e69d7c54ff6e41c748df1e94d.png" src="../../_images/d3fd60766ad77a7936c23a58a4915045f442662e69d7c54ff6e41c748df1e94d.png" />
+<img alt="../../_images/399ec3198a2a478370c6d24fa97d8d42d34235b02179e25d766e83f44eed1310.png" src="../../_images/399ec3198a2a478370c6d24fa97d8d42d34235b02179e25d766e83f44eed1310.png" />
 </div>
 </div>
 <p>Now we use the RGI entity as template - it’s good to use the same attributes as the original RGI glacier, because most of them are already correct:</p>
@@ -985,7 +986,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d3fd60766ad77a7936c23a58a4915045f442662e69d7c54ff6e41c748df1e94d.png" src="../../_images/d3fd60766ad77a7936c23a58a4915045f442662e69d7c54ff6e41c748df1e94d.png" />
+<img alt="../../_images/399ec3198a2a478370c6d24fa97d8d42d34235b02179e25d766e83f44eed1310.png" src="../../_images/399ec3198a2a478370c6d24fa97d8d42d34235b02179e25d766e83f44eed1310.png" />
 </div>
 </div>
 <p>Save it:</p>
@@ -1063,7 +1064,7 @@ and also <a class="reference external" href="https://networkx.org/documentation/
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/1a535330d0cf8727d6325426e300acd2dac83f3fbc6e8b6ba9ed06dd083af598.png" src="../../_images/1a535330d0cf8727d6325426e300acd2dac83f3fbc6e8b6ba9ed06dd083af598.png" />
+<img alt="../../_images/47f8684a064da65197ad24cc30c130c613ae58ea471852ee55805e1528ebee23.png" src="../../_images/47f8684a064da65197ad24cc30c130c613ae58ea471852ee55805e1528ebee23.png" />
 </div>
 </div>
 <p>Good! Let’s use <a class="reference external" href="https://rgitools.readthedocs.io">rgitools</a> to compute the intersects for this new situation:</p>
@@ -1116,9 +1117,9 @@ and also <a class="reference external" href="https://networkx.org/documentation/
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:12:52: oggm.cfg: PARAMS[&#39;use_rgi_area&#39;] changed from `True` to `False`.
-2023-06-22 09:12:52: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
-2023-06-22 09:12:52: oggm.workflow: Execute entity tasks [GlacierDirectory] on 3 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:08:47: oggm.cfg: PARAMS[&#39;use_rgi_area&#39;] changed from `True` to `False`.
+2023-08-14 13:08:47: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+2023-08-14 13:08:47: oggm.workflow: Execute entity tasks [GlacierDirectory] on 3 glaciers
 </pre></div>
 </div>
 </div>
@@ -1136,13 +1137,13 @@ and also <a class="reference external" href="https://networkx.org/documentation/
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:12:52: oggm.workflow: Execute entity tasks [define_glacier_region] on 3 glaciers
-2023-06-22 09:12:55: oggm.workflow: Execute entity tasks [glacier_masks] on 3 glaciers
-2023-06-22 09:12:56: oggm.workflow: Execute entity tasks [compute_centerlines] on 3 glaciers
-2023-06-22 09:12:57: oggm.workflow: Execute entity tasks [initialize_flowlines] on 3 glaciers
-2023-06-22 09:12:57: oggm.workflow: Execute entity tasks [catchment_area] on 3 glaciers
-2023-06-22 09:12:59: oggm.workflow: Execute entity tasks [catchment_width_geom] on 3 glaciers
-2023-06-22 09:13:00: oggm.workflow: Execute entity tasks [catchment_width_correction] on 3 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:08:48: oggm.workflow: Execute entity tasks [define_glacier_region] on 3 glaciers
+2023-08-14 13:08:50: oggm.workflow: Execute entity tasks [glacier_masks] on 3 glaciers
+2023-08-14 13:08:51: oggm.workflow: Execute entity tasks [compute_centerlines] on 3 glaciers
+2023-08-14 13:08:51: oggm.workflow: Execute entity tasks [initialize_flowlines] on 3 glaciers
+2023-08-14 13:08:51: oggm.workflow: Execute entity tasks [catchment_area] on 3 glaciers
+2023-08-14 13:08:53: oggm.workflow: Execute entity tasks [catchment_width_geom] on 3 glaciers
+2023-08-14 13:08:54: oggm.workflow: Execute entity tasks [catchment_width_correction] on 3 glaciers
 </pre></div>
 </div>
 </div>
@@ -1154,7 +1155,7 @@ and also <a class="reference external" href="https://networkx.org/documentation/
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/df3058cde9986eb7b95874de9f89b0dd2e8d6c5c671e5b68056d552e4b219545.png" src="../../_images/df3058cde9986eb7b95874de9f89b0dd2e8d6c5c671e5b68056d552e4b219545.png" />
+<img alt="../../_images/4f0b2413798545603ba7ebd92cc146d02ae5bc7487fc5234bbd87e10c6071293.png" src="../../_images/4f0b2413798545603ba7ebd92cc146d02ae5bc7487fc5234bbd87e10c6071293.png" />
 </div>
 </div>
 <p>It works!</p>
@@ -1195,15 +1196,15 @@ and also <a class="reference external" href="https://networkx.org/documentation/
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:13:31: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-06-22 09:13:31: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-06-22 09:13:31: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-06-22 09:13:31: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
-2023-06-22 09:13:31: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-06-22 09:13:31: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:09:18: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-14 13:09:18: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-14 13:09:18: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-14 13:09:18: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
+2023-08-14 13:09:19: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-08-14 13:09:19: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
-<img alt="../../_images/7f30bc75782a133b97bc25c0da8623d56d26fdde55021c74c363147bb2bbba1d.png" src="../../_images/7f30bc75782a133b97bc25c0da8623d56d26fdde55021c74c363147bb2bbba1d.png" />
+<img alt="../../_images/7374af31029b43dc17ac83d7e3f0ee0b3442d845d0749e9ac38ef6a67cdf08b4.png" src="../../_images/7374af31029b43dc17ac83d7e3f0ee0b3442d845d0749e9ac38ef6a67cdf08b4.png" />
 </div>
 </div>
 <p>The upper glacier map is a zoom version of the plot below.
@@ -1220,7 +1221,7 @@ They share the same glaciers terminus. Therefore, to estimate a calving flux for
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6c0cab29cbe9cb858c50747acde19f8fa85f6dd1397c39f0184e57176836ad6b.png" src="../../_images/6c0cab29cbe9cb858c50747acde19f8fa85f6dd1397c39f0184e57176836ad6b.png" />
+<img alt="../../_images/ddb57a3e4cd1e5ec51655c9f7688e7b2b79ca8ccfa95b92e2b0dfc15e18e9588.png" src="../../_images/ddb57a3e4cd1e5ec51655c9f7688e7b2b79ca8ccfa95b92e2b0dfc15e18e9588.png" />
 </div>
 </div>
 </section>
@@ -1281,9 +1282,9 @@ We recommend doing this if you have to make several model runs. You can also int
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:13:43: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-06-22 09:13:43: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-06-22 09:13:43: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:09:29: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-14 13:09:29: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-14 13:09:29: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -1311,9 +1312,9 @@ We recommend doing this if you have to make several model runs. You can also int
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:13:43: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
-2023-06-22 09:13:43: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
-2023-06-22 09:13:43: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:09:30: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `10`.
+2023-08-14 13:09:30: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+2023-08-14 13:09:30: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.GlacierDirectory&gt;
@@ -1354,23 +1355,23 @@ We recommend doing this if you have to make several model runs. You can also int
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:13:44: oggm.workflow: Execute entity tasks [define_glacier_region] on 1 glaciers
-2023-06-22 09:13:44: oggm.core.gis: (RGI60-01.03890) define_glacier_region
-2023-06-22 09:13:45: oggm.utils: Downloading http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_10_01.zip to /github/home/OGGM/download_cache/srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_10_01.zip...
-2023-06-22 09:13:49: oggm.workflow: Execute entity tasks [glacier_masks] on 1 glaciers
-2023-06-22 09:13:49: oggm.core.gis: (RGI60-01.03890) glacier_masks
-2023-06-22 09:13:49: oggm.core.gis: (RGI60-01.03890) process_dem
-2023-06-22 09:13:50: oggm.core.gis: RGI60-01.03890: DEM needed interpolation.
-2023-06-22 09:13:51: oggm.workflow: Execute entity tasks [compute_centerlines] on 1 glaciers
-2023-06-22 09:13:51: oggm.core.centerlines: (RGI60-01.03890) compute_centerlines
-2023-06-22 09:13:51: oggm.workflow: Execute entity tasks [initialize_flowlines] on 1 glaciers
-2023-06-22 09:13:51: oggm.core.centerlines: (RGI60-01.03890) initialize_flowlines
-2023-06-22 09:13:51: oggm.workflow: Execute entity tasks [catchment_area] on 1 glaciers
-2023-06-22 09:13:51: oggm.core.centerlines: (RGI60-01.03890) catchment_area
-2023-06-22 09:14:00: oggm.workflow: Execute entity tasks [catchment_width_geom] on 1 glaciers
-2023-06-22 09:14:00: oggm.core.centerlines: (RGI60-01.03890) catchment_width_geom
-2023-06-22 09:14:02: oggm.workflow: Execute entity tasks [catchment_width_correction] on 1 glaciers
-2023-06-22 09:14:02: oggm.core.centerlines: (RGI60-01.03890) catchment_width_correction
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:09:31: oggm.workflow: Execute entity tasks [define_glacier_region] on 1 glaciers
+2023-08-14 13:09:31: oggm.core.gis: (RGI60-01.03890) define_glacier_region
+2023-08-14 13:09:31: oggm.utils: Downloading http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_10_01.zip to /github/home/OGGM/download_cache/srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF/srtm_10_01.zip...
+2023-08-14 13:09:34: oggm.workflow: Execute entity tasks [glacier_masks] on 1 glaciers
+2023-08-14 13:09:34: oggm.core.gis: (RGI60-01.03890) glacier_masks
+2023-08-14 13:09:34: oggm.core.gis: (RGI60-01.03890) process_dem
+2023-08-14 13:09:35: oggm.core.gis: RGI60-01.03890: DEM needed interpolation.
+2023-08-14 13:09:36: oggm.workflow: Execute entity tasks [compute_centerlines] on 1 glaciers
+2023-08-14 13:09:36: oggm.core.centerlines: (RGI60-01.03890) compute_centerlines
+2023-08-14 13:09:36: oggm.workflow: Execute entity tasks [initialize_flowlines] on 1 glaciers
+2023-08-14 13:09:36: oggm.core.centerlines: (RGI60-01.03890) initialize_flowlines
+2023-08-14 13:09:36: oggm.workflow: Execute entity tasks [catchment_area] on 1 glaciers
+2023-08-14 13:09:36: oggm.core.centerlines: (RGI60-01.03890) catchment_area
+2023-08-14 13:09:43: oggm.workflow: Execute entity tasks [catchment_width_geom] on 1 glaciers
+2023-08-14 13:09:43: oggm.core.centerlines: (RGI60-01.03890) catchment_width_geom
+2023-08-14 13:09:44: oggm.workflow: Execute entity tasks [catchment_width_correction] on 1 glaciers
+2023-08-14 13:09:44: oggm.core.centerlines: (RGI60-01.03890) catchment_width_correction
 </pre></div>
 </div>
 </div>
@@ -1385,7 +1386,7 @@ more info in <span class="xref myst">dem_sources.ipynb/register</span></p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/8ba48e348a5cd3583eac0859fe86bf10b32acf0ddbe4931b06c71b08a4e75337.png" src="../../_images/8ba48e348a5cd3583eac0859fe86bf10b32acf0ddbe4931b06c71b08a4e75337.png" />
+<img alt="../../_images/0539ac710d74c49503b653f3d0ffda554ec8ddfc0c9e0aeeaee555f5eda223da.png" src="../../_images/0539ac710d74c49503b653f3d0ffda554ec8ddfc0c9e0aeeaee555f5eda223da.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1395,7 +1396,7 @@ more info in <span class="xref myst">dem_sources.ipynb/register</span></p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/2b675ab439a374d2b53ed48b718fea7c7cac030349d48db09a7c495f45e86bed.png" src="../../_images/2b675ab439a374d2b53ed48b718fea7c7cac030349d48db09a7c495f45e86bed.png" />
+<img alt="../../_images/d97316eb406eeb4719e4ec0bbbc338e721c6edfc94877d083dad3e01214578e6.png" src="../../_images/d97316eb406eeb4719e4ec0bbbc338e721c6edfc94877d083dad3e01214578e6.png" />
 </div>
 </div>
 <p><a id='case3'></a></p>
@@ -1781,20 +1782,20 @@ more info in <span class="xref myst">dem_sources.ipynb/register</span></p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:14:10: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-06-22 09:14:10: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-06-22 09:14:10: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-06-22 09:14:10: oggm.cfg: Multiprocessing switched ON after user settings.
-2023-06-22 09:14:10: oggm.cfg: PARAMS[&#39;use_rgi_area&#39;] changed from `True` to `False`.
-2023-06-22 09:14:10: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
-2023-06-22 09:14:10: oggm.workflow: Execute entity tasks [GlacierDirectory] on 5 glaciers
-2023-06-22 09:14:10: oggm.utils: Applying global task compile_glacier_statistics on 5 glaciers
-2023-06-22 09:14:11: oggm.workflow: Execute entity tasks [glacier_statistics] on 5 glaciers
-2023-06-22 09:14:11: oggm.utils: (RGI60-13.00002) glacier_statistics
-2023-06-22 09:14:11: oggm.utils: (RGI60-13.00001) glacier_statistics
-2023-06-22 09:14:11: oggm.utils: (RGI60-13.00003) glacier_statistics
-2023-06-22 09:14:11: oggm.utils: (RGI60-13.00004) glacier_statistics
-2023-06-22 09:14:11: oggm.utils: (RGI60-13.00005) glacier_statistics
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:09:50: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-14 13:09:50: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-14 13:09:50: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-14 13:09:50: oggm.cfg: Multiprocessing switched ON after user settings.
+2023-08-14 13:09:50: oggm.cfg: PARAMS[&#39;use_rgi_area&#39;] changed from `True` to `False`.
+2023-08-14 13:09:50: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+2023-08-14 13:09:50: oggm.workflow: Execute entity tasks [GlacierDirectory] on 5 glaciers
+2023-08-14 13:09:50: oggm.utils: Applying global task compile_glacier_statistics on 5 glaciers
+2023-08-14 13:09:50: oggm.workflow: Execute entity tasks [glacier_statistics] on 5 glaciers
+2023-08-14 13:09:50: oggm.utils: (RGI60-13.00002) glacier_statistics
+2023-08-14 13:09:50: oggm.utils: (RGI60-13.00001) glacier_statistics
+2023-08-14 13:09:51: oggm.utils: (RGI60-13.00003) glacier_statistics
+2023-08-14 13:09:51: oggm.utils: (RGI60-13.00004) glacier_statistics
+2023-08-14 13:09:51: oggm.utils: (RGI60-13.00005) glacier_statistics
 </pre></div>
 </div>
 <div class="output text_html"><div>

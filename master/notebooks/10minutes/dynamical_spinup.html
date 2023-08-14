@@ -195,6 +195,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
@@ -467,7 +468,12 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-the-pre-processed-directories-including-spinup-runs">Accessing the pre-processed directories including spinup runs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-new-workflow-including-a-recalibration">A new workflow including a recalibration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-new-workflow-including-a-recalibration">A new workflow including a recalibration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-spinup-run-extends-further-back-in-time">Dynamic spinup run extends further back in time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamically-recalibrated-melt-f">Dynamically recalibrated <em>melt_f</em></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-dynamic-spinup-in-your-workflow">Using the dynamic spinup in your workflow</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
 </ul>
             </nav>
@@ -519,9 +525,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 08:53:08: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-06-22 08:53:08: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-06-22 08:53:08: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:51:31: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-14 12:51:31: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-14 12:51:31: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -537,9 +543,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 08:53:33: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `160`.
-2023-06-22 08:53:34: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
-2023-06-22 08:53:34: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:51:55: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `160`.
+2023-08-14 12:51:55: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
+2023-08-14 12:51:55: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -547,12 +553,115 @@ document.write(`
 </section>
 <section id="a-new-workflow-including-a-recalibration">
 <h2>A new workflow including a recalibration<a class="headerlink" href="#a-new-workflow-including-a-recalibration" title="Permalink to this heading">#</a></h2>
-<p>These directories are very similar to the default ones (same input data, same baseline climate…), but they have a few differences:</p>
-<p>TODO</p>
+<p>These directories are very similar to the default ones (same input data, same baseline climate…). In addition, they include a new historical simulation run with a dynamic spinup. Let’s open it and compare it to the old historical run without a spinup.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># open the new historical run including a dynamic spinup</span>
+<span class="n">ds_spinup</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">)</span>
+
+<span class="c1"># open the old historical run without a spinup</span>
+<span class="n">ds_historical</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">)</span>
+
+<span class="c1"># compare area and volume evolution</span>
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Area</span>
+<span class="n">ds_spinup</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dynamic spinup&#39;</span><span class="p">)</span>
+<span class="n">ds_historical</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;no spinup&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Area [m2]&#39;</span><span class="p">)</span>
+
+<span class="c1"># Volume</span>
+<span class="n">ds_spinup</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;dynamic spinup&#39;</span><span class="p">)</span>
+<span class="n">ds_historical</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;no spinup&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Volume [m3]&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:51:58: oggm.utils: Applying global task compile_run_output on 1 glaciers
+2023-08-14 12:51:58: oggm.utils: Applying compile_run_output on 1 gdirs.
+2023-08-14 12:51:59: oggm.utils: Applying global task compile_run_output on 1 glaciers
+2023-08-14 12:51:59: oggm.utils: Applying compile_run_output on 1 gdirs.
+</pre></div>
+</div>
+<img alt="../../_images/02a0171e41173233feb2fabaccc9656fca32e58386e9bcd279ea0a3f6a0d6eef.png" src="../../_images/02a0171e41173233feb2fabaccc9656fca32e58386e9bcd279ea0a3f6a0d6eef.png" />
+</div>
+</div>
+<section id="dynamic-spinup-run-extends-further-back-in-time">
+<h3>Dynamic spinup run extends further back in time<a class="headerlink" href="#dynamic-spinup-run-extends-further-back-in-time" title="Permalink to this heading">#</a></h3>
+<p>The first thing to notice is that the new dynamic spinup run extends further back in time, starting in 1979 compared to 2003 (the RGI date).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rgi_date</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2003
+</pre></div>
+</div>
+</div>
+</div>
+<p>We achieve this by searching for a glacier state in 1979 which evolves to match the area at the RGI date. Therefore, you can see that the areas around the RGI date (2003) are very close.</p>
+<p>However, the volumes show some difference around the RGI date, as it was not tried to match the values. The reason is that the current workflow can match area OR volume. By default, we decided to match area as it is a direct observation (from the RGI outlines), in contrast to a model guess for the volume (e.g. <a class="reference external" href="https://www.nature.com/articles/s41561-019-0300-3">Farinotti et al. 2019</a>).</p>
+<p>Another advantage of the dynamic spinup is that we do not expect any problems due to an ‘initial shock’ at the start of our model run.</p>
+</section>
+<section id="dynamically-recalibrated-melt-f">
+<h3>Dynamically recalibrated <em>melt_f</em><a class="headerlink" href="#dynamically-recalibrated-melt-f" title="Permalink to this heading">#</a></h3>
+<p>The second big difference is not directly visible, but during the dynamic spinup, we check that the dynamically modelled geodetic mass balance fits the given observations from <a class="reference external" href="https://www.nature.com/articles/s41586-021-03436-z">Hugonnet et al. 2021</a>. To achieve this, we use the <em>melt_f</em> of the mass balance as a tuning variable.</p>
+<p>We need this step because the initial mass balance model calibration (see this <a class="reference internal" href="../advanced/massbalance_calibration.html"><span class="doc std std-doc">tutorial</span></a>) assumes constant glacier surface geometry, defined by the RGI outline. However, the observed geodetic mass balance also contains surface geometry changes, which we only can consider during a dynamic model run.</p>
+<p>Let’s check that the dynamic geodetic mass balance fits inside the given observations:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># period of geodetic mass balance</span>
+<span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">]</span>
+
+<span class="c1"># open the observation with uncertainty</span>
+<span class="n">df_ref_dmdtda</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_geodetic_mb_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">]</span>  <span class="c1"># get the data from Hugonnet 2021</span>
+<span class="n">df_ref_dmdtda</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ref_period</span><span class="p">]</span>  <span class="c1"># only select the desired period</span>
+<span class="n">dmdtda_reference</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;dmdtda&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># get the reference dmdtda and convert into kg m-2 yr-1</span>
+<span class="n">dmdtda_reference_error</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;err_dmdtda&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># corresponding uncertainty</span>
+
+<span class="c1"># calculate dynamic geodetic mass balance</span>
+<span class="k">def</span> <span class="nf">get_dmdtda</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">yr0_ref_mb</span><span class="p">,</span> <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="n">ref_period</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="n">yr0_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr0_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr1_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">((</span><span class="n">ds</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr1_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span>
+             <span class="n">ds</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr0_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span>
+            <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span> <span class="o">/</span>
+            <span class="p">(</span><span class="n">yr1_ref_mb</span> <span class="o">-</span> <span class="n">yr0_ref_mb</span><span class="p">)</span> <span class="o">*</span>
+            <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reference dmdtda 2000 to 2020 (Hugonnet 2021): </span><span class="si">{</span><span class="n">dmdtda_reference</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">dmdtda_reference_error</span><span class="si">:</span><span class="s1">6.2f</span><span class="si">}</span><span class="s1"> kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamic spinup dmdtda 2000 to 2020:            </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_spinup</span><span class="p">))</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dynamically calibrated melt_f:                 </span><span class="si">{</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">                 kg m-2 day-1 °C-1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reference dmdtda 2000 to 2020 (Hugonnet 2021): -1100.30 +/- 171.80 kg m-2 yr-1
+Dynamic spinup dmdtda 2000 to 2020:            -1163.40            kg m-2 yr-1
+Dynamically calibrated melt_f:                 5.0                 kg m-2 day-1 °C-1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="using-the-dynamic-spinup-in-your-workflow">
+<h2>Using the dynamic spinup in your workflow<a class="headerlink" href="#using-the-dynamic-spinup-in-your-workflow" title="Permalink to this heading">#</a></h2>
+<p>We recommend that you use the provided preprocessed directories for your analysis. However, if you want to learn more about how the dynamic spinup works in detail or if you plan to use it in your workflow, maybe with different data, you should check out the more comprehensive tutorial <a class="reference internal" href="../advanced/dynamical_spinup.html"><span class="doc std std-doc">‘Dynamic spinup and dynamic melt_f calibration for past simulations’</span></a>. And do not hesitate to <a class="reference external" href="https://oggm.org/community/">reach out to us</a>!</p>
 </section>
 <section id="what-s-next">
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
+<li><p>Look at the more comprehensive tutorial <a class="reference internal" href="../advanced/dynamical_spinup.html"><span class="doc std std-doc">‘Dynamic spinup and dynamic melt_f calibration for past simulations’</span></a></p></li>
 <li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
 <li><p>back to the <a class="reference internal" href="../welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
 </ul>
@@ -627,7 +736,12 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-the-pre-processed-directories-including-spinup-runs">Accessing the pre-processed directories including spinup runs</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-new-workflow-including-a-recalibration">A new workflow including a recalibration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-new-workflow-including-a-recalibration">A new workflow including a recalibration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-spinup-run-extends-further-back-in-time">Dynamic spinup run extends further back in time</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamically-recalibrated-melt-f">Dynamically recalibrated <em>melt_f</em></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-dynamic-spinup-in-your-workflow">Using the dynamic spinup in your workflow</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
 </ul>
   </nav></div>

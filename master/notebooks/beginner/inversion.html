@@ -197,6 +197,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
@@ -567,12 +568,12 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:18:25: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-06-22 09:18:25: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-06-22 09:18:25: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-06-22 09:18:26: oggm.cfg: Multiprocessing switched ON after user settings.
-2023-06-22 09:18:52: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
-2023-06-22 09:18:52: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:12:58: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-14 13:12:58: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-14 13:12:58: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-14 13:12:59: oggm.cfg: Multiprocessing switched ON after user settings.
+2023-08-14 13:13:23: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
+2023-08-14 13:13:23: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -1557,7 +1558,7 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/3675eec4086abdffef99a59b434ee6f7379939362161cd664a70631f447d3f5c.png" src="../../_images/3675eec4086abdffef99a59b434ee6f7379939362161cd664a70631f447d3f5c.png" />
+<img alt="../../_images/2bdef386b2eb6c65b764d9b1448cafbd8902facfc88591f1c2aa13e51637077c.png" src="../../_images/2bdef386b2eb6c65b764d9b1448cafbd8902facfc88591f1c2aa13e51637077c.png" />
 </div>
 </div>
 <p>As we can see, there is a clear relationship, but it is not perfect. Let’s fit a line to these data (the “volume-area scaling law”):</p>
@@ -1599,7 +1600,7 @@ slope: 0.046
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ffa2b82e33193fb45319e744bcdd18e9ab0b5f85090ecb3d68cd5c66b256190b.png" src="../../_images/ffa2b82e33193fb45319e744bcdd18e9ab0b5f85090ecb3d68cd5c66b256190b.png" />
+<img alt="../../_images/b72da81bc1d108486a016231769955c701c1ca2f174247a567e5bfc006bf60f9.png" src="../../_images/b72da81bc1d108486a016231769955c701c1ca2f174247a567e5bfc006bf60f9.png" />
 </div>
 </div>
 </section>
@@ -1634,7 +1635,7 @@ slope: 0.046
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/0a81a60f97a75ba5b53cb797e1c1ebf87fa7a5e970d72e60657b5294f039e5e3.png" src="../../_images/0a81a60f97a75ba5b53cb797e1c1ebf87fa7a5e970d72e60657b5294f039e5e3.png" />
+<img alt="../../_images/c1d0d039dd1e868fd7011e2b3199498837b203f938b959041141d40e4764a670.png" src="../../_images/c1d0d039dd1e868fd7011e2b3199498837b203f938b959041141d40e4764a670.png" />
 </div>
 </div>
 <p>As you can see, there is quite a difference between the solutions. In particular, close to the default value for Glen A, the regional estimates are very sensitive to small changes in A. The calibration of A is a problem that has yet to be resolved by global glacier models…</p>
@@ -1651,42 +1652,42 @@ slope: 0.046
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:25:52: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
-2023-06-22 09:25:53: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
-2023-06-22 09:25:53: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Consensus estimate optimisation with A factor: 9.62509836707861 and fs: 0
-2023-06-22 09:25:53: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Consensus estimate optimisation with A factor: 7.560331031975819 and fs: 0
-2023-06-22 09:25:53: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Consensus estimate optimisation with A factor: 7.394383472208666 and fs: 0
-2023-06-22 09:25:53: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Consensus estimate optimisation with A factor: 7.357411554846623 and fs: 0
-2023-06-22 09:25:53: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2023-06-22 09:25:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2023-06-22 09:25:54: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2023-06-22 09:25:54: oggm.workflow: calibrate_inversion_from_consensus converged after 5 iterations and fs=0. The resulting Glen A factor is 7.394383472208666.
-2023-06-22 09:25:54: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2023-06-22 09:25:54: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2023-06-22 09:25:54: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2023-06-22 09:25:54: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:19:10: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
+2023-08-14 13:19:10: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
+2023-08-14 13:19:10: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Consensus estimate optimisation with A factor: 9.62509836707861 and fs: 0
+2023-08-14 13:19:10: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Consensus estimate optimisation with A factor: 7.560331031975819 and fs: 0
+2023-08-14 13:19:10: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Consensus estimate optimisation with A factor: 7.394383472208666 and fs: 0
+2023-08-14 13:19:10: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Consensus estimate optimisation with A factor: 7.357411554846623 and fs: 0
+2023-08-14 13:19:10: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2023-08-14 13:19:10: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2023-08-14 13:19:11: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2023-08-14 13:19:11: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2023-08-14 13:19:11: oggm.workflow: calibrate_inversion_from_consensus converged after 5 iterations and fs=0. The resulting Glen A factor is 7.394383472208666.
+2023-08-14 13:19:11: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2023-08-14 13:19:11: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2023-08-14 13:19:11: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2023-08-14 13:19:11: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
 </pre></div>
 </div>
 </div>
@@ -1779,7 +1780,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:25:54: oggm.workflow: Execute entity tasks [distribute_thickness_per_altitude] on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:19:11: oggm.workflow: Execute entity tasks [distribute_thickness_per_altitude] on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -1802,7 +1803,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7ed71725be5787a5dd4905be9d46c6b71ac92e6cc42b317b87b2408b43babcba.png" src="../../_images/7ed71725be5787a5dd4905be9d46c6b71ac92e6cc42b317b87b2408b43babcba.png" />
+<img alt="../../_images/c209b65b2b6af5cea8c05777ae31b375d7746930c75edb0fca9d291a125ca719.png" src="../../_images/c209b65b2b6af5cea8c05777ae31b375d7746930c75edb0fca9d291a125ca719.png" />
 </div>
 </div>
 <p>Since some people find <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> data easier to read than <code class="docutils literal notranslate"><span class="pre">netCDF</span></code>, OGGM also provides a tool to convert the variables in <code class="docutils literal notranslate"><span class="pre">gridded_data.nc</span></code> file to a <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> file:</p>
@@ -1820,7 +1821,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-06-22 09:25:56: oggm.workflow: Execute entity tasks [gridded_data_var_to_geotiff] on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 13:19:12: oggm.workflow: Execute entity tasks [gridded_data_var_to_geotiff] on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -1833,7 +1834,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/b27602011fdf44efdbfb01b25360a036892b999e7fc8a364f39bc93613d1f7ae.png" src="../../_images/b27602011fdf44efdbfb01b25360a036892b999e7fc8a364f39bc93613d1f7ae.png" />
+<img alt="../../_images/1c645da42413b2bfb6f35114f96fa1bda9b33b7b9158675b17641c7373ab0cb1.png" src="../../_images/1c645da42413b2bfb6f35114f96fa1bda9b33b7b9158675b17641c7373ab0cb1.png" />
 </div>
 </div>
 <p>In fact, <code class="docutils literal notranslate"><span class="pre">tasks.gridded_data_var_to_geotiff()</span></code> can save any variable in the <code class="docutils literal notranslate"><span class="pre">gridded_data.nc</span></code> file. The <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> is named as the variable name with a <code class="docutils literal notranslate"><span class="pre">.tif</span></code> suffix. Have a try by yourself ;-)</p>
@@ -1851,7 +1852,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/505f5a3173c7db73cb1fd6c90435789e60faaafe0b056aef58d9c7b96b67acee.png" src="../../_images/505f5a3173c7db73cb1fd6c90435789e60faaafe0b056aef58d9c7b96b67acee.png" />
+<img alt="../../_images/e18df25d9eca3e36d8c1e2617aa4d1a678a28f1edcc5e38493704f0f1398c038.png" src="../../_images/e18df25d9eca3e36d8c1e2617aa4d1a678a28f1edcc5e38493704f0f1398c038.png" />
 </div>
 </div>
 <section id="using-oggm">
@@ -1864,7 +1865,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a52f445425119567086751ce97cbaa57c9938a77851acad7f8df64506f8f73d0.png" src="../../_images/a52f445425119567086751ce97cbaa57c9938a77851acad7f8df64506f8f73d0.png" />
+<img alt="../../_images/6fd17b8d1a7ca4752312e5cf8a345d98be842b9806152ca9ddf2852913aa4a69.png" src="../../_images/6fd17b8d1a7ca4752312e5cf8a345d98be842b9806152ca9ddf2852913aa4a69.png" />
 </div>
 </div>
 <p>This is however not always very useful because OGGM can only plot on a map as large as the local glacier map of the first glacier in the list. See <a class="reference external" href="https://github.com/OGGM/oggm/issues/1007">this issue</a> for a discussion about why. In this case, we had a large enough border, and like that all neighboring glacers are visible.</p>
@@ -1876,7 +1877,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d00813e6533e640d3946f42e31ac4feece27c5fe64ad7f2de84e83b3a9752920.png" src="../../_images/d00813e6533e640d3946f42e31ac4feece27c5fe64ad7f2de84e83b3a9752920.png" />
+<img alt="../../_images/f4b9cb3c9b89ddaec327e29a16be5a45f52cabf093002bcd7616d77695aa6058.png" src="../../_images/f4b9cb3c9b89ddaec327e29a16be5a45f52cabf093002bcd7616d77695aa6058.png" />
 </div>
 </div>
 </section>
@@ -1905,7 +1906,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7235a729d22bb27c91c23ad94c3da939ba2985dd0944ad02b83a950a6712d1c2.png" src="../../_images/7235a729d22bb27c91c23ad94c3da939ba2985dd0944ad02b83a950a6712d1c2.png" />
+<img alt="../../_images/66a6cd51ebfec87884cdec7a5138ecea6dab1896f38935dd09c9c101f600ea9d.png" src="../../_images/66a6cd51ebfec87884cdec7a5138ecea6dab1896f38935dd09c9c101f600ea9d.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1937,7 +1938,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f2804b5c1700d2649d73da5b5b0bf3527af7063ad9c5e13739b9062c2d4ae165.png" src="../../_images/f2804b5c1700d2649d73da5b5b0bf3527af7063ad9c5e13739b9062c2d4ae165.png" />
+<img alt="../../_images/6550ac8bde4d85211a15113ac48d232d7c3f62cd9cc269a8cb9b2d340effee1e.png" src="../../_images/6550ac8bde4d85211a15113ac48d232d7c3f62cd9cc269a8cb9b2d340effee1e.png" />
 </div>
 </div>
 </section>
