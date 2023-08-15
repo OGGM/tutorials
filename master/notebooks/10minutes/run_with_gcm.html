@@ -197,10 +197,14 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">RGI-TOPO</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../others/holoviz_intro.html">Small overview of HoloViz capability of data exploration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../others/dem_comparison.html">Compare different DEMs for individual glaciers</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">In (re-)construction</span></p>
 <ul class="nav bd-sidenav">
@@ -468,7 +472,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processed-directories">Pre-processed directories</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-historical-runs">The <code class="docutils literal notranslate"><span class="pre">_historical</span></code> runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-spinup-historical-runs">The <code class="docutils literal notranslate"><span class="pre">_spinup_historical</span></code> runs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6">Download and process GCM data from ISIMIP3b (bias-corrected CMIP6)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-runs">Projection runs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-model-output">Plot model output</a></li>
@@ -502,7 +506,7 @@ document.write(`
 
 <span class="c1"># Locals</span>
 <span class="kn">import</span> <span class="nn">oggm.cfg</span> <span class="k">as</span> <span class="nn">cfg</span>
-<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">DEFAULT_BASE_URL</span>
 <span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">gcm_climate</span>
 </pre></div>
 </div>
@@ -524,41 +528,41 @@ document.write(`
 
 <span class="c1"># Go - get the pre-processed glacier directories</span>
 <span class="c1"># You have to explicitly indicate the url from where you want to start from</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/elev_bands/W5E5/&#39;</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:57:17: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-14 12:57:17: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-14 12:57:17: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-08-14 12:57:26: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
-2023-08-14 12:57:26: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:26:15: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-15 22:26:15: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-15 22:26:15: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-15 22:26:40: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
+2023-08-15 22:26:40: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="the-historical-runs">
-<h2>The <code class="docutils literal notranslate"><span class="pre">_historical</span></code> runs<a class="headerlink" href="#the-historical-runs" title="Permalink to this heading">#</a></h2>
-<p>The level 5 files now come with a pre-computed model run from the RGI outline date to the last possible date given by the historical climate data. In case of the new default climate dataset <a class="reference external" href="https://www.isimip.org/gettingstarted/input-data-bias-adjustment/details/80/">GSWP3_W5E5</a>, this is until the end of 2019, so the volume is computed until January 1st, 2020. These files are stored in the directory with a <code class="docutils literal notranslate"><span class="pre">_historical</span></code> suffix. Let’s compile them into a single file for our two glaciers:</p>
+<section id="the-spinup-historical-runs">
+<h2>The <code class="docutils literal notranslate"><span class="pre">_spinup_historical</span></code> runs<a class="headerlink" href="#the-spinup-historical-runs" title="Permalink to this heading">#</a></h2>
+<p>The level 5 files now come with a pre-computed model run from the RGI outline date to the last possible date given by the historical climate data. In case of the new default climate dataset <a class="reference external" href="https://www.isimip.org/gettingstarted/input-data-bias-adjustment/details/80/">GSWP3_W5E5</a>, this is until the end of 2019, so the volume is computed until January 1st, 2020. These files are stored in the directory with a <code class="docutils literal notranslate"><span class="pre">_spinup_historical</span></code> suffix (see the <a class="reference internal" href="dynamical_spinup.html"><span class="doc std std-doc">“10 minutes to… a dynamical spinup”</span></a> tutorial for context).</p>
+<p>Let’s compile them into a single file for our two glaciers:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">)</span>
 <span class="n">ds</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;rgi_id&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:57:29: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-14 12:57:29: oggm.utils: Applying compile_run_output on 2 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:26:45: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-15 22:26:45: oggm.utils: Applying compile_run_output on 2 gdirs.
 </pre></div>
 </div>
-<img alt="../../_images/26377b8873e5b76d615520c92f0ff1ac0b5fce54e3a4f70572baa4ffac3446bc.png" src="../../_images/26377b8873e5b76d615520c92f0ff1ac0b5fce54e3a4f70572baa4ffac3446bc.png" />
+<img alt="../../_images/6face7347ae9dd18c6923a81f8be9794ca05b473191595858a29eb5a268c6755.png" src="../../_images/6face7347ae9dd18c6923a81f8be9794ca05b473191595858a29eb5a268c6755.png" />
 </div>
 </div>
-<p>Each RGI glacier has an “inventory date”, the time at which the ouline is valid. It can change between glaciers and this is why the two timeseries start at a different date:</p>
+<p>Each RGI glacier has an “inventory date”, the time at which the ouline is valid:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rgi_date</span>
@@ -571,7 +575,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>One thing to remember here is that although we try hard to avoid spin-up issues, the glacier after the inversion is not in a perfect dynamical state. Some variable (in particular glacier length) might need some years to adjust. In the <a class="reference internal" href="dynamical_spinup.html"><span class="doc std std-doc">“10 minutes to… a dynamical spinup”</span></a> tutorial, we talk about ways to deal with this problem. For now, these files are perfect for our purpose, since we plan to start our simulation in 2020.</p>
+<p>The glacier volume and area changes before that date are highly uncertain and serve the purpose of spinup only! In the <a class="reference internal" href="dynamical_spinup.html"><span class="doc std std-doc">“10 minutes to… a dynamical spinup”</span></a> tutorial, we talk about why. For now, these files are perfect for our purpose, since we plan to start our simulation in 2020.</p>
 </section>
 <section id="download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6">
 <h2>Download and process GCM data from ISIMIP3b (bias-corrected CMIP6)<a class="headerlink" href="#download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6" title="Permalink to this heading">#</a></h2>
@@ -596,9 +600,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:57:29: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
-2023-08-14 12:57:32: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
-2023-08-14 12:57:34: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:26:46: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+2023-08-15 22:26:50: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+2023-08-15 22:26:54: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -625,7 +629,7 @@ document.write(`
 </section>
 <section id="projection-runs">
 <h2>Projection runs<a class="headerlink" href="#projection-runs" title="Permalink to this heading">#</a></h2>
-<p>We now run OGGM under various scenarios <strong>and start from the end year of the historical run</strong>:</p>
+<p>We now run OGGM under various scenarios <strong>and start from the end year of the historical spinup run</strong>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
@@ -633,16 +637,16 @@ document.write(`
     <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
                                  <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
                                  <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
-                                 <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
+                                 <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
                                  <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># recognize the run for later</span>
                                 <span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:57:36: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2023-08-14 12:57:37: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2023-08-14 12:57:38: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:26:58: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+2023-08-15 22:26:59: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+2023-08-15 22:27:00: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -667,15 +671,15 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:57:39: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-14 12:57:39: oggm.utils: Applying compile_run_output on 2 gdirs.
-2023-08-14 12:57:39: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-14 12:57:39: oggm.utils: Applying compile_run_output on 2 gdirs.
-2023-08-14 12:57:39: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-14 12:57:39: oggm.utils: Applying compile_run_output on 2 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:27:02: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-15 22:27:02: oggm.utils: Applying compile_run_output on 2 gdirs.
+2023-08-15 22:27:02: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-15 22:27:02: oggm.utils: Applying compile_run_output on 2 gdirs.
+2023-08-15 22:27:02: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-15 22:27:02: oggm.utils: Applying compile_run_output on 2 gdirs.
 </pre></div>
 </div>
-<img alt="../../_images/8753cf980dfe4f3eb5fc85bdfb9b9c172f9d42cd8e160fc2614d5186781a381b.png" src="../../_images/8753cf980dfe4f3eb5fc85bdfb9b9c172f9d42cd8e160fc2614d5186781a381b.png" />
+<img alt="../../_images/5af857aa5c24daac998dd15ea80757b6714920e97f0799f7f37600717ab00427.png" src="../../_images/5af857aa5c24daac998dd15ea80757b6714920e97f0799f7f37600717ab00427.png" />
 </div>
 </div>
 <p><strong>That’s it! Your OGGM projection in 10 minutes.</strong></p>
@@ -683,7 +687,7 @@ document.write(`
 <section id="have-5-minutes-more-download-and-process-gcm-data-from-cmip5-or-cmip6">
 <h2>Have 5 minutes more? Download and process GCM data from CMIP5 or CMIP6<a class="headerlink" href="#have-5-minutes-more-download-and-process-gcm-data-from-cmip5-or-cmip6" title="Permalink to this heading">#</a></h2>
 <p>ISIMIP data is very useful because it is bias corrected. Furthermore, it offers daily data (which we will soon make available in OGGM).</p>
-<p>But you may want a higher diversity of models or scenarios: for this, you may also use the CMIP5 or CMIP5 GCMs directly. These need to be bias-corrected first to the applied baseline historical data (see <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.process_gcm_data.html#oggm.shop.gcm_climate.process_gcm_data">process_gcm_data</a>. This relatively simple bias-correction is automatically done by <code class="docutils literal notranslate"><span class="pre">process_cmip_data</span></code> and is very important, as the model is very sensitive to temperature variability.</p>
+<p>But you may want a higher diversity of models or scenarios: for this, you may also use the CMIP5 or CMIP6 GCMs directly. These need to be bias-corrected first to the applied baseline historical data (see <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.process_gcm_data.html#oggm.shop.gcm_climate.process_gcm_data">process_gcm_data</a>. This relatively simple bias-correction is automatically done by <code class="docutils literal notranslate"><span class="pre">process_cmip_data</span></code> and is very important, as the model is very sensitive to temperature variability.</p>
 <ul class="simple">
 <li><p>CMIP5 has 4 different RCP scenarios and a variety of GCMs, online you can find them <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng">here</a>. The above mentioned storage contains information about the data, <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/ABOUT">how to cite them</a> and <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/gcm_table.html">tabular summaries</a> of the available GCMs.</p></li>
 <li><p>CMIP6 has 4 different SSP scenarios, see <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/gcm_table.html">this table</a> for a summary of available GCMs. There are even some CMIP6 runs that go until <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/gcm_table_2300.html">2300</a>.</p></li>
@@ -691,63 +695,55 @@ document.write(`
 <blockquote>
 <div><p>Note, that the CMIP5 and CMIP6 files are much larger than the ISIMIP3b files. This is because we use a simple processing trick for the ISIMIP3b GCM files as we only save the glacier gridpoints, instead of  each longitude and latitude.</p>
 </div></blockquote>
-<p><strong>Therefore: run the following code only if it is ok to download a few gigabytes of data:</strong></p>
+<p><strong>Therefore: run the following code only if it is ok to download a few gigabytes of data.</strong> Set the variable below to true to run it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bp</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/pr/pr_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
-<span class="n">bt</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/tas/tas_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
-
-<span class="n">color_dict_rcp</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rcp26&#39;</span><span class="p">:</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">:</span><span class="s1">&#39;violet&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">}</span>
-
-<span class="c1"># Download and bias correct the data</span>
-<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span>  <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1"># &#39;rcp60&#39; would also be available</span>
-    <span class="c1"># Download the files</span>
-    <span class="n">ft</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
-    <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
-    <span class="c1"># bias correct them</span>
-    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
-                                 <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">),</span>  <span class="c1"># recognize the climate file for later</span>
-                                 <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
-                                 <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>  <span class="c1"># precip projections</span>
-                                 <span class="p">);</span>
-
-<span class="c1"># Run OGGM</span>
-<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span>  <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1">#&#39;rcp60&#39;,</span>
-    <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
-    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> 
-                                 <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
-                                 <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
-                                 <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
-                                 <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># recognize the run for later</span>
-                                <span class="p">);</span>
-
-<span class="c1"># Plot</span>
-<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1">#&#39;rcp60&#39;,</span>
-    <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
-    <span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">)</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict_rcp</span><span class="p">[</span><span class="n">rcp</span><span class="p">]);</span>
-    <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict_rcp</span><span class="p">[</span><span class="n">rcp</span><span class="p">]);</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">download_cmip5_data</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:57:49: oggm.workflow: Execute entity tasks [process_cmip_data] on 2 glaciers
-2023-08-14 12:58:00: oggm.workflow: Execute entity tasks [process_cmip_data] on 2 glaciers
-2023-08-14 12:58:11: oggm.workflow: Execute entity tasks [process_cmip_data] on 2 glaciers
-2023-08-14 12:58:13: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2023-08-14 12:58:14: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2023-08-14 12:58:14: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2023-08-14 12:58:15: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-14 12:58:15: oggm.utils: Applying compile_run_output on 2 gdirs.
-2023-08-14 12:58:15: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-14 12:58:15: oggm.utils: Applying compile_run_output on 2 gdirs.
-2023-08-14 12:58:15: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-14 12:58:15: oggm.utils: Applying compile_run_output on 2 gdirs.
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">download_cmip5_data</span><span class="p">:</span>
+
+    <span class="n">bp</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/pr/pr_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
+    <span class="n">bt</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/tas/tas_mon_CCSM4_</span><span class="si">{}</span><span class="s1">_r1i1p1_g025.nc&#39;</span>
+
+    <span class="n">color_dict_rcp</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rcp26&#39;</span><span class="p">:</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">:</span><span class="s1">&#39;violet&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">:</span><span class="s1">&#39;red&#39;</span><span class="p">}</span>
+
+    <span class="c1"># Download and bias correct the data</span>
+    <span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1"># &#39;rcp60&#39; would also be available</span>
+        <span class="c1"># Download the files</span>
+        <span class="n">ft</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+        <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
+        <span class="c1"># bias correct them</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
+                                     <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">),</span>  <span class="c1"># recognize the climate file for later</span>
+                                     <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
+                                     <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>  <span class="c1"># precip projections</span>
+                                     <span class="p">);</span>
+
+    <span class="c1"># Run OGGM</span>
+    <span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span>  <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1">#&#39;rcp60&#39;,</span>
+        <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> 
+                                     <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
+                                     <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
+                                     <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
+                                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># recognize the run for later</span>
+                                    <span class="p">);</span>
+
+    <span class="c1"># Plot</span>
+    <span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1">#&#39;rcp60&#39;,</span>
+        <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">compile_run_output</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">)</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict_rcp</span><span class="p">[</span><span class="n">rcp</span><span class="p">]);</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">rgi_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">rcp</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_dict_rcp</span><span class="p">[</span><span class="n">rcp</span><span class="p">]);</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
-<img alt="../../_images/279743cbcea44d27101452cc9f227aca39a4d2e271e337a08756c0ca1d8d4694.png" src="../../_images/279743cbcea44d27101452cc9f227aca39a4d2e271e337a08756c0ca1d8d4694.png" />
 </div>
 </div>
 <p>Now, the same for CMIP6 but instead of RCPs, now SSPs and again with another GCM:</p>
@@ -805,6 +801,7 @@ document.write(`
 <section id="what-s-next">
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
+<li><p>checkout the 10 mins tutorial on the <a class="reference internal" href="dynamical_spinup.html"><span class="doc std std-doc">dynamical spinup</span></a></p></li>
 <li><p>see also the tutorial on <a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html"><span class="doc std std-doc">Merge, analyse and visualize OGGM GCM runs</span></a></p></li>
 <li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
 <li><p>back to the <a class="reference internal" href="../welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
@@ -880,7 +877,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pre-processed-directories">Pre-processed directories</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-historical-runs">The <code class="docutils literal notranslate"><span class="pre">_historical</span></code> runs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-spinup-historical-runs">The <code class="docutils literal notranslate"><span class="pre">_spinup_historical</span></code> runs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6">Download and process GCM data from ISIMIP3b (bias-corrected CMIP6)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projection-runs">Projection runs</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-model-output">Plot model output</a></li>

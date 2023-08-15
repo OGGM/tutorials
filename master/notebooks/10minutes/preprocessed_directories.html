@@ -197,10 +197,14 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">RGI-TOPO</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../others/holoviz_intro.html">Small overview of HoloViz capability of data exploration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../others/dem_comparison.html">Compare different DEMs for individual glaciers</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">In (re-)construction</span></p>
 <ul class="nav bd-sidenav">
@@ -495,7 +499,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="minutes-to-a-preprocessed-directory">
 <h1>10 minutes to… a preprocessed directory<a class="headerlink" href="#minutes-to-a-preprocessed-directory" title="Permalink to this heading">#</a></h1>
-<p>The OGGM workflow is best explained with an example. In the following, we will show you the OGGM fundamentals (<a class="reference external" href="https://docs.oggm.org/en/stable/structure.html">Doc page: model structure and fundamentals</a>). This example is also meant to guide you through a first-time setup if you are using OGGM on your own computer. If you prefer not to install OGGM on your computer, you can always run this notebook on <a class="reference external" href="https://docs.oggm.org/cloud.html">OGGM-Hub</a> instead!</p>
+<p>The OGGM workflow is best explained with an example. In the following, we will show you the OGGM fundamentals (<a class="reference external" href="https://docs.oggm.org/en/stable/structure.html">Doc page: model structure and fundamentals</a>). This example is also meant to guide you through a first-time setup if you are using OGGM on your own computer. If you prefer not to install OGGM on your computer, you can always run this notebook <a class="reference external" href="https://docs.oggm.org/stable/cloud.html">online</a> instead!</p>
 <section id="first-time-set-up">
 <h2>First time set-up<a class="headerlink" href="#first-time-set-up" title="Permalink to this heading">#</a></h2>
 <section id="input-data-folders">
@@ -514,9 +518,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:56:52: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-14 12:56:52: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-14 12:56:52: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:25:34: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-15 22:25:34: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-15 22:25:34: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -543,7 +547,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:56:53: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:25:35: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
 </div>
@@ -581,10 +585,10 @@ document.write(`
 </div>
 </div>
 </div>
-<p>We use a temporary directory for this example, but in practice you will set this working directory yourself (for example: <code class="docutils literal notranslate"><span class="pre">/home/erika/OGGM_output</span></code>. The size of this directory will depend on how many glaciers you’ll simulate!</p>
+<p>We use a temporary directory for this example, but in practice you will set this working directory yourself (for example: <code class="docutils literal notranslate"><span class="pre">/home/shruti/OGGM_output</span></code>. The size of this directory will depend on how many glaciers you’ll simulate!</p>
 <div class="alert alert-info">
     <b>
-        In the OGGM design, this working directory is meant to be persistent, at least as long as you need the data for. For example, you can stop your processing workflow after any task, and restart from an existing working directory at a later stage, simply by using the same working directory.
+        In the OGGM design, this working directory is meant to be persistent, at least as long as you need the data. For example, you can stop your processing workflow after any task, and restart from an existing working directory at a later stage, simply by using the same working directory.
     </b>
 </div>
 <p>You can create a persistent OGGM working directory at a specific path via <code class="docutils literal notranslate"><span class="pre">path</span> <span class="pre">=</span> <span class="pre">utils.mkdir(path)</span></code>. <strong>Beware!</strong> If you use <code class="docutils literal notranslate"><span class="pre">reset=True</span></code> in <code class="docutils literal notranslate"><span class="pre">utils.mkdir</span></code>, ALL DATA in this folder will be deleted!</p>
@@ -614,25 +618,42 @@ document.write(`
 <section id="glacier-directories">
 <h3>Glacier directories<a class="headerlink" href="#glacier-directories" title="Permalink to this heading">#</a></h3>
 <p>The OGGM workflow is organized as a list of <strong>tasks</strong> that have to be applied to a list of glaciers. The vast majority of tasks are called <strong>entity tasks</strong>: they are standalone operations to be realized on one single glacier entity. These tasks are executed sequentially (one after another): they often need input generated by the previous task(s): for example, the climate calibration needs the glacier flowlines, which can be only computed after the topography data has been processed, and so on.</p>
-<p>To handle this situation, OGGM uses a workflow based on data persistence on disk: instead of passing data as python variables from one task to another, each task will read the data from disk and then write the computation results back to the disk, making these new data available for the next task in the queue.</p>
-<p>These glacier specific data are located in <a class="reference external" href="https://docs.oggm.org/en/stable/glacierdir.html#glacier-directories">glacier directories</a>. In the model, these directories are initialized with the following command (this can take a little while on the first call, as OGGM needs to download some data):</p>
+<p>To handle this situation, OGGM uses a workflow based on data persistence on disk: instead of passing data as python variables from one task to another, each task will read the data from disk and then write the computation results back to the disk, making these new data available for the next task in the queue. These glacier specific data are located in <a class="reference external" href="https://docs.oggm.org/en/stable/glacierdir.html#glacier-directories">glacier directories</a>.</p>
+<p>One main advantage of this workflow is that OGGM can prepare data and make it available to everyone! Here is an example of an url where such data can be found:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Where to fetch the pre-processed directories</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/elev_bands/W5E5&#39;</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">DEFAULT_BASE_URL</span>
+<span class="n">DEFAULT_BASE_URL</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:56:54: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-08-14 12:56:54: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s use OGGM to download the glacier directories for our two selected glaciers:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span>
+    <span class="n">rgi_ids</span><span class="p">,</span>  <span class="c1"># which glaciers?</span>
+    <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">,</span>  <span class="c1"># where to fetch the data?</span>
+    <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># what kind of data? </span>
+    <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span>  <span class="c1"># how big of a map?</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:25:36: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
+2023-08-15 22:25:36: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
 </div>
 <ul class="simple">
-<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">from_prepro_level</span></code> indicates that we will start from <a class="reference external" href="https://docs.oggm.org/en/stable/shop.html#pre-processed-directories">pre-processed directories</a>, i.e. data that are already prepared by the OGGM team. In many cases you will want to start from pre-processed directories, and from level 3 or 5. Here we start from level 3 and add some data to the processing in order to demonstrate the OGGM workflow.</p></li>
+<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">from_prepro_level</span></code> indicates that we will start from <a class="reference external" href="https://docs.oggm.org/en/stable/shop.html#pre-processed-directories">pre-processed directories</a>, i.e. data that are already prepared by the OGGM team. In many cases you will want to start from pre-processed directories, and from level 3 or 5. Here we start from level 4 and add some data to the processing in order to demonstrate the OGGM workflow.</p></li>
 <li><p>the <code class="docutils literal notranslate"><span class="pre">prepro_border</span></code> keyword indicates the number of grid points which we’d like to add to each side of the glacier for the local map: the larger the glacier will grow, the larger the border parameter should be. The available pre-processed border values are: <strong>10, 80, 160, 240</strong> (depending on the model set-ups there might be more or less options). These are the fixed map sizes we prepared for you - any other map size will require a full processing (see the <a class="reference internal" href="../advanced/dem_sources.html"><span class="doc std std-doc">further DEM sources example</span></a> for a tutorial).</p></li>
 </ul>
 <p>The <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.workflow.init_glacier_directories.html#oggm.workflow.init_glacier_directories">init_glacier_directories</a> task will allways be the very first task to call for all your OGGM experiments. Let’s see what it gives us back:</p>
@@ -718,7 +739,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:57:10: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:26:07: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -768,7 +789,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;intersects.tar.gz&#39;, &#39;gridded_data.nc&#39;, &#39;dem_source.txt&#39;, &#39;log.txt&#39;, &#39;mb_calib.json&#39;, &#39;dem.tif&#39;, &#39;inversion_flowlines.pkl&#39;, &#39;inversion_output.pkl&#39;, &#39;elevation_band_flowline.csv&#39;, &#39;diagnostics.json&#39;, &#39;model_flowlines.pkl&#39;, &#39;glacier_grid.json&#39;, &#39;climate_historical.nc&#39;, &#39;outlines.tar.gz&#39;, &#39;downstream_line.pkl&#39;, &#39;inversion_input.pkl&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;model_geometry_spinup_historical.nc&#39;, &#39;model_geometry_historical.nc&#39;, &#39;intersects.tar.gz&#39;, &#39;gridded_data.nc&#39;, &#39;model_diagnostics_spinup_historical.nc&#39;, &#39;dem_source.txt&#39;, &#39;log.txt&#39;, &#39;model_flowlines_dyn_melt_f_calib.pkl&#39;, &#39;mb_calib.json&#39;, &#39;dem.tif&#39;, &#39;inversion_flowlines.pkl&#39;, &#39;model_diagnostics_historical.nc&#39;, &#39;inversion_output.pkl&#39;, &#39;elevation_band_flowline.csv&#39;, &#39;diagnostics.json&#39;, &#39;model_flowlines.pkl&#39;, &#39;glacier_grid.json&#39;, &#39;climate_historical.nc&#39;, &#39;outlines.tar.gz&#39;, &#39;downstream_line.pkl&#39;, &#39;inversion_input.pkl&#39;]
 </pre></div>
 </div>
 </div>
@@ -793,7 +814,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-14 12:57:11: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-15 22:26:08: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -813,7 +834,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/c493fd4b229d858d6ca9a651e1e577770c8ef01830b27eb6257417b248fde912.png" src="../../_images/c493fd4b229d858d6ca9a651e1e577770c8ef01830b27eb6257417b248fde912.png" />
+<img alt="../../_images/b290f77abed8c376029c188ad6ce30927454c696ae0e5383557045cfe47af2ee.png" src="../../_images/b290f77abed8c376029c188ad6ce30927454c696ae0e5383557045cfe47af2ee.png" />
 </div>
 </div>
 </section>
