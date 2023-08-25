@@ -491,12 +491,12 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="minutes-to-a-glacier-change-projection-with-gcm-data">
 <h1>10 minutes to… a glacier change projection with GCM data<a class="headerlink" href="#minutes-to-a-glacier-change-projection-with-gcm-data" title="Permalink to this heading">#</a></h1>
-<p>In this example, we illustrate how to do a typical “projection run”, i.e. using GCM data. Here we will first use already bias-corrected CMIP6 data from <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment">ISIMIP3b</a>, but also show alternatives using the original CMIP5 or CMIP6 data.</p>
+<p>In this example, we illustrate how to do a typical “projection run”, i.e. using GCM data. Here we will first use already bias-corrected CMIP6 data from <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment">ISIMIP3b</a> and than show how alternatives like the original CMIP5 and CMIP6 data can be used.</p>
 <p>There are three important steps:</p>
 <ul class="simple">
 <li><p>download the OGGM pre-processed directories containing a pre-calibrated and spun-up glacier model</p></li>
-<li><p>download the projections data (and bias correct them in the case of CMIP5 or CMIP6)</p></li>
-<li><p>simulate their future evolution from the present day state to the end of the century (2020-2100)</p></li>
+<li><p>download the climate projections (and bias correct them in the case of CMIP5 or CMIP6)</p></li>
+<li><p>simulate the future glacier evolution from the present day state to the end of the century (2020-2100)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -533,11 +533,11 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-24 10:47:44: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-24 10:47:44: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-24 10:47:44: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-08-24 10:48:07: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
-2023-08-24 10:48:07: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 13:03:53: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-25 13:03:53: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-25 13:03:53: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-25 13:04:16: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
+2023-08-25 13:04:16: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -555,8 +555,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-24 10:48:16: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-24 10:48:16: oggm.utils: Applying compile_run_output on 2 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 13:04:22: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-25 13:04:22: oggm.utils: Applying compile_run_output on 2 gdirs.
 </pre></div>
 </div>
 <img alt="../../_images/6face7347ae9dd18c6923a81f8be9794ca05b473191595858a29eb5a268c6755.png" src="../../_images/6face7347ae9dd18c6923a81f8be9794ca05b473191595858a29eb5a268c6755.png" />
@@ -579,7 +579,7 @@ document.write(`
 </section>
 <section id="download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6">
 <h2>Download and process GCM data from ISIMIP3b (bias-corrected CMIP6)<a class="headerlink" href="#download-and-process-gcm-data-from-isimip3b-bias-corrected-cmip6" title="Permalink to this heading">#</a></h2>
-<p>A typical use case for OGGM will be to use climate model output (here bias-corrected CMIP6 GCMs from <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment/">ISIMIP3b</a>). We use some of the files <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/isimip3b/flat/monthly/">we mirrored in Bremen</a> here, but you can use whichever you want. From ISIMIP3b, we have 5 GCMs and 3 SSPs on the cluster. You can find more information on the <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment">ISIMIP website</a>. Let’s download the data:</p>
+<p>A typical use case for OGGM will be to use climate model output (here bias-corrected CMIP6 GCMs from <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment/">ISIMIP3b</a>). We use the files <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/isimip3b/flat/monthly/">we mirrored in Bremen</a> here, but you can use whichever you want. From ISIMIP3b, we have 5 GCMs and 3 SSPs on the cluster. You can find more information on the <a class="reference external" href="https://www.isimip.org/gettingstarted/isimip3b-bias-adjustment">ISIMIP website</a>. Let’s download the data:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can choose one of these 5 different GCMs:</span>
@@ -600,14 +600,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-24 10:48:17: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
-2023-08-24 10:48:20: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
-2023-08-24 10:48:22: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 13:04:22: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+2023-08-25 13:04:25: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+2023-08-25 13:04:27: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
 </pre></div>
 </div>
 </div>
 </div>
-<p>The advantage of using ISIMIP3b data is that they have been bias-corrected by the ISIMIP consortium. Since we are using the <a class="reference external" href="https://www.isimip.org/gettingstarted/input-data-bias-adjustment/details/78/">W5E5</a> dataset as baseline historical data in OGGM v1.6, there is no need for us to bias correct any further. If you want to bias-correct yourself the projections and want to have a larger variety of GCMs, you can also use the original CMIP5 or CMIP6 GCMs: more information <span class="xref myst">below</span>.</p>
+<p>The advantage of using ISIMIP3b data is that they have been bias-corrected by the ISIMIP consortium. Since we are using the <a class="reference external" href="https://docs.oggm.org/en/latest/climate-data.html#w5e5">W5E5</a> dataset as the baseline climate in OGGM v1.6, there is no need for us to bias correct any further. If you want to bias-correct the projections yourself or want to have a larger variety of GCMs, you can also use the original CMIP5 or CMIP6 GCMs.</p>
 <p>If you want to know which historical data you are using, you can ask OGGM:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -629,7 +629,7 @@ document.write(`
 </section>
 <section id="projection-runs">
 <h2>Projection runs<a class="headerlink" href="#projection-runs" title="Permalink to this heading">#</a></h2>
-<p>We now run OGGM under various scenarios <strong>and start from the end year of the historical spinup run</strong>:</p>
+<p>We now run OGGM under various scenarios <strong>starting from the end year of the historical spin-up run</strong>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
@@ -644,9 +644,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-24 10:48:25: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2023-08-24 10:48:26: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2023-08-24 10:48:27: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 13:04:29: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+2023-08-25 13:04:30: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+2023-08-25 13:04:30: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -671,12 +671,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-24 10:48:28: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-24 10:48:28: oggm.utils: Applying compile_run_output on 2 gdirs.
-2023-08-24 10:48:28: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-24 10:48:28: oggm.utils: Applying compile_run_output on 2 gdirs.
-2023-08-24 10:48:28: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-24 10:48:28: oggm.utils: Applying compile_run_output on 2 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 13:04:31: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-25 13:04:31: oggm.utils: Applying compile_run_output on 2 gdirs.
+2023-08-25 13:04:31: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-25 13:04:31: oggm.utils: Applying compile_run_output on 2 gdirs.
+2023-08-25 13:04:31: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-25 13:04:31: oggm.utils: Applying compile_run_output on 2 gdirs.
 </pre></div>
 </div>
 <img alt="../../_images/5af857aa5c24daac998dd15ea80757b6714920e97f0799f7f37600717ab00427.png" src="../../_images/5af857aa5c24daac998dd15ea80757b6714920e97f0799f7f37600717ab00427.png" />
@@ -687,10 +687,10 @@ document.write(`
 <section id="have-5-minutes-more-download-and-process-gcm-data-from-cmip5-or-cmip6">
 <h2>Have 5 minutes more? Download and process GCM data from CMIP5 or CMIP6<a class="headerlink" href="#have-5-minutes-more-download-and-process-gcm-data-from-cmip5-or-cmip6" title="Permalink to this heading">#</a></h2>
 <p>ISIMIP data is very useful because it is bias corrected. Furthermore, it offers daily data (which we will soon make available in OGGM).</p>
-<p>But you may want a higher diversity of models or scenarios: for this, you may also use the CMIP5 or CMIP6 GCMs directly. These need to be bias-corrected first to the applied baseline historical data (see <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.process_gcm_data.html#oggm.shop.gcm_climate.process_gcm_data">process_gcm_data</a>. This relatively simple bias-correction is automatically done by <code class="docutils literal notranslate"><span class="pre">process_cmip_data</span></code> and is very important, as the model is very sensitive to temperature variability.</p>
+<p>But you may want a higher diversity of models or scenarios: for this, you may also use the CMIP5 or CMIP6 GCMs directly. These need to be bias-corrected first to the applied baseline climate (see <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.process_gcm_data.html#oggm.shop.gcm_climate.process_gcm_data">process_gcm_data</a>). This relatively simple bias-correction is automatically done by <code class="docutils literal notranslate"><span class="pre">process_cmip_data</span></code> and is very important, as the model is very sensitive to temperature variability (see the following <a class="reference external" href="https://oggm.org/2021/08/05/mean-forcing/">blogpost</a> for more details).</p>
 <ul class="simple">
-<li><p>CMIP5 has 4 different RCP scenarios and a variety of GCMs, online you can find them <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng">here</a>. The above mentioned storage contains information about the data, <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/ABOUT">how to cite them</a> and <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/gcm_table.html">tabular summaries</a> of the available GCMs.</p></li>
-<li><p>CMIP6 has 4 different SSP scenarios, see <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/gcm_table.html">this table</a> for a summary of available GCMs. There are even some CMIP6 runs that go until <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/gcm_table_2300.html">2300</a>.</p></li>
+<li><p>CMIP5 has 4 different RCP scenarios and a variety of GCMs, online you can find them <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng">here</a>. The above mentioned storage contains information about the data, <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/README">how to cite them</a> and <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip5-ng/all_gcm_table.html">tabular summaries</a> of the available GCMs.</p></li>
+<li><p>CMIP6 has 4 different SSP scenarios, see <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/all_gcm_table.html">this table</a> for a summary of available GCMs. There are even some CMIP6 runs that go until <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/cmip6/gcm_table_2300.html">2300</a>.</p></li>
 </ul>
 <blockquote>
 <div><p>Note, that the CMIP5 and CMIP6 files are much larger than the ISIMIP3b files. This is because we use a simple processing trick for the ISIMIP3b GCM files as we only save the glacier gridpoints, instead of  each longitude and latitude.</p>
