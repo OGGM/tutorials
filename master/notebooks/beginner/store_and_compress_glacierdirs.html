@@ -170,8 +170,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for modelling and machine learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../10minutes/numeric_solvers.html">10 minutes to… understand difference between ice dynamic models</a></li>
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
 <ul class="current nav bd-sidenav">
@@ -194,6 +192,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
@@ -509,7 +509,7 @@ document.write(`
 
 <span class="c1"># Locals</span>
 <span class="kn">import</span> <span class="nn">oggm.cfg</span> <span class="k">as</span> <span class="nn">cfg</span>
-<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">DEFAULT_BASE_URL</span>
 </pre></div>
 </div>
 </div>
@@ -533,17 +533,17 @@ document.write(`
 
 <span class="c1"># Go - get the pre-processed glacier directories</span>
 <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
-            <span class="s1">&#39;L3-L5_files/2023.1/elev_bands/W5E5/&#39;</span><span class="p">)</span>
+            <span class="s1">&#39;L3-L5_files/2023.3/elev_bands/W5E5/&#39;</span><span class="p">)</span>
 <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:54: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-25 15:50:54: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-25 15:50:54: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-08-25 15:50:58: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-08-25 15:50:58: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:17: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-26 16:01:17: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-26 16:01:17: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-26 16:01:21: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-08-26 16:01:21: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -610,7 +610,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:58: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:29: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -635,7 +635,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:58: oggm.workflow: init_glacier_directories by parsing all available folders (this takes time: if possible, provide rgidf instead).
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:30: oggm.workflow: init_glacier_directories by parsing all available folders (this takes time: if possible, provide rgidf instead).
 </pre></div>
 </div>
 </div>
@@ -649,7 +649,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:59: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:31: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -684,7 +684,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
         RGI60-11.00897.tar.gz
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:00: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:31: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -706,7 +706,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
         RGI60-11.00897.tar.gz
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:00: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:31: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -729,7 +729,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
         RGI60-11.00897/
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:00: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:32: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -764,7 +764,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
       RGI60-11.00.tar
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:00: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:32: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -787,7 +787,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
         RGI60-11.00897/
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:00: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:32: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -819,9 +819,9 @@ we will use here a preprocessed directory with elevation band flowlines and used
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:01: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-08-25 15:51:01: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
-2023-08-25 15:51:01: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:32: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-08-26 16:01:32: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+2023-08-26 16:01:32: oggm.workflow: Execute entity tasks [gdir_to_tar] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -847,7 +847,7 @@ we will use here a preprocessed directory with elevation band flowlines and used
         RGI60-11.00897/
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:01: oggm.workflow: Execute entity tasks [gdir_from_tar] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:32: oggm.workflow: Execute entity tasks [gdir_from_tar] on 2 glaciers
 </pre></div>
 </div>
 </div>

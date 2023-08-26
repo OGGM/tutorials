@@ -170,8 +170,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for modelling and machine learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../10minutes/numeric_solvers.html">10 minutes to… understand difference between ice dynamic models</a></li>
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
 <ul class="current nav bd-sidenav">
@@ -194,6 +192,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
@@ -526,7 +526,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <span class="kn">import</span> <span class="nn">oggm</span>
-<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">global_tasks</span>
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">global_tasks</span><span class="p">,</span> <span class="n">DEFAULT_BASE_URL</span>
 <span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">massbalance</span><span class="p">,</span> <span class="n">flowline</span>
 </pre></div>
 </div>
@@ -542,10 +542,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:41: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-25 15:50:41: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-25 15:50:41: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-08-25 15:50:42: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:05: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-26 16:01:05: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-26 16:01:05: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-26 16:01:06: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -558,8 +558,8 @@ document.write(`
 <span class="c1"># we will use here the centerlines to actually look at different flowlines</span>
 <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
             <span class="s1">&#39;L3-L5_files/2023.1/centerlines/W5E5/&#39;</span><span class="p">)</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00001&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                                          <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00001&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                          <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">)</span>
 <span class="c1"># when using centerlines, the new default `SemiImplicit` scheme does not work at the moment,</span>
 <span class="c1"># we have to use the `FluxBased` scheme instead:</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;evolution_model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;FluxBased&#39;</span>
@@ -570,9 +570,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:42: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-08-25 15:50:42: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
-2023-08-25 15:50:43: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:07: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
+2023-08-26 16:01:07: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+2023-08-26 16:01:08: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
 </pre></div>
 </div>
 </div>
@@ -599,7 +599,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/092986ce6a52be34874582b32418cdefb395324d011c9f10b9fb7d0a0009fe16.png" src="../../_images/092986ce6a52be34874582b32418cdefb395324d011c9f10b9fb7d0a0009fe16.png" />
+<img alt="../../_images/52ecf45f38010ce09a928251886dd75c3eee314fe4f4cb7367e1c4edbb115e92.png" src="../../_images/52ecf45f38010ce09a928251886dd75c3eee314fe4f4cb7367e1c4edbb115e92.png" />
 </div>
 </div>
 <p>In this particular case (Hintereisferner), we can also plot the measured data:</p>
@@ -618,7 +618,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/1033b048d06a85ecc1e575c765efe7a93e310967770716aba3ceea899474c1d1.png" src="../../_images/1033b048d06a85ecc1e575c765efe7a93e310967770716aba3ceea899474c1d1.png" />
+<img alt="../../_images/438c5a893b770663a6adefdc59e409c4c7c6f4c330192d477139fec212a7b989.png" src="../../_images/438c5a893b770663a6adefdc59e409c4c7c6f4c330192d477139fec212a7b989.png" />
 </div>
 </div>
 </section>
@@ -633,9 +633,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.0 1.76 3.50
-5.0 1.76 3.50
-5.0 1.76 3.50
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.921376081826827 1.76 3.53
 </pre></div>
 </div>
 </div>
@@ -662,7 +660,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ef36c8ceaad4f2a3f4b08f6f7ab14c35526a2b9936dd9605dbd493639ebe4813.png" src="../../_images/ef36c8ceaad4f2a3f4b08f6f7ab14c35526a2b9936dd9605dbd493639ebe4813.png" />
+<img alt="../../_images/972d705e1f897fafc34a9fc3a5da31ba80464545a6050f1b31e86a89917adf4d.png" src="../../_images/972d705e1f897fafc34a9fc3a5da31ba80464545a6050f1b31e86a89917adf4d.png" />
 </div>
 </div>
 </section>
@@ -685,7 +683,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/fa0123896127ef02b5a4b31a1d46f4bc98e8a637ee1b0ecd7667c8232d4ba1a8.png" src="../../_images/fa0123896127ef02b5a4b31a1d46f4bc98e8a637ee1b0ecd7667c8232d4ba1a8.png" />
+<img alt="../../_images/55a3cfb2b2e475e52dcf77d4943b4a45ebc8d5889e27c491d41b86ce52b572fe.png" src="../../_images/55a3cfb2b2e475e52dcf77d4943b4a45ebc8d5889e27c491d41b86ce52b572fe.png" />
 </div>
 </div>
 <p>But again, for certain glaciers the mass-balance might change from one flowline to another!</p>
@@ -706,7 +704,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:44: oggm.cfg: PARAMS[&#39;store_fl_diagnostics&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:09: oggm.cfg: PARAMS[&#39;store_fl_diagnostics&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -719,7 +717,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/27533e15a0dcee699f9a96fe623fd8f7f33bd0ad23d8fbfba400b4e3db717ec4.png" src="../../_images/27533e15a0dcee699f9a96fe623fd8f7f33bd0ad23d8fbfba400b4e3db717ec4.png" />
+<img alt="../../_images/5b058b091ae5eeb14a085a2418b9f46dc9f13bf85b2d56530d45d5be0dbc4f0a.png" src="../../_images/5b058b091ae5eeb14a085a2418b9f46dc9f13bf85b2d56530d45d5be0dbc4f0a.png" />
 </div>
 </div>
 </section>
@@ -834,7 +832,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/96db070477706cd0b8e8c3a8744857c8964c79374c977fdd55d654d818a696ba.png" src="../../_images/96db070477706cd0b8e8c3a8744857c8964c79374c977fdd55d654d818a696ba.png" />
+<img alt="../../_images/2c953ae003fd858ac511217da915041e7c3766000daba459fc6d933210aed16a.png" src="../../_images/2c953ae003fd858ac511217da915041e7c3766000daba459fc6d933210aed16a.png" />
 </div>
 </div>
 <p>A few comments:</p>
@@ -879,7 +877,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/365bb636d559965a33f2573a373d1a82cd509209ebbb10df974fcaf6003960ba.png" src="../../_images/365bb636d559965a33f2573a373d1a82cd509209ebbb10df974fcaf6003960ba.png" />
+<img alt="../../_images/903551f56a5d9db526cae592770f8a9894f9b7b5d76450502e1b49cd308a9400.png" src="../../_images/903551f56a5d9db526cae592770f8a9894f9b7b5d76450502e1b49cd308a9400.png" />
 </div>
 </div>
 </section>
@@ -908,8 +906,8 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:46: oggm.utils: Applying global task compile_ela on 2 glaciers
-2023-08-25 15:50:46: oggm.workflow: Execute entity tasks [compute_ela] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:10: oggm.utils: Applying global task compile_ela on 2 glaciers
+2023-08-26 16:01:10: oggm.workflow: Execute entity tasks [compute_ela] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -928,7 +926,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ba88a374ec5b4e7789bf03284b781706d02143d2e463a5f990e26c384aef9e00.png" src="../../_images/ba88a374ec5b4e7789bf03284b781706d02143d2e463a5f990e26c384aef9e00.png" />
+<img alt="../../_images/40bb2b030862b051c42ae8e858a20f5008965f12c0665a808af3b0fa54a04a29.png" src="../../_images/40bb2b030862b051c42ae8e858a20f5008965f12c0665a808af3b0fa54a04a29.png" />
 </div>
 </div>
 <p>When looking at many glaciers it might be useful to also plot the mean or average of the data. Let’s plot the mean ELA and the glacier area weighted ELA average. Of course, if you only use a few glaciers, as here, it can be much more robust to use the median instead. In the code below, median and mean are the same, because we just used two glaciers ;-) :</p>
@@ -946,7 +944,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ed809c82812c47371fcc30a3a7cdcacb582f4600596cfff097013d4e20ce8a7f.png" src="../../_images/ed809c82812c47371fcc30a3a7cdcacb582f4600596cfff097013d4e20ce8a7f.png" />
+<img alt="../../_images/4ad8838bbf7a50053cdf7dcdae1c973f490c3e839b081f579628544424e6a6e2.png" src="../../_images/4ad8838bbf7a50053cdf7dcdae1c973f490c3e839b081f579628544424e6a6e2.png" />
 </div>
 </div>
 <p>How would the ELA look like if the climate is 1° warmer? Lets have a look at one of the glaciers:</p>
@@ -969,8 +967,8 @@ Calendar dates
   Attributes:
     - hemisphere: nh
     - climate_source: GSWP3_W5E5
-    - melt_f: 5.00
-    - prcp_fac: 3.50
+    - melt_f: 4.92
+    - prcp_fac: 3.53
     - temp_bias: 1.76
     - bias: 0.00
     - rho: 900.0
@@ -997,7 +995,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.758147556769245
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.7583130779353044
 </pre></div>
 </div>
 </div>
@@ -1012,8 +1010,8 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:48: oggm.utils: Applying global task compile_ela on 1 glaciers
-2023-08-25 15:50:48: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:12: oggm.utils: Applying global task compile_ela on 1 glaciers
+2023-08-26 16:01:12: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1028,7 +1026,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/bd65f96c763150e536518f6e30fa26142ef3afe082c1a01c2fae1f6a0e4361ba.png" src="../../_images/bd65f96c763150e536518f6e30fa26142ef3afe082c1a01c2fae1f6a0e4361ba.png" />
+<img alt="../../_images/c8a2fbeba0462b73995b9bf8e45ca0de8b3237ec4c463d5d0d967ef96b47801e.png" src="../../_images/c8a2fbeba0462b73995b9bf8e45ca0de8b3237ec4c463d5d0d967ef96b47801e.png" />
 </div>
 </div>
 <p>By using the <code class="docutils literal notranslate"><span class="pre">precipitation_factor</span></code> keyword, you can change the precipitation. Feel free to try that by yourself! At the moment, <code class="docutils literal notranslate"><span class="pre">gdirs[0].read_json('mb_calib')['prcp_fac']</span></code> is applied.</p>
@@ -1042,8 +1040,8 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:50:48: oggm.utils: Applying global task compile_ela on 1 glaciers
-2023-08-25 15:50:48: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:12: oggm.utils: Applying global task compile_ela on 1 glaciers
+2023-08-26 16:01:12: oggm.workflow: Execute entity tasks [compute_ela] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1058,7 +1056,7 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/2036f242f1b636a696c0627a89ea9e72a3d7531ec3418973c23d5b5cb8194eff.png" src="../../_images/2036f242f1b636a696c0627a89ea9e72a3d7531ec3418973c23d5b5cb8194eff.png" />
+<img alt="../../_images/293297f7209deaa1a4f76bb16d69c665342532706e15eecc48f6f08f00b49087.png" src="../../_images/293297f7209deaa1a4f76bb16d69c665342532706e15eecc48f6f08f00b49087.png" />
 </div>
 </div>
 <p>In case you’re only intrested in specific years there is an option to just compute the ELA in those years. There is actually no need to save this data. Therefore we now just compute the ELA.</p>
@@ -1071,10 +1069,10 @@ Calendar dates
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2000    3053.044261
-1950    3150.730070
-1980    2929.064786
-1960    2838.210320
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2000    3046.143863
+1950    3137.663937
+1980    2921.696602
+1960    2830.612223
 dtype: float64
 </pre></div>
 </div>
@@ -1088,7 +1086,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7867ddd7d3692d16412be23e4f369e0dd39df9c888fec5e00cdba7afda4befc7.png" src="../../_images/7867ddd7d3692d16412be23e4f369e0dd39df9c888fec5e00cdba7afda4befc7.png" />
+<img alt="../../_images/5f6c43f16e0f67c32ee041791cc664ee1a3c937ffc70734960cb150f3e0d5857.png" src="../../_images/5f6c43f16e0f67c32ee041791cc664ee1a3c937ffc70734960cb150f3e0d5857.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1099,7 +1097,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/280f10cf4a14d07e233f52f71d3f7d0f62538862e6c6005bf0e44c02da87e061.png" src="../../_images/280f10cf4a14d07e233f52f71d3f7d0f62538862e6c6005bf0e44c02da87e061.png" />
+<img alt="../../_images/bcf3af5229947de1ea5636660050e6e99058b9dad1c158430d813191ebf497f5.png" src="../../_images/bcf3af5229947de1ea5636660050e6e99058b9dad1c158430d813191ebf497f5.png" />
 </div>
 </div>
 <p>By now we have addressed most of the keyword agruments of the compile_ela and compute_ela functions. To use different climate than the default climate, you can make use of the <code class="docutils literal notranslate"><span class="pre">climate_filename</span></code> and <code class="docutils literal notranslate"><span class="pre">climate_input_filesuffix</span></code> keywords. In case you’re not familiar with those yet, please check out the <a class="reference internal" href="../10minutes/run_with_gcm.html"><span class="doc std std-doc">run_with_gcm</span></a> notebook.</p>
@@ -1141,7 +1139,7 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/b11762dc5879bf84cf0122f632be505ee55884e96f603172b48b6d4d8e00a39b.png" src="../../_images/b11762dc5879bf84cf0122f632be505ee55884e96f603172b48b6d4d8e00a39b.png" />
+<img alt="../../_images/7d3f470819f063deda5464fdf310cad3e4370ddcbe0a41a59845965b55f3b6f5.png" src="../../_images/7d3f470819f063deda5464fdf310cad3e4370ddcbe0a41a59845965b55f3b6f5.png" />
 </div>
 </div>
 <p>Unsurprisingly, the AAR is strongly correlated to the ELA, but it is not fully linear due to the area distribution of the glacier:</p>
@@ -1152,7 +1150,7 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a6c29bd266730b263850ad743907ddfba986ca7d124f2f570e62a4d82432647d.png" src="../../_images/a6c29bd266730b263850ad743907ddfba986ca7d124f2f570e62a4d82432647d.png" />
+<img alt="../../_images/daf1e002f7c2b777b83ae66593a83b935aae1de1a3861ddf593cfc3b240f68ba.png" src="../../_images/daf1e002f7c2b777b83ae66593a83b935aae1de1a3861ddf593cfc3b240f68ba.png" />
 </div>
 </div>
 <p>Now that we have looked at the static case, let’s to the same for glaciers with changing surface height:</p>
@@ -1187,7 +1185,7 @@ of the glacier that is located above that line. Let’s start with a <strong>sta
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6b9d0ecbc01310d60dc56ebf90b18065ea4983b859a6d65a7a835d023223195b.png" src="../../_images/6b9d0ecbc01310d60dc56ebf90b18065ea4983b859a6d65a7a835d023223195b.png" />
+<img alt="../../_images/88bc30ad87582e81daa139d2e64ec59376094ce77c8dc78c7a3e501f5ac3607a.png" src="../../_images/88bc30ad87582e81daa139d2e64ec59376094ce77c8dc78c7a3e501f5ac3607a.png" />
 </div>
 </div>
 <p>You can see in the plot that the difference between the AAR calculated from the dynamic glacier and the one of the

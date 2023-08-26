@@ -71,7 +71,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/10minutes/dynamical_spinup';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="10 minutes to… understand difference between ice dynamic models" href="numeric_solvers.html" />
+    <link rel="next" title="Working with the RGI files" href="../beginner/working_with_rgi.html" />
     <link rel="prev" title="10 minutes to… “elevation band” and “centerline” flowlines" href="elevation_bands_vs_centerlines.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -170,8 +170,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="machine_learning.html">10 minutes to… OGGM as an accelerator for modelling and machine learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
-<li class="toctree-l1"><a class="reference internal" href="numeric_solvers.html">10 minutes to… understand difference between ice dynamic models</a></li>
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
 <ul class="nav bd-sidenav">
@@ -194,6 +192,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
@@ -532,9 +532,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:18:10: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-25 15:18:10: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-25 15:18:10: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:27:22: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-26 15:27:22: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-26 15:27:22: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -547,8 +547,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:18:15: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
-2023-08-25 15:18:15: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:27:28: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
+2023-08-26 15:27:28: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -583,10 +583,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:18:16: oggm.utils: Applying global task compile_run_output on 1 glaciers
-2023-08-25 15:18:16: oggm.utils: Applying compile_run_output on 1 gdirs.
-2023-08-25 15:18:16: oggm.utils: Applying global task compile_run_output on 1 glaciers
-2023-08-25 15:18:16: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:27:28: oggm.utils: Applying global task compile_run_output on 1 glaciers
+2023-08-26 15:27:28: oggm.utils: Applying compile_run_output on 1 gdirs.
+2023-08-26 15:27:29: oggm.utils: Applying global task compile_run_output on 1 glaciers
+2023-08-26 15:27:29: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 <img alt="../../_images/b15449ee4805c1c133883d8231d4087aba25e7f55032ca7de985f19507b77836.png" src="../../_images/b15449ee4805c1c133883d8231d4087aba25e7f55032ca7de985f19507b77836.png" />
@@ -739,11 +739,11 @@ Dynamically calibrated melt_f:                 4.9                 kg m-2 day-1 
       </div>
     </a>
     <a class="right-next"
-       href="numeric_solvers.html"
+       href="../beginner/working_with_rgi.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">10 minutes to… understand difference between ice dynamic models</p>
+        <p class="prev-next-title">Working with the RGI files</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

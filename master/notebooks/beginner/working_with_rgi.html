@@ -72,7 +72,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Storing glacier directories for later use" href="store_and_compress_glacierdirs.html" />
-    <link rel="prev" title="10 minutes to… understand difference between ice dynamic models" href="../10minutes/numeric_solvers.html" />
+    <link rel="prev" title="10 minutes to… understand the new dynamical spinup in OGGM v1.6" href="../10minutes/dynamical_spinup.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -170,8 +170,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for modelling and machine learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../10minutes/numeric_solvers.html">10 minutes to… understand difference between ice dynamic models</a></li>
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
 <ul class="current nav bd-sidenav">
@@ -194,6 +192,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
@@ -832,7 +832,7 @@ document.write(`
 <p>RGI files can be given as input to OGGM to make a run:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">DEFAULT_BASE_URL</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;continue_on_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
@@ -840,19 +840,18 @@ document.write(`
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGM-Rofental&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Go - get the pre-processed glacier directories</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/elev_bands/W5E5&#39;</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">gdf_sel</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">gdf_sel</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:12: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-25 15:51:12: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-25 15:51:12: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-08-25 15:51:13: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
-2023-08-25 15:51:13: oggm.cfg: Multiprocessing switched ON after user settings.
-2023-08-25 15:51:13: oggm.workflow: init_glacier_directories from prepro level 5 on 54 glaciers.
-2023-08-25 15:51:13: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 54 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:43: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-26 16:01:43: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-26 16:01:43: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-26 16:01:44: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
+2023-08-26 16:01:44: oggm.cfg: Multiprocessing switched ON after user settings.
+2023-08-26 16:01:45: oggm.workflow: init_glacier_directories from prepro level 5 on 54 glaciers.
+2023-08-26 16:01:45: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 54 glaciers
 </pre></div>
 </div>
 </div>
@@ -866,9 +865,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:51:17: oggm.workflow: Execute entity tasks [run_random_climate] on 54 glaciers
-2023-08-25 15:51:24: oggm.utils: Applying global task compile_run_output on 54 glaciers
-2023-08-25 15:51:24: oggm.utils: Applying compile_run_output on 54 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 16:01:49: oggm.workflow: Execute entity tasks [run_random_climate] on 54 glaciers
+2023-08-26 16:01:56: oggm.utils: Applying global task compile_run_output on 54 glaciers
+2023-08-26 16:01:56: oggm.utils: Applying compile_run_output on 54 gdirs.
 </pre></div>
 </div>
 </div>
@@ -880,7 +879,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/cbeb0883ff76556e41398b7fe0ad83a269b9e07f9abebf99c148a35502122b2e.png" src="../../_images/cbeb0883ff76556e41398b7fe0ad83a269b9e07f9abebf99c148a35502122b2e.png" />
+<img alt="../../_images/c711d99b500d404f8dd18a3473dfa63f91769c8b57ecff4622d3cd4c13414f44.png" src="../../_images/c711d99b500d404f8dd18a3473dfa63f91769c8b57ecff4622d3cd4c13414f44.png" />
 </div>
 </div>
 <p>This shows the summed up volume evolution of all glaciers of the Rofental basin.</p>
@@ -926,12 +925,12 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../10minutes/numeric_solvers.html"
+       href="../10minutes/dynamical_spinup.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">10 minutes to… understand difference between ice dynamic models</p>
+        <p class="prev-next-title">10 minutes to… understand the new dynamical spinup in OGGM v1.6</p>
       </div>
     </a>
     <a class="right-next"

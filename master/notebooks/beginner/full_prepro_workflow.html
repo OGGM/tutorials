@@ -170,8 +170,6 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for modelling and machine learning</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../10minutes/numeric_solvers.html">10 minutes to… understand difference between ice dynamic models</a></li>
-
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
 <ul class="current nav bd-sidenav">
@@ -194,6 +192,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
@@ -528,9 +528,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:34:45: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-25 15:34:45: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-25 15:34:45: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:44:38: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-26 15:44:38: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-26 15:44:38: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -557,7 +557,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:34:46: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:44:40: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
 </div>
@@ -629,14 +629,14 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Where to fetch the pre-processed directories</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/centerlines/W5E5&#39;</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/centerlines/W5E5&#39;</span>
 <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:34:47: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-08-25 15:34:47: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:44:40: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2023-08-26 15:44:40: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -728,7 +728,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:34:49: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:44:58: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -764,7 +764,7 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:34:49: oggm.workflow: Execute entity tasks [glacier_masks] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:44:58: oggm.workflow: Execute entity tasks [glacier_masks] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -797,9 +797,9 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:34:50: oggm.workflow: Execute entity tasks [compute_centerlines] on 2 glaciers
-2023-08-25 15:34:50: oggm.workflow: Execute entity tasks [initialize_flowlines] on 2 glaciers
-2023-08-25 15:34:50: oggm.workflow: Execute entity tasks [compute_downstream_line] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:44:59: oggm.workflow: Execute entity tasks [compute_centerlines] on 2 glaciers
+2023-08-26 15:44:59: oggm.workflow: Execute entity tasks [initialize_flowlines] on 2 glaciers
+2023-08-26 15:44:59: oggm.workflow: Execute entity tasks [compute_downstream_line] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -850,10 +850,10 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:34:51: oggm.workflow: Execute entity tasks [catchment_area] on 2 glaciers
-2023-08-25 15:34:54: oggm.workflow: Execute entity tasks [catchment_width_geom] on 2 glaciers
-2023-08-25 15:34:55: oggm.workflow: Execute entity tasks [catchment_width_correction] on 2 glaciers
-2023-08-25 15:34:56: oggm.workflow: Execute entity tasks [compute_downstream_bedshape] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:45:01: oggm.workflow: Execute entity tasks [catchment_area] on 2 glaciers
+2023-08-26 15:45:03: oggm.workflow: Execute entity tasks [catchment_width_geom] on 2 glaciers
+2023-08-26 15:45:05: oggm.workflow: Execute entity tasks [catchment_width_correction] on 2 glaciers
+2023-08-26 15:45:05: oggm.workflow: Execute entity tasks [compute_downstream_bedshape] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -898,10 +898,10 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:34:59: oggm.workflow: Execute entity tasks [apparent_mb_from_any_mb] on 2 glaciers
-2023-08-25 15:34:59: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 2 glaciers
-2023-08-25 15:34:59: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 2 glaciers
-2023-08-25 15:34:59: oggm.workflow: Execute entity tasks [filter_inversion_output] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:45:08: oggm.workflow: Execute entity tasks [apparent_mb_from_any_mb] on 2 glaciers
+2023-08-26 15:45:08: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 2 glaciers
+2023-08-26 15:45:08: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 2 glaciers
+2023-08-26 15:45:08: oggm.workflow: Execute entity tasks [filter_inversion_output] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -914,7 +914,7 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/a96636020c71565d245125e82df2bd319537f017248feca19d7e1ada89808d1a.png" src="../../_images/a96636020c71565d245125e82df2bd319537f017248feca19d7e1ada89808d1a.png" />
+<img alt="../../_images/f4fbf6fc149585b82e1fae012c64ccc36df90a098441f791b0c0db876b0af4f1.png" src="../../_images/f4fbf6fc149585b82e1fae012c64ccc36df90a098441f791b0c0db876b0af4f1.png" />
 </div>
 </div>
 <p>The inversion is realized with the default parameter settings: it must be noted that the model is sensitive to the choice of some of them, most notably the creep parameter A:</p>
@@ -947,7 +947,7 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6f9bc9740611d956c361631a93d4254f48e8f3c90c7ee1da0749e1a2587fd42b.png" src="../../_images/6f9bc9740611d956c361631a93d4254f48e8f3c90c7ee1da0749e1a2587fd42b.png" />
+<img alt="../../_images/1729cfaca4f05bbdd17084c0897110245096c2d7331d4c78f993fac091bb1735.png" src="../../_images/1729cfaca4f05bbdd17084c0897110245096c2d7331d4c78f993fac091bb1735.png" />
 </div>
 </div>
 <p>There is no simple way to find the best A for each individual glacier. It can easily vary by a factor of 10 (or more) from one glacier to another. At the global scale, the “best” A is close to the default value (possibly between 1 and 1.5 times larger). The default parameter a good choice in a first step but be aware that reconstructions based on this default parameter might be very uncertain! See our <a class="reference internal" href="inversion.html"><span class="doc std std-doc">ice thickness inversion tutorial</span></a> for a more in-depth discussion.</p>
@@ -964,7 +964,7 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:35:02: oggm.workflow: Execute entity tasks [init_present_time_glacier] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:45:11: oggm.workflow: Execute entity tasks [init_present_time_glacier] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -980,9 +980,9 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:35:02: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
-2023-08-25 15:35:02: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
-2023-08-25 15:35:02: oggm.workflow: Execute entity tasks [run_random_climate] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:45:11: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+2023-08-26 15:45:11: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
+2023-08-26 15:45:11: oggm.workflow: Execute entity tasks [run_random_climate] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -996,8 +996,8 @@ of global tasks.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:35:22: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-25 15:35:22: oggm.utils: Applying compile_run_output on 2 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:45:33: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-26 15:45:33: oggm.utils: Applying compile_run_output on 2 gdirs.
 </pre></div>
 </div>
 </div>
@@ -1383,11 +1383,11 @@ Coordinates:
     calendar_year   (time) int64 0 1 2 3 4 5 6 7 ... 194 195 196 197 198 199 200
     calendar_month  (time) int64 1 1 1 1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1 1 1 1
 Data variables:
-    volume          (time, rgi_id) float64 3.849e+09 8.617e+08 ... 3.022e+08
+    volume          (time, rgi_id) float64 3.849e+09 8.617e+08 ... 2.39e+08
     volume_bsl      (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
     volume_bwl      (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
-    area            (time, rgi_id) float64 2.383e+07 8.036e+06 ... 4.856e+06
-    length          (time, rgi_id) float64 1.342e+04 6.9e+03 ... 1.9e+03
+    area            (time, rgi_id) float64 2.383e+07 8.036e+06 ... 4.613e+06
+    length          (time, rgi_id) float64 1.342e+04 6.9e+03 ... 1.7e+03
     calving         (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
     calving_rate    (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
     water_level     (rgi_id) float64 0.0 0.0
@@ -1395,9 +1395,9 @@ Data variables:
     fs              (rgi_id) float64 0.0 0.0
 Attributes:
     description:    OGGM model output
-    oggm_version:   1.6.1.dev50+g7a9177b
+    oggm_version:   1.6.1.dev51+g79d0368
     calendar:       365-day no leap
-    creation_date:  2023-08-25 15:35:22</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-46d1ec0b-d51e-4c60-8f4e-d9b15c7e8374' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-46d1ec0b-d51e-4c60-8f4e-d9b15c7e8374' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 201</li><li><span class='xr-has-index'>rgi_id</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-359d9bf0-ed7b-4475-9fa5-60cbfadfbd31' class='xr-section-summary-in' type='checkbox'  checked><label for='section-359d9bf0-ed7b-4475-9fa5-60cbfadfbd31' class='xr-section-summary' >Coordinates: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 2.0 ... 198.0 199.0 200.0</div><input id='attrs-b515f866-d5b9-4748-8dc4-d6f7e20dea0a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b515f866-d5b9-4748-8dc4-d6f7e20dea0a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-db68f782-090f-4f31-8622-b77b9258d929' class='xr-var-data-in' type='checkbox'><label for='data-db68f782-090f-4f31-8622-b77b9258d929' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating year</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   1.,   2., ..., 198., 199., 200.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rgi_id</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>&lt;U14</div><div class='xr-var-preview xr-preview'>&#x27;RGI60-11.01328&#x27; &#x27;RGI60-11.00897&#x27;</div><input id='attrs-34f0b48f-3286-4949-8da9-ada29f226138' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-34f0b48f-3286-4949-8da9-ada29f226138' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d46ecbe5-730e-4a2c-907b-f5c12d39d834' class='xr-var-data-in' type='checkbox'><label for='data-d46ecbe5-730e-4a2c-907b-f5c12d39d834' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>RGI glacier identifier</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;RGI60-11.01328&#x27;, &#x27;RGI60-11.00897&#x27;], dtype=&#x27;&lt;U14&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 196 197 198 199 200</div><input id='attrs-e21c0a85-253e-4b29-9821-b89ec21a91f3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e21c0a85-253e-4b29-9821-b89ec21a91f3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3809d976-e027-4a6f-9a56-536d10b5c63c' class='xr-var-data-in' type='checkbox'><label for='data-3809d976-e027-4a6f-9a56-536d10b5c63c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
+    creation_date:  2023-08-26 15:45:33</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-5915df79-c0fc-44e7-ac72-971f859a09d4' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-5915df79-c0fc-44e7-ac72-971f859a09d4' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 201</li><li><span class='xr-has-index'>rgi_id</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-6321f8cd-c729-4092-afab-131c98fc0a12' class='xr-section-summary-in' type='checkbox'  checked><label for='section-6321f8cd-c729-4092-afab-131c98fc0a12' class='xr-section-summary' >Coordinates: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 2.0 ... 198.0 199.0 200.0</div><input id='attrs-9458fd0a-ebc9-4b3f-8872-701593d2a29a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9458fd0a-ebc9-4b3f-8872-701593d2a29a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d4faf0ad-b1a2-4b2d-b4cc-360cf3a3bc22' class='xr-var-data-in' type='checkbox'><label for='data-d4faf0ad-b1a2-4b2d-b4cc-360cf3a3bc22' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating year</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   1.,   2., ..., 198., 199., 200.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rgi_id</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>&lt;U14</div><div class='xr-var-preview xr-preview'>&#x27;RGI60-11.01328&#x27; &#x27;RGI60-11.00897&#x27;</div><input id='attrs-781a99a6-5211-4df3-9ff5-2d9ef27f8932' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-781a99a6-5211-4df3-9ff5-2d9ef27f8932' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-eb0cf818-0749-44c2-8d83-6aef587f05a5' class='xr-var-data-in' type='checkbox'><label for='data-eb0cf818-0749-44c2-8d83-6aef587f05a5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>RGI glacier identifier</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;RGI60-11.01328&#x27;, &#x27;RGI60-11.00897&#x27;], dtype=&#x27;&lt;U14&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 196 197 198 199 200</div><input id='attrs-6fab0505-1902-4a03-891b-72eb132b36ca' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6fab0505-1902-4a03-891b-72eb132b36ca' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-333d1904-9944-4137-89ca-091b0ee9eb8c' class='xr-var-data-in' type='checkbox'><label for='data-333d1904-9944-4137-89ca-091b0ee9eb8c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
         13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,
         26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,
         39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,
@@ -1412,7 +1412,7 @@ Attributes:
        156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168,
        169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181,
        182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194,
-       195, 196, 197, 198, 199, 200])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>4 4 4 4 4 4 4 4 ... 4 4 4 4 4 4 4 4</div><input id='attrs-2e7729f7-6050-44fe-bd06-b5e7c4f1fe57' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2e7729f7-6050-44fe-bd06-b5e7c4f1fe57' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0f021da0-5725-4822-a5f2-2c9b9bd0c6d1' class='xr-var-data-in' type='checkbox'><label for='data-0f021da0-5725-4822-a5f2-2c9b9bd0c6d1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological month</dd></dl></div><div class='xr-var-data'><pre>array([4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+       195, 196, 197, 198, 199, 200])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>4 4 4 4 4 4 4 4 ... 4 4 4 4 4 4 4 4</div><input id='attrs-d7eec217-84e0-4684-9298-3fa88ac3eabb' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d7eec217-84e0-4684-9298-3fa88ac3eabb' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4d67143e-2f1e-4192-802a-7071df7490f9' class='xr-var-data-in' type='checkbox'><label for='data-4d67143e-2f1e-4192-802a-7071df7490f9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological month</dd></dl></div><div class='xr-var-data'><pre>array([4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
@@ -1421,7 +1421,7 @@ Attributes:
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-       4, 4, 4])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 196 197 198 199 200</div><input id='attrs-63bf40fc-f53d-4913-8def-efd27e5dd34a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-63bf40fc-f53d-4913-8def-efd27e5dd34a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5646b75c-edc6-4748-9c9c-f0535f6a4a9d' class='xr-var-data-in' type='checkbox'><label for='data-5646b75c-edc6-4748-9c9c-f0535f6a4a9d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
+       4, 4, 4])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 196 197 198 199 200</div><input id='attrs-9420ef08-e0eb-4975-86fc-618be43e87c5' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9420ef08-e0eb-4975-86fc-618be43e87c5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-23146e1d-e5d5-4e05-8470-97fa16e7da9c' class='xr-var-data-in' type='checkbox'><label for='data-23146e1d-e5d5-4e05-8470-97fa16e7da9c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
         13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,
         26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,
         39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,
@@ -1436,7 +1436,7 @@ Attributes:
        156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168,
        169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181,
        182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194,
-       195, 196, 197, 198, 199, 200])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-f9702036-37f8-4ea8-aade-9900e5252b53' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f9702036-37f8-4ea8-aade-9900e5252b53' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1a5470e1-4d8f-48df-9eb7-ede920606d2c' class='xr-var-data-in' type='checkbox'><label for='data-1a5470e1-4d8f-48df-9eb7-ede920606d2c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar month</dd></dl></div><div class='xr-var-data'><pre>array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       195, 196, 197, 198, 199, 200])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-a9cab796-7ddb-482f-97d4-87b6f151b758' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a9cab796-7ddb-482f-97d4-87b6f151b758' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4ac1a1b4-2981-43d8-b0e7-399f791f54fd' class='xr-var-data-in' type='checkbox'><label for='data-4ac1a1b4-2981-43d8-b0e7-399f791f54fd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar month</dd></dl></div><div class='xr-var-data'><pre>array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -1445,87 +1445,47 @@ Attributes:
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-c478141e-1b5a-4982-8deb-f900d69fe641' class='xr-section-summary-in' type='checkbox'  checked><label for='section-c478141e-1b5a-4982-8deb-f900d69fe641' class='xr-section-summary' >Data variables: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>volume</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.849e+09 8.617e+08 ... 3.022e+08</div><input id='attrs-dadcafdd-9d8a-40c6-84cf-176784dba4bb' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-dadcafdd-9d8a-40c6-84cf-176784dba4bb' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6182e75a-dee5-4179-8aba-3b120d4298d8' class='xr-var-data-in' type='checkbox'><label for='data-6182e75a-dee5-4179-8aba-3b120d4298d8' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier volume</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[3.84874157e+09, 8.61657941e+08],
-       [3.83560413e+09, 8.52816155e+08],
-       [3.79250752e+09, 8.52458289e+08],
-       [3.75306648e+09, 8.41918249e+08],
-       [3.71727271e+09, 8.38477032e+08],
-       [3.66627676e+09, 8.37945577e+08],
-       [3.65842351e+09, 8.30039005e+08],
-       [3.62736382e+09, 8.24914068e+08],
-       [3.58692690e+09, 8.17882183e+08],
-       [3.56692059e+09, 8.08306351e+08],
-       [3.55031485e+09, 7.99015314e+08],
-       [3.52984026e+09, 7.96020381e+08],
-       [3.49073664e+09, 7.86898658e+08],
-       [3.48557819e+09, 7.83576127e+08],
-       [3.48063558e+09, 7.73008128e+08],
-       [3.46080307e+09, 7.52731247e+08],
-       [3.42574590e+09, 7.43947190e+08],
-       [3.37373699e+09, 7.36101852e+08],
-       [3.35600842e+09, 7.27910854e+08],
-       [3.33160101e+09, 7.18278688e+08],
+       1, 1, 1])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-a94af9e2-6ca5-4a2c-873a-95473ae0a97e' class='xr-section-summary-in' type='checkbox'  checked><label for='section-a94af9e2-6ca5-4a2c-873a-95473ae0a97e' class='xr-section-summary' >Data variables: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>volume</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.849e+09 8.617e+08 ... 2.39e+08</div><input id='attrs-2bcb6fd9-32e5-4f05-ae0f-03539fab4edc' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2bcb6fd9-32e5-4f05-ae0f-03539fab4edc' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c1c3fe8d-31ed-46b7-8214-6f8b1e9d86d9' class='xr-var-data-in' type='checkbox'><label for='data-c1c3fe8d-31ed-46b7-8214-6f8b1e9d86d9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier volume</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[3.84903469e+09, 8.61662952e+08],
+       [3.80241757e+09, 8.57696754e+08],
+       [3.78010747e+09, 8.54795959e+08],
+       [3.75868768e+09, 8.43517254e+08],
+       [3.74776293e+09, 8.40304170e+08],
+       [3.70316937e+09, 8.23392957e+08],
+       [3.67541700e+09, 8.13220218e+08],
+       [3.62620731e+09, 8.09544675e+08],
+       [3.60753756e+09, 7.92613395e+08],
+       [3.60524143e+09, 7.84631151e+08],
+       [3.58419796e+09, 7.77505974e+08],
+       [3.55697336e+09, 7.74578098e+08],
+       [3.51785906e+09, 7.60897067e+08],
+       [3.49882435e+09, 7.51443711e+08],
+       [3.47540853e+09, 7.40203369e+08],
+       [3.46355660e+09, 7.33669989e+08],
+       [3.43446547e+09, 7.20231018e+08],
+       [3.41532540e+09, 7.16137014e+08],
+       [3.37879083e+09, 7.12305789e+08],
+       [3.33323044e+09, 7.06257570e+08],
 ...
-       [1.36251530e+09, 2.93652440e+08],
-       [1.35652177e+09, 2.93707616e+08],
-       [1.34713798e+09, 2.96836185e+08],
-       [1.35442331e+09, 2.96772829e+08],
-       [1.34999837e+09, 2.89956363e+08],
-       [1.34624171e+09, 2.89926664e+08],
-       [1.33862363e+09, 2.86576935e+08],
-       [1.34042397e+09, 2.85746241e+08],
-       [1.32722459e+09, 2.85681479e+08],
-       [1.32381185e+09, 2.86169546e+08],
-       [1.32980849e+09, 2.88842042e+08],
-       [1.32952448e+09, 2.92344770e+08],
-       [1.32425247e+09, 2.95143884e+08],
-       [1.32792300e+09, 2.98968139e+08],
-       [1.33141065e+09, 2.99531808e+08],
-       [1.33837874e+09, 2.97718679e+08],
-       [1.33843589e+09, 2.96054517e+08],
-       [1.33679816e+09, 2.98990629e+08],
-       [1.32500088e+09, 2.98593739e+08],
-       [1.32018671e+09, 3.02224881e+08]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bsl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-359cda91-ad93-4d5a-8123-46038ad72a07' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-359cda91-ad93-4d5a-8123-46038ad72a07' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f4ffaaba-1adf-4c6f-bb9a-629771da366f' class='xr-var-data-in' type='checkbox'><label for='data-f4ffaaba-1adf-4c6f-bb9a-629771da366f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below sea-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-...
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.],
-       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bwl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-30259683-b7a3-42e1-923d-66f4f19e4016' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-30259683-b7a3-42e1-923d-66f4f19e4016' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5c367625-38e4-4525-92f4-6aba8f22b00d' class='xr-var-data-in' type='checkbox'><label for='data-5c367625-38e4-4525-92f4-6aba8f22b00d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below water-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [1.38203383e+09, 2.62889641e+08],
+       [1.38378698e+09, 2.63889384e+08],
+       [1.38398826e+09, 2.60819439e+08],
+       [1.38679169e+09, 2.54523404e+08],
+       [1.39128788e+09, 2.54255630e+08],
+       [1.38850363e+09, 2.53920366e+08],
+       [1.38790445e+09, 2.52529761e+08],
+       [1.38167459e+09, 2.50822729e+08],
+       [1.37499150e+09, 2.50097571e+08],
+       [1.37983829e+09, 2.44527882e+08],
+       [1.37727663e+09, 2.41266542e+08],
+       [1.37457038e+09, 2.40884229e+08],
+       [1.38564319e+09, 2.37707181e+08],
+       [1.37896375e+09, 2.34174106e+08],
+       [1.37736671e+09, 2.38439311e+08],
+       [1.39330086e+09, 2.41729276e+08],
+       [1.39215180e+09, 2.41019516e+08],
+       [1.40075982e+09, 2.41656277e+08],
+       [1.39662835e+09, 2.44478245e+08],
+       [1.41021126e+09, 2.38966658e+08]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bsl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-aa838149-54d8-491d-8967-71185f7698a4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-aa838149-54d8-491d-8967-71185f7698a4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4ca1a15c-59bc-4023-b6d1-ed2f76335815' class='xr-var-data-in' type='checkbox'><label for='data-4ca1a15c-59bc-4023-b6d1-ed2f76335815' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below sea-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
        [0., 0.],
        [0., 0.],
        [0., 0.],
@@ -1565,47 +1525,87 @@ Attributes:
        [0., 0.],
        [0., 0.],
        [0., 0.],
-       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.383e+07 8.036e+06 ... 4.856e+06</div><input id='attrs-e188e122-ad0d-4108-b622-b9c793f42b2c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e188e122-ad0d-4108-b622-b9c793f42b2c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e37c3a16-9a75-4571-afe7-a68975f667a4' class='xr-var-data-in' type='checkbox'><label for='data-e37c3a16-9a75-4571-afe7-a68975f667a4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([[23825000.00000001,  8036000.        ],
-       [23747851.21459427,  8021160.21231435],
-       [23688444.14864937,  8022995.06586575],
-       [23621874.76261807,  8009339.60522887],
-       [23560971.98986883,  7999818.99104514],
-       [23483420.88773725,  7996265.80041052],
-       [23464290.7450901 ,  7984428.52073427],
-       [23416867.49819846,  7977311.5396928 ],
-       [23361207.27331465,  7970020.56484989],
-       [23339185.11481163,  7957344.3961092 ],
-       [23321163.223458  ,  7944603.3581753 ],
-       [23289363.63592757,  7939262.80628741],
-       [23230984.54286153,  7925093.13444245],
-       [23220031.25747188,  7916492.70770793],
-       [23213790.21433816,  7897951.96494795],
-       [23186756.32485577,  7875606.87900959],
-       [23128979.40657014,  7858053.38403641],
-       [23046671.61229493,  7840410.31913149],
-       [23015543.81165095,  7823883.6776293 ],
-       [22969953.45856659,  7807358.7416562 ],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bwl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-8dea24d8-86ea-4da7-8514-dd48bdbbc6ac' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8dea24d8-86ea-4da7-8514-dd48bdbbc6ac' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4eadfc5d-9089-4877-9c21-73fd6472bf3c' class='xr-var-data-in' type='checkbox'><label for='data-4eadfc5d-9089-4877-9c21-73fd6472bf3c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below water-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
 ...
-       [15340650.48337362,  4855741.36723524],
-       [15313573.16927799,  4856231.10383479],
-       [15296300.11205157,  4852566.24885664],
-       [15312930.56746658,  4852951.98714677],
-       [15294944.53237025,  4851726.46908467],
-       [15280665.44877079,  4851644.30392748],
-       [15260578.5900138 ,  4851176.99615679],
-       [15244834.93666709,  4851026.18000228],
-       [15117322.32981097,  4853157.04739076],
-       [15086249.87083078,  4850609.47012614],
-       [15089224.37276492,  4851249.14854738],
-       [15086315.01015736,  4852025.88859352],
-       [15072143.30718491,  4852497.83681314],
-       [15163364.13556867,  4853791.48275499],
-       [15085024.57566647,  4856960.63400559],
-       [15101709.16958143,  4854361.46169316],
-       [15106012.39940851,  4855124.25764368],
-       [15107316.85148737,  4861048.41023224],
-       [15079725.27069983,  4856119.29121644],
-       [15056410.81914594,  4856437.71372229]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>length</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.342e+04 6.9e+03 ... 1.9e+03</div><input id='attrs-b082276a-6e13-459a-881d-d7181e0dc03c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b082276a-6e13-459a-881d-d7181e0dc03c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1e9e7dc4-1108-4505-ba01-938e1512fd2e' class='xr-var-data-in' type='checkbox'><label for='data-1e9e7dc4-1108-4505-ba01-938e1512fd2e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier length</dd><dt><span>unit :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([[13416.,  6900.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.383e+07 8.036e+06 ... 4.613e+06</div><input id='attrs-ebe8f367-41ad-4043-9267-1866bcd414ea' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ebe8f367-41ad-4043-9267-1866bcd414ea' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-785f145a-cee6-4cc2-bf14-045585571f39' class='xr-var-data-in' type='checkbox'><label for='data-785f145a-cee6-4cc2-bf14-045585571f39' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([[23825000.00000001,  8036000.        ],
+       [23702714.72638696,  8033800.09613675],
+       [23667639.14404269,  8031361.49828593],
+       [23632230.72285464,  8019000.13598561],
+       [23609951.94202505,  8013941.70979973],
+       [23528766.87450846,  7988969.54380171],
+       [23484188.52138274,  7973838.84070019],
+       [23411307.45393142,  7968370.5884475 ],
+       [23380102.15375078,  7945670.55621682],
+       [23383164.20718805,  7937072.83419147],
+       [23362976.85858636,  7925357.25814182],
+       [23327374.23760872,  7918424.99997647],
+       [23268870.26924369,  7895400.35446792],
+       [23242794.07344174,  7878598.89090201],
+       [23208962.28498982,  7859085.06064834],
+       [23193281.99949002,  7844808.76260498],
+       [23145799.70752855,  7821972.65181122],
+       [23118487.18413784,  7806456.6599428 ],
+       [23050923.67152774,  7795555.7489605 ],
+       [22974014.58548842,  7779334.0928368 ],
+...
+       [15257830.78842459,  4729086.45815455],
+       [15272007.90908292,  4732421.37647774],
+       [15278241.83337082,  4728302.22067245],
+       [15282220.75692007,  4727995.70032942],
+       [15293929.19264135,  4726100.20959261],
+       [15286161.80422287,  4725124.37673601],
+       [15295453.22787075,  4725946.5703648 ],
+       [15290742.39398049,  4723948.15096663],
+       [15288277.61495236,  4725510.18399519],
+       [15302198.79038689,  4620498.19529705],
+       [15295497.65059548,  4616564.51345304],
+       [15292083.85119718,  4616106.1927219 ],
+       [15323013.10904209,  4615634.89560895],
+       [15313658.83149472,  4614952.32728706],
+       [15320209.98847324,  4621779.93194278],
+       [15427279.13594834,  4614667.06023336],
+       [15342144.4290509 ,  4614326.28153974],
+       [15455671.81945314,  4613826.16881971],
+       [15366472.50402138,  4613839.86040937],
+       [15476204.72138092,  4612707.50459067]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>length</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>1.342e+04 6.9e+03 ... 1.7e+03</div><input id='attrs-b566f7c3-3de2-48ff-bfe4-7943847c5cc8' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b566f7c3-3de2-48ff-bfe4-7943847c5cc8' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-63634b24-0de8-4f04-a95d-e4527dced134' class='xr-var-data-in' type='checkbox'><label for='data-63634b24-0de8-4f04-a95d-e4527dced134' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier length</dd><dt><span>unit :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([[13416.,  6900.],
        [13416.,  6900.],
        [13416.,  6900.],
        [13416.,  6900.],
@@ -1613,39 +1613,39 @@ Attributes:
        [13416.,  6900.],
        [13416.,  6900.],
        [13416.,  6800.],
-       [13416.,  6800.],
+       [13260.,  6800.],
+       [13260.,  6900.],
+       [13260.,  6800.],
+       [13260.,  6900.],
        [13260.,  6900.],
        [13260.,  6800.],
        [13260.,  6800.],
        [13260.,  6800.],
        [13260.,  6800.],
-       [13260.,  6900.],
-       [13260.,  6800.],
-       [13260.,  6800.],
        [13260.,  6800.],
        [13260.,  6800.],
        [13260.,  6800.],
 ...
-       [ 7176.,  1900.],
-       [ 7176.,  1900.],
-       [ 7176.,  1900.],
-       [ 7176.,  1900.],
-       [ 7176.,  1900.],
-       [ 7176.,  1900.],
-       [ 7176.,  1900.],
-       [ 7176.,  1900.],
-       [ 7020.,  1900.],
-       [ 7020.,  1900.],
-       [ 7020.,  1900.],
-       [ 7020.,  1900.],
-       [ 7020.,  1900.],
-       [ 7176.,  1900.],
-       [ 7020.,  1900.],
-       [ 7020.,  1900.],
-       [ 7020.,  1900.],
-       [ 7020.,  1900.],
-       [ 7020.,  1900.],
-       [ 6864.,  1900.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-1d19701a-bc9a-4930-9c98-b4a688d5c5a2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1d19701a-bc9a-4930-9c98-b4a688d5c5a2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a76258d2-97f1-4fb2-bd7f-91ad7dd27a19' class='xr-var-data-in' type='checkbox'><label for='data-a76258d2-97f1-4fb2-bd7f-91ad7dd27a19' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total accumulated calving flux</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [ 6864.,  1800.],
+       [ 6708.,  1800.],
+       [ 6864.,  1800.],
+       [ 6708.,  1800.],
+       [ 7176.,  1800.],
+       [ 6708.,  1800.],
+       [ 6864.,  1800.],
+       [ 6864.,  1800.],
+       [ 6864.,  1800.],
+       [ 6864.,  1700.],
+       [ 6864.,  1700.],
+       [ 6864.,  1700.],
+       [ 6864.,  1700.],
+       [ 6864.,  1700.],
+       [ 6864.,  1700.],
+       [ 7020.,  1700.],
+       [ 6864.,  1700.],
+       [ 7020.,  1700.],
+       [ 6864.,  1700.],
+       [ 7020.,  1700.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-48aa9fd9-49fd-4923-b4ff-27a519581e2e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-48aa9fd9-49fd-4923-b4ff-27a519581e2e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-805ec972-2e99-4226-80ea-2c3dd65ca2aa' class='xr-var-data-in' type='checkbox'><label for='data-805ec972-2e99-4226-80ea-2c3dd65ca2aa' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total accumulated calving flux</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
        [0., 0.],
        [0., 0.],
        [0., 0.],
@@ -1685,7 +1685,7 @@ Attributes:
        [0., 0.],
        [0., 0.],
        [0., 0.],
-       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_rate</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-5bb4418b-1489-4c92-a078-2c210364809e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5bb4418b-1489-4c92-a078-2c210364809e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7507e012-e083-42c1-ae09-e5ae3f2e1132' class='xr-var-data-in' type='checkbox'><label for='data-7507e012-e083-42c1-ae09-e5ae3f2e1132' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving rate</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_rate</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-30c79052-230f-4c45-b7bb-0e768a7928cc' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-30c79052-230f-4c45-b7bb-0e768a7928cc' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a9859b20-a609-488e-9e96-3cb177170df1' class='xr-var-data-in' type='checkbox'><label for='data-a9859b20-a609-488e-9e96-3cb177170df1' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving rate</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
        [0., 0.],
        [0., 0.],
        [0., 0.],
@@ -1725,10 +1725,10 @@ Attributes:
        [0., 0.],
        [0., 0.],
        [0., 0.],
-       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>water_level</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-2a77c124-175a-4c86-b511-9fe889cfac7f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2a77c124-175a-4c86-b511-9fe889cfac7f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-075acead-bf0e-4c09-bd58-93065c729ce3' class='xr-var-data-in' type='checkbox'><label for='data-075acead-bf0e-4c09-bd58-93065c729ce3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving water level</dd><dt><span>units :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glen_a</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.4e-24 2.4e-24</div><input id='attrs-af0f4fe8-cb84-4ffe-afd0-fc341d5fe006' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-af0f4fe8-cb84-4ffe-afd0-fc341d5fe006' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-248827d3-6167-4c9e-898f-96f7898d6b6d' class='xr-var-data-in' type='checkbox'><label for='data-248827d3-6167-4c9e-898f-96f7898d6b6d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation Glen A</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([2.4e-24, 2.4e-24])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>fs</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-b3deb002-19f3-4a76-8419-90e9c72bad6d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-b3deb002-19f3-4a76-8419-90e9c72bad6d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-05d1eac0-157e-483a-b534-2d24c4a1c561' class='xr-var-data-in' type='checkbox'><label for='data-05d1eac0-157e-483a-b534-2d24c4a1c561' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation sliding parameter</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-462f5c0f-f310-410d-9c9d-81b5412da003' class='xr-section-summary-in' type='checkbox'  ><label for='section-462f5c0f-f310-410d-9c9d-81b5412da003' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-60e8b052-4148-4464-8911-e68b2d7bf0a6' class='xr-index-data-in' type='checkbox'/><label for='index-60e8b052-4148-4464-8911-e68b2d7bf0a6' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  0.0,   1.0,   2.0,   3.0,   4.0,   5.0,   6.0,   7.0,   8.0,   9.0,
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>water_level</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-e8d383fe-d477-4466-be23-ac090ffc6d2c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e8d383fe-d477-4466-be23-ac090ffc6d2c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8b9c5afb-5b84-4de1-ae02-f0297ff0f1b5' class='xr-var-data-in' type='checkbox'><label for='data-8b9c5afb-5b84-4de1-ae02-f0297ff0f1b5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving water level</dd><dt><span>units :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glen_a</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>2.4e-24 2.4e-24</div><input id='attrs-6c220b85-fac6-4aab-8a60-4df1f4e68f7b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6c220b85-fac6-4aab-8a60-4df1f4e68f7b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-65382805-6712-42c9-91b7-77eff9961209' class='xr-var-data-in' type='checkbox'><label for='data-65382805-6712-42c9-91b7-77eff9961209' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation Glen A</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([2.4e-24, 2.4e-24])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>fs</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-c346f76a-f19b-4239-8291-408511630be2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-c346f76a-f19b-4239-8291-408511630be2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ca72bda7-d366-4925-b9a4-d40525651aeb' class='xr-var-data-in' type='checkbox'><label for='data-ca72bda7-d366-4925-b9a4-d40525651aeb' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation sliding parameter</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-b030e79d-8b80-47e5-bf8b-6aa1c5d3ca97' class='xr-section-summary-in' type='checkbox'  ><label for='section-b030e79d-8b80-47e5-bf8b-6aa1c5d3ca97' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-1057a639-2c2c-47a8-98ed-90e30bbac836' class='xr-index-data-in' type='checkbox'/><label for='index-1057a639-2c2c-47a8-98ed-90e30bbac836' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  0.0,   1.0,   2.0,   3.0,   4.0,   5.0,   6.0,   7.0,   8.0,   9.0,
        ...
        191.0, 192.0, 193.0, 194.0, 195.0, 196.0, 197.0, 198.0, 199.0, 200.0],
-      dtype=&#x27;float64&#x27;, name=&#x27;time&#x27;, length=201))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>rgi_id</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-8f958f8d-cc51-450b-bff9-899bc1a4a120' class='xr-index-data-in' type='checkbox'/><label for='index-8f958f8d-cc51-450b-bff9-899bc1a4a120' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;RGI60-11.01328&#x27;, &#x27;RGI60-11.00897&#x27;], dtype=&#x27;object&#x27;, name=&#x27;rgi_id&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-91c2655c-573d-4c55-9c12-b7dcd7c861a1' class='xr-section-summary-in' type='checkbox'  checked><label for='section-91c2655c-573d-4c55-9c12-b7dcd7c861a1' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>OGGM model output</dd><dt><span>oggm_version :</span></dt><dd>1.6.1.dev50+g7a9177b</dd><dt><span>calendar :</span></dt><dd>365-day no leap</dd><dt><span>creation_date :</span></dt><dd>2023-08-25 15:35:22</dd></dl></div></li></ul></div></div></div></div>
+      dtype=&#x27;float64&#x27;, name=&#x27;time&#x27;, length=201))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>rgi_id</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-6d63eda1-197a-405c-9cca-c39739b67435' class='xr-index-data-in' type='checkbox'/><label for='index-6d63eda1-197a-405c-9cca-c39739b67435' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;RGI60-11.01328&#x27;, &#x27;RGI60-11.00897&#x27;], dtype=&#x27;object&#x27;, name=&#x27;rgi_id&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-d59112fc-f8bf-4291-ab74-25a0e3714764' class='xr-section-summary-in' type='checkbox'  checked><label for='section-d59112fc-f8bf-4291-ab74-25a0e3714764' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>OGGM model output</dd><dt><span>oggm_version :</span></dt><dd>1.6.1.dev51+g79d0368</dd><dt><span>calendar :</span></dt><dd>365-day no leap</dd><dt><span>creation_date :</span></dt><dd>2023-08-26 15:45:33</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <p>We opened the file with <a class="reference external" href="http://xarray.pydata.org">xarray</a>, a very useful data analysis library based on <a class="reference external" href="http://pandas.pydata.org/">pandas</a>. For example, we can plot the volume and length evolution of both glaciers with time:</p>
 <div class="cell docutils container">
@@ -1740,7 +1740,7 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/883ecc3c76ac01a9980649f5bf74b2547b1a6beb0ea499fa14a1adde134af47f.png" src="../../_images/883ecc3c76ac01a9980649f5bf74b2547b1a6beb0ea499fa14a1adde134af47f.png" />
+<img alt="../../_images/cb488f50c7e006dac2ba1ae089d06073bfe4eec5b61f4e1dc719df8b08166468.png" src="../../_images/cb488f50c7e006dac2ba1ae089d06073bfe4eec5b61f4e1dc719df8b08166468.png" />
 </div>
 </div>
 <p>The full model output files can be used for plots:</p>
@@ -1755,7 +1755,7 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d7570c805fda9e1b228430f937705432458cca065387f6e4ac8bcbed3e322d63.png" src="../../_images/d7570c805fda9e1b228430f937705432458cca065387f6e4ac8bcbed3e322d63.png" />
+<img alt="../../_images/a72182a821bf4c00f514387bca65901b9207788d00014c9e8b3884f367f293dc.png" src="../../_images/a72182a821bf4c00f514387bca65901b9207788d00014c9e8b3884f367f293dc.png" />
 </div>
 </div>
 <section id="sensitivity-to-temperature">
@@ -1773,8 +1773,8 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:35:31: oggm.workflow: Execute entity tasks [run_random_climate] on 2 glaciers
-2023-08-25 15:35:49: oggm.workflow: Execute entity tasks [run_random_climate] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:45:42: oggm.workflow: Execute entity tasks [run_random_climate] on 2 glaciers
+2023-08-26 15:46:00: oggm.workflow: Execute entity tasks [run_random_climate] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -1787,10 +1787,10 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-25 15:36:09: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-25 15:36:09: oggm.utils: Applying compile_run_output on 2 gdirs.
-2023-08-25 15:36:09: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2023-08-25 15:36:09: oggm.utils: Applying compile_run_output on 2 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:46:21: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-26 15:46:21: oggm.utils: Applying compile_run_output on 2 gdirs.
+2023-08-26 15:46:21: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2023-08-26 15:46:21: oggm.utils: Applying compile_run_output on 2 gdirs.
 </pre></div>
 </div>
 </div>
@@ -1813,7 +1813,7 @@ Attributes:
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7eb26875014aba8d50c0323e82b6b881075566ae5b50dc7643e7afd4e9792013.png" src="../../_images/7eb26875014aba8d50c0323e82b6b881075566ae5b50dc7643e7afd4e9792013.png" />
+<img alt="../../_images/9903273ce5af4343d29c45d9a539a13433cd46c137c82c463c4d14bee20925d9.png" src="../../_images/9903273ce5af4343d29c45d9a539a13433cd46c137c82c463c4d14bee20925d9.png" />
 </div>
 </div>
 <p>From this experiment, we learn that a climate that is -0.5° colder than today (i.e. mean climate of 1985-2015) would barely be enough to maintain the Unteraar glacier in its present day geometry.</p>
