@@ -503,17 +503,7 @@ document.write(`
 </div>
 </div>
 </div>
-<p>We will start with a preprocessed directory for OGGM v1.6 (W5E5 with elev_bands):</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is W5E5 + elev_bands using OGGM v1.6, in the future there might be more preprocessed gdirs</span>
-<span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
-       <span class="s1">&#39;L3-L5_files/2023.1/centerlines/W5E5/RGI62/b_080/L5/summary/&#39;</span><span class="p">)</span>
-<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_160/L5/summary/&#39;</span>
-</pre></div>
-</div>
-</div>
-</div>
+<p>We will start with a preprocessed directory for OGGM v1.6 (W5E5 with centerlines):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this can take some time</span>
@@ -522,6 +512,20 @@ document.write(`
     <span class="n">fpath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;glacier_statistics_</span><span class="si">{</span><span class="n">rgi_reg</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">df</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">for</span> <span class="n">rgi_reg</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">19</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">fpath</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;glacier_statistics_</span><span class="si">{</span><span class="n">rgi_reg</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;url&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -536,7 +540,49 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ab68810d6a4a64852ea8557ba2200ad7146e6d38f114f11973cbd4279f1eb167.png" src="../../_images/ab68810d6a4a64852ea8557ba2200ad7146e6d38f114f11973cbd4279f1eb167.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;error_task&quot;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">);</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/seaborn/categorical.py:2943,</span> in <span class="ni">countplot</span><span class="nt">(data, x, y, hue, order, hue_order, orient, color, palette, saturation, width, dodge, ax, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2940</span> <span class="k">elif</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2941</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot pass values for both `x` and `y`&quot;</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">2943</span> <span class="n">plotter</span> <span class="o">=</span> <span class="n">_CountPlotter</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2944</span>     <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hue</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">hue_order</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2945</span>     <span class="n">estimator</span><span class="p">,</span> <span class="n">errorbar</span><span class="p">,</span> <span class="n">n_boot</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2946</span>     <span class="n">orient</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">palette</span><span class="p">,</span> <span class="n">saturation</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2947</span>     <span class="n">width</span><span class="p">,</span> <span class="n">errcolor</span><span class="p">,</span> <span class="n">errwidth</span><span class="p">,</span> <span class="n">capsize</span><span class="p">,</span> <span class="n">dodge</span>
+<span class="g g-Whitespace">   </span><span class="mi">2948</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2950</span> <span class="n">plotter</span><span class="o">.</span><span class="n">value_label</span> <span class="o">=</span> <span class="s2">&quot;count&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2952</span> <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/seaborn/categorical.py:1530,</span> in <span class="ni">_BarPlotter.__init__</span><span class="nt">(self, x, y, hue, data, order, hue_order, estimator, errorbar, n_boot, units, seed, orient, color, palette, saturation, width, errcolor, errwidth, capsize, dodge)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1525</span> <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hue</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">hue_order</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1526</span>              <span class="n">estimator</span><span class="p">,</span> <span class="n">errorbar</span><span class="p">,</span> <span class="n">n_boot</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1527</span>              <span class="n">orient</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">palette</span><span class="p">,</span> <span class="n">saturation</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1528</span>              <span class="n">errcolor</span><span class="p">,</span> <span class="n">errwidth</span><span class="p">,</span> <span class="n">capsize</span><span class="p">,</span> <span class="n">dodge</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1529</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Initialize the plotter.&quot;&quot;&quot;</span>
+<span class="ne">-&gt; </span><span class="mi">1530</span>     <span class="bp">self</span><span class="o">.</span><span class="n">establish_variables</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hue</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">orient</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1531</span>                              <span class="n">order</span><span class="p">,</span> <span class="n">hue_order</span><span class="p">,</span> <span class="n">units</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1532</span>     <span class="bp">self</span><span class="o">.</span><span class="n">establish_colors</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="n">palette</span><span class="p">,</span> <span class="n">saturation</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1533</span>     <span class="bp">self</span><span class="o">.</span><span class="n">estimate_statistic</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">errorbar</span><span class="p">,</span> <span class="n">n_boot</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/seaborn/categorical.py:532,</span> in <span class="ni">_CategoricalPlotter.establish_variables</span><span class="nt">(self, x, y, hue, data, orient, order, hue_order, units)</span>
+<span class="g g-Whitespace">    </span><span class="mi">524</span> <span class="c1"># Option 2:</span>
+<span class="g g-Whitespace">    </span><span class="mi">525</span> <span class="c1"># We are plotting a long-form dataset</span>
+<span class="g g-Whitespace">    </span><span class="mi">526</span> <span class="c1"># -----------------------------------</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">529</span> 
+<span class="g g-Whitespace">    </span><span class="mi">530</span>     <span class="c1"># See if we need to get variables from `data`</span>
+<span class="g g-Whitespace">    </span><span class="mi">531</span>     <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">532</span>         <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">533</span>         <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">534</span>         <span class="n">hue</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="n">hue</span><span class="p">)</span>
+
+<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;get&#39;
+</pre></div>
+</div>
 </div>
 </div>
 <div class="cell docutils container">
@@ -546,7 +592,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors all sources: 0.08%&#39;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="s2">&quot;</span><span class="si">% a</span><span class="s2">rea errors all sources: </span><span class="si">{:.2f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;loc&#39;
 </pre></div>
 </div>
 </div>
@@ -558,12 +609,16 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% failing glaciers all sources: 0.81%&#39;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="s2">&quot;</span><span class="si">% f</span><span class="s2">ailing glaciers all sources: </span><span class="si">{:.2f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;loc&#39;
 </pre></div>
 </div>
 </div>
 </div>
-<p>Most failing glaciers have an error occur when making a gridded mask of the glacier outlines (<code class="docutils literal notranslate"><span class="pre">glacier_mask</span></code>).</p>
 <p>We now look at the errors that occur already before applying the climate tasks and the historical run (i.e., before <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_scalar_mb</span></code> and <code class="docutils literal notranslate"><span class="pre">flowline_model_run_historical</span></code>):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -574,7 +629,14 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% area errors before climate: 0.06%&#39;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">dfe</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">dfe</span> <span class="o">=</span> <span class="n">dfe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">dfe</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;mb_calibration_from_scalar_mb&#39;</span><span class="p">,</span><span class="s1">&#39;flowline_model_run_historical&#39;</span><span class="p">])]</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="s2">&quot;</span><span class="si">% a</span><span class="s2">rea errors before climate: </span><span class="si">{:.2f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dfe</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;loc&#39;
 </pre></div>
 </div>
 </div>
@@ -586,7 +648,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;% failing glaciers all sources: 0.69%&#39;
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="s2">&quot;</span><span class="si">% f</span><span class="s2">ailing glaciers all sources: </span><span class="si">{:.2f}</span><span class="s2">%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dfe</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">dfe</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;dfe&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -602,129 +669,18 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># 15 largest glaciers</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;rgi_area_km2&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>                                                <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)[[</span><span class="s1">&#39;rgi_area_km2&#39;</span><span class="p">,</span> <span class="s1">&#39;error_task&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                                                                  <span class="s1">&#39;error_msg&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">15</span><span class="p">]</span>
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>rgi_area_km2</th>
-      <th>error_task</th>
-      <th>error_msg</th>
-    </tr>
-    <tr>
-      <th>rgi_id</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>RGI60-10.00002</th>
-      <td>48.144</td>
-      <td>simple_glacier_masks</td>
-      <td>GeometryError: RGI60-10.00002 is a nominal gla...</td>
-    </tr>
-    <tr>
-      <th>RGI60-03.04079</th>
-      <td>35.752</td>
-      <td>filter_inversion_output</td>
-      <td>ValueError: operands could not be broadcast to...</td>
-    </tr>
-    <tr>
-      <th>RGI60-13.36875</th>
-      <td>13.131</td>
-      <td>mb_calibration_from_scalar_mb</td>
-      <td>RuntimeError: RGI60-13.36875: we tried very ha...</td>
-    </tr>
-    <tr>
-      <th>RGI60-10.00006</th>
-      <td>12.966</td>
-      <td>simple_glacier_masks</td>
-      <td>GeometryError: RGI60-10.00006 is a nominal gla...</td>
-    </tr>
-    <tr>
-      <th>RGI60-09.01008</th>
-      <td>11.600</td>
-      <td>flowline_model_run_historical</td>
-      <td>RuntimeError: Glacier exceeds domain boundarie...</td>
-    </tr>
-    <tr>
-      <th>RGI60-12.01364</th>
-      <td>9.250</td>
-      <td>simple_glacier_masks</td>
-      <td>GeometryError: RGI60-12.01364 is a nominal gla...</td>
-    </tr>
-    <tr>
-      <th>RGI60-09.00635</th>
-      <td>8.144</td>
-      <td>define_glacier_region</td>
-      <td>HttpDownloadError: (403, 'https://download.geo...</td>
-    </tr>
-    <tr>
-      <th>RGI60-12.01372</th>
-      <td>7.239</td>
-      <td>simple_glacier_masks</td>
-      <td>GeometryError: RGI60-12.01372 is a nominal gla...</td>
-    </tr>
-    <tr>
-      <th>RGI60-12.01374</th>
-      <td>7.038</td>
-      <td>simple_glacier_masks</td>
-      <td>GeometryError: RGI60-12.01374 is a nominal gla...</td>
-    </tr>
-    <tr>
-      <th>RGI60-17.04961</th>
-      <td>6.689</td>
-      <td>mb_calibration_from_scalar_mb</td>
-      <td>RuntimeError: RGI60-17.04961: we tried very ha...</td>
-    </tr>
-    <tr>
-      <th>RGI60-17.04973</th>
-      <td>6.311</td>
-      <td>mb_calibration_from_scalar_mb</td>
-      <td>RuntimeError: RGI60-17.04973: we tried very ha...</td>
-    </tr>
-    <tr>
-      <th>RGI60-10.00009</th>
-      <td>6.232</td>
-      <td>simple_glacier_masks</td>
-      <td>GeometryError: RGI60-10.00009 is a nominal gla...</td>
-    </tr>
-    <tr>
-      <th>RGI60-17.04965</th>
-      <td>4.339</td>
-      <td>mb_calibration_from_scalar_mb</td>
-      <td>RuntimeError: RGI60-17.04965: we tried very ha...</td>
-    </tr>
-    <tr>
-      <th>RGI60-10.00001</th>
-      <td>3.920</td>
-      <td>simple_glacier_masks</td>
-      <td>GeometryError: RGI60-10.00001 is a nominal gla...</td>
-    </tr>
-    <tr>
-      <th>RGI60-10.00005</th>
-      <td>3.819</td>
-      <td>simple_glacier_masks</td>
-      <td>GeometryError: RGI60-10.00005 is a nominal gla...</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;loc&#39;
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="example-error-comparison">
@@ -735,8 +691,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># W5E5 elevation bands</span>
-<span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
-       <span class="s1">&#39;L3-L5_files/2023.1/elev_bands/W5E5/RGI62/b_080/L5/summary/&#39;</span><span class="p">)</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5/RGI62/b_080/L5/summary/&#39;</span>
 <span class="c1"># this can take some time</span>
 <span class="n">df_elev</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="c1"># we don&#39;t look at RGI19 (Antarctic glaciers), because no climate available for CRU</span>
@@ -753,14 +708,20 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rel_area_elev</span> <span class="o">=</span> <span class="n">df_elev</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_elev</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df_elev</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
 <span class="n">rel_area_cent</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;% area errors from all sources for elevation band flowlines is </span><span class="si">{</span><span class="n">rel_area_elev</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-      <span class="sa">f</span><span class="s1">&#39;compared to </span><span class="si">{</span><span class="n">rel_area_cent</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% for centerlines with W5E5&#39;</span><span class="p">)</span>
-                                                                              
+      <span class="sa">f</span><span class="s1">&#39;compared to </span><span class="si">{</span><span class="n">rel_area_cent</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% for centerlines with W5E5&#39;</span><span class="p">)</span>                                                         
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>% area errors from all sources for elevation band flowlines is 0.08%
-compared to 0.08% for centerlines with W5E5
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">rel_area_elev</span> <span class="o">=</span> <span class="n">df_elev</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df_elev</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df_elev</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">rel_area_cent</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;error_task&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">df</span><span class="o">.</span><span class="n">rgi_area_km2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;% area errors from all sources for elevation band flowlines is </span><span class="si">{</span><span class="n">rel_area_elev</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">%&#39;</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>       <span class="sa">f</span><span class="s1">&#39;compared to </span><span class="si">{</span><span class="n">rel_area_cent</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% for centerlines with W5E5&#39;</span><span class="p">)</span>                                                         
+
+<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;loc&#39;
 </pre></div>
 </div>
 </div>
@@ -788,14 +749,14 @@ compared to 0.08% for centerlines with W5E5
        &#39;RuntimeError: RGI60-01.26517: we tried very hard but we could not find a combination of parameters that works for this ref mb.&#39;,
        &#39;RuntimeError: RGI60-01.26971: we tried very hard but we could not find a combination of parameters that works for this ref mb.&#39;,
        &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 2007.4166666666667&#39;,
-       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1986.4166666666667&#39;,
        &#39;InvalidDEMError: (RGI60-02.13793) DEM altidude range too small.&#39;,
        &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1983.75&#39;,
-       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1981.9166666666667&#39;,
+       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1984.0833333333333&#39;,
        &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1983.25&#39;,
-       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1986.25&#39;,
-       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1986.75&#39;,
-       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1996.5&#39;],
+       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1997.8333333333333&#39;,
+       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1985.25&#39;,
+       &#39;ValueError: operands could not be broadcast together with shapes (2,) (5,) &#39;,
+       &#39;RuntimeError: Glacier exceeds domain boundaries, at year: 1973.3333333333333&#39;],
       dtype=object)
 </pre></div>
 </div>
@@ -871,10 +832,15 @@ compared to 0.08% for centerlines with W5E5
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>% area errors from all sources for centerlines is: 
-3.24% for CRU and OGGM_v14 
-0.92% for ERA5 and OGGM_v14 
-0.08% for W5E5 and OGGM_v16
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">% a</span><span class="s1">rea errors from all sources for centerlines is: </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>       <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rel_area_cent_cru_v14</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% for CRU and OGGM_v14 </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>       <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rel_area_cent_era5_v14</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% for ERA5 and OGGM_v14 </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span>
+<span class="ne">----&gt; </span><span class="mi">4</span>       <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rel_area_cent</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">% for W5E5 and OGGM_v16&#39;</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;rel_area_cent&#39; is not defined
 </pre></div>
 </div>
 </div>

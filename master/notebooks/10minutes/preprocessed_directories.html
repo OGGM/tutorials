@@ -520,9 +520,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 12:59:28: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-27 12:59:28: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-27 12:59:28: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 17:50:12: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-27 17:50:12: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-27 17:50:12: oggm.cfg: Multiprocessing: using all available processors (N=2)
 </pre></div>
 </div>
 </div>
@@ -549,7 +549,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 12:59:30: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 17:50:13: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
 </div>
@@ -642,8 +642,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 12:59:30: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
-2023-08-27 12:59:30: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 17:50:14: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
+2023-08-27 17:50:14: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -735,7 +735,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 12:59:32: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 17:50:16: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -799,7 +799,7 @@ document.write(`
 : Standalone operations to be realized on one single glacier entity, independently from the others. The majority of OGGM tasks are entity tasks. They are parallelisable: the same task can run on several glaciers in parallel.</p>
 <p><strong>Global Tasks</strong>
 : Tasks which require to work on several glacier entities at the same time. Model parameter calibration or the compilation of several glaciers’ output are examples of global tasks.</p>
-<p>OGGM implements a simple mechanism to run a specific task on a list of <code class="docutils literal notranslate"><span class="pre">GlacierDirectory</span></code> objects:</p>
+<p>OGGM implements a simple mechanism to run a specific task on a list of <code class="docutils literal notranslate"><span class="pre">GlacierDirectory</span></code> objects. Here, for the sake of the demonstration of how tasks work, we are going to compute something new from the directory:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">tasks</span>
@@ -810,16 +810,17 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 12:59:33: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 17:50:16: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
 </pre></div>
 </div>
 </div>
 </div>
 <p>Compute inversion velocities is an optional task in the OGGM workflow. It computes the ice velocity along the flowline resulting from the ice flux from a glacier in equilibrium (more on this in the documentation or the dedicated <a class="reference internal" href="../beginner/inversion.html"><span class="doc std std-doc">tutorial</span></a>).</p>
-<p>Note that OGGM task often do not return anything. The vast majority of OGGM tasks write something to disk in order to retrieve it later. Let’s have a look:</p>
+<p>Note that OGGM tasks often do not return anything (the statement above seems to be “void”, i.e. doing nothing). The vast majority of OGGM tasks actually write data to disk in order to retrieve it later. Let’s have a look at the data we just added to the directory:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inversion_output</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_output&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">inversion_output</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_output&#39;</span><span class="p">)</span>  <span class="c1"># The task above wrote the data to a pickle file - but we write to plenty of other files!</span>
+
 <span class="c1"># Take the first flowline</span>
 <span class="n">fl</span> <span class="o">=</span> <span class="n">inversion_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="c1"># the last grid points often have irrealistic velocities</span>
