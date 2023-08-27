@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Run with a spinup and GCM data &#8212; OGGM tutorials</title>
+    <title>Run with a long spinup and GCM data &#8212; OGGM tutorials</title>
   
   
   
@@ -187,7 +187,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced tutorials</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="preprocessing_errors.html">Error analysis of the global pre-processing workflow</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Run with a spinup and GCM data</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Run with a long spinup and GCM data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
@@ -201,7 +201,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">RGI-TOPO</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default https://cluster.klima.uni-bremen.de/data/gdirs/dems_v2/default</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
@@ -463,7 +463,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Run with a spinup and GCM data</h1>
+    <h1>Run with a long spinup and GCM data</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -485,8 +485,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="run-with-a-spinup-and-gcm-data">
-<h1>Run with a spinup and GCM data<a class="headerlink" href="#run-with-a-spinup-and-gcm-data" title="Permalink to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="run-with-a-long-spinup-and-gcm-data">
+<h1>Run with a long spinup and GCM data<a class="headerlink" href="#run-with-a-long-spinup-and-gcm-data" title="Permalink to this heading">#</a></h1>
 <p>The initial state of glaciers play a large role for the model output. In this example we illustrate how to “spinup” a glacier (e.g.: make them grow) before running over the period of interest. For this example we use climate data from the CESM Last Millennium Ensemble.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -519,10 +519,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:41:34: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-26 15:41:34: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-26 15:41:34: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-08-26 15:41:35: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 13:09:31: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-27 13:09:31: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-27 13:09:31: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-27 13:09:32: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -538,15 +538,16 @@ document.write(`
 <span class="c1"># in OGGM v1.6 you have to explicitly indicate the url from where you want to start from</span>
 <span class="c1"># we will use here the elevation band flowlines which are much simpler than the centerlines</span>
 <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
-            <span class="s1">&#39;L3-L5_files/2023.1/elev_bands/W5E5/&#39;</span><span class="p">)</span>
+            <span class="s1">&#39;L3-L5_files/2023.3/elev_bands/W5E5/&#39;</span><span class="p">)</span>
 <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">([</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                                           <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:41:35: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
-2023-08-26 15:41:35: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 13:09:32: oggm.workflow: init_glacier_directories from prepro level 5 on 1 glaciers.
+2023-08-27 13:09:32: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2023-08-27 13:09:32: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5/RGI62/b_080/L5/RGI60-11/RGI60-11.00.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5/RGI62/b_080/L5/RGI60-11/RGI60-11.00.tar...
 </pre></div>
 </div>
 </div>
@@ -566,9 +567,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:41:36: oggm.workflow: Execute entity tasks [process_cesm_data] on 1 glaciers
-2023-08-26 15:41:36: oggm.shop.gcm_climate: (RGI60-11.00897) process_cesm_data
-2023-08-26 15:41:36: oggm.shop.gcm_climate: (RGI60-11.00897) process_gcm_data
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 13:09:35: oggm.workflow: Execute entity tasks [process_cesm_data] on 1 glaciers
+2023-08-27 13:09:35: oggm.shop.gcm_climate: (RGI60-11.00897) process_cesm_data
+2023-08-27 13:09:36: oggm.shop.gcm_climate: (RGI60-11.00897) process_gcm_data
 </pre></div>
 </div>
 </div>
@@ -576,17 +577,14 @@ document.write(`
 <p>Here the CESM-LME data is being pre-processed. This process makes use of the delta method and uses scaled temperature anomalies by default (it is strongly recommended to use this default setting of scaling the temperature anomalies, unless you have very good reasons not to do so).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">process_cesm_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">process_cesm_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:41:36: oggm.workflow: Execute entity tasks [process_cesm_data] on 1 glaciers
-2023-08-26 15:41:36: oggm.shop.gcm_climate: (RGI60-11.00897) process_cesm_data
-2023-08-26 15:41:37: oggm.shop.gcm_climate: (RGI60-11.00897) process_gcm_data
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[None]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 13:09:36: oggm.workflow: Execute entity tasks [process_cesm_data] on 1 glaciers
+2023-08-27 13:09:36: oggm.shop.gcm_climate: (RGI60-11.00897) process_cesm_data
+2023-08-27 13:09:36: oggm.shop.gcm_climate: (RGI60-11.00897) process_gcm_data
 </pre></div>
 </div>
 </div>
@@ -598,18 +596,15 @@ document.write(`
 <span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
                     <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>
                     <span class="n">ys</span><span class="o">=</span><span class="mi">1801</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
-                    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_no_spinup&#39;</span><span class="p">)</span>
+                    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_no_spinup&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:41:37: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
-2023-08-26 15:41:37: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_no_spinup
-2023-08-26 15:41:37: oggm.core.flowline: You are attempting to run_with_climate_data at dates prior to the RGI inventory date. This may indicate some problem in your workflow. Consider using `fixed_geometry_spinup_yr` for example.
-2023-08-26 15:41:37: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_no_spinup
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.SemiImplicitModel at 0x7faa087f7d90&gt;]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 13:09:36: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
+2023-08-27 13:09:36: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_no_spinup
+2023-08-27 13:09:36: oggm.core.flowline: You are attempting to run_with_climate_data at dates prior to the RGI inventory date. This may indicate some problem in your workflow. Consider using `fixed_geometry_spinup_yr` for example.
+2023-08-27 13:09:36: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_no_spinup
 </pre></div>
 </div>
 </div>
@@ -619,26 +614,23 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run the spinup simulation: a rather &quot;cold&quot; climate with a cold temperature bias</span>
 <span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="mi">1965</span><span class="p">,</span>
                     <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
-                    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup&#39;</span><span class="p">)</span>
+                    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup&#39;</span><span class="p">);</span>
 <span class="c1"># Run a past climate run based on this spinup</span>
 <span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
                     <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>
                     <span class="n">ys</span><span class="o">=</span><span class="mi">1801</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
                     <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup&#39;</span><span class="p">,</span>
-                    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_with_spinup&#39;</span><span class="p">)</span>
+                    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_with_spinup&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:41:38: oggm.workflow: Execute entity tasks [run_constant_climate] on 1 glaciers
-2023-08-26 15:41:38: oggm.core.flowline: (RGI60-11.00897) run_constant_climate_spinup
-2023-08-26 15:41:38: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_spinup
-2023-08-26 15:41:38: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
-2023-08-26 15:41:38: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_with_spinup
-2023-08-26 15:41:38: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_with_spinup
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.SemiImplicitModel at 0x7faa09363fa0&gt;]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 13:09:37: oggm.workflow: Execute entity tasks [run_constant_climate] on 1 glaciers
+2023-08-27 13:09:37: oggm.core.flowline: (RGI60-11.00897) run_constant_climate_spinup
+2023-08-27 13:09:37: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_spinup
+2023-08-27 13:09:37: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
+2023-08-27 13:09:37: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_with_spinup
+2023-08-27 13:09:37: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_with_spinup
 </pre></div>
 </div>
 </div>
@@ -651,17 +643,14 @@ document.write(`
                     <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>
                     <span class="n">ys</span><span class="o">=</span><span class="mi">1801</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">init_model_yr</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
                     <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup&#39;</span><span class="p">,</span>
-                    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_with_spinup_50yr&#39;</span><span class="p">)</span>
+                    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_with_spinup_50yr&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:41:39: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
-2023-08-26 15:41:39: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_with_spinup_50yr
-2023-08-26 15:41:39: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_with_spinup_50yr
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.SemiImplicitModel at 0x7faa093fbe80&gt;]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 13:09:38: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
+2023-08-27 13:09:38: oggm.core.flowline: (RGI60-11.00897) run_from_climate_data_with_spinup_50yr
+2023-08-27 13:09:38: oggm.core.flowline: (RGI60-11.00897) flowline_model_run_with_spinup_50yr
 </pre></div>
 </div>
 </div>
@@ -677,15 +666,15 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-26 15:41:40: oggm.utils: Applying global task compile_glacier_statistics on 1 glaciers
-2023-08-26 15:41:40: oggm.workflow: Execute entity tasks [glacier_statistics] on 1 glaciers
-2023-08-26 15:41:40: oggm.utils: (RGI60-11.00897) glacier_statistics
-2023-08-26 15:41:40: oggm.utils: Applying global task compile_run_output on 1 glaciers
-2023-08-26 15:41:40: oggm.utils: Applying compile_run_output on 1 gdirs.
-2023-08-26 15:41:40: oggm.utils: Applying global task compile_run_output on 1 glaciers
-2023-08-26 15:41:40: oggm.utils: Applying compile_run_output on 1 gdirs.
-2023-08-26 15:41:40: oggm.utils: Applying global task compile_run_output on 1 glaciers
-2023-08-26 15:41:40: oggm.utils: Applying compile_run_output on 1 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 13:09:39: oggm.utils: Applying global task compile_glacier_statistics on 1 glaciers
+2023-08-27 13:09:39: oggm.workflow: Execute entity tasks [glacier_statistics] on 1 glaciers
+2023-08-27 13:09:39: oggm.utils: (RGI60-11.00897) glacier_statistics
+2023-08-27 13:09:39: oggm.utils: Applying global task compile_run_output on 1 glaciers
+2023-08-27 13:09:39: oggm.utils: Applying compile_run_output on 1 gdirs.
+2023-08-27 13:09:39: oggm.utils: Applying global task compile_run_output on 1 glaciers
+2023-08-27 13:09:39: oggm.utils: Applying compile_run_output on 1 gdirs.
+2023-08-27 13:09:39: oggm.utils: Applying global task compile_run_output on 1 glaciers
+2023-08-27 13:09:39: oggm.utils: Applying compile_run_output on 1 gdirs.
 </pre></div>
 </div>
 </div>
@@ -706,7 +695,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/97b886e2a2cfce6567065ca60e0d4435bf661958443bc401b3723619271f2a17.png" src="../../_images/97b886e2a2cfce6567065ca60e0d4435bf661958443bc401b3723619271f2a17.png" />
+<img alt="../../_images/04c65680a982ff621426b2b756e97d53db289afdfa459b48bc087ec98632ea5c.png" src="../../_images/04c65680a982ff621426b2b756e97d53db289afdfa459b48bc087ec98632ea5c.png" />
 </div>
 </div>
 <section id="what-s-next">
