@@ -1,120 +1,160 @@
 
+
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Dealing with errors after a run &#8212; OGGM tutorials</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/clipboard.min.js"></script>
     <script src="../../_static/copybutton.js"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106829797-2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'UA-106829797-2');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/beginner/deal_with_errors';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Ice thickness inversion" href="inversion.html" />
-    <link rel="prev" title="Plotting the OGGM surface mass-balance, the ELA and AAR" href="plot_mass_balance.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.google-analytics.com/analytics.js"></script>
-<script>
-                        window.ga = window.ga || function () {
-                            (ga.q = ga.q || []).push(arguments) };
-                        ga.l = +new Date;
-                        ga('create', 'UA-106829797-2', 'auto');
-                        ga('set', 'anonymizeIp', true);
-                        ga('send', 'pageview');
-                    </script>
-
+    <link rel="prev" title="Display glacier area and thickness changes on a grid" href="distribute_flowline.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
-
-    
-
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../../index.html">
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../welcome.html">
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="../../_static/logo.png" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">OGGM tutorials</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
@@ -123,638 +163,348 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  10 minutes tutorials
- </span>
-</p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">10 minutes tutorials</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/preprocessed_directories.html">
-   10 minutes to… a preprocessed directory
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/run_with_gcm.html">
-   10 minutes to… a glacier change projection with GCM data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/machine_learning.html">
-   10 minutes to… OGGM as an accelerator for modelling and machine learning
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">
-   10 minutes to… “elevation band” and “centerline” flowlines
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../10minutes/dynamical_spinup.html">
-   10 minutes to… understand the new dynamical spinup in OGGM v1.6
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/preprocessed_directories.html">10 minutes to… a preprocessed directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Beginner tutorials
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="working_with_rgi.html">
-   Working with the RGI files
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="store_and_compress_glacierdirs.html">
-   Storing glacier directories for later use
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="plot_mass_balance.html">
-   Plotting the OGGM surface mass-balance, the ELA and AAR
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Dealing with errors after a run
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="inversion.html">
-   Ice thickness inversion
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="hydrological_output.html">
-   Hydrological mass-balance output
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="oggm_shop.html">
-   OGGM-Shop and Glacier Directories in OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="full_prepro_workflow.html">
-   What’s in my preprocessed directories with centerlines? A full OGGM workflow, step by step
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="working_with_rgi.html">Working with the RGI files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="distribute_flowline.html">Display glacier area and thickness changes on a grid</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dealing with errors after a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inversion.html">Ice thickness inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="full_prepro_workflow.html">What’s in my preprocessed directories with centerlines? A full OGGM workflow, step by step</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Advanced tutorials
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced tutorials</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/preprocessing_errors.html">
-   Error analysis of the global pre-processing workflow
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/run_with_a_spinup_and_gcm_data.html">
-   Run with a spinup and GCM data
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/dem_sources.html">
-   Create local topography maps from different DEM sources with OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/use_your_own_inventory.html">
-   Using your our own glacier inventory with OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/centerlines_to_shape.html">
-   Compute smoother centerlines for shapefile output
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/massbalance_calibration.html">
-   A look into the new mass balance calibration in OGGM v1.6
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/where_are_the_flowlines.html">
-   OGGM flowlines: where are they?
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">
-   Ingest gridded products such as ice velocity into OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">
-   Merge, analyse and visualize OGGM GCM runs
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/preprocessing_errors.html">Error analysis of the global pre-processing workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/run_with_a_spinup_and_gcm_data.html">Run with a long spinup and GCM data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../advanced/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Related to OGGM
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">RGI-TOPO</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../others/holoviz_intro.html">
-   Small overview of HoloViz capability of data exploration
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../others/dem_comparison.html">
-   Compare different DEMs for individual glaciers
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  In (re-)construction
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">
-   Ice thickness inversion with frontal ablation: a case study
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/kcalving_parameterization.html">
-   The Oerlemans &amp; Nick frontal ablation parameterization in OGGM
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/merging_glaciers.html">
-   Merging glaciers for past climate simulations
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../construction/area_length_filter.html">
-   Filter the glacier length and area time series
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="../others/holoviz_intro.html">Small overview of HoloViz capability of data exploration</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">In (re-)construction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation: a case study</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
 
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
   
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
     </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/OGGM/binder/stable?urlpath=git-pull%3Frepo=https://github.com/OGGM/tutorials%26urlpath%3Dlab%252Ftree%252Ftutorials/./notebooks/beginner/deal_with_errors.ipynb%26branch%3Dmaster"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/beginner/deal_with_errors.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
     <img src="../../_static/images/logo_binder.svg">
   </span>
-<span class="headerbtn__text-container">Binder</span>
+<span class="btn__text-container">Binder</span>
 </a>
-
-      </li>
+</li>
       
-      <li>
-        <a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/beginner/deal_with_errors.ipynb&branch=master"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on JupyterHub"
+      
+      
+      
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/beginner/deal_with_errors.ipynb&branch=master" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   
     <img src="../../_static/images/logo_jupyterhub.svg">
   </span>
-<span class="headerbtn__text-container">JupyterHub</span>
+<span class="btn__text-container">JupyterHub</span>
 </a>
-
-      </li>
+</li>
       
-    </ul>
-  </div>
+  </ul>
 </div>
 
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/beginner/deal_with_errors.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/beginner/deal_with_errors.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/beginner/deal_with_errors.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-repository-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Source repositories">
-      <i class="fab fa-github"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://github.com/OGGM/tutorials"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Source repository"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="headerbtn__text-container">repository</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/beginner/deal_with_errors.html&body=Your%20issue%20content%20here."
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Open an issue"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-lightbulb"></i>
-  </span>
-<span class="headerbtn__text-container">open issue</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/beginner/deal_with_errors.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Edit this page"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="headerbtn__text-container">suggest edit</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../../_sources/notebooks/beginner/deal_with_errors.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run-with-cfg-params-continue-on-error-true">
-   Run with
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     cfg.PARAMS['continue_on_error']
-    </span>
-    <span class="pre">
-     =
-    </span>
-    <span class="pre">
-     True
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#error-diagnostics">
-   Error diagnostics
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#error-solving">
-   Error solving
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#runtimeerror-glacier-exceeds-domain-boundaries-at-year-98-08333333333333">
-     RuntimeError:
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       Glacier
-      </span>
-      <span class="pre">
-       exceeds
-      </span>
-      <span class="pre">
-       domain
-      </span>
-      <span class="pre">
-       boundaries,
-      </span>
-      <span class="pre">
-       at
-      </span>
-      <span class="pre">
-       year:
-      </span>
-      <span class="pre">
-       98.08333333333333
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#error-rgi60-11-03235-is-a-nominal-glacier">
-     Error:
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       RGI60-11.03235
-      </span>
-      <span class="pre">
-       is
-      </span>
-      <span class="pre">
-       a
-      </span>
-      <span class="pre">
-       nominal
-      </span>
-      <span class="pre">
-       glacier.
-      </span>
-     </code>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#ignoring-those-glaciers-with-errors-that-we-can-t-solve">
-   Ignoring those glaciers with errors that we can’t solve
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-s-next">
-   What’s next?
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Dealing with errors after a run</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#run-with-cfg-params-continue-on-error-true">
-   Run with
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     cfg.PARAMS['continue_on_error']
-    </span>
-    <span class="pre">
-     =
-    </span>
-    <span class="pre">
-     True
-    </span>
-   </code>
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#error-diagnostics">
-   Error diagnostics
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#error-solving">
-   Error solving
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#runtimeerror-glacier-exceeds-domain-boundaries-at-year-98-08333333333333">
-     RuntimeError:
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       Glacier
-      </span>
-      <span class="pre">
-       exceeds
-      </span>
-      <span class="pre">
-       domain
-      </span>
-      <span class="pre">
-       boundaries,
-      </span>
-      <span class="pre">
-       at
-      </span>
-      <span class="pre">
-       year:
-      </span>
-      <span class="pre">
-       98.08333333333333
-      </span>
-     </code>
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#error-rgi60-11-03235-is-a-nominal-glacier">
-     Error:
-     <code class="docutils literal notranslate">
-      <span class="pre">
-       RGI60-11.03235
-      </span>
-      <span class="pre">
-       is
-      </span>
-      <span class="pre">
-       a
-      </span>
-      <span class="pre">
-       nominal
-      </span>
-      <span class="pre">
-       glacier.
-      </span>
-     </code>
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#ignoring-those-glaciers-with-errors-that-we-can-t-solve">
-   Ignoring those glaciers with errors that we can’t solve
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#what-s-next">
-   What’s next?
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dealing with errors after a run</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continue-on-error">Continue on error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-diagnostics">Error diagnostics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-solving">Error solving</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#glacier-exceeds-domain-boundaries"><code class="docutils literal notranslate"><span class="pre">Glacier</span> <span class="pre">exceeds</span> <span class="pre">domain</span> <span class="pre">boundaries</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rgi60-11-xxxxx-is-a-nominal-glacier"><code class="docutils literal notranslate"><span class="pre">RGI60-11.xxxxx</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">nominal</span> <span class="pre">glacier.</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ignoring-those-glaciers-with-errors-that-we-can-t-solve">Ignoring those glaciers with errors that we can’t solve</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="dealing-with-errors-after-a-run">
-<h1>Dealing with errors after a run<a class="headerlink" href="#dealing-with-errors-after-a-run" title="Permalink to this headline">#</a></h1>
+<h1>Dealing with errors after a run<a class="headerlink" href="#dealing-with-errors-after-a-run" title="Permalink to this heading">#</a></h1>
 <p>In this example, we run the model on a list of three glaciers:
 two of them will end with errors: one because it already failed at
 preprocessing (i.e. prior to this run), and one during the run. We show how to analyze theses erros and solve (some) of them, as described in the OGGM documentation under <a class="reference external" href="https://docs.oggm.org/en/stable/faq.html?highlight=border#troubleshooting">troubleshooting</a>.</p>
-<section id="run-with-cfg-params-continue-on-error-true">
-<h2>Run with <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS['continue_on_error']</span> <span class="pre">=</span> <span class="pre">True</span></code><a class="headerlink" href="#run-with-cfg-params-continue-on-error-true" title="Permalink to this headline">#</a></h2>
+<section id="continue-on-error">
+<h2>Continue on error<a class="headerlink" href="#continue-on-error" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Locals</span>
 <span class="kn">import</span> <span class="nn">oggm.cfg</span> <span class="k">as</span> <span class="nn">cfg</span>
-<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">DEFAULT_BASE_URL</span>
 
 <span class="c1"># Libs</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -786,17 +536,11 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 <span class="c1"># Go - get the pre-processed glacier directories</span>
 <span class="c1"># in OGGM v1.6 you have to explicitly indicate the url from where you want to start from</span>
 <span class="c1"># we will use here the elevation band flowlines which are much simpler than the centerlines</span>
-<span class="c1">#base_url = (&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
-<span class="c1">#            &#39;L3-L5_files/2023.1/elev_bands/W5E5/&#39;)</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
-            <span class="s1">&#39;L3-L5_files/2023.1/elev_bands/W5E5/&#39;</span><span class="p">)</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                                         <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">)</span>
 
 <span class="c1"># We can step directly to the experiment!</span>
 <span class="c1"># Random climate representative for the recent climate (1985-2015)</span>
-<span class="c1"># with a negative bias added to the random temperature series</span>
-<span class="c1"># run_random_climate only works with the FluxBased model:</span>
+<span class="c1"># with a negative bias added to the random temperature series:</span>
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
                              <span class="n">nyears</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                              <span class="n">temperature_bias</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
@@ -804,26 +548,26 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 20:00:38: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-03-10 20:00:38: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-03-10 20:00:38: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-03-10 20:00:38: oggm.cfg: Multiprocessing switched ON after user settings.
-2023-03-10 20:00:38: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
-2023-03-10 20:00:39: oggm.workflow: init_glacier_directories from prepro level 5 on 3 glaciers.
-2023-03-10 20:00:39: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 3 glaciers
-2023-03-10 20:00:41: oggm.workflow: Execute entity tasks [run_random_climate] on 3 glaciers
-2023-03-10 20:00:43: oggm.core.flowline: RuntimeError occurred during task flowline_model_run on RGI60-11.00897: Glacier exceeds domain boundaries, at year: 124.33333333333333
-2023-03-10 20:00:43: oggm.core.flowline: InvalidWorkflowError occurred during task run_random_climate on RGI60-11.03235: Need a valid `model_flowlines` file. If you explicitly want to use `inversion_flowlines`, set use_inversion_flowlines=True.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 22:25:39: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2023-08-27 22:25:39: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2023-08-27 22:25:39: oggm.cfg: Multiprocessing: using all available processors (N=2)
+2023-08-27 22:25:40: oggm.cfg: Multiprocessing switched ON after user settings.
+2023-08-27 22:25:40: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
+2023-08-27 22:25:41: oggm.workflow: init_glacier_directories from prepro level 5 on 3 glaciers.
+2023-08-27 22:25:41: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 3 glaciers
+2023-08-27 22:25:56: oggm.workflow: Execute entity tasks [run_random_climate] on 3 glaciers
+2023-08-27 22:25:57: oggm.core.flowline: RuntimeError occurred during task flowline_model_run on RGI60-11.00897: Glacier exceeds domain boundaries, at year: 119.83333333333333
+2023-08-27 22:25:57: oggm.core.flowline: InvalidWorkflowError occurred during task run_random_climate on RGI60-11.03235: Need a valid `model_flowlines` file. If you explicitly want to use `inversion_flowlines`, set use_inversion_flowlines=True.
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[None, &lt;oggm.core.flowline.SemiImplicitModel at 0x7f6776025510&gt;, None]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[None, &lt;oggm.core.flowline.SemiImplicitModel at 0x7ffa698496c0&gt;, None]
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="error-diagnostics">
-<h2>Error diagnostics<a class="headerlink" href="#error-diagnostics" title="Permalink to this headline">#</a></h2>
+<h2>Error diagnostics<a class="headerlink" href="#error-diagnostics" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Write the compiled output</span>
@@ -833,10 +577,10 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 20:00:44: oggm.utils: Applying global task compile_glacier_statistics on 3 glaciers
-2023-03-10 20:00:44: oggm.workflow: Execute entity tasks [glacier_statistics] on 3 glaciers
-2023-03-10 20:00:45: oggm.utils: Applying global task compile_run_output on 3 glaciers
-2023-03-10 20:00:45: oggm.utils: Applying compile_run_output on 3 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 22:25:57: oggm.utils: Applying global task compile_glacier_statistics on 3 glaciers
+2023-08-27 22:25:57: oggm.workflow: Execute entity tasks [glacier_statistics] on 3 glaciers
+2023-08-27 22:25:59: oggm.utils: Applying global task compile_run_output on 3 glaciers
+2023-08-27 22:25:59: oggm.utils: Applying compile_run_output on 3 gdirs.
 </pre></div>
 </div>
 </div>
@@ -938,9 +682,9 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
       <td>Land-terminating</td>
       <td>False</td>
       <td>...</td>
-      <td>5.000000</td>
-      <td>3.532864</td>
-      <td>1.758148</td>
+      <td>4.921376</td>
+      <td>3.533170</td>
+      <td>1.758313</td>
       <td>-1100.3</td>
       <td>171.8</td>
       <td>2000-01-01_2020-01-01</td>
@@ -962,9 +706,9 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
       <td>Land-terminating</td>
       <td>False</td>
       <td>...</td>
-      <td>6.553015</td>
+      <td>6.364902</td>
       <td>1.421212</td>
-      <td>0.917735</td>
+      <td>0.920699</td>
       <td>-1210.7</td>
       <td>131.5</td>
       <td>2000-01-01_2020-01-01</td>
@@ -999,7 +743,7 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
     </tr>
   </tbody>
 </table>
-<p>3 rows × 35 columns</p>
+<p>3 rows × 55 columns</p>
 </div></div></div>
 </div>
 <ul class="simple">
@@ -1060,7 +804,7 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </table>
 </div></div></div>
 </div>
-<p>We can also check which glacier failed at which task by using <a class="reference external" href="%27https://docs.oggm.org/en/stable/generated/oggm.utils.compile_task_log.html#oggm.utils.compile_task_log%27">compile_task_log</a>.</p>
+<p>We can also check which glacier failed at which task by using <span class="xref myst">compile_task_log</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># also saved as task_log.csv in the WORKING_DIR folder - &quot;append=False&quot; replaces the existing one</span>
@@ -1069,7 +813,7 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 20:00:45: oggm.utils: Applying global task compile_task_log on 3 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 22:25:59: oggm.utils: Applying global task compile_task_log on 3 glaciers
 </pre></div>
 </div>
 <div class="output text_html"><div>
@@ -1126,10 +870,10 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </div>
 </section>
 <section id="error-solving">
-<h2>Error solving<a class="headerlink" href="#error-solving" title="Permalink to this headline">#</a></h2>
-<section id="runtimeerror-glacier-exceeds-domain-boundaries-at-year-98-08333333333333">
-<h3>RuntimeError: <code class="docutils literal notranslate"><span class="pre">Glacier</span> <span class="pre">exceeds</span> <span class="pre">domain</span> <span class="pre">boundaries,</span> <span class="pre">at</span> <span class="pre">year:</span> <span class="pre">98.08333333333333</span></code><a class="headerlink" href="#runtimeerror-glacier-exceeds-domain-boundaries-at-year-98-08333333333333" title="Permalink to this headline">#</a></h3>
-<p>To remove this error just increase the domain boundary <strong>before</strong> running <code class="docutils literal notranslate"><span class="pre">init_glacier_directories</span></code> ! Attention, this means that more data has to be downloaded and the run takes more time. The available preprocessed directories for <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS['border']</span></code> for <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.1/elev_bands/W5E5/">OGGM v1.6</a> are e.g. <strong>10, 80, 160 or 240</strong> at the moment; the unit is number of grid points outside the glacier boundaries. More about that in the OGGM documentation under <a class="reference external" href="https://docs.oggm.org/en/stable/input-data.html#pre-processed-directories">preprocessed files</a>.</p>
+<h2>Error solving<a class="headerlink" href="#error-solving" title="Permalink to this heading">#</a></h2>
+<section id="glacier-exceeds-domain-boundaries">
+<h3><code class="docutils literal notranslate"><span class="pre">Glacier</span> <span class="pre">exceeds</span> <span class="pre">domain</span> <span class="pre">boundaries</span></code><a class="headerlink" href="#glacier-exceeds-domain-boundaries" title="Permalink to this heading">#</a></h3>
+<p>To remove this error just increase the domain boundary <strong>before</strong> running <code class="docutils literal notranslate"><span class="pre">init_glacier_directories</span></code> ! Attention, this means that more data has to be downloaded and the run takes more time. The available preprocessed directories for <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS['border']</span></code> for OGGM v1.6 are <strong>10, 80, 160 or 240</strong> at the moment; the unit is number of grid points outside the glacier boundaries. More about that in the OGGM documentation under <a class="reference external" href="https://docs.oggm.org/en/stable/input-data.html#pre-processed-directories">preprocessed files</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># reset to recompute statistics</span>
@@ -1138,8 +882,7 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 
 <span class="c1"># increase the amount of gridpoints outside the glacier</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">160</span>
-<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                                         <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">)</span>
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
                              <span class="n">nyears</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                              <span class="n">temperature_bias</span><span class="o">=-</span><span class="mi">2</span><span class="p">);</span>
@@ -1152,15 +895,15 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-03-10 20:00:45: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `160`.
-2023-03-10 20:00:46: oggm.workflow: init_glacier_directories from prepro level 5 on 3 glaciers.
-2023-03-10 20:00:46: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 3 glaciers
-2023-03-10 20:00:49: oggm.workflow: Execute entity tasks [run_random_climate] on 3 glaciers
-2023-03-10 20:00:51: oggm.core.flowline: InvalidWorkflowError occurred during task run_random_climate on RGI60-11.03235: Need a valid `model_flowlines` file. If you explicitly want to use `inversion_flowlines`, set use_inversion_flowlines=True.
-2023-03-10 20:00:51: oggm.utils: Applying global task compile_glacier_statistics on 3 glaciers
-2023-03-10 20:00:51: oggm.workflow: Execute entity tasks [glacier_statistics] on 3 glaciers
-2023-03-10 20:00:52: oggm.utils: Applying global task compile_run_output on 3 glaciers
-2023-03-10 20:00:52: oggm.utils: Applying compile_run_output on 3 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 22:25:59: oggm.cfg: PARAMS[&#39;border&#39;] changed from `80` to `160`.
+2023-08-27 22:26:00: oggm.workflow: init_glacier_directories from prepro level 5 on 3 glaciers.
+2023-08-27 22:26:00: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 3 glaciers
+2023-08-27 22:26:24: oggm.workflow: Execute entity tasks [run_random_climate] on 3 glaciers
+2023-08-27 22:26:26: oggm.core.flowline: InvalidWorkflowError occurred during task run_random_climate on RGI60-11.03235: Need a valid `model_flowlines` file. If you explicitly want to use `inversion_flowlines`, set use_inversion_flowlines=True.
+2023-08-27 22:26:26: oggm.utils: Applying global task compile_glacier_statistics on 3 glaciers
+2023-08-27 22:26:26: oggm.workflow: Execute entity tasks [glacier_statistics] on 3 glaciers
+2023-08-27 22:26:27: oggm.utils: Applying global task compile_run_output on 3 glaciers
+2023-08-27 22:26:27: oggm.utils: Applying compile_run_output on 3 gdirs.
 </pre></div>
 </div>
 </div>
@@ -1222,8 +965,8 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </div>
 <p>Now <code class="docutils literal notranslate"><span class="pre">RGI60-11.00897</span></code> runs without errors!</p>
 </section>
-<section id="error-rgi60-11-03235-is-a-nominal-glacier">
-<h3>Error: <code class="docutils literal notranslate"><span class="pre">RGI60-11.03235</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">nominal</span> <span class="pre">glacier.</span></code><a class="headerlink" href="#error-rgi60-11-03235-is-a-nominal-glacier" title="Permalink to this headline">#</a></h3>
+<section id="rgi60-11-xxxxx-is-a-nominal-glacier">
+<h3><code class="docutils literal notranslate"><span class="pre">RGI60-11.xxxxx</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">nominal</span> <span class="pre">glacier.</span></code><a class="headerlink" href="#rgi60-11-xxxxx-is-a-nominal-glacier" title="Permalink to this heading">#</a></h3>
 <p>This error message in the log is misleading: it does not really describe the source of the error, which happened earlier in the processing chain. Therefore we can look instead into the glacier_statistics via <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.utils.compile_glacier_statistics.html">compile_glacier_statistics</a> or into the log output via <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.utils.compile_task_log.html#oggm.utils.compile_task_log">compile_task_log</a>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1247,7 +990,7 @@ preprocessing (i.e. prior to this run), and one during the run. We show how to a
 </section>
 </section>
 <section id="ignoring-those-glaciers-with-errors-that-we-can-t-solve">
-<h2>Ignoring those glaciers with errors that we can’t solve<a class="headerlink" href="#ignoring-those-glaciers-with-errors-that-we-can-t-solve" title="Permalink to this headline">#</a></h2>
+<h2>Ignoring those glaciers with errors that we can’t solve<a class="headerlink" href="#ignoring-those-glaciers-with-errors-that-we-can-t-solve" title="Permalink to this heading">#</a></h2>
 <p>In the run_output, you can for example just use <code class="docutils literal notranslate"><span class="pre">*.dropna</span></code> to remove these. For other applications (e.g. quantitative mass change evaluation), more will be needed (not available yet in the OGGM codebase):</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1620,32 +1363,30 @@ dl.xr-attrs {
   fill: currentColor;
 }
 </style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
-Dimensions:          (time: 151, rgi_id: 2)
+Dimensions:         (time: 151, rgi_id: 2)
 Coordinates:
-  * time             (time) float64 0.0 1.0 2.0 3.0 ... 147.0 148.0 149.0 150.0
-  * rgi_id           (rgi_id) &lt;U14 &#x27;RGI60-11.00897&#x27; &#x27;RGI60-11.01450&#x27;
-    hydro_year       (time) int64 0 1 2 3 4 5 6 ... 144 145 146 147 148 149 150
-    hydro_month      (time) int64 4 4 4 4 4 4 4 4 4 4 4 ... 4 4 4 4 4 4 4 4 4 4
-    calendar_year    (time) int64 0 1 2 3 4 5 6 ... 144 145 146 147 148 149 150
-    calendar_month   (time) int64 1 1 1 1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1 1 1
+  * time            (time) float64 0.0 1.0 2.0 3.0 ... 147.0 148.0 149.0 150.0
+  * rgi_id          (rgi_id) &lt;U14 &#x27;RGI60-11.00897&#x27; &#x27;RGI60-11.01450&#x27;
+    hydro_year      (time) int64 0 1 2 3 4 5 6 7 ... 144 145 146 147 148 149 150
+    hydro_month     (time) int64 4 4 4 4 4 4 4 4 4 4 4 ... 4 4 4 4 4 4 4 4 4 4 4
+    calendar_year   (time) int64 0 1 2 3 4 5 6 7 ... 144 145 146 147 148 149 150
+    calendar_month  (time) int64 1 1 1 1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1 1 1 1
 Data variables:
-    volume           (time, rgi_id) float64 6.154e+08 1.206e+10 ... 1.623e+10
-    volume_m3_min_h  (time, rgi_id) float64 6.154e+08 1.206e+10 ... 1.623e+10
-    volume_bsl       (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
-    volume_bwl       (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
-    area             (time, rgi_id) float64 8.036e+06 8.221e+07 ... 9.406e+07
-    area_m2_min_h    (time, rgi_id) float64 8.036e+06 8.221e+07 ... 9.406e+07
-    length           (time, rgi_id) float64 5.6e+03 1.891e+04 ... 2.85e+04
-    calving          (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
-    calving_rate     (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
-    water_level      (rgi_id) float64 0.0 0.0
-    glen_a           (rgi_id) float64 6.086e-24 6.086e-24
-    fs               (rgi_id) float64 0.0 0.0
+    volume          (time, rgi_id) float64 6.154e+08 1.206e+10 ... 1.652e+10
+    volume_bsl      (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    volume_bwl      (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    area            (time, rgi_id) float64 8.036e+06 8.221e+07 ... 9.464e+07
+    length          (time, rgi_id) float64 5.6e+03 1.891e+04 ... 2.877e+04
+    calving         (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    calving_rate    (time, rgi_id) float64 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    water_level     (rgi_id) float64 0.0 0.0
+    glen_a          (rgi_id) float64 6.007e-24 5.939e-24
+    fs              (rgi_id) float64 0.0 0.0
 Attributes:
     description:    OGGM model output
-    oggm_version:   1.6.0
+    oggm_version:   1.6.1
     calendar:       365-day no leap
-    creation_date:  2023-03-10 20:00:52</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-ac28616f-4dee-40ce-a951-eb66c9419f75' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-ac28616f-4dee-40ce-a951-eb66c9419f75' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 151</li><li><span class='xr-has-index'>rgi_id</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-dd100bf7-a22c-43ce-a968-6b84893c4a1a' class='xr-section-summary-in' type='checkbox'  checked><label for='section-dd100bf7-a22c-43ce-a968-6b84893c4a1a' class='xr-section-summary' >Coordinates: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 2.0 ... 148.0 149.0 150.0</div><input id='attrs-30eb89f0-29d4-4f31-ade7-038cc8ebb69b' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-30eb89f0-29d4-4f31-ade7-038cc8ebb69b' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-011f37de-8b8b-43ba-94a0-04721a92b27e' class='xr-var-data-in' type='checkbox'><label for='data-011f37de-8b8b-43ba-94a0-04721a92b27e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating year</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.,  11.,
+    creation_date:  2023-08-27 22:26:27</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-95674c7a-c2e4-47a7-83f8-d3897679e107' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-95674c7a-c2e4-47a7-83f8-d3897679e107' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>time</span>: 151</li><li><span class='xr-has-index'>rgi_id</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-a7118988-6df0-4429-97b3-a2d3d604c8c9' class='xr-section-summary-in' type='checkbox'  checked><label for='section-a7118988-6df0-4429-97b3-a2d3d604c8c9' class='xr-section-summary' >Coordinates: <span>(6)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 2.0 ... 148.0 149.0 150.0</div><input id='attrs-3e23499b-2cf8-4aa7-bacc-5a5875f62a66' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3e23499b-2cf8-4aa7-bacc-5a5875f62a66' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c0fa6272-afd9-491b-8e2b-87e32dcca9df' class='xr-var-data-in' type='checkbox'><label for='data-c0fa6272-afd9-491b-8e2b-87e32dcca9df' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating year</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.,  11.,
         12.,  13.,  14.,  15.,  16.,  17.,  18.,  19.,  20.,  21.,  22.,  23.,
         24.,  25.,  26.,  27.,  28.,  29.,  30.,  31.,  32.,  33.,  34.,  35.,
         36.,  37.,  38.,  39.,  40.,  41.,  42.,  43.,  44.,  45.,  46.,  47.,
@@ -1657,7 +1398,7 @@ Attributes:
        108., 109., 110., 111., 112., 113., 114., 115., 116., 117., 118., 119.,
        120., 121., 122., 123., 124., 125., 126., 127., 128., 129., 130., 131.,
        132., 133., 134., 135., 136., 137., 138., 139., 140., 141., 142., 143.,
-       144., 145., 146., 147., 148., 149., 150.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rgi_id</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>&lt;U14</div><div class='xr-var-preview xr-preview'>&#x27;RGI60-11.00897&#x27; &#x27;RGI60-11.01450&#x27;</div><input id='attrs-ad43707f-27a7-437d-8296-bad60ea6190e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ad43707f-27a7-437d-8296-bad60ea6190e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-430dfd92-0527-47bf-95b2-abd67f49a38d' class='xr-var-data-in' type='checkbox'><label for='data-430dfd92-0527-47bf-95b2-abd67f49a38d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>RGI glacier identifier</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;RGI60-11.00897&#x27;, &#x27;RGI60-11.01450&#x27;], dtype=&#x27;&lt;U14&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 146 147 148 149 150</div><input id='attrs-158023ab-bb43-4168-95f9-9564782866ff' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-158023ab-bb43-4168-95f9-9564782866ff' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3dcc0de0-ec64-4df4-a89c-6223861d6216' class='xr-var-data-in' type='checkbox'><label for='data-3dcc0de0-ec64-4df4-a89c-6223861d6216' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
+       144., 145., 146., 147., 148., 149., 150.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rgi_id</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>&lt;U14</div><div class='xr-var-preview xr-preview'>&#x27;RGI60-11.00897&#x27; &#x27;RGI60-11.01450&#x27;</div><input id='attrs-f89f564c-c629-4dd7-9141-b607d853a579' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f89f564c-c629-4dd7-9141-b607d853a579' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ae00723e-6a2d-4f89-b148-13e5668c6402' class='xr-var-data-in' type='checkbox'><label for='data-ae00723e-6a2d-4f89-b148-13e5668c6402' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>RGI glacier identifier</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;RGI60-11.00897&#x27;, &#x27;RGI60-11.01450&#x27;], dtype=&#x27;&lt;U14&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 146 147 148 149 150</div><input id='attrs-8b095dae-9856-440a-92cb-d610c7fcdbbe' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8b095dae-9856-440a-92cb-d610c7fcdbbe' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0941cb18-b4ed-4886-9bd6-ccd91f5f0a0f' class='xr-var-data-in' type='checkbox'><label for='data-0941cb18-b4ed-4886-9bd6-ccd91f5f0a0f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
         13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,
         26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,
         39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,
@@ -1668,13 +1409,13 @@ Attributes:
        104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
        117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
        130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142,
-       143, 144, 145, 146, 147, 148, 149, 150])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>4 4 4 4 4 4 4 4 ... 4 4 4 4 4 4 4 4</div><input id='attrs-60312fd6-fd56-4dca-8113-665730592049' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-60312fd6-fd56-4dca-8113-665730592049' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1b16fab2-1e6d-484a-bc9d-2c72ff441b36' class='xr-var-data-in' type='checkbox'><label for='data-1b16fab2-1e6d-484a-bc9d-2c72ff441b36' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological month</dd></dl></div><div class='xr-var-data'><pre>array([4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+       143, 144, 145, 146, 147, 148, 149, 150])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>hydro_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>4 4 4 4 4 4 4 4 ... 4 4 4 4 4 4 4 4</div><input id='attrs-017f41f1-65ec-4a4e-8dc6-ebb3e7851e55' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-017f41f1-65ec-4a4e-8dc6-ebb3e7851e55' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-53650993-b071-42b2-a611-7fe810357770' class='xr-var-data-in' type='checkbox'><label for='data-53650993-b071-42b2-a611-7fe810357770' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Hydrological month</dd></dl></div><div class='xr-var-data'><pre>array([4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
        4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-       4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 146 147 148 149 150</div><input id='attrs-e60e2153-8280-4311-bdfa-9b2c1c759d59' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e60e2153-8280-4311-bdfa-9b2c1c759d59' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5f3c0811-f621-4a9f-84bf-70cb1d3add43' class='xr-var-data-in' type='checkbox'><label for='data-5f3c0811-f621-4a9f-84bf-70cb1d3add43' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
+       4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_year</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 1 2 3 4 5 ... 146 147 148 149 150</div><input id='attrs-e88077b5-d734-4a4d-b9e5-d542c78e8f0e' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e88077b5-d734-4a4d-b9e5-d542c78e8f0e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7b97bec1-9d38-4bb8-8cd6-70a96568b443' class='xr-var-data-in' type='checkbox'><label for='data-7b97bec1-9d38-4bb8-8cd6-70a96568b443' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar year</dd></dl></div><div class='xr-var-data'><pre>array([  0,   1,   2,   3,   4,   5,   6,   7,   8,   9,  10,  11,  12,
         13,  14,  15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,
         26,  27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,
         39,  40,  41,  42,  43,  44,  45,  46,  47,  48,  49,  50,  51,
@@ -1685,93 +1426,53 @@ Attributes:
        104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
        117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129,
        130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142,
-       143, 144, 145, 146, 147, 148, 149, 150])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-a51d4453-a98c-40ba-89b9-0fe73c9e28dc' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a51d4453-a98c-40ba-89b9-0fe73c9e28dc' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-29905286-7a87-4564-b73d-4b0753c597af' class='xr-var-data-in' type='checkbox'><label for='data-29905286-7a87-4564-b73d-4b0753c597af' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar month</dd></dl></div><div class='xr-var-data'><pre>array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+       143, 144, 145, 146, 147, 148, 149, 150])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calendar_month</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>1 1 1 1 1 1 1 1 ... 1 1 1 1 1 1 1 1</div><input id='attrs-458037a4-4157-4b1b-8c10-64b1bf8b2201' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-458037a4-4157-4b1b-8c10-64b1bf8b2201' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-91339816-4259-403a-b9c3-959bf2e59337' class='xr-var-data-in' type='checkbox'><label for='data-91339816-4259-403a-b9c3-959bf2e59337' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calendar month</dd></dl></div><div class='xr-var-data'><pre>array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-398edb80-d179-41ca-9fa2-f11fdb93a0c8' class='xr-section-summary-in' type='checkbox'  checked><label for='section-398edb80-d179-41ca-9fa2-f11fdb93a0c8' class='xr-section-summary' >Data variables: <span>(12)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>volume</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>6.154e+08 1.206e+10 ... 1.623e+10</div><input id='attrs-0dedb51b-3691-4ead-926e-453e5271ea7a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0dedb51b-3691-4ead-926e-453e5271ea7a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5e5b329b-d24a-4f60-85f7-23509147a548' class='xr-var-data-in' type='checkbox'><label for='data-5e5b329b-d24a-4f60-85f7-23509147a548' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier volume</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[6.15396362e+08, 1.20615039e+10],
-       [6.21146394e+08, 1.21323223e+10],
-       [6.36021343e+08, 1.22396162e+10],
-       [6.35873455e+08, 1.22465595e+10],
-       [6.43691044e+08, 1.23531393e+10],
-       [6.53859197e+08, 1.25282920e+10],
-       [6.57345402e+08, 1.26223188e+10],
-       [6.67588905e+08, 1.27977103e+10],
-       [6.76585860e+08, 1.28909599e+10],
-       [6.78785317e+08, 1.29346817e+10],
-       [6.84711727e+08, 1.30450866e+10],
-       [6.84673802e+08, 1.30503512e+10],
-       [6.77318161e+08, 1.29797174e+10],
-       [6.88708854e+08, 1.30457415e+10],
-       [7.00484682e+08, 1.31734572e+10],
-       [7.03333556e+08, 1.32330002e+10],
-       [7.05922968e+08, 1.32667183e+10],
-       [7.08452452e+08, 1.32993532e+10],
-       [7.14386336e+08, 1.33613201e+10],
-       [7.17637953e+08, 1.33823038e+10],
+       1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-a79c4ae6-5e42-46b3-bbcf-058b411751c5' class='xr-section-summary-in' type='checkbox'  checked><label for='section-a79c4ae6-5e42-46b3-bbcf-058b411751c5' class='xr-section-summary' >Data variables: <span>(10)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>volume</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>6.154e+08 1.206e+10 ... 1.652e+10</div><input id='attrs-e0a6f652-997f-4922-b5c4-e4d6992e9003' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-e0a6f652-997f-4922-b5c4-e4d6992e9003' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-67e66f41-3a09-4f18-8580-769fcc8079c6' class='xr-var-data-in' type='checkbox'><label for='data-67e66f41-3a09-4f18-8580-769fcc8079c6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier volume</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[6.15421128e+08, 1.20610069e+10],
+       [6.21330132e+08, 1.21364687e+10],
+       [6.36386903e+08, 1.22488085e+10],
+       [6.36491164e+08, 1.22626765e+10],
+       [6.44478153e+08, 1.23738975e+10],
+       [6.54802099e+08, 1.25535792e+10],
+       [6.58537027e+08, 1.26536909e+10],
+       [6.68938772e+08, 1.28337061e+10],
+       [6.78167063e+08, 1.29327037e+10],
+       [6.80615815e+08, 1.29830302e+10],
+       [6.86725709e+08, 1.30986066e+10],
+       [6.86949316e+08, 1.31112234e+10],
+       [6.79919783e+08, 1.30487997e+10],
+       [6.91449058e+08, 1.31197874e+10],
+       [7.03417224e+08, 1.32528000e+10],
+       [7.06500794e+08, 1.33187717e+10],
+       [7.09337924e+08, 1.33595361e+10],
+       [7.12119635e+08, 1.33992441e+10],
+       [7.18235318e+08, 1.34667575e+10],
+       [7.21717872e+08, 1.34941363e+10],
 ...
-       [1.39994459e+09, 1.62536825e+10],
-       [1.38130434e+09, 1.60704855e+10],
-       [1.39033826e+09, 1.60394982e+10],
-       [1.40033233e+09, 1.61207808e+10],
-       [1.40364977e+09, 1.61632614e+10],
-       [1.41287776e+09, 1.61508751e+10],
-       [1.41875989e+09, 1.62368436e+10],
-       [1.42869537e+09, 1.63165181e+10],
-       [1.43461987e+09, 1.64358599e+10],
-       [1.43304617e+09, 1.64086256e+10],
-       [1.43609480e+09, 1.64485485e+10],
-       [1.44023484e+09, 1.64415957e+10],
-       [1.43040378e+09, 1.63292714e+10],
-       [1.42479216e+09, 1.62576217e+10],
-       [1.42783065e+09, 1.62720387e+10],
-       [1.43340517e+09, 1.63903224e+10],
-       [1.41356840e+09, 1.62009203e+10],
-       [1.42982606e+09, 1.62885214e+10],
-       [1.42340620e+09, 1.61991086e+10],
-       [1.43052862e+09, 1.62301198e+10]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_m3_min_h</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>6.154e+08 1.206e+10 ... 1.623e+10</div><input id='attrs-7103d3a1-f90f-43e3-bf49-d38016d84a75' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7103d3a1-f90f-43e3-bf49-d38016d84a75' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d1a5671e-583d-4aac-b785-63c5a0ede959' class='xr-var-data-in' type='checkbox'><label for='data-d1a5671e-583d-4aac-b785-63c5a0ede959' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier volume of gridpoints with a minimum icethickness of 10.0 m</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[6.15396362e+08, 1.20615039e+10],
-       [6.21046267e+08, 1.21323223e+10],
-       [6.35955282e+08, 1.22396162e+10],
-       [6.35861384e+08, 1.22465595e+10],
-       [6.43691044e+08, 1.23531393e+10],
-       [6.53859197e+08, 1.25282920e+10],
-       [6.57345402e+08, 1.26223188e+10],
-       [6.67588905e+08, 1.27977103e+10],
-       [6.76585860e+08, 1.28909599e+10],
-       [6.78785317e+08, 1.29346817e+10],
-       [6.84674968e+08, 1.30450866e+10],
-       [6.84673802e+08, 1.30503512e+10],
-       [6.77318161e+08, 1.29786549e+10],
-       [6.88699960e+08, 1.30457415e+10],
-       [7.00294681e+08, 1.31734572e+10],
-       [7.03333556e+08, 1.32330002e+10],
-       [7.05922968e+08, 1.32667183e+10],
-       [7.08287242e+08, 1.32993532e+10],
-       [7.14386336e+08, 1.33613201e+10],
-       [7.17631738e+08, 1.33822513e+10],
-...
-       [1.39994459e+09, 1.62536825e+10],
-       [1.38130433e+09, 1.60704855e+10],
-       [1.39015891e+09, 1.60394982e+10],
-       [1.40033233e+09, 1.61207808e+10],
-       [1.40364977e+09, 1.61632614e+10],
-       [1.41277251e+09, 1.61508751e+10],
-       [1.41875989e+09, 1.62368436e+10],
-       [1.42869537e+09, 1.63165181e+10],
-       [1.43454075e+09, 1.64355224e+10],
-       [1.43304617e+09, 1.64086256e+10],
-       [1.43609480e+09, 1.64485485e+10],
-       [1.44016906e+09, 1.64415957e+10],
-       [1.43040378e+09, 1.63292714e+10],
-       [1.42479216e+09, 1.62576217e+10],
-       [1.42783058e+09, 1.62720387e+10],
-       [1.43330737e+09, 1.63903224e+10],
-       [1.41356840e+09, 1.62009203e+10],
-       [1.42982606e+09, 1.62885214e+10],
-       [1.42340620e+09, 1.61991086e+10],
-       [1.43050131e+09, 1.62301198e+10]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bsl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-486f13aa-40e3-4787-abf4-1180f661932c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-486f13aa-40e3-4787-abf4-1180f661932c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7a652c59-4f2b-462e-a139-1cb84d6fe6bf' class='xr-var-data-in' type='checkbox'><label for='data-7a652c59-4f2b-462e-a139-1cb84d6fe6bf' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below sea-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [1.42891550e+09, 1.65256161e+10],
+       [1.41045327e+09, 1.63442200e+10],
+       [1.41968179e+09, 1.63121064e+10],
+       [1.42987888e+09, 1.63929874e+10],
+       [1.43337552e+09, 1.64350710e+10],
+       [1.44281582e+09, 1.64214372e+10],
+       [1.44884080e+09, 1.65069658e+10],
+       [1.45896856e+09, 1.65872205e+10],
+       [1.46512624e+09, 1.67086948e+10],
+       [1.46369425e+09, 1.66830048e+10],
+       [1.46691496e+09, 1.67248376e+10],
+       [1.47134701e+09, 1.67199207e+10],
+       [1.46166913e+09, 1.66107426e+10],
+       [1.45621303e+09, 1.65409923e+10],
+       [1.45942294e+09, 1.65565439e+10],
+       [1.46522967e+09, 1.66758999e+10],
+       [1.44556432e+09, 1.64889988e+10],
+       [1.46201127e+09, 1.65753807e+10],
+       [1.45567078e+09, 1.64854614e+10],
+       [1.46302210e+09, 1.65157703e+10]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bsl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-8fd81c64-2155-4326-9703-2e95ca565c57' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8fd81c64-2155-4326-9703-2e95ca565c57' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b9b130e6-1734-433b-b620-0cc31585547f' class='xr-var-data-in' type='checkbox'><label for='data-b9b130e6-1734-433b-b620-0cc31585547f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below sea-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
        [0., 0.],
        [0., 0.],
        [0., 0.],
@@ -1811,7 +1512,7 @@ Attributes:
        [0., 0.],
        [0., 0.],
        [0., 0.],
-       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bwl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-1623081f-654c-461b-82a6-b56ef9bacdc6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-1623081f-654c-461b-82a6-b56ef9bacdc6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7d368844-acee-4eca-9879-1a7a08ccacb9' class='xr-var-data-in' type='checkbox'><label for='data-7d368844-acee-4eca-9879-1a7a08ccacb9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below water-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bwl</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-0edb2dab-ca87-43da-967b-6243959cf9d6' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0edb2dab-ca87-43da-967b-6243959cf9d6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a0f2bda6-df42-442e-9598-9069c552171d' class='xr-var-data-in' type='checkbox'><label for='data-a0f2bda6-df42-442e-9598-9069c552171d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier volume below water-level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
        [0., 0.],
        [0., 0.],
        [0., 0.],
@@ -1851,87 +1552,47 @@ Attributes:
        [0., 0.],
        [0., 0.],
        [0., 0.],
-       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>8.036e+06 8.221e+07 ... 9.406e+07</div><input id='attrs-ff03f144-4ffb-4271-a153-227d20c5f125' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ff03f144-4ffb-4271-a153-227d20c5f125' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-668271cf-e928-4844-a14f-013ee4fd2d5b' class='xr-var-data-in' type='checkbox'><label for='data-668271cf-e928-4844-a14f-013ee4fd2d5b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([[ 8036000.        , 82206000.        ],
-       [ 8045148.72449434, 82270586.56727047],
-       [ 8066099.98854065, 82353194.05298232],
-       [ 8069014.32098391, 82400404.90101944],
-       [ 8071001.50367453, 82514006.5850377 ],
-       [ 8090445.11192322, 82656443.33710985],
-       [ 8100782.75007283, 82762889.7304495 ],
-       [ 8122018.42456744, 83031014.87209074],
-       [ 8142106.21796782, 83179820.57444593],
-       [ 8154360.54896057, 83304951.0548526 ],
-       [ 8183988.01524272, 83547682.10575572],
-       [ 8191459.02033141, 83654495.552313  ],
-       [ 8189022.82576915, 83832560.42666037],
-       [ 8232012.4638696 , 83973876.04830122],
-       [ 8255977.02247511, 84241663.08776578],
-       [ 8271535.79777276, 84398200.14897227],
-       [ 8284473.55339674, 84614340.27618623],
-       [ 8314955.51209244, 84722496.52397576],
-       [ 8334043.09792544, 84973040.57617459],
-       [ 8364885.80840512, 85169879.41284567],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>8.036e+06 8.221e+07 ... 9.464e+07</div><input id='attrs-217f7950-c358-47e8-9800-434c3e2ef0fc' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-217f7950-c358-47e8-9800-434c3e2ef0fc' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7653e8d6-59fe-4117-baa2-952a919cbb13' class='xr-var-data-in' type='checkbox'><label for='data-7653e8d6-59fe-4117-baa2-952a919cbb13' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier area</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([[ 8036000.        , 82205999.99999999],
+       [ 8045338.37962117, 82271662.62559322],
+       [ 8066508.67286555, 82355628.23665474],
+       [ 8069735.4751441 , 82405278.11277601],
+       [ 8071908.83794568, 82520192.25850347],
+       [ 8091528.67687882, 82664234.9773596 ],
+       [ 8102194.11531699, 82773353.04280177],
+       [ 8123636.26248678, 83043258.78752738],
+       [ 8144054.87424178, 83194628.1007338 ],
+       [ 8156686.01172979, 83323646.91426317],
+       [ 8186636.82260109, 83569302.09540796],
+       [ 8194568.66917241, 83681561.31418651],
+       [ 8192710.7767539 , 83866001.46065187],
+       [ 8236016.41566799, 84012344.78424165],
+       [ 8260430.07639218, 84285890.89280516],
+       [ 8276509.51383841, 84449090.92643717],
+       [ 8307916.85693485, 84673189.55095921],
+       [ 8321151.03006259, 84790248.90916434],
+       [ 8340783.57672203, 85048938.3690508 ],
+       [ 8372182.09954206, 85254751.6810733 ],
 ...
-       [11881419.48670224, 93756938.94548036],
-       [11875225.50316501, 93662283.45630306],
-       [11900719.8025371 , 93649195.97318022],
-       [11925962.76364524, 93710759.55119999],
-       [11939273.40045052, 93732117.2667327 ],
-       [11976321.81435433, 93678038.81209466],
-       [11994566.18705099, 93731683.24181959],
-       [12019902.25334113, 93798439.02428663],
-       [12057523.62965855, 94087875.82561283],
-       [12065352.54501891, 94086766.05325134],
-       [12079604.09297583, 94120146.50945982],
-       [12109646.58420183, 94144330.6180704 ],
-       [12099470.88983241, 94074361.64535473],
-       [12098474.27752797, 94032995.87239511],
-       [12126433.65554221, 94066821.55374366],
-       [12146493.27236707, 94162078.82055523],
-       [12118833.49509557, 94061080.02556452],
-       [12153768.90903095, 94139345.6442028 ],
-       [12142185.42573418, 94051507.53091349],
-       [12171925.73435031, 94064573.86018218]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area_m2_min_h</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>8.036e+06 8.221e+07 ... 9.406e+07</div><input id='attrs-316acd33-44c8-4b26-a38a-229c511e4985' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-316acd33-44c8-4b26-a38a-229c511e4985' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-73e667a6-082a-40c1-8aed-e0caa539e16e' class='xr-var-data-in' type='checkbox'><label for='data-73e667a6-082a-40c1-8aed-e0caa539e16e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total glacier area of gridpoints with a minimum icethickness of 10.0 m</dd><dt><span>unit :</span></dt><dd>m 2</dd></dl></div><div class='xr-var-data'><pre>array([[ 8036000.        , 82205999.99999999],
-       [ 8031293.27576852, 82270586.56727047],
-       [ 8052244.53981483, 82353194.05298232],
-       [ 8055158.8722581 , 82400404.90101942],
-       [ 8071001.50367453, 82514006.5850377 ],
-       [ 8090445.11192322, 82656443.33710986],
-       [ 8100782.75007283, 82762889.73044948],
-       [ 8122018.42456744, 83031014.87209074],
-       [ 8142106.21796782, 83179820.57444593],
-       [ 8154360.54896057, 83304951.05485259],
-       [ 8170132.5665169 , 83547682.10575573],
-       [ 8191459.02033141, 83654495.55231297],
-       [ 8189022.82576915, 83722870.08070545],
-       [ 8212459.49574627, 83973876.04830122],
-       [ 8234651.88661706, 84241663.0877658 ],
-       [ 8271535.79777276, 84398200.14897227],
-       [ 8284473.55339674, 84614340.27618623],
-       [ 8295267.25767379, 84722496.52397576],
-       [ 8334043.09792544, 84973040.57617459],
-       [ 8346077.76181765, 85057244.00338538],
-...
-       [11881419.48670224, 93756938.94548038],
-       [11857671.49895896, 93662283.45630307],
-       [11881229.34672111, 93649195.97318022],
-       [11925962.76364524, 93710759.55119999],
-       [11939273.40045052, 93732117.26673268],
-       [11957867.3080721 , 93678038.81209464],
-       [11994566.18705099, 93731683.24181958],
-       [12019902.25334113, 93798439.02428661],
-       [12041568.53775687, 93896720.75603867],
-       [12065352.54501891, 94086766.05325134],
-       [12079604.09297583, 94120146.50945984],
-       [12094471.49121046, 94144330.61807041],
-       [12099470.88983241, 94074361.64535472],
-       [12098474.27752797, 94032995.87239513],
-       [12112266.07689593, 94066821.55374366],
-       [12131007.45241953, 94162078.82055521],
-       [12118833.49509557, 94061080.02556452],
-       [12153768.90903095, 94139345.6442028 ],
-       [12142185.42573418, 94051507.53091347],
-       [12157389.46561724, 94064573.86018218]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>length</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.6e+03 1.891e+04 ... 2.85e+04</div><input id='attrs-cafaf129-3d54-4a57-b0eb-faeddffeca61' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-cafaf129-3d54-4a57-b0eb-faeddffeca61' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-13170a8f-553b-49f0-b745-7fde7954ea8d' class='xr-var-data-in' type='checkbox'><label for='data-13170a8f-553b-49f0-b745-7fde7954ea8d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier length</dd><dt><span>unit :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([[ 5600., 18906.],
+       [12014725.65274823, 94313755.96446346],
+       [11991850.95463593, 94218683.62006103],
+       [12019321.86177572, 94204214.83781412],
+       [12059402.85147433, 94264997.63654643],
+       [12073843.20343796, 94283779.81520069],
+       [12096310.90358606, 94228575.33065465],
+       [12128801.35662394, 94281961.84423749],
+       [12155559.84059951, 94536745.68795237],
+       [12180535.16073576, 94641111.79327969],
+       [12202063.71676309, 94645116.38729617],
+       [12217432.8106854 , 94682325.47346023],
+       [12235389.1078877 , 94710311.00614192],
+       [12224883.06099696, 94643988.26876155],
+       [12237902.18097087, 94605376.585314  ],
+       [12253332.94463536, 94641625.58492047],
+       [12274995.78102764, 94738228.08020851],
+       [12246903.85860316, 94639666.58623101],
+       [12296074.65173183, 94716467.94936322],
+       [12285777.7260494 , 94628550.06648928],
+       [12303159.64285132, 94640599.94336551]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>length</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>5.6e+03 1.891e+04 ... 2.877e+04</div><input id='attrs-f5c109a0-c407-4b35-8de9-172211e339c2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f5c109a0-c407-4b35-8de9-172211e339c2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-515d5e2b-833a-4b9c-b366-fd593a24e0c0' class='xr-var-data-in' type='checkbox'><label for='data-515d5e2b-833a-4b9c-b366-fd593a24e0c0' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Glacier length</dd><dt><span>unit :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([[ 5600., 18906.],
        [ 5600., 18906.],
        [ 5600., 18906.],
        [ 5600., 18906.],
@@ -1947,31 +1608,31 @@ Attributes:
        [ 5700., 19728.],
        [ 5700., 20002.],
        [ 5700., 20002.],
-       [ 5700., 20276.],
+       [ 5800., 20276.],
        [ 5800., 20276.],
        [ 5800., 20550.],
        [ 5900., 20824.],
 ...
-       [10600., 28222.],
-       [10700., 28222.],
-       [10700., 28222.],
-       [10700., 28222.],
-       [10700., 28222.],
-       [10800., 28222.],
-       [10800., 28222.],
-       [10800., 28222.],
+       [10800., 28496.],
+       [10800., 28496.],
+       [10800., 28496.],
        [10900., 28496.],
        [10900., 28496.],
        [10900., 28496.],
        [11000., 28496.],
-       [11000., 28496.],
-       [11000., 28496.],
-       [11100., 28496.],
-       [11100., 28496.],
-       [11100., 28496.],
-       [11100., 28496.],
-       [11100., 28496.],
-       [11200., 28496.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-3a3f5c80-14a9-414b-9e6e-a45780710650' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3a3f5c80-14a9-414b-9e6e-a45780710650' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ab96302a-80a6-4e35-9136-aaa6c26a9b55' class='xr-var-data-in' type='checkbox'><label for='data-ab96302a-80a6-4e35-9136-aaa6c26a9b55' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total accumulated calving flux</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [11000., 28770.],
+       [11000., 28770.],
+       [11100., 28770.],
+       [11100., 28770.],
+       [11100., 28770.],
+       [11100., 28770.],
+       [11200., 28770.],
+       [11200., 28770.],
+       [11200., 28770.],
+       [11200., 28770.],
+       [11300., 28770.],
+       [11300., 28770.],
+       [11300., 28770.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-d4a3f4fa-61b2-48c8-bd7c-9c89777e4573' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d4a3f4fa-61b2-48c8-bd7c-9c89777e4573' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a760af1e-35f5-4375-ac94-1422d20f8c4d' class='xr-var-data-in' type='checkbox'><label for='data-a760af1e-35f5-4375-ac94-1422d20f8c4d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Total accumulated calving flux</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
        [0., 0.],
        [0., 0.],
        [0., 0.],
@@ -2011,7 +1672,7 @@ Attributes:
        [0., 0.],
        [0., 0.],
        [0., 0.],
-       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_rate</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-54981c69-a887-44ff-a3bf-be8d859a3443' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-54981c69-a887-44ff-a3bf-be8d859a3443' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-dbb8cf42-19f3-4d7c-9f73-7961c7f34595' class='xr-var-data-in' type='checkbox'><label for='data-dbb8cf42-19f3-4d7c-9f73-7961c7f34595' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving rate</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_rate</span></div><div class='xr-var-dims'>(time, rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-74817360-aa12-4616-a012-08dc1b3db209' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-74817360-aa12-4616-a012-08dc1b3db209' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4b1e4bae-6a29-4894-9d96-4e28883f233e' class='xr-var-data-in' type='checkbox'><label for='data-4b1e4bae-6a29-4894-9d96-4e28883f233e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving rate</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0.],
        [0., 0.],
        [0., 0.],
        [0., 0.],
@@ -2051,16 +1712,14 @@ Attributes:
        [0., 0.],
        [0., 0.],
        [0., 0.],
-       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>water_level</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-34d4736b-12d4-433a-87cf-26f71ea7f3e3' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-34d4736b-12d4-433a-87cf-26f71ea7f3e3' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e99a1c1d-ccbb-421f-b54f-3c5e73b36b49' class='xr-var-data-in' type='checkbox'><label for='data-e99a1c1d-ccbb-421f-b54f-3c5e73b36b49' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving water level</dd><dt><span>units :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glen_a</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>6.086e-24 6.086e-24</div><input id='attrs-479a3d94-e333-42d5-b365-4f7c6e51577d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-479a3d94-e333-42d5-b365-4f7c6e51577d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1324f48c-d0b6-472e-ba12-3c116435e732' class='xr-var-data-in' type='checkbox'><label for='data-1324f48c-d0b6-472e-ba12-3c116435e732' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation Glen A</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([6.08559114e-24, 6.08559114e-24])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>fs</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-8b85298a-a123-46f8-976c-136ce96fa9ca' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8b85298a-a123-46f8-976c-136ce96fa9ca' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-564acdf5-461c-40ef-ad37-8bd18f16aeed' class='xr-var-data-in' type='checkbox'><label for='data-564acdf5-461c-40ef-ad37-8bd18f16aeed' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation sliding parameter</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-97ea0a26-4e75-4ffc-af22-1c1b7ea1b091' class='xr-section-summary-in' type='checkbox'  ><label for='section-97ea0a26-4e75-4ffc-af22-1c1b7ea1b091' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-576b356a-2cbc-4c68-8dd0-5627e5fd5a67' class='xr-index-data-in' type='checkbox'/><label for='index-576b356a-2cbc-4c68-8dd0-5627e5fd5a67' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Float64Index([  0.0,   1.0,   2.0,   3.0,   4.0,   5.0,   6.0,   7.0,   8.0,
-                9.0,
-              ...
-              141.0, 142.0, 143.0, 144.0, 145.0, 146.0, 147.0, 148.0, 149.0,
-              150.0],
-             dtype=&#x27;float64&#x27;, name=&#x27;time&#x27;, length=151))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>rgi_id</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-8bbd0638-6294-45f9-845a-80d4eac6bcc2' class='xr-index-data-in' type='checkbox'/><label for='index-8bbd0638-6294-45f9-845a-80d4eac6bcc2' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;RGI60-11.00897&#x27;, &#x27;RGI60-11.01450&#x27;], dtype=&#x27;object&#x27;, name=&#x27;rgi_id&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f28b0acb-b229-4e64-ab9b-3f5713a8d884' class='xr-section-summary-in' type='checkbox'  checked><label for='section-f28b0acb-b229-4e64-ab9b-3f5713a8d884' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>OGGM model output</dd><dt><span>oggm_version :</span></dt><dd>1.6.0</dd><dt><span>calendar :</span></dt><dd>365-day no leap</dd><dt><span>creation_date :</span></dt><dd>2023-03-10 20:00:52</dd></dl></div></li></ul></div></div></div></div>
+       [0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>water_level</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-46f28276-7048-4f1c-87ec-169d3917b92a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-46f28276-7048-4f1c-87ec-169d3917b92a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-9290d3c3-a944-49c9-8b40-92a586c3373d' class='xr-var-data-in' type='checkbox'><label for='data-9290d3c3-a944-49c9-8b40-92a586c3373d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Calving water level</dd><dt><span>units :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>glen_a</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>6.007e-24 5.939e-24</div><input id='attrs-93fa2e0c-8648-412f-b4d8-618fc3a2eb42' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-93fa2e0c-8648-412f-b4d8-618fc3a2eb42' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0314d64c-185e-473e-a9c3-120d547ef0f6' class='xr-var-data-in' type='checkbox'><label for='data-0314d64c-185e-473e-a9c3-120d547ef0f6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation Glen A</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([6.00670658e-24, 5.93945596e-24])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>fs</span></div><div class='xr-var-dims'>(rgi_id)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0</div><input id='attrs-3f1d3779-e976-455b-8306-de77113f6589' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3f1d3779-e976-455b-8306-de77113f6589' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6990bfc4-74d0-421f-8e60-b539c32db91b' class='xr-var-data-in' type='checkbox'><label for='data-6990bfc4-74d0-421f-8e60-b539c32db91b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Simulation sliding parameter</dd><dt><span>units :</span></dt><dd></dd></dl></div><div class='xr-var-data'><pre>array([0., 0.])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e8b7ee16-10fb-4fc6-bbe7-615d65208694' class='xr-section-summary-in' type='checkbox'  ><label for='section-e8b7ee16-10fb-4fc6-bbe7-615d65208694' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-a07a86fe-4ab1-402f-ab61-55307429d47c' class='xr-index-data-in' type='checkbox'/><label for='index-a07a86fe-4ab1-402f-ab61-55307429d47c' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  0.0,   1.0,   2.0,   3.0,   4.0,   5.0,   6.0,   7.0,   8.0,   9.0,
+       ...
+       141.0, 142.0, 143.0, 144.0, 145.0, 146.0, 147.0, 148.0, 149.0, 150.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;time&#x27;, length=151))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>rgi_id</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-76b08b9d-0db5-4769-a1fb-1dfbabc56b70' class='xr-index-data-in' type='checkbox'/><label for='index-76b08b9d-0db5-4769-a1fb-1dfbabc56b70' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;RGI60-11.00897&#x27;, &#x27;RGI60-11.01450&#x27;], dtype=&#x27;object&#x27;, name=&#x27;rgi_id&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-a81288f5-a552-4aaf-bdbe-24d7b6155735' class='xr-section-summary-in' type='checkbox'  checked><label for='section-a81288f5-a552-4aaf-bdbe-24d7b6155735' class='xr-section-summary' >Attributes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>OGGM model output</dd><dt><span>oggm_version :</span></dt><dd>1.6.1</dd><dt><span>calendar :</span></dt><dd>365-day no leap</dd><dt><span>creation_date :</span></dt><dd>2023-08-27 22:26:27</dd></dl></div></li></ul></div></div></div></div>
 </div>
 </section>
 <section id="what-s-next">
-<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this headline">#</a></h2>
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>read about <a class="reference internal" href="../advanced/preprocessing_errors.html"><span class="doc std std-doc">preprocessing errors</span></a></p></li>
 <li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
@@ -2089,57 +1748,114 @@ Attributes:
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="plot_mass_balance.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Plotting the OGGM surface mass-balance, the ELA and AAR</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="distribute_flowline.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Display glacier area and thickness changes on a grid</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="inversion.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="inversion.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Ice thickness inversion</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continue-on-error">Continue on error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-diagnostics">Error diagnostics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-solving">Error solving</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#glacier-exceeds-domain-boundaries"><code class="docutils literal notranslate"><span class="pre">Glacier</span> <span class="pre">exceeds</span> <span class="pre">domain</span> <span class="pre">boundaries</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rgi60-11-xxxxx-is-a-nominal-glacier"><code class="docutils literal notranslate"><span class="pre">RGI60-11.xxxxx</span> <span class="pre">is</span> <span class="pre">a</span> <span class="pre">nominal</span> <span class="pre">glacier.</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ignoring-those-glaciers-with-errors-that-we-can-t-solve">Ignoring those glaciers with errors that we can’t solve</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    By OGGM e.V. and OGGM Contributors<br/>
+  <div class="footer-item">
+    
+<p class="component-author">
+By OGGM e.V. and OGGM Contributors
+</p>
+
+  </div>
   
-    <div class="extra_footer">
-      <p>
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
 &copy; Copyright 2014-2021.
 </p>
 
-    </div>
-</p>
-        </footer>
-    </div>
-    
 </div>
+  </div>
+  
+</div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
