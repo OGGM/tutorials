@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,15 +19,15 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -71,7 +72,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/advanced/dynamical_spinup';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0" href="../others/rgitopo_rgi6.html" />
+    <link rel="next" title="Dynamic model initialization using observed thickness data" href="observed_thickness_with_dynamic_spinup.html" />
     <link rel="prev" title="Merge, analyse and visualize OGGM GCM runs" href="merge_gcm_runs_and_visualize.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -82,7 +83,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -116,12 +126,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <header>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
   
+  </header>
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -136,9 +154,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../welcome.html">
+  
   
   
   
@@ -148,8 +168,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="OGGM tutorials - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="OGGM tutorials - Home"/>`);</script>
   
   
 </a></div>
@@ -198,6 +218,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="observed_thickness_with_dynamic_spinup.html">Dynamic model initialization using observed thickness data</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">RGI-TOPO</span></p>
 <ul class="nav bd-sidenav">
@@ -433,20 +454,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -500,7 +523,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="dynamic-spinup-and-dynamic-melt-f-calibration-for-past-simulations">
 <h1>Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations<a class="headerlink" href="#dynamic-spinup-and-dynamic-melt-f-calibration-for-past-simulations" title="Permalink to this heading">#</a></h1>
@@ -676,9 +699,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 21:08:00: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-27 21:08:00: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-27 21:08:00: oggm.cfg: Multiprocessing: using all available processors (N=2)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:11:40: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2024-01-05 20:11:40: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2024-01-05 20:11:40: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -715,8 +738,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 21:08:02: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2023-08-27 21:08:02: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:11:42: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2024-01-05 20:11:42: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -854,7 +877,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/12e7b10832611e61637784a40ea9a632888517572af41d1ee57aa4835ba6b786.png" src="../../_images/12e7b10832611e61637784a40ea9a632888517572af41d1ee57aa4835ba6b786.png" />
+<img alt="../../_images/d188067c3d24caf5d4db943be867c08ec5cd8c987de6505a33646c9411ba76f1.png" src="../../_images/d188067c3d24caf5d4db943be867c08ec5cd8c987de6505a33646c9411ba76f1.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reference dmdtda 2000 to 2020 (Hugonnet 2021):     -1100.30 +/- 171.80 kg m-2 yr-1
 Fixed geometry spinup dmdtda 2000 to 2020:         -1092.83            kg m-2 yr-1
 Dynamical spinup match area dmdtda 2000 to 2020:   -1163.41            kg m-2 yr-1
@@ -942,7 +965,7 @@ Dynamic melt_f:   5.0 kg m-2 day-1 °C-1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/dd83989cdfb213eb1dcf3f72b8fc3a9d247d51784cb73ae88ad598383b1cefef.png" src="../../_images/dd83989cdfb213eb1dcf3f72b8fc3a9d247d51784cb73ae88ad598383b1cefef.png" />
+<img alt="../../_images/6956a40c77637f6c308a0ab9ed77dc8822c61e75ed1353efcf6f911a6fb4b5e5.png" src="../../_images/6956a40c77637f6c308a0ab9ed77dc8822c61e75ed1353efcf6f911a6fb4b5e5.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reference dmdtda 2000 to 2020 (original error):                      -1100.30 +/- 171.80 kg m-2 yr-1
 Reference dmdtda 2000 to 2020 (artificial error):                    -1100.30 +/-  10.00 kg m-2 yr-1
 Dynamical melt_f calibration dmdtda 2000 to 2020 (original error):   -1163.41            kg m-2 yr-1
@@ -1071,7 +1094,7 @@ melt_f (artificial error): 4.89 kg m-2 day-1 °C-1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ea0a00990eabbd2659be156717df2ed5c6f1ec50f1bab3dc7667fff57968704a.png" src="../../_images/ea0a00990eabbd2659be156717df2ed5c6f1ec50f1bab3dc7667fff57968704a.png" />
+<img alt="../../_images/f9684711935677783d3e406bc6977c02abbe341977e451ca34e34add83333cee.png" src="../../_images/f9684711935677783d3e406bc6977c02abbe341977e451ca34e34add83333cee.png" />
 </div>
 </div>
 <p>In this example, you see that the dynamic spinup run matching area does not start in 1980. The reason for this are the two main problems and the coping strategy of reducing the spinup time, described <span class="xref myst">here</span> in more detail.</p>
@@ -1095,7 +1118,7 @@ melt_f (artificial error): 4.89 kg m-2 day-1 °C-1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/69bed901bf13c726571b8942e5d0ecca5adf7525a67a913527cab904230c38ee.png" src="../../_images/69bed901bf13c726571b8942e5d0ecca5adf7525a67a913527cab904230c38ee.png" />
+<img alt="../../_images/f0166933c5cc848225fd3d5f021d79ed7b79d1b01b93e615fb20c8a4c8c4a497.png" src="../../_images/f0166933c5cc848225fd3d5f021d79ed7b79d1b01b93e615fb20c8a4c8c4a497.png" />
 </div>
 </div>
 <p>You see that a fixed geomtery was added to the dynamical spinup matching the area (orange curve). With this you can be sure that all glaciers start at the same year.</p>
@@ -1129,7 +1152,7 @@ melt_f (artificial error): 4.89 kg m-2 day-1 °C-1
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 21:09:13: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:12:42: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -1156,7 +1179,7 @@ melt_f (artificial error): 4.89 kg m-2 day-1 °C-1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ca7197ce5aff1e3ead9f191861703c4dc59d0d23f4f68b45ccde1f74ffefc826.png" src="../../_images/ca7197ce5aff1e3ead9f191861703c4dc59d0d23f4f68b45ccde1f74ffefc826.png" />
+<img alt="../../_images/a5efd61593db4fff8195e44d86024b644967c1aaac6c4fe4cd1b98317994d647.png" src="../../_images/a5efd61593db4fff8195e44d86024b644967c1aaac6c4fe4cd1b98317994d647.png" />
 </div>
 </div>
 <p>It consists of the following components:</p>
@@ -1173,7 +1196,7 @@ melt_f (artificial error): 4.89 kg m-2 day-1 °C-1
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/8620b5b9aae5aca7fb1a763a0297973dd909af83a46fbf2a6eeaece97cb206be.png" src="../../_images/8620b5b9aae5aca7fb1a763a0297973dd909af83a46fbf2a6eeaece97cb206be.png" />
+<img alt="../../_images/bacb8dc50437c2d8c2478e323d257b8d185e8dd3a76dcbadec2c823d1c60022b.png" src="../../_images/bacb8dc50437c2d8c2478e323d257b8d185e8dd3a76dcbadec2c823d1c60022b.png" />
 </div>
 </div>
 <p>As the glacier retreats, total runoff decreases as a result of the decreasing glacier contribution.</p>
@@ -1192,7 +1215,7 @@ same way:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/3ee24ea5cad5bc6e05f14963c9c6e57592c73f05bf2082025ec16d37d371c9b8.png" src="../../_images/3ee24ea5cad5bc6e05f14963c9c6e57592c73f05bf2082025ec16d37d371c9b8.png" />
+<img alt="../../_images/78ad305c5880baa9c509ba35e0afd6f7ebc57fbf923cd7b128a1e1d401a6d578.png" src="../../_images/78ad305c5880baa9c509ba35e0afd6f7ebc57fbf923cd7b128a1e1d401a6d578.png" />
 </div>
 </div>
 <p>See <span class="xref myst">hydrological_output</span> for more info on how to interpret the hydrological output!</p>
@@ -1232,11 +1255,10 @@ same way:</p>
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="merge_gcm_runs_and_visualize.html"
@@ -1248,18 +1270,15 @@ same way:</p>
       </div>
     </a>
     <a class="right-next"
-       href="../others/rgitopo_rgi6.html"
+       href="observed_thickness_with_dynamic_spinup.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</p>
+        <p class="prev-next-title">Dynamic model initialization using observed thickness data</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1267,6 +1286,7 @@ same way:</p>
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -1313,6 +1333,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     
+
   </div>
   
   <div class="footer-item">
@@ -1340,8 +1361,8 @@ These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
   <footer class="bd-footer">
   </footer>

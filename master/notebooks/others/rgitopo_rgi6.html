@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,15 +19,15 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
 
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
@@ -72,7 +73,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="RGI-TOPO for RGI 7.0" href="rgitopo_rgi7.html" />
-    <link rel="prev" title="Dynamic spinup and dynamic melt_f calibration for past simulations" href="../advanced/dynamical_spinup.html" />
+    <link rel="prev" title="Dynamic model initialization using observed thickness data" href="../advanced/observed_thickness_with_dynamic_spinup.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -82,7 +83,16 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -116,12 +126,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <header>
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
   
+  </header>
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -136,9 +154,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../welcome.html">
+  
   
   
   
@@ -148,8 +168,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="OGGM tutorials - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="OGGM tutorials - Home"/>`);</script>
   
   
 </a></div>
@@ -198,6 +218,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../advanced/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/observed_thickness_with_dynamic_spinup.html">Dynamic model initialization using observed thickness data</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">RGI-TOPO</span></p>
 <ul class="current nav bd-sidenav">
@@ -433,20 +454,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -494,7 +517,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="compare-different-dems-for-individual-glaciers-rgi-topo-for-rgi-v6-0">
 <h1>Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0<a class="headerlink" href="#compare-different-dems-for-individual-glaciers-rgi-topo-for-rgi-v6-0" title="Permalink to this heading">#</a></h1>
@@ -579,10 +602,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 21:45:20: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2023-08-27 21:45:20: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2023-08-27 21:45:20: oggm.cfg: Multiprocessing: using all available processors (N=2)
-2023-08-27 21:45:21: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:40:30: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2024-01-05 20:40:30: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2024-01-05 20:40:30: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2024-01-05 20:40:31: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
 </pre></div>
 </div>
 </div>
@@ -602,8 +625,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2023-08-27 21:45:22: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
-2023-08-27 21:45:22: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:40:31: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+2024-01-05 20:40:31: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -629,7 +652,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RGI ID: RGI60-11.00897
-Available DEM sources: [&#39;AW3D30&#39;, &#39;COPDEM90&#39;, &#39;DEM3&#39;, &#39;ASTER&#39;, &#39;MAPZEN&#39;, &#39;SRTM&#39;, &#39;COPDEM30&#39;, &#39;NASADEM&#39;, &#39;TANDEM&#39;]
+Available DEM sources: [&#39;ASTER&#39;, &#39;COPDEM30&#39;, &#39;TANDEM&#39;, &#39;COPDEM90&#39;, &#39;DEM3&#39;, &#39;MAPZEN&#39;, &#39;SRTM&#39;, &#39;AW3D30&#39;, &#39;NASADEM&#39;]
 Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.00897
 </pre></div>
 </div>
@@ -711,7 +734,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7e6b033d8391c12a54b65695fb61ddfcc2d488d85bb8a8a2923315834fca1db1.png" src="../../_images/7e6b033d8391c12a54b65695fb61ddfcc2d488d85bb8a8a2923315834fca1db1.png" />
+<img alt="../../_images/0054270f13f336af822d9e2761cdb1c0032ccdd4980bd8b5ed91b93aaddd656a.png" src="../../_images/0054270f13f336af822d9e2761cdb1c0032ccdd4980bd8b5ed91b93aaddd656a.png" />
 </div>
 </div>
 </section>
@@ -748,7 +771,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/1f44f125eac7290d0c51e07b0bd969b0eb0b8c4d5891f2ca130c6d83b1dfdfb8.png" src="../../_images/1f44f125eac7290d0c51e07b0bd969b0eb0b8c4d5891f2ca130c6d83b1dfdfb8.png" />
+<img alt="../../_images/c3ba177ac0b711550ef62bc88d33b86c9f7533e33a1b010b8e8460607357689a.png" src="../../_images/c3ba177ac0b711550ef62bc88d33b86c9f7533e33a1b010b8e8460607357689a.png" />
 </div>
 </div>
 </section>
@@ -789,7 +812,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/46dfdcc76253ef6293bd721c175c83344da34b46c0d2a502785383903a9a87c9.png" src="../../_images/46dfdcc76253ef6293bd721c175c83344da34b46c0d2a502785383903a9a87c9.png" />
+<img alt="../../_images/60a90d7d0bb13cc5d79ceb2ed721d53c8e1323dfddea1fd55030946ec5ec99dd.png" src="../../_images/60a90d7d0bb13cc5d79ceb2ed721d53c8e1323dfddea1fd55030946ec5ec99dd.png" />
 </div>
 </div>
 </section>
@@ -833,15 +856,15 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>AW3D30</th>
+      <th>ASTER</th>
+      <th>COPDEM30</th>
+      <th>TANDEM</th>
       <th>COPDEM90</th>
       <th>DEM3</th>
-      <th>ASTER</th>
       <th>MAPZEN</th>
       <th>SRTM</th>
-      <th>COPDEM30</th>
+      <th>AW3D30</th>
       <th>NASADEM</th>
-      <th>TANDEM</th>
     </tr>
   </thead>
   <tbody>
@@ -859,87 +882,87 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
     </tr>
     <tr>
       <th>mean</th>
-      <td>3023.871970</td>
+      <td>3031.316346</td>
+      <td>3014.124512</td>
+      <td>3066.820068</td>
       <td>3014.512695</td>
       <td>3052.045681</td>
-      <td>3031.316346</td>
       <td>3023.202610</td>
       <td>3032.272219</td>
-      <td>3014.124512</td>
+      <td>3023.871970</td>
       <td>3028.332505</td>
-      <td>3066.820068</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>253.597569</td>
+      <td>250.883864</td>
+      <td>259.403259</td>
+      <td>258.874115</td>
       <td>259.186768</td>
       <td>237.228101</td>
-      <td>250.883864</td>
       <td>254.144292</td>
       <td>246.447678</td>
-      <td>259.403259</td>
+      <td>253.597569</td>
       <td>247.615467</td>
-      <td>258.874115</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>2417.000000</td>
+      <td>2428.000000</td>
+      <td>2413.545654</td>
+      <td>2469.287598</td>
       <td>2416.773438</td>
       <td>2490.000000</td>
-      <td>2428.000000</td>
       <td>2413.000000</td>
       <td>2450.000000</td>
-      <td>2413.545654</td>
+      <td>2417.000000</td>
       <td>2430.000000</td>
-      <td>2469.287598</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>2851.000000</td>
+      <td>2865.000000</td>
+      <td>2837.251770</td>
+      <td>2889.410828</td>
       <td>2836.975037</td>
       <td>2883.500000</td>
-      <td>2865.000000</td>
       <td>2850.000000</td>
       <td>2857.000000</td>
-      <td>2837.251770</td>
+      <td>2851.000000</td>
       <td>2855.000000</td>
-      <td>2889.410828</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>3052.500000</td>
+      <td>3058.000000</td>
+      <td>3044.196289</td>
+      <td>3097.242310</td>
       <td>3044.824097</td>
       <td>3068.500000</td>
-      <td>3058.000000</td>
       <td>3051.000000</td>
       <td>3060.000000</td>
-      <td>3044.196289</td>
+      <td>3052.500000</td>
       <td>3054.000000</td>
-      <td>3097.242310</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>3201.750000</td>
-      <td>3196.834839</td>
-      <td>3217.000000</td>
-      <td>3203.000000</td>
-      <td>3201.750000</td>
       <td>3203.000000</td>
       <td>3196.260803</td>
-      <td>3202.000000</td>
       <td>3249.972717</td>
+      <td>3196.834839</td>
+      <td>3217.000000</td>
+      <td>3201.750000</td>
+      <td>3203.000000</td>
+      <td>3201.750000</td>
+      <td>3202.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>3720.000000</td>
+      <td>3693.000000</td>
+      <td>3694.253174</td>
+      <td>3738.977051</td>
       <td>3688.330078</td>
       <td>3701.000000</td>
-      <td>3693.000000</td>
       <td>3723.000000</td>
       <td>3684.000000</td>
-      <td>3694.253174</td>
+      <td>3720.000000</td>
       <td>3691.000000</td>
-      <td>3738.977051</td>
     </tr>
   </tbody>
 </table>
@@ -985,7 +1008,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-100, -50, -20, -10, 0, 10, 20, 50, 100]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-80, -50, -30, -15, -10, -5, -2, -1, 0, 1, 2, 5, 10, 15, 30, 50, 80]
 </pre></div>
 </div>
 </div>
@@ -1027,7 +1050,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/7fc4c93da839c72a3a1656172fe1c2e17242f859345acc14648c5d89bfc29b81.png" src="../../_images/7fc4c93da839c72a3a1656172fe1c2e17242f859345acc14648c5d89bfc29b81.png" />
+<img alt="../../_images/a370d3650902bb3838df43f9c44ccd0073a4e880cef6e649b3379d45e4446b30.png" src="../../_images/a370d3650902bb3838df43f9c44ccd0073a4e880cef6e649b3379d45e4446b30.png" />
 </div>
 </div>
 </section>
@@ -1058,11 +1081,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.10.12/lib/python3.10/site-packages/seaborn/axisgrid.py:118: UserWarning: The figure layout has changed to tight
-  self._figure.tight_layout(*args, **kwargs)
-</pre></div>
-</div>
-<img alt="../../_images/dd138e8846323398d80969e269eb8c6423983e66da34227f3ec3cd47f30b8656.png" src="../../_images/dd138e8846323398d80969e269eb8c6423983e66da34227f3ec3cd47f30b8656.png" />
+<img alt="../../_images/0dbefe5ed007805aee38f2b971ae6ca5a427fef15346f5151851c50a24132cca.png" src="../../_images/0dbefe5ed007805aee38f2b971ae6ca5a427fef15346f5151851c50a24132cca.png" />
 </div>
 </div>
 </section>
@@ -1093,15 +1112,15 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>AW3D30</th>
+      <th>ASTER</th>
+      <th>COPDEM30</th>
+      <th>TANDEM</th>
       <th>COPDEM90</th>
       <th>DEM3</th>
-      <th>ASTER</th>
       <th>MAPZEN</th>
       <th>SRTM</th>
-      <th>COPDEM30</th>
+      <th>AW3D30</th>
       <th>NASADEM</th>
-      <th>TANDEM</th>
     </tr>
   </thead>
   <tbody>
@@ -1119,87 +1138,87 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
     </tr>
     <tr>
       <th>mean</th>
-      <td>3023.871970</td>
+      <td>3031.316346</td>
+      <td>3014.124512</td>
+      <td>3066.820068</td>
       <td>3014.512695</td>
       <td>3052.045681</td>
-      <td>3031.316346</td>
       <td>3023.202610</td>
       <td>3032.272219</td>
-      <td>3014.124512</td>
+      <td>3023.871970</td>
       <td>3028.332505</td>
-      <td>3066.820068</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>253.597569</td>
+      <td>250.883864</td>
+      <td>259.403259</td>
+      <td>258.874115</td>
       <td>259.186768</td>
       <td>237.228101</td>
-      <td>250.883864</td>
       <td>254.144292</td>
       <td>246.447678</td>
-      <td>259.403259</td>
+      <td>253.597569</td>
       <td>247.615467</td>
-      <td>258.874115</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>2417.000000</td>
+      <td>2428.000000</td>
+      <td>2413.545654</td>
+      <td>2469.287598</td>
       <td>2416.773438</td>
       <td>2490.000000</td>
-      <td>2428.000000</td>
       <td>2413.000000</td>
       <td>2450.000000</td>
-      <td>2413.545654</td>
+      <td>2417.000000</td>
       <td>2430.000000</td>
-      <td>2469.287598</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>2851.000000</td>
+      <td>2865.000000</td>
+      <td>2837.251770</td>
+      <td>2889.410828</td>
       <td>2836.975037</td>
       <td>2883.500000</td>
-      <td>2865.000000</td>
       <td>2850.000000</td>
       <td>2857.000000</td>
-      <td>2837.251770</td>
+      <td>2851.000000</td>
       <td>2855.000000</td>
-      <td>2889.410828</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>3052.500000</td>
+      <td>3058.000000</td>
+      <td>3044.196289</td>
+      <td>3097.242310</td>
       <td>3044.824097</td>
       <td>3068.500000</td>
-      <td>3058.000000</td>
       <td>3051.000000</td>
       <td>3060.000000</td>
-      <td>3044.196289</td>
+      <td>3052.500000</td>
       <td>3054.000000</td>
-      <td>3097.242310</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>3201.750000</td>
-      <td>3196.834839</td>
-      <td>3217.000000</td>
-      <td>3203.000000</td>
-      <td>3201.750000</td>
       <td>3203.000000</td>
       <td>3196.260803</td>
-      <td>3202.000000</td>
       <td>3249.972717</td>
+      <td>3196.834839</td>
+      <td>3217.000000</td>
+      <td>3201.750000</td>
+      <td>3203.000000</td>
+      <td>3201.750000</td>
+      <td>3202.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>3720.000000</td>
+      <td>3693.000000</td>
+      <td>3694.253174</td>
+      <td>3738.977051</td>
       <td>3688.330078</td>
       <td>3701.000000</td>
-      <td>3693.000000</td>
       <td>3723.000000</td>
       <td>3684.000000</td>
-      <td>3694.253174</td>
+      <td>3720.000000</td>
       <td>3691.000000</td>
-      <td>3738.977051</td>
     </tr>
   </tbody>
 </table>
@@ -1230,124 +1249,124 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>AW3D30</th>
+      <th>ASTER</th>
+      <th>COPDEM30</th>
+      <th>TANDEM</th>
       <th>COPDEM90</th>
       <th>DEM3</th>
-      <th>ASTER</th>
       <th>MAPZEN</th>
       <th>SRTM</th>
-      <th>COPDEM30</th>
+      <th>AW3D30</th>
       <th>NASADEM</th>
-      <th>TANDEM</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>AW3D30</th>
-      <td>1.000000</td>
-      <td>0.999660</td>
-      <td>0.998638</td>
-      <td>0.999315</td>
-      <td>0.999819</td>
-      <td>0.998216</td>
-      <td>0.999679</td>
-      <td>0.999553</td>
-      <td>0.999633</td>
-    </tr>
-    <tr>
-      <th>COPDEM90</th>
-      <td>0.999660</td>
-      <td>1.000000</td>
-      <td>0.998282</td>
-      <td>0.999365</td>
-      <td>0.999700</td>
-      <td>0.998394</td>
-      <td>0.999958</td>
-      <td>0.999379</td>
-      <td>0.999974</td>
-    </tr>
-    <tr>
-      <th>DEM3</th>
-      <td>0.998638</td>
-      <td>0.998282</td>
-      <td>1.000000</td>
-      <td>0.998119</td>
-      <td>0.998774</td>
-      <td>0.997864</td>
-      <td>0.998258</td>
-      <td>0.999294</td>
-      <td>0.998220</td>
-    </tr>
-    <tr>
       <th>ASTER</th>
-      <td>0.999315</td>
+      <td>1.000000</td>
+      <td>0.999343</td>
+      <td>0.999344</td>
       <td>0.999365</td>
       <td>0.998119</td>
-      <td>1.000000</td>
       <td>0.999455</td>
       <td>0.998518</td>
-      <td>0.999343</td>
+      <td>0.999315</td>
       <td>0.999131</td>
-      <td>0.999344</td>
-    </tr>
-    <tr>
-      <th>MAPZEN</th>
-      <td>0.999819</td>
-      <td>0.999700</td>
-      <td>0.998774</td>
-      <td>0.999455</td>
-      <td>1.000000</td>
-      <td>0.998217</td>
-      <td>0.999754</td>
-      <td>0.999643</td>
-      <td>0.999687</td>
-    </tr>
-    <tr>
-      <th>SRTM</th>
-      <td>0.998216</td>
-      <td>0.998394</td>
-      <td>0.997864</td>
-      <td>0.998518</td>
-      <td>0.998217</td>
-      <td>1.000000</td>
-      <td>0.998275</td>
-      <td>0.998544</td>
-      <td>0.998315</td>
     </tr>
     <tr>
       <th>COPDEM30</th>
-      <td>0.999679</td>
+      <td>0.999343</td>
+      <td>1.000000</td>
+      <td>0.999932</td>
       <td>0.999958</td>
       <td>0.998258</td>
-      <td>0.999343</td>
       <td>0.999754</td>
       <td>0.998275</td>
-      <td>1.000000</td>
+      <td>0.999679</td>
       <td>0.999358</td>
-      <td>0.999932</td>
-    </tr>
-    <tr>
-      <th>NASADEM</th>
-      <td>0.999553</td>
-      <td>0.999379</td>
-      <td>0.999294</td>
-      <td>0.999131</td>
-      <td>0.999643</td>
-      <td>0.998544</td>
-      <td>0.999358</td>
-      <td>1.000000</td>
-      <td>0.999342</td>
     </tr>
     <tr>
       <th>TANDEM</th>
-      <td>0.999633</td>
+      <td>0.999344</td>
+      <td>0.999932</td>
+      <td>1.000000</td>
       <td>0.999974</td>
       <td>0.998220</td>
-      <td>0.999344</td>
       <td>0.999687</td>
       <td>0.998315</td>
-      <td>0.999932</td>
+      <td>0.999633</td>
       <td>0.999342</td>
+    </tr>
+    <tr>
+      <th>COPDEM90</th>
+      <td>0.999365</td>
+      <td>0.999958</td>
+      <td>0.999974</td>
+      <td>1.000000</td>
+      <td>0.998282</td>
+      <td>0.999700</td>
+      <td>0.998394</td>
+      <td>0.999660</td>
+      <td>0.999379</td>
+    </tr>
+    <tr>
+      <th>DEM3</th>
+      <td>0.998119</td>
+      <td>0.998258</td>
+      <td>0.998220</td>
+      <td>0.998282</td>
+      <td>1.000000</td>
+      <td>0.998774</td>
+      <td>0.997864</td>
+      <td>0.998638</td>
+      <td>0.999294</td>
+    </tr>
+    <tr>
+      <th>MAPZEN</th>
+      <td>0.999455</td>
+      <td>0.999754</td>
+      <td>0.999687</td>
+      <td>0.999700</td>
+      <td>0.998774</td>
+      <td>1.000000</td>
+      <td>0.998217</td>
+      <td>0.999819</td>
+      <td>0.999643</td>
+    </tr>
+    <tr>
+      <th>SRTM</th>
+      <td>0.998518</td>
+      <td>0.998275</td>
+      <td>0.998315</td>
+      <td>0.998394</td>
+      <td>0.997864</td>
+      <td>0.998217</td>
+      <td>1.000000</td>
+      <td>0.998216</td>
+      <td>0.998544</td>
+    </tr>
+    <tr>
+      <th>AW3D30</th>
+      <td>0.999315</td>
+      <td>0.999679</td>
+      <td>0.999633</td>
+      <td>0.999660</td>
+      <td>0.998638</td>
+      <td>0.999819</td>
+      <td>0.998216</td>
+      <td>1.000000</td>
+      <td>0.999553</td>
+    </tr>
+    <tr>
+      <th>NASADEM</th>
+      <td>0.999131</td>
+      <td>0.999358</td>
+      <td>0.999342</td>
+      <td>0.999379</td>
+      <td>0.999294</td>
+      <td>0.999643</td>
+      <td>0.998544</td>
+      <td>0.999553</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -1379,27 +1398,27 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>AW3D30-COPDEM90</th>
-      <th>AW3D30-DEM3</th>
-      <th>AW3D30-ASTER</th>
-      <th>AW3D30-MAPZEN</th>
-      <th>AW3D30-SRTM</th>
-      <th>AW3D30-COPDEM30</th>
-      <th>AW3D30-NASADEM</th>
-      <th>AW3D30-TANDEM</th>
-      <th>COPDEM90-DEM3</th>
-      <th>COPDEM90-ASTER</th>
-      <th>...</th>
-      <th>MAPZEN-SRTM</th>
-      <th>MAPZEN-COPDEM30</th>
-      <th>MAPZEN-NASADEM</th>
-      <th>MAPZEN-TANDEM</th>
-      <th>SRTM-COPDEM30</th>
-      <th>SRTM-NASADEM</th>
-      <th>SRTM-TANDEM</th>
-      <th>COPDEM30-NASADEM</th>
+      <th>ASTER-COPDEM30</th>
+      <th>ASTER-TANDEM</th>
+      <th>ASTER-COPDEM90</th>
+      <th>ASTER-DEM3</th>
+      <th>ASTER-MAPZEN</th>
+      <th>ASTER-SRTM</th>
+      <th>ASTER-AW3D30</th>
+      <th>ASTER-NASADEM</th>
       <th>COPDEM30-TANDEM</th>
-      <th>NASADEM-TANDEM</th>
+      <th>COPDEM30-COPDEM90</th>
+      <th>...</th>
+      <th>DEM3-MAPZEN</th>
+      <th>DEM3-SRTM</th>
+      <th>DEM3-AW3D30</th>
+      <th>DEM3-NASADEM</th>
+      <th>MAPZEN-SRTM</th>
+      <th>MAPZEN-AW3D30</th>
+      <th>MAPZEN-NASADEM</th>
+      <th>SRTM-AW3D30</th>
+      <th>SRTM-NASADEM</th>
+      <th>AW3D30-NASADEM</th>
     </tr>
   </thead>
   <tbody>
@@ -1429,171 +1448,171 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
     </tr>
     <tr>
       <th>mean</th>
-      <td>9.359164</td>
-      <td>-28.173710</td>
-      <td>-7.444375</td>
-      <td>0.669360</td>
-      <td>-8.400249</td>
-      <td>9.747485</td>
-      <td>-4.460534</td>
-      <td>-42.947910</td>
-      <td>-37.532874</td>
-      <td>-16.803539</td>
-      <td>...</td>
-      <td>-9.069608</td>
-      <td>9.078125</td>
-      <td>-5.129894</td>
-      <td>-43.617270</td>
-      <td>18.147733</td>
-      <td>3.939714</td>
-      <td>-34.547661</td>
-      <td>-14.208019</td>
+      <td>17.191860</td>
+      <td>-35.503534</td>
+      <td>16.803539</td>
+      <td>-20.729335</td>
+      <td>8.113735</td>
+      <td>-0.955873</td>
+      <td>7.444375</td>
+      <td>2.983841</td>
       <td>-52.695396</td>
-      <td>-38.487375</td>
+      <td>-0.388321</td>
+      <td>...</td>
+      <td>28.843070</td>
+      <td>19.773462</td>
+      <td>28.173710</td>
+      <td>23.713176</td>
+      <td>-9.069608</td>
+      <td>-0.669360</td>
+      <td>-5.129894</td>
+      <td>8.400249</td>
+      <td>3.939714</td>
+      <td>-4.460534</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>8.710851</td>
-      <td>20.781199</td>
-      <td>9.720664</td>
-      <td>4.859039</td>
-      <td>16.555147</td>
-      <td>8.717534</td>
-      <td>9.588316</td>
-      <td>8.722370</td>
-      <td>26.332881</td>
+      <td>12.572292</td>
+      <td>12.211383</td>
       <td>12.309234</td>
-      <td>...</td>
-      <td>16.809936</td>
-      <td>7.750302</td>
-      <td>9.360127</td>
-      <td>7.972539</td>
-      <td>19.706512</td>
-      <td>13.380009</td>
-      <td>19.220421</td>
-      <td>14.878318</td>
+      <td>20.258841</td>
+      <td>8.953622</td>
+      <td>14.247553</td>
+      <td>9.720664</td>
+      <td>10.892745</td>
       <td>3.063715</td>
-      <td>14.527865</td>
+      <td>2.387619</td>
+      <td>...</td>
+      <td>20.831143</td>
+      <td>18.297883</td>
+      <td>20.781199</td>
+      <td>13.812505</td>
+      <td>16.809936</td>
+      <td>4.859039</td>
+      <td>9.360127</td>
+      <td>16.555147</td>
+      <td>13.380009</td>
+      <td>9.588316</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>-29.402100</td>
-      <td>-114.000000</td>
-      <td>-44.000000</td>
-      <td>-28.000000</td>
-      <td>-79.000000</td>
       <td>-23.341553</td>
-      <td>-38.000000</td>
-      <td>-82.822998</td>
-      <td>-124.903320</td>
-      <td>-52.883789</td>
-      <td>...</td>
-      <td>-84.000000</td>
-      <td>-31.172363</td>
+      <td>-79.663330</td>
+      <td>-21.495605</td>
+      <td>-105.000000</td>
+      <td>-30.000000</td>
+      <td>-69.000000</td>
+      <td>-33.000000</td>
       <td>-40.000000</td>
-      <td>-85.858154</td>
-      <td>-55.908691</td>
-      <td>-59.000000</td>
-      <td>-106.757324</td>
-      <td>-71.462646</td>
       <td>-82.028564</td>
-      <td>-80.386475</td>
+      <td>-15.551025</td>
+      <td>...</td>
+      <td>-22.000000</td>
+      <td>-54.000000</td>
+      <td>-27.000000</td>
+      <td>-13.000000</td>
+      <td>-84.000000</td>
+      <td>-35.000000</td>
+      <td>-40.000000</td>
+      <td>-75.000000</td>
+      <td>-59.000000</td>
+      <td>-38.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>4.334778</td>
-      <td>-36.000000</td>
-      <td>-13.000000</td>
-      <td>-1.000000</td>
-      <td>-20.000000</td>
-      <td>4.652039</td>
-      <td>-8.000000</td>
-      <td>-47.949890</td>
-      <td>-49.661804</td>
-      <td>-24.004944</td>
-      <td>...</td>
-      <td>-20.750000</td>
-      <td>4.448425</td>
+      <td>8.794128</td>
+      <td>-43.959106</td>
+      <td>8.315002</td>
+      <td>-27.000000</td>
+      <td>2.000000</td>
       <td>-10.000000</td>
-      <td>-48.300476</td>
-      <td>6.655701</td>
-      <td>-1.000000</td>
-      <td>-45.801941</td>
-      <td>-19.370178</td>
+      <td>1.000000</td>
+      <td>-3.000000</td>
       <td>-53.654480</td>
-      <td>-48.055481</td>
+      <td>-1.260254</td>
+      <td>...</td>
+      <td>15.000000</td>
+      <td>9.000000</td>
+      <td>15.000000</td>
+      <td>14.000000</td>
+      <td>-20.750000</td>
+      <td>-3.000000</td>
+      <td>-10.000000</td>
+      <td>-1.000000</td>
+      <td>-1.000000</td>
+      <td>-8.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>9.151611</td>
-      <td>-22.000000</td>
-      <td>-7.000000</td>
-      <td>1.000000</td>
-      <td>-9.000000</td>
-      <td>9.645752</td>
-      <td>-3.000000</td>
-      <td>-43.253540</td>
-      <td>-28.553101</td>
-      <td>-14.929077</td>
-      <td>...</td>
-      <td>-10.000000</td>
-      <td>7.459595</td>
-      <td>-3.000000</td>
-      <td>-45.182861</td>
-      <td>17.336670</td>
+      <td>15.391968</td>
+      <td>-37.429810</td>
+      <td>14.929077</td>
+      <td>-18.000000</td>
+      <td>8.000000</td>
+      <td>0.000000</td>
+      <td>7.000000</td>
       <td>4.000000</td>
-      <td>-35.271484</td>
-      <td>-10.123413</td>
       <td>-52.562256</td>
-      <td>-42.692627</td>
+      <td>-0.146362</td>
+      <td>...</td>
+      <td>23.000000</td>
+      <td>21.000000</td>
+      <td>22.000000</td>
+      <td>21.000000</td>
+      <td>-10.000000</td>
+      <td>-1.000000</td>
+      <td>-3.000000</td>
+      <td>9.000000</td>
+      <td>4.000000</td>
+      <td>-3.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>14.219543</td>
-      <td>-15.000000</td>
-      <td>-1.000000</td>
-      <td>3.000000</td>
-      <td>1.000000</td>
-      <td>14.405151</td>
-      <td>2.000000</td>
-      <td>-38.227905</td>
-      <td>-19.681152</td>
-      <td>-8.315002</td>
-      <td>...</td>
-      <td>-1.000000</td>
-      <td>11.907959</td>
-      <td>1.000000</td>
-      <td>-40.532715</td>
-      <td>30.145203</td>
-      <td>10.000000</td>
-      <td>-22.963257</td>
-      <td>-4.427490</td>
+      <td>24.869507</td>
+      <td>-28.404724</td>
+      <td>24.004944</td>
+      <td>-10.000000</td>
+      <td>14.000000</td>
+      <td>7.000000</td>
+      <td>13.000000</td>
+      <td>9.000000</td>
       <td>-51.849060</td>
-      <td>-33.745605</td>
+      <td>0.533203</td>
+      <td>...</td>
+      <td>37.000000</td>
+      <td>32.000000</td>
+      <td>36.000000</td>
+      <td>31.000000</td>
+      <td>-1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>20.000000</td>
+      <td>10.000000</td>
+      <td>2.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>41.972168</td>
-      <td>27.000000</td>
-      <td>33.000000</td>
-      <td>35.000000</td>
-      <td>75.000000</td>
-      <td>43.652588</td>
-      <td>48.000000</td>
-      <td>-2.486084</td>
-      <td>10.634766</td>
-      <td>21.495605</td>
-      <td>...</td>
-      <td>69.000000</td>
-      <td>46.652588</td>
-      <td>51.000000</td>
-      <td>-1.023926</td>
-      <td>79.334717</td>
-      <td>69.000000</td>
-      <td>21.226807</td>
-      <td>27.088867</td>
+      <td>52.308594</td>
+      <td>0.389160</td>
+      <td>52.883789</td>
+      <td>42.000000</td>
+      <td>46.000000</td>
+      <td>59.000000</td>
+      <td>44.000000</td>
+      <td>55.000000</td>
       <td>-23.009766</td>
-      <td>16.636475</td>
+      <td>15.591797</td>
+      <td>...</td>
+      <td>116.000000</td>
+      <td>74.000000</td>
+      <td>114.000000</td>
+      <td>85.000000</td>
+      <td>69.000000</td>
+      <td>28.000000</td>
+      <td>51.000000</td>
+      <td>79.000000</td>
+      <td>69.000000</td>
+      <td>48.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1625,27 +1644,27 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>AW3D30-COPDEM90</th>
-      <th>AW3D30-DEM3</th>
-      <th>AW3D30-ASTER</th>
-      <th>AW3D30-MAPZEN</th>
-      <th>AW3D30-SRTM</th>
-      <th>AW3D30-COPDEM30</th>
-      <th>AW3D30-NASADEM</th>
-      <th>AW3D30-TANDEM</th>
-      <th>COPDEM90-DEM3</th>
-      <th>COPDEM90-ASTER</th>
-      <th>...</th>
-      <th>MAPZEN-SRTM</th>
-      <th>MAPZEN-COPDEM30</th>
-      <th>MAPZEN-NASADEM</th>
-      <th>MAPZEN-TANDEM</th>
-      <th>SRTM-COPDEM30</th>
-      <th>SRTM-NASADEM</th>
-      <th>SRTM-TANDEM</th>
-      <th>COPDEM30-NASADEM</th>
+      <th>ASTER-COPDEM30</th>
+      <th>ASTER-TANDEM</th>
+      <th>ASTER-COPDEM90</th>
+      <th>ASTER-DEM3</th>
+      <th>ASTER-MAPZEN</th>
+      <th>ASTER-SRTM</th>
+      <th>ASTER-AW3D30</th>
+      <th>ASTER-NASADEM</th>
       <th>COPDEM30-TANDEM</th>
-      <th>NASADEM-TANDEM</th>
+      <th>COPDEM30-COPDEM90</th>
+      <th>...</th>
+      <th>DEM3-MAPZEN</th>
+      <th>DEM3-SRTM</th>
+      <th>DEM3-AW3D30</th>
+      <th>DEM3-NASADEM</th>
+      <th>MAPZEN-SRTM</th>
+      <th>MAPZEN-AW3D30</th>
+      <th>MAPZEN-NASADEM</th>
+      <th>SRTM-AW3D30</th>
+      <th>SRTM-NASADEM</th>
+      <th>AW3D30-NASADEM</th>
     </tr>
   </thead>
   <tbody>
@@ -1675,171 +1694,171 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
     </tr>
     <tr>
       <th>mean</th>
-      <td>10.511262</td>
-      <td>28.465817</td>
-      <td>9.678682</td>
-      <td>3.354257</td>
-      <td>14.691734</td>
-      <td>10.837928</td>
-      <td>7.379117</td>
-      <td>42.947910</td>
-      <td>37.564394</td>
+      <td>17.918605</td>
+      <td>35.503776</td>
       <td>17.410436</td>
-      <td>...</td>
-      <td>15.292107</td>
-      <td>9.462017</td>
-      <td>7.451212</td>
-      <td>43.617270</td>
-      <td>22.048134</td>
-      <td>10.136109</td>
-      <td>35.206708</td>
-      <td>14.978851</td>
+      <td>22.658484</td>
+      <td>9.781231</td>
+      <td>10.924798</td>
+      <td>9.678682</td>
+      <td>8.758856</td>
       <td>52.695396</td>
-      <td>38.762453</td>
+      <td>1.539755</td>
+      <td>...</td>
+      <td>29.093536</td>
+      <td>22.972343</td>
+      <td>28.465817</td>
+      <td>23.853014</td>
+      <td>15.292107</td>
+      <td>3.354257</td>
+      <td>7.451212</td>
+      <td>14.691734</td>
+      <td>10.136109</td>
+      <td>7.379117</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>7.278676</td>
-      <td>20.379114</td>
-      <td>7.498083</td>
-      <td>3.578254</td>
-      <td>11.346579</td>
-      <td>7.317186</td>
-      <td>7.574302</td>
-      <td>8.722370</td>
-      <td>26.287883</td>
+      <td>11.512526</td>
+      <td>12.210679</td>
       <td>11.434442</td>
-      <td>...</td>
-      <td>11.442731</td>
-      <td>7.276508</td>
-      <td>7.641868</td>
-      <td>7.972539</td>
-      <td>15.215713</td>
-      <td>9.580093</td>
-      <td>17.984406</td>
-      <td>14.101744</td>
+      <td>18.074653</td>
+      <td>7.093540</td>
+      <td>9.193391</td>
+      <td>7.498083</td>
+      <td>7.128573</td>
       <td>3.063715</td>
-      <td>13.776885</td>
+      <td>1.865470</td>
+      <td>...</td>
+      <td>20.479767</td>
+      <td>14.072358</td>
+      <td>20.379114</td>
+      <td>13.569511</td>
+      <td>11.442731</td>
+      <td>3.578254</td>
+      <td>7.641868</td>
+      <td>11.346579</td>
+      <td>9.580093</td>
+      <td>7.574302</td>
     </tr>
     <tr>
       <th>min</th>
+      <td>0.000732</td>
+      <td>0.389160</td>
       <td>0.000977</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
       <td>0.000000</td>
-      <td>0.003418</td>
       <td>0.000000</td>
-      <td>2.486084</td>
-      <td>0.001709</td>
-      <td>0.000977</td>
+      <td>23.009766</td>
+      <td>0.000732</td>
       <td>...</td>
       <td>0.000000</td>
-      <td>0.007568</td>
       <td>0.000000</td>
-      <td>1.023926</td>
-      <td>0.003906</td>
       <td>0.000000</td>
-      <td>0.166016</td>
-      <td>0.002197</td>
-      <td>23.009766</td>
-      <td>0.005859</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>5.184937</td>
-      <td>15.000000</td>
-      <td>4.000000</td>
-      <td>1.000000</td>
-      <td>5.000000</td>
-      <td>5.617004</td>
-      <td>2.000000</td>
-      <td>38.227905</td>
-      <td>19.681152</td>
+      <td>9.204651</td>
+      <td>28.404724</td>
       <td>8.656433</td>
-      <td>...</td>
-      <td>6.000000</td>
-      <td>4.625854</td>
-      <td>2.000000</td>
-      <td>40.532715</td>
-      <td>10.525879</td>
+      <td>11.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
+      <td>4.000000</td>
       <td>3.000000</td>
-      <td>22.963257</td>
-      <td>5.027039</td>
       <td>51.849060</td>
-      <td>33.745605</td>
+      <td>0.342957</td>
+      <td>...</td>
+      <td>15.000000</td>
+      <td>12.000000</td>
+      <td>15.000000</td>
+      <td>14.000000</td>
+      <td>6.000000</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>5.000000</td>
+      <td>3.000000</td>
+      <td>2.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>9.402832</td>
-      <td>22.000000</td>
-      <td>8.000000</td>
-      <td>2.000000</td>
-      <td>13.000000</td>
-      <td>9.821289</td>
-      <td>5.000000</td>
-      <td>43.253540</td>
-      <td>28.553101</td>
+      <td>15.604980</td>
+      <td>37.429810</td>
       <td>15.060913</td>
-      <td>...</td>
-      <td>13.000000</td>
-      <td>7.555664</td>
-      <td>4.000000</td>
-      <td>45.182861</td>
-      <td>19.279541</td>
+      <td>19.000000</td>
+      <td>9.000000</td>
+      <td>9.000000</td>
+      <td>8.000000</td>
       <td>7.000000</td>
-      <td>35.271484</td>
-      <td>10.341919</td>
       <td>52.562256</td>
-      <td>42.692627</td>
+      <td>0.886719</td>
+      <td>...</td>
+      <td>23.000000</td>
+      <td>22.000000</td>
+      <td>22.000000</td>
+      <td>21.000000</td>
+      <td>13.000000</td>
+      <td>2.000000</td>
+      <td>4.000000</td>
+      <td>13.000000</td>
+      <td>7.000000</td>
+      <td>5.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>14.364990</td>
-      <td>36.000000</td>
-      <td>14.000000</td>
-      <td>4.000000</td>
-      <td>22.000000</td>
-      <td>14.540771</td>
-      <td>10.000000</td>
-      <td>47.949890</td>
-      <td>49.661804</td>
+      <td>24.869507</td>
+      <td>43.959106</td>
       <td>24.004944</td>
-      <td>...</td>
-      <td>23.000000</td>
-      <td>12.061157</td>
-      <td>10.000000</td>
-      <td>48.300476</td>
-      <td>30.630066</td>
-      <td>15.000000</td>
-      <td>45.801941</td>
-      <td>19.433960</td>
+      <td>27.000000</td>
+      <td>14.000000</td>
+      <td>16.000000</td>
+      <td>14.000000</td>
+      <td>12.000000</td>
       <td>53.654480</td>
-      <td>48.055481</td>
+      <td>2.049927</td>
+      <td>...</td>
+      <td>37.000000</td>
+      <td>32.000000</td>
+      <td>36.000000</td>
+      <td>31.000000</td>
+      <td>23.000000</td>
+      <td>4.000000</td>
+      <td>10.000000</td>
+      <td>22.000000</td>
+      <td>15.000000</td>
+      <td>10.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>41.972168</td>
-      <td>114.000000</td>
-      <td>44.000000</td>
-      <td>35.000000</td>
-      <td>79.000000</td>
-      <td>43.652588</td>
-      <td>48.000000</td>
-      <td>82.822998</td>
-      <td>124.903320</td>
+      <td>52.308594</td>
+      <td>79.663330</td>
       <td>52.883789</td>
-      <td>...</td>
-      <td>84.000000</td>
-      <td>46.652588</td>
-      <td>51.000000</td>
-      <td>85.858154</td>
-      <td>79.334717</td>
+      <td>105.000000</td>
+      <td>46.000000</td>
       <td>69.000000</td>
-      <td>106.757324</td>
-      <td>71.462646</td>
+      <td>44.000000</td>
+      <td>55.000000</td>
       <td>82.028564</td>
-      <td>80.386475</td>
+      <td>15.591797</td>
+      <td>...</td>
+      <td>116.000000</td>
+      <td>74.000000</td>
+      <td>114.000000</td>
+      <td>85.000000</td>
+      <td>84.000000</td>
+      <td>35.000000</td>
+      <td>51.000000</td>
+      <td>79.000000</td>
+      <td>69.000000</td>
+      <td>48.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1881,19 +1900,18 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../advanced/dynamical_spinup.html"
+       href="../advanced/observed_thickness_with_dynamic_spinup.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</p>
+        <p class="prev-next-title">Dynamic model initialization using observed thickness data</p>
       </div>
     </a>
     <a class="right-next"
@@ -1905,10 +1923,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1916,6 +1931,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/others/outputs/RGI60-11.0
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
   <div class="page-toc tocsection onthispage">
@@ -1956,6 +1972,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     
+
   </div>
   
   <div class="footer-item">
@@ -1983,8 +2000,8 @@ These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
 
   <footer class="bd-footer">
   </footer>

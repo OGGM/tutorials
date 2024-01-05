@@ -1,0 +1,1000 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Dynamic model initialization using observed thickness data &#8212; OGGM tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=bd9e20870c6007c4c509" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=bd9e20870c6007c4c509"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106829797-2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'UA-106829797-2');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/advanced/observed_thickness_with_dynamic_spinup';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0" href="../others/rgitopo_rgi6.html" />
+    <link rel="prev" title="Dynamic spinup and dynamic melt_f calibration for past simulations" href="dynamical_spinup.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <header>
+  
+    <div class="bd-header navbar navbar-expand-lg bd-navbar">
+    </div>
+  
+  </header>
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../welcome.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="OGGM tutorials - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="OGGM tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../welcome.html">
+                    Welcome to the OGGM tutorials!
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">10 minutes tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/preprocessed_directories.html">10 minutes to… a preprocessed directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for machine learning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/elevation_bands_vs_centerlines.html">10 minutes to… “elevation band” and “centerline” flowlines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Beginner tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../beginner/working_with_rgi.html">Working with the RGI files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../beginner/distribute_flowline.html">Display glacier area and thickness changes on a grid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/deal_with_errors.html">Dealing with errors after a run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/inversion.html">Ice thickness inversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../beginner/full_prepro_workflow.html">What’s in my preprocessed directories with centerlines? A full OGGM workflow, step by step</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced tutorials</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="preprocessing_errors.html">Error analysis of the global pre-processing workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">Run with a long spinup and GCM data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Dynamic model initialization using observed thickness data</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">RGI-TOPO</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Related to OGGM</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../others/holoviz_intro.html">Small overview of HoloViz capability of data exploration</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">In (re-)construction</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation: a case study</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/advanced/observed_thickness_with_dynamic_spinup.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/advanced/observed_thickness_with_dynamic_spinup.ipynb&branch=master" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/advanced/observed_thickness_with_dynamic_spinup.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/advanced/observed_thickness_with_dynamic_spinup.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/advanced/observed_thickness_with_dynamic_spinup.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dynamic model initialization using observed thickness data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#translate-thickness-observations-into-elevation-band-flowlines">Translate thickness observations into elevation band flowlines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamically-calibrate-and-initialise-todays-glacier-state-using-flowlines-from-thickness-observations">Dynamically calibrate and initialise todays glacier state, using flowlines from thickness observations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dynamic-model-initialization-using-observed-thickness-data">
+<h1>Dynamic model initialization using observed thickness data<a class="headerlink" href="#dynamic-model-initialization-using-observed-thickness-data" title="Permalink to this heading">#</a></h1>
+<p>This notebook demonstrates the translation of thickness observations into bed topography in ‘flowline-space’ and a dynamic model initialization for projections. Guidelines for adding thickness observations to your glacier directory are provided in the tutorials <a class="reference internal" href="ingest_gridded_data_on_flowlines.html"><span class="doc std std-doc">Ingest gridded products such as ice velocity into OGGM</span></a> and <a class="reference internal" href="../beginner/oggm_shop.html"><span class="doc std std-doc">OGGM-Shop and Glacier Directories in OGGM</span></a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">graphics</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="translate-thickness-observations-into-elevation-band-flowlines">
+<h2>Translate thickness observations into elevation band flowlines<a class="headerlink" href="#translate-thickness-observations-into-elevation-band-flowlines" title="Permalink to this heading">#</a></h2>
+<p>To convert thickness observations into bed topography, the initial step involves binning the data into elevation bands, as detailed in the tutorial <a class="reference internal" href="ingest_gridded_data_on_flowlines.html"><span class="doc std std-doc">Ingest gridded products such as ice velocity into OGGM</span></a>. Fortunately, preprocessed directories are available, encompassing all data supported by the OGGM-Shop, already binned to elevation bands. This enables easy initialization of a dynamic flowline using <code class="docutils literal notranslate"><span class="pre">tasks.init_present_time_glacier</span></code>. Specify the data to be used with <code class="docutils literal notranslate"><span class="pre">use_binned_thickness_data</span></code>. Here, dynamic flowlines are defined using consensus thickness (<a class="reference external" href="https://www.nature.com/articles/s41561-019-0300-3">Farinotti et al. 2019</a>) and Millan thickness data (<a class="reference external" href="https://www.nature.com/articles/s41561-021-00885-z">Millan et al. 2022</a>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize our test glacier from the preprocessed directories including the shop data</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_thk_dyn_spn&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">]</span>
+
+<span class="c1"># preprocessed directories including shop data and the default oggm dynamic initialisation</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup_w_data/&#39;</span>
+
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span>
+    <span class="n">rgi_ids</span><span class="p">,</span>  <span class="c1"># which glaciers?</span>
+    <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">,</span>  <span class="c1"># where to fetch the data?</span>
+    <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># what kind of data? </span>
+    <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span>  <span class="c1"># how big of a map?</span>
+<span class="p">)</span>
+
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:20:28: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2024-01-05 20:20:28: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2024-01-05 20:20:28: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2024-01-05 20:20:29: oggm.workflow: init_glacier_directories from prepro level 4 on 1 glaciers.
+2024-01-05 20:20:29: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># This cell is only needed due to a bug in oggm v1.6.1 which was fixed and can be deleted with updated preprocessed directories</span>
+<span class="n">bin_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;consensus_ice_thickness&#39;</span><span class="p">,</span> <span class="s1">&#39;millan_ice_thickness&#39;</span><span class="p">]</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">elevation_band_flowline</span><span class="p">,</span>
+                             <span class="n">gdirs</span><span class="p">,</span>
+                             <span class="n">bin_variables</span><span class="o">=</span><span class="n">bin_variables</span><span class="p">)</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">fixed_dx_elevation_band_flowline</span><span class="p">,</span>
+                             <span class="n">gdirs</span><span class="p">,</span>
+                             <span class="n">bin_variables</span><span class="o">=</span><span class="n">bin_variables</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:20:49: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
+2024-01-05 20:20:49: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create the dynamic flowlines for consensus and millan thickness</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_consensus&#39;</span><span class="p">,</span>
+                                <span class="n">use_binned_thickness_data</span><span class="o">=</span><span class="s1">&#39;consensus_ice_thickness&#39;</span><span class="p">)</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_millan&#39;</span><span class="p">,</span>
+                                <span class="n">use_binned_thickness_data</span><span class="o">=</span><span class="s1">&#39;millan_ice_thickness&#39;</span><span class="p">)</span>
+
+<span class="c1"># open the default oggm flowline and the two we just created</span>
+<span class="n">fls_oggm</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;model_flowlines&#39;</span><span class="p">)</span>
+<span class="n">fls_consensus</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;model_flowlines&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_consensus&#39;</span><span class="p">)</span>
+<span class="n">fls_millan</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;model_flowlines&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_millan&#39;</span><span class="p">)</span>
+
+<span class="c1"># plot the created dynamic flowlines, including the oggm default</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_section</span><span class="p">(</span><span class="n">fls_oggm</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;OGGM default&#39;</span><span class="p">)</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_section</span><span class="p">(</span><span class="n">fls_consensus</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Consensus&#39;</span><span class="p">)</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_section</span><span class="p">(</span><span class="n">fls_millan</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Millan&#39;</span><span class="p">)</span>
+
+<span class="n">ax_compare</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax_compare</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fls_oggm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">surface_h</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;surface height&#39;</span><span class="p">)</span>  <span class="c1"># surface height is the same for all flowlines</span>
+<span class="n">ax_compare</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fls_oggm</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bed_h</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM default&#39;</span><span class="p">)</span>
+<span class="n">ax_compare</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fls_consensus</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bed_h</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Consensus&#39;</span><span class="p">)</span>
+<span class="n">ax_compare</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fls_millan</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bed_h</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Millan&#39;</span><span class="p">)</span>
+<span class="n">ax_compare</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Direct comparison&#39;</span><span class="p">)</span>
+<span class="n">ax_compare</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0a09adb5b2bc4fdbb0cccdac8be177897c6e58c00d58e21137bfdb0e066d1c5d.png" src="../../_images/0a09adb5b2bc4fdbb0cccdac8be177897c6e58c00d58e21137bfdb0e066d1c5d.png" />
+</div>
+</div>
+<p>The resulting flowlines exhibit identical surface and area height distributions, defined by the outline and the DEM. Comparing individual bed heights, there is minimal difference between OGGM default and consensus flowline bed heights. This is attributed to OGGM’s past contribution to the consensus estimate and the use of the consensus volume estimate in OGGM inversion. In contrast, the Millan bed height differs significantly.</p>
+<p>It’s crucial to note that these newly created flowlines maintain the total glacier volume of the observations. While OGGM default’s glacier volume is regionally calibrated, differences are expected compared to the consensus volume estimate, even though the consensus was used in the inversion (see next section).</p>
+<p>The key question now is how to dynamically calibrate and initialize the model with these newly generated flowlines.</p>
+</section>
+<section id="dynamically-calibrate-and-initialise-todays-glacier-state-using-flowlines-from-thickness-observations">
+<h2>Dynamically calibrate and initialise todays glacier state, using flowlines from thickness observations<a class="headerlink" href="#dynamically-calibrate-and-initialise-todays-glacier-state-using-flowlines-from-thickness-observations" title="Permalink to this heading">#</a></h2>
+<p>Now, we delve into the process of initializing the model using OGGM’s dynamic calibration methodology, elaborated in the tutorial <a class="reference internal" href="dynamical_spinup.html"><span class="doc std std-doc">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</span></a>. In summary, the approach involves dynamically aligning the RGI area by identifying a suitable glacier state in the past and dynamically adjusting the melt factor of the mass balance to match observed geodetic mass balance. With the glacier bed defined by observations, there is an additional capability to dynamically match for the volume (further details below).</p>
+<p>To commence, use the dynamic calibration function <code class="docutils literal notranslate"><span class="pre">run_dynamic_melt_f_calibration</span></code> in conjunction with the newly created flowlines, which can be passed to <code class="docutils literal notranslate"><span class="pre">init_model_fls</span></code>. Refer to the designated tutorial <a class="reference internal" href="dynamical_spinup.html"><span class="doc std std-doc">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</span></a> for more details on the other parameters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">err_dmdtda_scaling_factor</span> <span class="o">=</span> <span class="mf">0.2</span>  <span class="c1"># the default value of oggm runs to account for correlated observation errors</span>
+
+<span class="c1"># Consensus flowline</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span>
+    <span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_melt_f_calibration</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
+    <span class="n">init_model_fls</span><span class="o">=</span><span class="n">fls_consensus</span><span class="p">,</span>
+    <span class="n">err_dmdtda_scaling_factor</span><span class="o">=</span><span class="n">err_dmdtda_scaling_factor</span><span class="p">,</span>
+    <span class="n">ys</span><span class="o">=</span><span class="mi">1979</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>
+    <span class="n">melt_f_max</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;melt_f_max&#39;</span><span class="p">],</span>
+    <span class="n">kwargs_run_function</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minimise_for&#39;</span><span class="p">:</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;do_inversion&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+    <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">kwargs_fallback_function</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minimise_for&#39;</span><span class="p">:</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;do_inversion&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical_consensus&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Millan flowlines</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span>
+    <span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_melt_f_calibration</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
+    <span class="n">init_model_fls</span><span class="o">=</span><span class="n">fls_millan</span><span class="p">,</span>
+    <span class="n">err_dmdtda_scaling_factor</span><span class="o">=</span><span class="n">err_dmdtda_scaling_factor</span><span class="p">,</span>
+    <span class="n">ys</span><span class="o">=</span><span class="mi">1979</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>
+    <span class="n">melt_f_max</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;melt_f_max&#39;</span><span class="p">],</span>
+    <span class="n">kwargs_run_function</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minimise_for&#39;</span><span class="p">:</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;do_inversion&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+    <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">kwargs_fallback_function</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minimise_for&#39;</span><span class="p">:</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;do_inversion&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical_millan&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:20:50: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:20:52: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.SemiImplicitModel at 0x7f3a27b96ad0&gt;]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a plotting function to compare the dynamic model runs with the observations</span>
+<span class="k">def</span> <span class="nf">compare_model_to_observations</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffixes</span><span class="p">):</span>
+    
+    <span class="n">area_ref</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span>
+    <span class="n">area_ref_error</span> <span class="o">=</span> <span class="n">area_ref</span> <span class="o">*</span> <span class="mf">0.01</span>  <span class="c1"># 1% is the default of the dynamic spinup</span>
+    
+    <span class="n">df_dmdtda_ref</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_geodetic_mb_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">]</span>
+    <span class="n">sel</span> <span class="o">=</span> <span class="n">df_dmdtda_ref</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_dmdtda_ref</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;2000-01-01_2020-01-01&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># reference geodetic mass balance from Hugonnet 2021</span>
+    <span class="n">dmdtda_ref</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sel</span><span class="p">[</span><span class="s1">&#39;dmdtda&#39;</span><span class="p">])</span>
+    <span class="c1"># dmdtda: in meters water-equivalent per year -&gt; we convert</span>
+    <span class="n">dmdtda_ref</span> <span class="o">*=</span> <span class="mi">1000</span>  <span class="c1"># kg m-2 yr-1</span>
+    <span class="c1"># error of reference geodetic mass balance from Hugonnet 2021</span>
+    <span class="n">dmdtda_ref_error</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sel</span><span class="p">[</span><span class="s1">&#39;err_dmdtda&#39;</span><span class="p">])</span>
+    <span class="n">dmdtda_ref_error</span> <span class="o">*=</span> <span class="mi">1000</span>  <span class="c1"># kg m-2 yr-1</span>
+    <span class="n">dmdtda_ref_error</span> <span class="o">*=</span> <span class="n">err_dmdtda_scaling_factor</span>
+    
+    <span class="n">dmdtda_comparison</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;dmdtda reference (with reduced uncertainty): </span><span class="si">{</span><span class="n">dmdtda_ref</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">dmdtda_ref_error</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kg m-2 yr-1&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_dmdtda_modelled</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">area_ref</span><span class="p">,</span> <span class="n">yr0_ref_mb</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">yr1_ref_mb</span><span class="o">=</span><span class="mi">2020</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">((</span><span class="n">volume</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr1_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span>
+                 <span class="n">volume</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr0_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span>
+                <span class="n">area_ref</span> <span class="o">/</span>
+                <span class="p">(</span><span class="n">yr1_ref_mb</span> <span class="o">-</span> <span class="n">yr0_ref_mb</span><span class="p">)</span> <span class="o">*</span>
+                <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">])</span>
+    
+    
+    <span class="c1"># get the data of all model runs and plot it</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+    
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">filesuffix</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filesuffixes</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">filesuffix</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;OGGM default&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">filesuffix</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+        <span class="n">fl</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;model_flowlines&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="n">filesuffix</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span>
+            <span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span>
+                              <span class="n">filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_spinup_historical</span><span class="si">{</span><span class="n">filesuffix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">ds_tmp</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        
+        <span class="c1"># plot volume with reference</span>
+        <span class="n">ref_year</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ds_tmp</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">ds_tmp</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="n">c</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ref_year</span><span class="p">,</span> <span class="n">fl</span><span class="o">.</span><span class="n">volume_m3</span><span class="p">,</span>
+                    <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;ref volume </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+
+        <span class="c1"># plot area with reference</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ds_tmp</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">ds_tmp</span><span class="o">.</span><span class="n">area_m2</span><span class="p">,</span>
+                    <span class="n">c</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ref_year</span><span class="p">,</span> <span class="n">area_ref</span><span class="p">,</span>
+                    <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ref area&#39;</span><span class="p">)</span>
+        <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">ref_year</span><span class="p">,</span> <span class="n">ref_year</span><span class="p">],</span>
+                    <span class="p">[</span><span class="n">area_ref</span> <span class="o">-</span> <span class="n">area_ref_error</span><span class="p">,</span>
+                     <span class="n">area_ref</span> <span class="o">+</span> <span class="n">area_ref_error</span><span class="p">],</span>
+                    <span class="n">c</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;C</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        
+        <span class="c1"># add dmdtda as text</span>
+        <span class="n">dmdtda_tmp</span> <span class="o">=</span> <span class="n">get_dmdtda_modelled</span><span class="p">(</span><span class="n">ds_tmp</span><span class="o">.</span><span class="n">volume_m3</span><span class="p">,</span> <span class="n">area_ref</span><span class="p">)</span>
+        <span class="n">dmdtda_comparison</span> <span class="o">+=</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="si">{</span><span class="sa">f</span><span class="s2">&quot;dmdtda </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">:&quot;</span><span class="si">:</span><span class="s1">&lt;44</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">dmdtda_tmp</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kg m-2 yr-1, diff. to ref.: &#39;</span>
+                              <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dmdtda_tmp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">dmdtda_ref</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="si">:</span><span class="s1">&gt;5</span><span class="si">}</span><span class="s1"> kg m-2 yr-1&#39;</span><span class="p">)</span>
+        
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Volume [m³]&#39;</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Area [m²]&#39;</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">dmdtda_comparison</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compare_model_to_observations</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;_consensus&#39;</span><span class="p">,</span> <span class="s1">&#39;_millan&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dmdtda reference (with reduced uncertainty): -1100.3 +/- 34.4 kg m-2 yr-1
+dmdtda OGGM default:                         -1130.1 kg m-2 yr-1, diff. to ref.: -29.8 kg m-2 yr-1
+dmdtda consensus:                            -1078.0 kg m-2 yr-1, diff. to ref.:  22.3 kg m-2 yr-1
+dmdtda millan:                               -1134.6 kg m-2 yr-1, diff. to ref.: -34.3 kg m-2 yr-1
+</pre></div>
+</div>
+<img alt="../../_images/0e9aeda6c94e1d7b31c88431f37dd875e3527c43f7af52c4c009dcc1e690f189.png" src="../../_images/0e9aeda6c94e1d7b31c88431f37dd875e3527c43f7af52c4c009dcc1e690f189.png" />
+</div>
+</div>
+<p>In all three simulations, we observe that both the area and geodetic mass balance align within the target boundaries. Nevertheless, the volume is only coincidentally matched for the consensus estimate. This discrepancy arises because the current deformation parameter was calibrated during the inversion for OGGM default initialization, which incorporates an equilibrium assumption (see <a class="reference external" href="https://docs.oggm.org/en/stable/inversion.html">documention</a> for more information). However, when defining the glacier bed from thickness observations, it becomes possible/necessary to calibrate the deformation parameter to match the observed volume during initialization. Although there is currently no implemented function for this, the following code should provide an idea of how it can be achieved:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># create a other flowline for this, for later comparision</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_millan_adapted&#39;</span><span class="p">,</span>
+                                <span class="n">use_binned_thickness_data</span><span class="o">=</span><span class="s1">&#39;millan_ice_thickness&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">to_minimize</span><span class="p">(</span><span class="n">glen_a</span><span class="p">):</span>
+    <span class="n">ref_volume</span> <span class="o">=</span> <span class="n">fls_millan</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">volume_m3</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span>
+        <span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_melt_f_calibration</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
+        <span class="n">init_model_fls</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;model_flowlines&#39;</span><span class="p">,</span>
+                                        <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_millan_adapted&#39;</span><span class="p">),</span>
+        <span class="n">err_dmdtda_scaling_factor</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">ys</span><span class="o">=</span><span class="mi">1979</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>
+        <span class="n">melt_f_max</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;melt_f_max&#39;</span><span class="p">],</span>
+        <span class="n">kwargs_run_function</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minimise_for&#39;</span><span class="p">:</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;do_inversion&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                             <span class="s1">&#39;glen_a&#39;</span><span class="p">:</span> <span class="n">glen_a</span><span class="p">},</span>
+        <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">kwargs_fallback_function</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minimise_for&#39;</span><span class="p">:</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span>
+                                  <span class="s1">&#39;do_inversion&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+        <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical_millan_adapted&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span>
+                                       <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical_millan_adapted&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+        <span class="n">ds_millan_adapted</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">ref_volume</span> <span class="o">-</span> <span class="n">ds_millan_adapted</span><span class="o">.</span><span class="n">loc</span><span class="p">[{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}]</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+
+<span class="n">glen_a_millan</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">to_minimize</span><span class="p">,</span> <span class="mf">1e-22</span><span class="p">,</span> <span class="mf">1e-24</span><span class="p">,</span> <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-25</span><span class="p">)</span>
+
+<span class="c1"># conduct the dynamic initialisation once more to be sure the right one is saved</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span>
+    <span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_melt_f_calibration</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
+    <span class="n">init_model_fls</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;model_flowlines&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_millan_adapted&#39;</span><span class="p">),</span>
+    <span class="n">err_dmdtda_scaling_factor</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">ys</span><span class="o">=</span><span class="mi">1979</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>
+    <span class="n">melt_f_max</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;melt_f_max&#39;</span><span class="p">],</span>
+    <span class="n">kwargs_run_function</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minimise_for&#39;</span><span class="p">:</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;do_inversion&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                         <span class="s1">&#39;glen_a&#39;</span><span class="p">:</span> <span class="n">glen_a_millan</span><span class="p">},</span>
+    <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">kwargs_fallback_function</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;minimise_for&#39;</span><span class="p">:</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;do_inversion&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                              <span class="s1">&#39;glen_a&#39;</span><span class="p">:</span> <span class="n">glen_a_millan</span><span class="p">},</span>
+    <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical_millan_adapted&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">compare_model_to_observations</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;_consensus&#39;</span><span class="p">,</span> <span class="s1">&#39;_millan&#39;</span><span class="p">,</span> <span class="s1">&#39;_millan_adapted&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dmdtda reference (with reduced uncertainty): -1100.3 +/- 34.4 kg m-2 yr-1
+dmdtda OGGM default:                         -1130.1 kg m-2 yr-1, diff. to ref.: -29.8 kg m-2 yr-1
+dmdtda consensus:                            -1078.0 kg m-2 yr-1, diff. to ref.:  22.3 kg m-2 yr-1
+dmdtda millan:                               -1134.6 kg m-2 yr-1, diff. to ref.: -34.3 kg m-2 yr-1
+dmdtda millan_adapted:                       -1098.7 kg m-2 yr-1, diff. to ref.:   1.6 kg m-2 yr-1
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-05 20:20:56: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:21:01: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:21:04: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:21:10: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:21:15: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:21:17: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:21:20: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:21:22: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-01-05 20:21:24: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+</pre></div>
+</div>
+<img alt="../../_images/872b83c5e1f1f134f4ceb6e0de85dcc0cfc3e352f6060f1e0eb74e7e35c33255.png" src="../../_images/872b83c5e1f1f134f4ceb6e0de85dcc0cfc3e352f6060f1e0eb74e7e35c33255.png" />
+</div>
+</div>
+<p>Now, we achieve dynamic consistency by calibrating the Glen A factor, ensuring a match in area, geodetic mass balance <strong>and</strong> volume.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">glen_a_millan</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.8798630929040718e-23
+</pre></div>
+</div>
+</div>
+</div>
+<p>Note that if the optimized Glen A factor falls outside expected boundaries, considering the use of a sliding factor <code class="docutils literal notranslate"><span class="pre">fs</span></code> is advisable.</p>
+<p><strong>Important</strong>: To retain the optimized Glen A (and fs) during projections, it must be set in the glacier directory.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># change glen_a in gdir for potential projection runs</span>
+<span class="n">gdir</span><span class="o">.</span><span class="n">add_to_diagnostics</span><span class="p">(</span><span class="s1">&#39;inversion_glen_a&#39;</span><span class="p">,</span> <span class="n">glen_a_millan</span><span class="p">)</span>
+<span class="c1"># gdir.add_to_diagnostics(&#39;inversion_fs&#39;, fs_optimized)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With this configuration, you can conduct projections as outlined in the tutorial <a class="reference internal" href="../10minutes/run_with_gcm.html"><span class="doc std std-doc">10 minutes to… a glacier change projection with GCM data</span></a>.</p>
+<p>If you intend to undertake a comparative study using different thickness datasets, we highly recommend creating an individual glacier directory per thickness data to ensure consistent use of the correct dynamic parameters.</p>
+</section>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Look at the more comprehensive tutorial <a class="reference internal" href="dynamical_spinup.html"><span class="doc std std-doc">Dynamic spinup and dynamic melt_f calibration for past simulations</span></a></p></li>
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="../welcome.html"><span class="doc std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/advanced"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="dynamical_spinup.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../others/rgitopo_rgi6.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#translate-thickness-observations-into-elevation-band-flowlines">Translate thickness observations into elevation band flowlines</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamically-calibrate-and-initialise-todays-glacier-state-using-flowlines-from-thickness-observations">Dynamically calibrate and initialise todays glacier state, using flowlines from thickness observations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By OGGM e.V. and OGGM Contributors
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=bd9e20870c6007c4c509"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=bd9e20870c6007c4c509"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
