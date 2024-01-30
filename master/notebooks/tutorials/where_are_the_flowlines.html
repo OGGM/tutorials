@@ -1,0 +1,1928 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>OGGM flowlines: where are they? &#8212; OGGM tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=384b581d" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106829797-2"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'UA-106829797-2');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=afe5de03"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'UA-106829797-2');
+            </script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/tutorials/where_are_the_flowlines';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Compute smoother centerlines for shapefile output" href="centerlines_to_shape.html" />
+    <link rel="prev" title="Display glacier area and thickness changes on a grid" href="distribute_flowline.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../welcome.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="OGGM tutorials - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="OGGM tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../welcome.html">
+                    OGGM tutorials
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/10minutes.html">10 minutes tutorials</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/preprocessed_directories.html">10 minutes to… a preprocessed directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for machine learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/workflow.html">OGGM workflow</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="working_with_rgi.html">Working with the RGI files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deal_with_errors.html">Dealing with errors after a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elevation_bands_vs_centerlines.html">Differences between the “elevation band” and “centerline” flowlines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_prepro_workflow.html">What’s in my preprocessed directories with centerlines? A full OGGM workflow, step by step</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/massbalance.html">Mass balance</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/hydro.html">Hydrological output</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources.html">Glaciers as water resources (OGGM-Edu part 1 - idealized)</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources_projections.html">Glaciers as water resources (OGGM-Edu part 2 - projections)</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/dynamics.html">Dynamical runs</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">Run with a long spinup and GCM data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/thickness.html">Ice thickness</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="inversion.html">Ice thickness inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observed_thickness_with_dynamic_spinup.html">Dynamic model initialization using observed thickness data</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../book/visualisation.html">Visualisation and post-processing</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="distribute_flowline.html">Display glacier area and thickness changes on a grid</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">OGGM flowlines: where are they?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preprocessing_errors.html">Error analysis of the global pre-processing workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="holoviz_intro.html">Small overview of HoloViz capability of data exploration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation: a case study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/tutorials/where_are_the_flowlines.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/tutorials/where_are_the_flowlines.ipynb&branch=master" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onJupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/tutorials/where_are_the_flowlines.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/tutorials/where_are_the_flowlines.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/tutorials/where_are_the_flowlines.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>OGGM flowlines: where are they?</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-ready">Get ready</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-is-the-terminus-of-the-rgi-glacier">Where is the terminus of the RGI glacier?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#terminus-as-the-lowest-point-on-the-glacier">Terminus as the lowest point on the glacier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#terminus-as-the-lowest-point-on-the-main-centerline">Terminus as the lowest point on the main centerline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#terminus-as-the-lowest-point-on-the-main-flowline">Terminus as the lowest point on the main flowline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-convert-the-centerlines-to-a-shapefile">Bonus: convert the centerlines to a shapefile</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flowline-geometry-after-a-run-with-the-new-flowline-diagnostics-new-in-v1-6-0">Flowline geometry after a run: with the new flowline diagnostics (new in v1.6.0!!)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#location-of-the-terminus-over-time">Location of the terminus over time</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flowline-geometry-after-a-run-with-filemodel">Flowline geometry after a run: with <code class="docutils literal notranslate"><span class="pre">FileModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Location of the terminus over time</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comments-on-elevation-band-flowlines">Comments on “elevation band flowlines”</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="oggm-flowlines-where-are-they">
+<h1>OGGM flowlines: where are they?<a class="headerlink" href="#oggm-flowlines-where-are-they" title="Link to this heading">#</a></h1>
+<p>In this notebook we show how to access the OGGM flowlines location before, during, and after a run.</p>
+<p>Some of the code shown here will make it to the OGGM codebase <a class="reference external" href="https://github.com/OGGM/oggm/issues/1111">eventually</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
+<span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">flowline</span>
+<span class="kn">import</span> <span class="nn">salem</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-30 14:12:53: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2024-01-30 14:12:53: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2024-01-30 14:12:53: oggm.cfg: Multiprocessing: using all available processors (N=4)
+</pre></div>
+</div>
+</div>
+</div>
+<section id="get-ready">
+<h2>Get ready<a class="headerlink" href="#get-ready" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Where to store the data </span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="n">dirname</span><span class="o">=</span><span class="s1">&#39;OGGM-flowlines&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Which glaciers?</span>
+<span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">]</span>
+<span class="c1"># We start from prepro level 3 with all data ready</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/centerlines/W5E5/&#39;</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">gdir</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-30 14:12:54: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2024-01-30 14:12:54: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;oggm.GlacierDirectory&gt;
+  RGI id: RGI60-11.00897
+  Region: 11: Central Europe
+  Subregion: 11-01: Alps                            
+  Name: Hintereisferner
+  Glacier type: Glacier
+  Terminus type: Land-terminating
+  Status: Glacier or ice cap
+  Area: 8.036 km2
+  Lon, Lat: (10.7584, 46.8003)
+  Grid (nx, ny): (279, 234)
+  Grid (dx, dy): (50.0, -50.0)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="where-is-the-terminus-of-the-rgi-glacier">
+<h2>Where is the terminus of the RGI glacier?<a class="headerlink" href="#where-is-the-terminus-of-the-rgi-glacier" title="Link to this heading">#</a></h2>
+<p>There are several ways to get the terminus, depending on what you want. They are also not necessarily exact same:</p>
+<section id="terminus-as-the-lowest-point-on-the-glacier">
+<h3>Terminus as the lowest point on the glacier<a class="headerlink" href="#terminus-as-the-lowest-point-on-the-glacier" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the topo data and the glacier mask</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;gridded_data&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">topo</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">topo</span>
+    <span class="c1"># Glacier outline raster</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">glacier_ext</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topo</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/f718e5dc6cdad7c5090fff53c1ad5a39aedc4959004751969d9d71b67db3b10c.png" src="../../_images/f718e5dc6cdad7c5090fff53c1ad5a39aedc4959004751969d9d71b67db3b10c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">topo_ext</span> <span class="o">=</span> <span class="n">topo</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">mask</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">topo_ext</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/89106e8c645b709e7f70dfb6fca47a6d03fb4f763aa70a7ba86e86911eac6ef1.png" src="../../_images/89106e8c645b709e7f70dfb6fca47a6d03fb4f763aa70a7ba86e86911eac6ef1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the terminus</span>
+<span class="n">terminus</span> <span class="o">=</span> <span class="n">topo_ext</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">topo_ext</span><span class="o">==</span><span class="n">topo_ext</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># Project its coordinates from the local UTM to WGS-84</span>
+<span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span> <span class="o">=</span> <span class="n">salem</span><span class="o">.</span><span class="n">transform_proj</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">proj</span><span class="p">,</span> <span class="s1">&#39;EPSG:4326&#39;</span><span class="p">,</span> <span class="n">terminus</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">terminus</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lon, lat:&#39;</span><span class="p">,</span> <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;google link:&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;https://www.google.com/maps/place/</span><span class="si">{</span><span class="n">t_lat</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">t_lon</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>lon, lat: 10.802746863388563 46.818900914354266
+google link: https://www.google.com/maps/place/46.818900914354266,10.802746863388563
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="terminus-as-the-lowest-point-on-the-main-centerline">
+<h3>Terminus as the lowest point on the main centerline<a class="headerlink" href="#terminus-as-the-lowest-point-on-the-main-centerline" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the centerlines</span>
+<span class="bp">cls</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;centerlines&#39;</span><span class="p">)</span>
+<span class="c1"># Get the coord of the last point of the main centerline</span>
+<span class="n">cl</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># These coords are in glacier grid coordinates. Let&#39;s convert them to lon, lat:</span>
+<span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ij_to_crs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lon, lat:&#39;</span><span class="p">,</span> <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;google link:&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;https://www.google.com/maps/place/</span><span class="si">{</span><span class="n">t_lat</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">t_lon</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>lon, lat: 10.802746863955196 46.818901155282155
+google link: https://www.google.com/maps/place/46.818901155282155,10.802746863955196
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="terminus-as-the-lowest-point-on-the-main-flowline">
+<h3>Terminus as the lowest point on the main flowline<a class="headerlink" href="#terminus-as-the-lowest-point-on-the-main-flowline" title="Link to this heading">#</a></h3>
+<p>“centerline” in the OGGM jargon is not the same as “flowline”. Flowlines have a fixed dx and their terminus is not necessarily exact on the glacier outline. Code-wise it’s very similar though:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the flowlines</span>
+<span class="bp">cls</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">)</span>
+<span class="c1"># Get the coord of the last point of the main centerline</span>
+<span class="n">cl</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># These coords are in glacier grid coordinates. Let&#39;s convert them to lon, lat:</span>
+<span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ij_to_crs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lon, lat:&#39;</span><span class="p">,</span> <span class="n">t_lon</span><span class="p">,</span> <span class="n">t_lat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;google link:&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;https://www.google.com/maps/place/</span><span class="si">{</span><span class="n">t_lat</span><span class="si">}</span><span class="s1">,</span><span class="si">{</span><span class="n">t_lon</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>lon, lat: 10.802746777546085 46.818796056851475
+google link: https://www.google.com/maps/place/46.818796056851475,10.802746777546085
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bonus-convert-the-centerlines-to-a-shapefile">
+<h3>Bonus: convert the centerlines to a shapefile<a class="headerlink" href="#bonus-convert-the-centerlines-to-a-shapefile" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_dir</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s1">&#39;outputs&#39;</span><span class="p">)</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/centerlines.shp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-30 14:12:56: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
+2024-01-30 14:12:56: oggm.utils: write_centerlines_to_shape on outputs/centerlines.shp ...
+2024-01-30 14:12:56: oggm.workflow: Execute entity tasks [get_centerline_lonlat] on 1 glaciers
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/centerlines.shp&#39;</span><span class="p">)</span>
+<span class="n">sh</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/96212a7caa693a9a46a6cf4e40796619c3f09634d5cbe3241daeadf59ca77918.png" src="../../_images/96212a7caa693a9a46a6cf4e40796619c3f09634d5cbe3241daeadf59ca77918.png" />
+</div>
+</div>
+<p>Remember: the “centerlines” are not the same things as “flowlines” in OGGM. The later objects undergo further quality checks, such as the impossibility for ice to “climb”, i.e. have negative slopes. The flowlines are therefore sometimes shorter than the centerlines:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">write_centerlines_to_shape</span><span class="p">(</span><span class="n">gdirs</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/flowlines.shp&#39;</span><span class="p">,</span> <span class="n">flowlines_output</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">sh</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/flowlines.shp&#39;</span><span class="p">)</span>
+<span class="n">sh</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-30 14:12:56: oggm.utils: Applying global task write_centerlines_to_shape on 1 glaciers
+2024-01-30 14:12:56: oggm.utils: write_centerlines_to_shape on outputs/flowlines.shp ...
+2024-01-30 14:12:56: oggm.workflow: Execute entity tasks [get_centerline_lonlat] on 1 glaciers
+</pre></div>
+</div>
+<img alt="../../_images/b3969445151d8ef08e17f1a54c665bd1a8b0b00e2f438e93b7e4b73bd4a97ea4.png" src="../../_images/b3969445151d8ef08e17f1a54c665bd1a8b0b00e2f438e93b7e4b73bd4a97ea4.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="flowline-geometry-after-a-run-with-the-new-flowline-diagnostics-new-in-v1-6-0">
+<h2>Flowline geometry after a run: with the new flowline diagnostics (new in v1.6.0!!)<a class="headerlink" href="#flowline-geometry-after-a-run-with-the-new-flowline-diagnostics-new-in-v1-6-0" title="Link to this heading">#</a></h2>
+<p>Starting from OGGM version 1.6.0, the choice can be made to store the OGGM flowline diagnostics. This can
+be done, either by using the <code class="docutils literal notranslate"><span class="pre">store_fl_diagnostics=True</span></code> keyword argument to the respective simulation task
+or by setting <code class="docutils literal notranslate"><span class="pre">cfg.PARAMS['store_fl_diagnostics']=True</span></code> as a global parameter (<em>Note: the <code class="docutils literal notranslate"><span class="pre">store_fl_diagnostic_variables</span></code>
+parameter allows you to control what variables are saved</em>). Here we use the keyword argument:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># as we work with Centerlines, we need to set the evolution_model to &#39;FluxBase&#39;</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;evolution_model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;FluxBased&#39;</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">store_fl_diagnostics</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-30 14:12:57: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We will now open the flowline diagnostics you just stored during the run. Each flowline is stored as one group in the main dataset, and there are as many groups as flowlines. “Elevation band flowlines” always results in one flowline (<code class="docutils literal notranslate"><span class="pre">fl_0</span></code>), but there might be more depending on the glacier and/or settings you used.</p>
+<p>Here we have more than one flowline, we pick the last one:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;fl_diagnostics&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="c1"># We use the &quot;base&quot; grouped dataset to learn about the flowlines</span>
+    <span class="n">fl_ids</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">flowlines</span><span class="o">.</span><span class="n">data</span>
+
+<span class="c1"># We pick the last flowline (the main one)</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fl_</span><span class="si">{</span><span class="n">fl_ids</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="c1"># The data is compressed - it&#39;s a good idea to store it to memory</span>
+    <span class="c1"># before playing with it</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="n">ds</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
+Dimensions:              (dis_along_flowline: 117, time: 101)
+Coordinates:
+  * dis_along_flowline   (dis_along_flowline) float64 0.0 100.0 ... 1.16e+04
+  * time                 (time) float64 0.0 1.0 2.0 3.0 ... 97.0 98.0 99.0 100.0
+Data variables: (12/13)
+    point_lons           (dis_along_flowline) float64 10.75 10.75 ... 10.85
+    point_lats           (dis_along_flowline) float64 46.8 46.8 ... 46.84 46.84
+    bed_h                (dis_along_flowline) float64 3.389e+03 ... 2.149e+03
+    volume_m3            (time, dis_along_flowline) float64 3.146e+06 ... 0.0
+    volume_bsl_m3        (time, dis_along_flowline) float64 0.0 0.0 ... 0.0 0.0
+    volume_bwl_m3        (time, dis_along_flowline) float64 0.0 0.0 ... 0.0 0.0
+    ...                   ...
+    thickness_m          (time, dis_along_flowline) float64 40.09 40.34 ... 0.0
+    ice_velocity_myr     (time, dis_along_flowline) float64 nan nan ... 0.0 0.0
+    calving_bucket_m3    (time) float64 0.0 0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0
+    flux_divergence_myr  (time, dis_along_flowline) float64 nan nan ... 0.0 0.0
+    climatic_mb_myr      (time, dis_along_flowline) float64 nan nan ... 0.0 0.0
+    dhdt_myr             (time, dis_along_flowline) float64 nan nan ... 0.0 0.0
+Attributes:
+    class:                MixedBedFlowline
+    map_dx:               50.0
+    dx:                   2.0
+    description:          OGGM model output
+    oggm_version:         1.6.2.dev22+g6e0fb56
+    calendar:             365-day no leap
+    creation_date:        2024-01-30 14:12:57
+    water_level:          0
+    glen_a:               1.1673342087451829e-23
+    fs:                   0
+    mb_model_class:       MultipleFlowlineMassBalance
+    mb_model_hemisphere:  nh</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-3af2dfe6-9b1c-493e-a645-9e3b78ea7ab3' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-3af2dfe6-9b1c-493e-a645-9e3b78ea7ab3' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>dis_along_flowline</span>: 117</li><li><span class='xr-has-index'>time</span>: 101</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-5f2ab4d0-9208-42f5-bb8f-bd27276a8cdb' class='xr-section-summary-in' type='checkbox'  checked><label for='section-5f2ab4d0-9208-42f5-bb8f-bd27276a8cdb' class='xr-section-summary' >Coordinates: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>dis_along_flowline</span></div><div class='xr-var-dims'>(dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 100.0 ... 1.15e+04 1.16e+04</div><input id='attrs-c1df7fcc-5a8a-4390-aac5-07574496ddaf' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-c1df7fcc-5a8a-4390-aac5-07574496ddaf' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-635f45a8-c5a4-4334-bd37-14e8d227756e' class='xr-var-data-in' type='checkbox'><label for='data-635f45a8-c5a4-4334-bd37-14e8d227756e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([    0.,   100.,   200.,   300.,   400.,   500.,   600.,   700.,   800.,
+         900.,  1000.,  1100.,  1200.,  1300.,  1400.,  1500.,  1600.,  1700.,
+        1800.,  1900.,  2000.,  2100.,  2200.,  2300.,  2400.,  2500.,  2600.,
+        2700.,  2800.,  2900.,  3000.,  3100.,  3200.,  3300.,  3400.,  3500.,
+        3600.,  3700.,  3800.,  3900.,  4000.,  4100.,  4200.,  4300.,  4400.,
+        4500.,  4600.,  4700.,  4800.,  4900.,  5000.,  5100.,  5200.,  5300.,
+        5400.,  5500.,  5600.,  5700.,  5800.,  5900.,  6000.,  6100.,  6200.,
+        6300.,  6400.,  6500.,  6600.,  6700.,  6800.,  6900.,  7000.,  7100.,
+        7200.,  7300.,  7400.,  7500.,  7600.,  7700.,  7800.,  7900.,  8000.,
+        8100.,  8200.,  8300.,  8400.,  8500.,  8600.,  8700.,  8800.,  8900.,
+        9000.,  9100.,  9200.,  9300.,  9400.,  9500.,  9600.,  9700.,  9800.,
+        9900., 10000., 10100., 10200., 10300., 10400., 10500., 10600., 10700.,
+       10800., 10900., 11000., 11100., 11200., 11300., 11400., 11500., 11600.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>time</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 1.0 2.0 3.0 ... 98.0 99.0 100.0</div><input id='attrs-14079ca1-af7d-438b-b6b8-40a5384e449d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-14079ca1-af7d-438b-b6b8-40a5384e449d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-26a6d7e7-fae3-41fa-aced-9966dedd40a9' class='xr-var-data-in' type='checkbox'><label for='data-26a6d7e7-fae3-41fa-aced-9966dedd40a9' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Floating hydrological year</dd></dl></div><div class='xr-var-data'><pre>array([  0.,   1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.,  11.,
+        12.,  13.,  14.,  15.,  16.,  17.,  18.,  19.,  20.,  21.,  22.,  23.,
+        24.,  25.,  26.,  27.,  28.,  29.,  30.,  31.,  32.,  33.,  34.,  35.,
+        36.,  37.,  38.,  39.,  40.,  41.,  42.,  43.,  44.,  45.,  46.,  47.,
+        48.,  49.,  50.,  51.,  52.,  53.,  54.,  55.,  56.,  57.,  58.,  59.,
+        60.,  61.,  62.,  63.,  64.,  65.,  66.,  67.,  68.,  69.,  70.,  71.,
+        72.,  73.,  74.,  75.,  76.,  77.,  78.,  79.,  80.,  81.,  82.,  83.,
+        84.,  85.,  86.,  87.,  88.,  89.,  90.,  91.,  92.,  93.,  94.,  95.,
+        96.,  97.,  98.,  99., 100.])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-281a8704-cd34-4fb8-9906-d34465baf381' class='xr-section-summary-in' type='checkbox'  checked><label for='section-281a8704-cd34-4fb8-9906-d34465baf381' class='xr-section-summary' >Data variables: <span>(13)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>point_lons</span></div><div class='xr-var-dims'>(dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>10.75 10.75 10.75 ... 10.85 10.85</div><input id='attrs-7935291d-432c-4e94-9d4c-9583a373928c' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7935291d-432c-4e94-9d4c-9583a373928c' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0944ed97-aa3e-45c8-8ccd-fe617c601c1b' class='xr-var-data-in' type='checkbox'><label for='data-0944ed97-aa3e-45c8-8ccd-fe617c601c1b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Longitude along the flowline</dd><dt><span>unit :</span></dt><dd>deg</dd></dl></div><div class='xr-var-data'><pre>array([10.74703575, 10.74703594, 10.74703613, 10.74703632, 10.74703651,
+       10.74638144, 10.74638165, 10.74638185, 10.74638205, 10.74638225,
+       10.74638245, 10.74692607, 10.74785274, 10.74877938, 10.74974882,
+       10.7510591 , 10.75236938, 10.75367966, 10.75498993, 10.75630021,
+       10.75761049, 10.75892077, 10.76023105, 10.76154133, 10.76270565,
+       10.76363223, 10.76455882, 10.76548544, 10.76641209, 10.76733875,
+       10.76826544, 10.76919214, 10.76996927, 10.76996947, 10.76996966,
+       10.77062506, 10.77071971, 10.77128071, 10.77193617, 10.77259164,
+       10.77330356, 10.77390264, 10.77478271, 10.77570965, 10.77663662,
+       10.77756361, 10.77849062, 10.77968433, 10.78074129, 10.78183495,
+       10.78276205, 10.78395584, 10.78514964, 10.7860768 , 10.78700398,
+       10.78819784, 10.78939171, 10.79034504, 10.79152134, 10.79260636,
+       10.7936729 , 10.79486105, 10.79579702, 10.797047  , 10.79817209,
+       10.79931491, 10.80055249, 10.80174656, 10.80274678, 10.803594  ,
+       10.80478813, 10.80596193, 10.80691962, 10.8081138 , 10.809308  ,
+       10.81044452, 10.81157869, 10.8128897 , 10.81420071, 10.81551172,
+       10.81682273, 10.81813374, 10.81944475, 10.82075576, 10.82206677,
+       10.82337778, 10.82468879, 10.8259998 , 10.82731081, 10.82862182,
+       10.82993283, 10.83124384, 10.83255485, 10.83383566, 10.83503007,
+       10.83622448, 10.83738372, 10.83836388, 10.83929189, 10.84021993,
+       10.84114798, 10.84207606, 10.84300416, 10.84393228, 10.84486042,
+       10.84578859, 10.84671678, 10.84764498, 10.84857321, 10.84950147,
+       10.85042974, 10.85096962, 10.85189794, 10.85243785, 10.85297778,
+       10.85390616, 10.85483456])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>point_lats</span></div><div class='xr-var-dims'>(dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>46.8 46.8 46.8 ... 46.84 46.84</div><input id='attrs-f55f67e1-a9e6-4894-982c-d49e6a372112' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-f55f67e1-a9e6-4894-982c-d49e6a372112' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b7a069d5-4251-4f6f-9c42-e66f98254d6b' class='xr-var-data-in' type='checkbox'><label for='data-b7a069d5-4251-4f6f-9c42-e66f98254d6b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Latitude along the flowline</dd><dt><span>unit :</span></dt><dd>deg</dd></dl></div><div class='xr-var-data'><pre>array([46.80393362, 46.80303372, 46.80213381, 46.8012339 , 46.80033399,
+       46.79955571, 46.7986558 , 46.79775589, 46.79685598, 46.79595607,
+       46.79505616, 46.79423846, 46.79360221, 46.79296596, 46.79236216,
+       46.79236225, 46.79236233, 46.79236239, 46.79236244, 46.79236247,
+       46.79236248, 46.79236249, 46.79236247, 46.79236244, 46.79277395,
+       46.79341025, 46.79404653, 46.79468281, 46.79531908, 46.79595534,
+       46.7965916 , 46.79722785, 46.79795108, 46.79885099, 46.7997509 ,
+       46.80052905, 46.80142576, 46.80223785, 46.80301599, 46.80379413,
+       46.80454903, 46.80534875, 46.80601413, 46.80665032, 46.80728651,
+       46.80792269, 46.80855886, 46.80892819, 46.80945856, 46.80995412,
+       46.81059025, 46.81095954, 46.81132882, 46.81196493, 46.81260103,
+       46.81297027, 46.8133395 , 46.81395581, 46.8143506 , 46.81485506,
+       46.81537664, 46.81575427, 46.81638377, 46.81665346, 46.81711317,
+       46.81755258, 46.81784614, 46.81821524, 46.81879606, 46.81948202,
+       46.81985109, 46.82024972, 46.82086281, 46.82123184, 46.82160086,
+       46.82204758, 46.82249701, 46.8224964 , 46.82249576, 46.82249512,
+       46.82249446, 46.82249378, 46.82249309, 46.82249238, 46.82249166,
+       46.82249092, 46.82249017, 46.8224894 , 46.82248862, 46.82248782,
+       46.82248701, 46.82248619, 46.82248534, 46.82267453, 46.82304328,
+       46.82341202, 46.82383197, 46.82442806, 46.82506374, 46.82569941,
+       46.82633507, 46.82697072, 46.82760637, 46.828242  , 46.82887764,
+       46.82951326, 46.83014887, 46.83078448, 46.83142008, 46.83205567,
+       46.83269126, 46.83351032, 46.83414589, 46.83496495, 46.835784  ,
+       46.83641956, 46.83705511])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>bed_h</span></div><div class='xr-var-dims'>(dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.389e+03 3.36e+03 ... 2.149e+03</div><input id='attrs-8ff33f4a-cec1-423b-a6a6-9ebe6860de8d' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8ff33f4a-cec1-423b-a6a6-9ebe6860de8d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3d96bf9d-4677-4b51-8ec2-cc44933939fc' class='xr-var-data-in' type='checkbox'><label for='data-3d96bf9d-4677-4b51-8ec2-cc44933939fc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Bed elevation along the flowline</dd><dt><span>unit :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([3388.995817  , 3360.12816437, 3321.68093308, 3276.45118545,
+       3230.91614463, 3188.00632259, 3148.32412189, 3111.45211144,
+       3076.38963652, 3040.68978917, 3006.89491232, 2985.29912858,
+       2974.26776111, 2963.36143513, 2947.39041673, 2924.29344507,
+       2900.54638828, 2878.85991125, 2855.72326773, 2828.73893103,
+       2800.17411413, 2775.67598205, 2751.47887059, 2739.99536139,
+       2732.2371494 , 2722.028805  , 2707.34548717, 2694.22240228,
+       2687.03728162, 2682.65835503, 2696.12207013, 2701.95392563,
+       2705.28604316, 2697.48678543, 2679.44791563, 2647.23012526,
+       2629.79612055, 2613.39173831, 2595.55891503, 2579.736023  ,
+       2570.52378501, 2569.24239721, 2572.95151321, 2573.97432115,
+       2568.90124055, 2559.5304187 , 2551.25687789, 2548.6487676 ,
+       2548.49139157, 2543.76304376, 2532.92168961, 2518.75423912,
+       2504.22920199, 2491.19369242, 2480.33450471, 2471.5554701 ,
+       2464.43649151, 2458.42269813, 2455.43872309, 2454.97477941,
+       2452.45322284, 2443.9473034 , 2428.36540286, 2408.5417935 ,
+       2385.76958331, 2382.10330957, 2393.95900779, 2411.51647772,
+       2432.48723988, 2427.59519347, 2423.46681042, 2418.33255097,
+       2413.33735494, 2408.02700783, 2402.55828182, 2397.32516209,
+       2392.70130221, 2389.10568915, 2386.15353498, 2382.51527501,
+       2377.42661846, 2371.14688533, 2364.52325396, 2358.25336379,
+       2352.15417713, 2345.84117184, 2339.86794354, 2334.82545647,
+       2330.00420269, 2324.16141472, 2316.70463278, 2308.43299782,
+       2301.74373488, 2297.78380145, 2294.37729688, 2289.7092728 ,
+       2284.38920269, 2279.20494657, 2273.62643623, 2267.2809128 ,
+       2261.11684792, 2256.40754432, 2253.4457044 , 2250.73904184,
+       2246.37326268, 2239.14675892, 2229.35912407, 2218.66132132,
+       2208.36322759, 2199.33090299, 2192.25945683, 2187.04583765,
+       2181.70872077, 2174.08756851, 2164.34727889, 2155.08551139,
+       2149.47973622])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_m3</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>3.146e+06 3.369e+06 ... 0.0 0.0</div><input id='attrs-889549d9-038b-44e0-9864-6abc3f101091' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-889549d9-038b-44e0-9864-6abc3f101091' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-e02375fb-2f85-4480-bf89-7cc9f4a69eec' class='xr-var-data-in' type='checkbox'><label for='data-e02375fb-2f85-4480-bf89-7cc9f4a69eec' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[3145944.06093025, 3369225.36015468, 3636126.97510816, ...,
+              0.        ,       0.        ,       0.        ],
+       [3072208.24681024, 3191465.8632449 , 3535299.51445379, ...,
+              0.        ,       0.        ,       0.        ],
+       [3013503.71269929, 3093282.2525483 , 3435230.62878695, ...,
+              0.        ,       0.        ,       0.        ],
+       ...,
+       [2801443.87171509, 2837727.41916908, 3113907.54982983, ...,
+              0.        ,       0.        ,       0.        ],
+       [2801443.87167991, 2837727.41913148, 3113907.54978823, ...,
+              0.        ,       0.        ,       0.        ],
+       [2801443.87165156, 2837727.41910118, 3113907.54975535, ...,
+              0.        ,       0.        ,       0.        ]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bsl_m3</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-7a289cbb-13fa-46c9-a6b1-45220d816806' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7a289cbb-13fa-46c9-a6b1-45220d816806' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a6831964-63cf-4a55-8345-429bf9a02afc' class='xr-var-data-in' type='checkbox'><label for='data-a6831964-63cf-4a55-8345-429bf9a02afc' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Section volume below sea level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       ...,
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>volume_bwl_m3</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-622b6eff-41af-4fcb-be0e-444d5f6c5d39' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-622b6eff-41af-4fcb-be0e-444d5f6c5d39' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-c1156eac-9c19-43b5-86d4-4f4033e91616' class='xr-var-data-in' type='checkbox'><label for='data-c1156eac-9c19-43b5-86d4-4f4033e91616' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Section volume below water level</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([[0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       ...,
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.],
+       [0., 0., 0., ..., 0., 0., 0.]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>area_m2</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>7.847e+04 8.351e+04 ... 0.0 0.0</div><input id='attrs-aee592f9-b576-42c4-8a3a-9be2d95b3aa6' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-aee592f9-b576-42c4-8a3a-9be2d95b3aa6' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5b1537aa-ccf4-4cce-bb79-734ef301b63d' class='xr-var-data-in' type='checkbox'><label for='data-5b1537aa-ccf4-4cce-bb79-734ef301b63d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[78467.11399821, 83513.49136036, 96930.7275971 , ...,
+            0.        ,     0.        ,     0.        ],
+       [78467.11399821, 83513.49136036, 96930.7275971 , ...,
+            0.        ,     0.        ,     0.        ],
+       [78467.11399821, 83513.49136036, 96930.7275971 , ...,
+            0.        ,     0.        ,     0.        ],
+       ...,
+       [78467.11399821, 83513.49136036, 96930.7275971 , ...,
+            0.        ,     0.        ,     0.        ],
+       [78467.11399821, 83513.49136036, 96930.7275971 , ...,
+            0.        ,     0.        ,     0.        ],
+       [78467.11399821, 83513.49136036, 96930.7275971 , ...,
+            0.        ,     0.        ,     0.        ]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>thickness_m</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>40.09 40.34 37.51 ... 0.0 0.0 0.0</div><input id='attrs-a1621a16-72ea-403c-9f8c-4001bb4723b2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-a1621a16-72ea-403c-9f8c-4001bb4723b2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-eafcdd35-a7d0-442d-97ea-a3e26118336e' class='xr-var-data-in' type='checkbox'><label for='data-eafcdd35-a7d0-442d-97ea-a3e26118336e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Section thickness</dd><dt><span>unit :</span></dt><dd>m</dd></dl></div><div class='xr-var-data'><pre>array([[40.09251648, 40.34348589, 37.5126347 , ...,  0.        ,
+         0.        ,  0.        ],
+       [39.15281307, 38.21497355, 36.47243348, ...,  0.        ,
+         0.        ,  0.        ],
+       [38.40467119, 37.03931188, 35.44005821, ...,  0.        ,
+         0.        ,  0.        ],
+       ...,
+       [35.70213978, 33.97926937, 32.12508177, ...,  0.        ,
+         0.        ,  0.        ],
+       [35.70213977, 33.97926937, 32.12508177, ...,  0.        ,
+         0.        ,  0.        ],
+       [35.70213977, 33.97926937, 32.12508177, ...,  0.        ,
+         0.        ,  0.        ]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>ice_velocity_myr</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan nan ... 0.0 0.0 0.0 0.0</div><input id='attrs-16f3e66e-effe-4a24-a325-e74eb919f484' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-16f3e66e-effe-4a24-a325-e74eb919f484' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-27f283aa-1fe1-409e-b287-591b27077656' class='xr-var-data-in' type='checkbox'><label for='data-27f283aa-1fe1-409e-b287-591b27077656' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Ice velocity at the surface</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[        nan,         nan,         nan, ...,         nan,
+                nan,         nan],
+       [ 3.7547238 , 11.76187838, 18.34063179, ...,  0.        ,
+         0.        ,  0.        ],
+       [ 3.54342674, 10.56312201, 16.21397832, ...,  0.        ,
+         0.        ,  0.        ],
+       ...,
+       [ 2.66894613,  7.61196874, 11.17338452, ...,  0.        ,
+         0.        ,  0.        ],
+       [ 2.66894613,  7.61196874, 11.17338452, ...,  0.        ,
+         0.        ,  0.        ],
+       [ 2.66894613,  7.61196874, 11.17338452, ...,  0.        ,
+         0.        ,  0.        ]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>calving_bucket_m3</span></div><div class='xr-var-dims'>(time)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>0.0 0.0 0.0 0.0 ... 0.0 0.0 0.0 0.0</div><input id='attrs-3af0a732-6145-49d6-9def-945913cbc002' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3af0a732-6145-49d6-9def-945913cbc002' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2929fff8-1dae-41ad-9dc8-a1f53c71ba13' class='xr-var-data-in' type='checkbox'><label for='data-2929fff8-1dae-41ad-9dc8-a1f53c71ba13' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Flowline calving bucket (volume not yet calved)</dd><dt><span>unit :</span></dt><dd>m 3</dd></dl></div><div class='xr-var-data'><pre>array([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+       0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>flux_divergence_myr</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan nan ... 0.0 0.0 0.0 0.0</div><input id='attrs-5d2a5f0f-04af-454e-9991-4644a036869f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-5d2a5f0f-04af-454e-9991-4644a036869f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ef57fe6e-3517-44a2-a6b6-451cc47f325c' class='xr-var-data-in' type='checkbox'><label for='data-ef57fe6e-3517-44a2-a6b6-451cc47f325c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Ice-flux divergence</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[            nan,             nan,             nan, ...,
+                    nan,             nan,             nan],
+       [-2.49615873e+00, -3.53874872e+00, -2.22787692e+00, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00],
+       [-2.29989168e+00, -2.57471326e+00, -2.21425977e+00, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00],
+       ...,
+       [-5.56653390e-10, -5.58742386e-10, -5.41291456e-10, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00],
+       [-4.48444837e-10, -4.50221194e-10, -4.29139391e-10, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00],
+       [-3.61247032e-10, -3.62796015e-10, -3.39255735e-10, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>climatic_mb_myr</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan nan ... 0.0 0.0 0.0 0.0</div><input id='attrs-9e0d09d8-7de0-45e2-b29a-f9cc4aa00f78' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9e0d09d8-7de0-45e2-b29a-f9cc4aa00f78' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-999f44ae-60d9-4673-9ba5-1a1803c1d517' class='xr-var-data-in' type='checkbox'><label for='data-999f44ae-60d9-4673-9ba5-1a1803c1d517' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Climatic mass balance forcing</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[       nan,        nan,        nan, ...,        nan,        nan,
+               nan],
+       [1.55645533, 1.41023638, 1.18767571, ..., 0.        , 0.        ,
+        0.        ],
+       [1.5517498 , 1.39905159, 1.18188451, ..., 0.        , 0.        ,
+        0.        ],
+       ...,
+       [0.        , 0.        , 0.        , ..., 0.        , 0.        ,
+        0.        ],
+       [0.        , 0.        , 0.        , ..., 0.        , 0.        ,
+        0.        ],
+       [0.        , 0.        , 0.        , ..., 0.        , 0.        ,
+        0.        ]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>dhdt_myr</span></div><div class='xr-var-dims'>(time, dis_along_flowline)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan nan ... 0.0 0.0 0.0 0.0</div><input id='attrs-4f0630d2-bf07-4848-aa0c-e688b04c9091' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4f0630d2-bf07-4848-aa0c-e688b04c9091' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f72c10eb-01c5-43cd-a0e1-8fc5461ba06a' class='xr-var-data-in' type='checkbox'><label for='data-f72c10eb-01c5-43cd-a0e1-8fc5461ba06a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>description :</span></dt><dd>Thickness change</dd><dt><span>unit :</span></dt><dd>m yr-1</dd></dl></div><div class='xr-var-data'><pre>array([[            nan,             nan,             nan, ...,
+                    nan,             nan,             nan],
+       [-9.39703404e-01, -2.12851234e+00, -1.04020122e+00, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00],
+       [-7.48141879e-01, -1.17566167e+00, -1.03237527e+00, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00],
+       ...,
+       [-5.56653390e-10, -5.58742386e-10, -5.41291456e-10, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00],
+       [-4.48444837e-10, -4.50221194e-10, -4.29139391e-10, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00],
+       [-3.61247032e-10, -3.62796015e-10, -3.39255735e-10, ...,
+         0.00000000e+00,  0.00000000e+00,  0.00000000e+00]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-93222345-f645-4c05-a3db-76554411b8b2' class='xr-section-summary-in' type='checkbox'  ><label for='section-93222345-f645-4c05-a3db-76554411b8b2' class='xr-section-summary' >Indexes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>dis_along_flowline</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-f3dd4fbf-c32c-48f9-bdcc-bc764134793b' class='xr-index-data-in' type='checkbox'/><label for='index-f3dd4fbf-c32c-48f9-bdcc-bc764134793b' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([    0.0,   100.0,   200.0,   300.0,   400.0,   500.0,   600.0,   700.0,
+         800.0,   900.0,
+       ...
+       10700.0, 10800.0, 10900.0, 11000.0, 11100.0, 11200.0, 11300.0, 11400.0,
+       11500.0, 11600.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;dis_along_flowline&#x27;, length=117))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>time</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-327381fb-a1d9-4e71-a889-287aff7033de' class='xr-index-data-in' type='checkbox'/><label for='index-327381fb-a1d9-4e71-a889-287aff7033de' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([  0.0,   1.0,   2.0,   3.0,   4.0,   5.0,   6.0,   7.0,   8.0,   9.0,
+       ...
+        91.0,  92.0,  93.0,  94.0,  95.0,  96.0,  97.0,  98.0,  99.0, 100.0],
+      dtype=&#x27;float64&#x27;, name=&#x27;time&#x27;, length=101))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-6db8b5a3-4671-4153-b197-5f4461876109' class='xr-section-summary-in' type='checkbox'  ><label for='section-6db8b5a3-4671-4153-b197-5f4461876109' class='xr-section-summary' >Attributes: <span>(12)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>class :</span></dt><dd>MixedBedFlowline</dd><dt><span>map_dx :</span></dt><dd>50.0</dd><dt><span>dx :</span></dt><dd>2.0</dd><dt><span>description :</span></dt><dd>OGGM model output</dd><dt><span>oggm_version :</span></dt><dd>1.6.2.dev22+g6e0fb56</dd><dt><span>calendar :</span></dt><dd>365-day no leap</dd><dt><span>creation_date :</span></dt><dd>2024-01-30 14:12:57</dd><dt><span>water_level :</span></dt><dd>0</dd><dt><span>glen_a :</span></dt><dd>1.1673342087451829e-23</dd><dt><span>fs :</span></dt><dd>0</dd><dt><span>mb_model_class :</span></dt><dd>MultipleFlowlineMassBalance</dd><dt><span>mb_model_hemisphere :</span></dt><dd>nh</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<p>The graphic routines in OGGM can’t (yet) be used to plot the flowline diagnostics, but here are some plots
+made with xarray alone.</p>
+<p>The following plot shows the volume timeseries of the simulation <strong>for this one flowline, not the entire glacier!</strong>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/fb7b756b3b764896b0360014eac9c0e369b8171d16248998131609287aca3abd.png" src="../../_images/fb7b756b3b764896b0360014eac9c0e369b8171d16248998131609287aca3abd.png" />
+</div>
+</div>
+<p>The glacier surface height is needed for the next plot. This can be computed by adding up the heigth of the glacier bed and the glacier thickness.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">surface_m</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">bed_h</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">thickness_m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here we will plot the glacier at the start and the end of the simulation, but feel free to use other years that have been simulated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Here the glacier in the first and last year of the run are plotted in transparent blue. </span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">dis_along_flowline</span><span class="p">,</span> <span class="n">surface_m</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">ds</span><span class="o">.</span><span class="n">bed_h</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.30</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">dis_along_flowline</span><span class="p">,</span> <span class="n">surface_m</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">50</span><span class="p">),</span> <span class="n">ds</span><span class="o">.</span><span class="n">bed_h</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.30</span><span class="p">)</span>
+
+<span class="c1"># Here we plot the glacier surface in both years and the glacier bed.</span>
+<span class="n">surface_m</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Initial glacier surface&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">)</span>
+<span class="n">surface_m</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Glacier surface at year 50&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">bed_h</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;glacier bed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Elevation [m]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/222f901e2c9ed7cfc0786d0bd95f575fabad3a4e59ace7c91505e97a15d6b2bc.png" src="../../_images/222f901e2c9ed7cfc0786d0bd95f575fabad3a4e59ace7c91505e97a15d6b2bc.png" />
+</div>
+</div>
+<p>The flowline diagnostics also store velocities along the flowline:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note that velocity at the first step of the simulation is NaN</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">ice_velocity_myr</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/7469c058f417f96ecd9d9bff0ba79849b9d3f5e2fedecb0a1781a62e2574f36c.png" src="../../_images/7469c058f417f96ecd9d9bff0ba79849b9d3f5e2fedecb0a1781a62e2574f36c.png" />
+</div>
+</div>
+<p><strong>New in OGGM v1.6.1</strong>: also the climatic mass-balance (<span class="math notranslate nohighlight">\(\dot{m}\)</span>), dh/dt (similar to <span class="math notranslate nohighlight">\(\frac{\partial S}{\partial t}\)</span> but for thickness instead of section-area) and the flux divergence (<span class="math notranslate nohighlight">\(\nabla \cdot q\)</span>) along the flowline are stored (see <a class="reference external" href="https://docs.oggm.org/en/latest/ice-dynamics.html#ice-flow">Documentation</a>):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">climatic_mb_myr</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/44c0a89c62f732c01f87d32509ed2e5d3e6ade60782bd629c2f474fcd880d3ab.png" src="../../_images/44c0a89c62f732c01f87d32509ed2e5d3e6ade60782bd629c2f474fcd880d3ab.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">dhdt_myr</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/9a6b0b09961101d9f6ac1823ca0ddefe4b51f2262f19429c72b003ff8403e0b5.png" src="../../_images/9a6b0b09961101d9f6ac1823ca0ddefe4b51f2262f19429c72b003ff8403e0b5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">flux_divergence_myr</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hue</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/09217b2dfbda29310d0e56a09974e3e9cfee96c7662e201d684527b757eced3b.png" src="../../_images/09217b2dfbda29310d0e56a09974e3e9cfee96c7662e201d684527b757eced3b.png" />
+</div>
+</div>
+<p>Note that we can see numeric instabilities in the flux divergence at year 20. The reason for this is that we used here the less stable dynamic numeric solver ‘Flux-Based’. For more information on this problem check out <a class="reference internal" href="numeric_solvers.html"><span class="std std-doc">10 minutes to… understand difference between ice dynamic models</span></a>!</p>
+<section id="location-of-the-terminus-over-time">
+<h3>Location of the terminus over time<a class="headerlink" href="#location-of-the-terminus-over-time" title="Link to this heading">#</a></h3>
+<p>Let’s find the indices where the terminus is (i.e. the last point where ice is thicker than 1m), and link these to the lon, lat positions along the flowlines. First, lets get the data we need into pandas dataframes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the xarray data to pandas</span>
+<span class="n">df_coords</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[[</span><span class="s1">&#39;point_lons&#39;</span><span class="p">,</span> <span class="s1">&#39;point_lats&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+<span class="n">df_thick</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">thickness_m</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="n">df_thick</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Main flowline thickness&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;glacier thickness (m)&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8fe2024440de2c30f21637d046bc6a8803f03292784855023e3ab053e33b6502.png" src="../../_images/8fe2024440de2c30f21637d046bc6a8803f03292784855023e3ab053e33b6502.png" />
+</div>
+</div>
+<p>The first method to locate the terminus uses fancy pandas functions but may be more cryptic for less experienced pandas users:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+    <span class="n">f</span><span class="o">.</span>
+      <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nice trick from https://stackoverflow.com/questions/34384349/find-index-of-last-true-value-in-pandas-series-or-dataframe</span>
+<span class="n">dis_term</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_thick</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+
+<span class="c1"># Select the terminus coordinates at these locations</span>
+<span class="n">loc_over_time</span> <span class="o">=</span> <span class="n">df_coords</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dis_term</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">dis_term</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="c1"># this makes the cbar nicer</span>
+<span class="n">loc_over_time</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc_over_time</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="c1"># Plot them over time</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">loc_over_time</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;point_lons&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;point_lats&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span>
+                           <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Location of the terminus over time&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/65bb5d04804fab03fd575e8b10da696639a77af80d9a4982f68759b2e4c59c2b.png" src="../../_images/65bb5d04804fab03fd575e8b10da696639a77af80d9a4982f68759b2e4c59c2b.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot them on a google image - you need an API key for this</span>
+<span class="c1"># api_key = &#39;&#39;</span>
+<span class="c1"># from motionless import DecoratedMap, LatLonMarker</span>
+<span class="c1"># dmap = DecoratedMap(maptype=&#39;satellite&#39;, key=api_key)</span>
+<span class="c1"># for y in [0, 20, 40, 60, 80, 100]:</span>
+<span class="c1">#     tmp = loc_over_time.loc[y]</span>
+<span class="c1">#     dmap.add_marker(LatLonMarker(tmp.lat, tmp.lon, ))</span>
+<span class="c1"># print(dmap.generate_url())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<img src='https://maps.googleapis.com/maps/api/staticmap?key=AIzaSyDWG_aTgfU7CeErtIzWfdGxpStTlvDXV_o&maptype=satellite&format=png&scale=1&size=400x400&sensor=false&language=en&markers=%7C46.818796056851475%2C10.802746777546085%7C46.81537664036365%2C10.793672904092187%7C46.80792268953582%2C10.777563608554978%7C46.7953190811109%2C10.766412086223571%7C46.79236232808986%2C10.75236937607986%7C46.79236232808986%2C10.75236937607986'><p>And now, method 2: less fancy but maybe easier to read?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">]:</span>
+    <span class="c1"># Find the last index of the terminus</span>
+    <span class="n">p_term</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">df_thick</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Print the location of the terminus</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Terminus pos at year </span><span class="si">{</span><span class="n">yr</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df_coords</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">p_term</span><span class="p">][[</span><span class="s1">&#39;point_lons&#39;</span><span class="p">,</span> <span class="s1">&#39;point_lats&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Terminus pos at year 0 [10.80274678 46.81879606]
+Terminus pos at year 20 [10.80055249 46.81784614]
+Terminus pos at year 40 [10.79152134 46.8143506 ]
+Terminus pos at year 60 [10.77663662 46.80728651]
+Terminus pos at year 80 [10.76826544 46.7965916 ]
+Terminus pos at year 100 [10.76154133 46.79236244]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="flowline-geometry-after-a-run-with-filemodel">
+<h2>Flowline geometry after a run: with <code class="docutils literal notranslate"><span class="pre">FileModel</span></code><a class="headerlink" href="#flowline-geometry-after-a-run-with-filemodel" title="Link to this heading">#</a></h2>
+<p>This method uses another way to output the model geometry (<code class="docutils literal notranslate"><span class="pre">model_geometry</span></code> files), which are less demanding in disk space but require more computations to restore the full geometry after a run (OGGM will help you to do that). This method is to be preferred to the above if you want to save disk space or if you don’t have yet access to flowline diagnostics files.</p>
+<p>Let’s do a run first:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># We want to get back to it later</span>
+
+<span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_constant_climate</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="mi">2000</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-01-30 14:13:00: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use a <code class="docutils literal notranslate"><span class="pre">FileModel</span></code> to read the model output:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmod</span> <span class="o">=</span> <span class="n">flowline</span><span class="o">.</span><span class="n">FileModel</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_geometry&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A FileModel behaves like a OGGM’s <code class="docutils literal notranslate"><span class="pre">FlowlineModel</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmod</span><span class="o">.</span><span class="n">run_until</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Point the file model to year 0 in the output</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_map</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">fmod</span><span class="p">)</span>  <span class="c1"># plot it</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/941004944db90ff1200a858f0b7bebcdf62b8642e5d33d1e25ab2c34e8603c33.png" src="../../_images/941004944db90ff1200a858f0b7bebcdf62b8642e5d33d1e25ab2c34e8603c33.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmod</span><span class="o">.</span><span class="n">run_until</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># Point the file model to year 100 in the output</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot_modeloutput_map</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="n">fmod</span><span class="p">)</span>  <span class="c1"># plot it</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/aed4a80e3611f208020972dbd68d2e6a9c08e7be829ce482f684a312108f39da.png" src="../../_images/aed4a80e3611f208020972dbd68d2e6a9c08e7be829ce482f684a312108f39da.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Bonus - get back to e.g. the volume timeseries</span>
+<span class="n">fmod</span><span class="o">.</span><span class="n">volume_km3_ts</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0efce8c4e907cc0cbea635ebdd843b8c4cc3604d624452c758e66f9a96738ef3.png" src="../../_images/0efce8c4e907cc0cbea635ebdd843b8c4cc3604d624452c758e66f9a96738ef3.png" />
+</div>
+</div>
+<p>OK, now create a table of the main flowline’s grid points location and bed altitude (this does not change with time):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fl</span> <span class="o">=</span> <span class="n">fmod</span><span class="o">.</span><span class="n">fls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Main flowline</span>
+<span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">line</span><span class="o">.</span><span class="n">xy</span>  <span class="c1"># xy flowline on grid</span>
+<span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">ij_to_crs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;EPSG:4326&#39;</span><span class="p">)</span>  <span class="c1"># to WGS84</span>
+
+<span class="n">df_coords</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">fl</span><span class="o">.</span><span class="n">dis_on_line</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">)</span>
+<span class="n">df_coords</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Distance along flowline&#39;</span>
+<span class="n">df_coords</span><span class="p">[</span><span class="s1">&#39;lon&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lons</span>
+<span class="n">df_coords</span><span class="p">[</span><span class="s1">&#39;lat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lats</span>
+<span class="n">df_coords</span><span class="p">[</span><span class="s1">&#39;bed_elevation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">bed_h</span>
+<span class="n">df_coords</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;lat&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/33dae7c12f7ff3d971d6615e435d56ad47d84d58097fc9d6d5564a71553f29c6.png" src="../../_images/33dae7c12f7ff3d971d6615e435d56ad47d84d58097fc9d6d5564a71553f29c6.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_coords</span><span class="p">[</span><span class="s1">&#39;bed_elevation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/24df4413ab57654065cb2d330d12c67936801fe086a835b471b39ef0c47277bc.png" src="../../_images/24df4413ab57654065cb2d330d12c67936801fe086a835b471b39ef0c47277bc.png" />
+</div>
+</div>
+<p>Now store a time varying array of ice thickness, surface elevation along this line:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">years</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">df_thick</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df_coords</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">df_surf_h</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df_coords</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">years</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">df_bed_h</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">years</span><span class="p">:</span>
+    <span class="n">fmod</span><span class="o">.</span><span class="n">run_until</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
+    <span class="n">fl</span> <span class="o">=</span> <span class="n">fmod</span><span class="o">.</span><span class="n">fls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">df_thick</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">thick</span>
+    <span class="n">df_surf_h</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">surface_h</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_thick</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ice thickness at three points in time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Glacier thickness (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4ae718d2184c8108188cb72587c8ae4c731c60fefc45cdf2f51101699299b9a3.png" src="../../_images/4ae718d2184c8108188cb72587c8ae4c731c60fefc45cdf2f51101699299b9a3.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">df_surf_h</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">]]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">);</span>
+<span class="n">df_coords</span><span class="p">[</span><span class="s1">&#39;bed_elevation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Glacier elevation at three points in time&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e9cddecaaf8b3908bcad9daac0c598205b438a1dadced69dc0d508101b79bf1d.png" src="../../_images/e9cddecaaf8b3908bcad9daac0c598205b438a1dadced69dc0d508101b79bf1d.png" />
+</div>
+</div>
+<section id="id1">
+<h3>Location of the terminus over time<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Let’s find the indices where the terminus is (i.e. the last point where ice is thicker than 1m), and link these to the lon, lat positions along the flowlines.</p>
+<p>The first method uses fancy pandas functions but may be more cryptic for less experienced pandas users:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nice trick from https://stackoverflow.com/questions/34384349/find-index-of-last-true-value-in-pandas-series-or-dataframe</span>
+<span class="n">dis_term</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_thick</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">()</span>
+
+<span class="c1"># Select the terminus coordinates at these locations</span>
+<span class="n">loc_over_time</span> <span class="o">=</span> <span class="n">df_coords</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dis_term</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">dis_term</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">loc_over_time</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc_over_time</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Plot them over time</span>
+<span class="n">loc_over_time</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="n">colormap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Location of the terminus over time&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/0b1d2eef12169b675ff99f7d8c6edad3ff2b51baec265f5149fe15782c116432.png" src="../../_images/0b1d2eef12169b675ff99f7d8c6edad3ff2b51baec265f5149fe15782c116432.png" />
+</div>
+</div>
+<p>And now, method 2: less fancy but maybe easier to read?</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">yr</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">]:</span>
+    <span class="c1"># Find the last index of the terminus</span>
+    <span class="n">p_term</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">df_thick</span><span class="p">[</span><span class="n">yr</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Print the location of the terminus</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Terminus pos at year </span><span class="si">{</span><span class="n">yr</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">df_coords</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">p_term</span><span class="p">][[</span><span class="s1">&#39;lon&#39;</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Terminus pos at year 0 [10.80274678 46.81879606]
+Terminus pos at year 20 [10.80055249 46.81784614]
+Terminus pos at year 40 [10.79152134 46.8143506 ]
+Terminus pos at year 60 [10.77663662 46.80728651]
+Terminus pos at year 80 [10.76826544 46.7965916 ]
+Terminus pos at year 100 [10.76154133 46.79236244]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comments-on-elevation-band-flowlines">
+<h2>Comments on “elevation band flowlines”<a class="headerlink" href="#comments-on-elevation-band-flowlines" title="Link to this heading">#</a></h2>
+<p>If you use elevation band flowlines, the location of the flowlines is not known: indeed, the glacier is an even more simplified representation of the real world one. In this case, if you are interested in tracking the terminus position, you may need to use tricks, such as using the retreat from the terminus with time, or similar.</p>
+</section>
+<section id="what-s-next">
+<h2>What’s next?<a class="headerlink" href="#what-s-next" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
+<li><p>back to the <a class="reference internal" href="../welcome.html"><span class="std std-doc">table of contents</span></a></p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/tutorials"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="distribute_flowline.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Display glacier area and thickness changes on a grid</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="centerlines_to_shape.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Compute smoother centerlines for shapefile output</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-ready">Get ready</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-is-the-terminus-of-the-rgi-glacier">Where is the terminus of the RGI glacier?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#terminus-as-the-lowest-point-on-the-glacier">Terminus as the lowest point on the glacier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#terminus-as-the-lowest-point-on-the-main-centerline">Terminus as the lowest point on the main centerline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#terminus-as-the-lowest-point-on-the-main-flowline">Terminus as the lowest point on the main flowline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bonus-convert-the-centerlines-to-a-shapefile">Bonus: convert the centerlines to a shapefile</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flowline-geometry-after-a-run-with-the-new-flowline-diagnostics-new-in-v1-6-0">Flowline geometry after a run: with the new flowline diagnostics (new in v1.6.0!!)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#location-of-the-terminus-over-time">Location of the terminus over time</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flowline-geometry-after-a-run-with-filemodel">Flowline geometry after a run: with <code class="docutils literal notranslate"><span class="pre">FileModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Location of the terminus over time</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comments-on-elevation-band-flowlines">Comments on “elevation band flowlines”</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-s-next">What’s next?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By OGGM e.V. and OGGM Contributors
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2021.
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
