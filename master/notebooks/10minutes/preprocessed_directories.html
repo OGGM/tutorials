@@ -53,30 +53,19 @@
     <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-106829797-2"></script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'UA-106829797-2');
-            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'UA-106829797-2');
-            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/10minutes/preprocessed_directories';</script>
+    <script data-domain="tutorials.oggm.org" defer="defer" src="https://plausible.oggm.org/js/script.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="10 minutes to… a glacier change projection with GCM data" href="run_with_gcm.html" />
     <link rel="prev" title="10 minutes tutorials" href="../../book/10minutes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+    <meta name="docbuild:last-update" content="Aug 22, 2024"/>
   </head>
   
   
@@ -254,7 +243,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation: a case study</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
@@ -569,9 +558,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 15:18:16: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2024-08-22 15:18:16: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2024-08-22 15:18:16: oggm.cfg: Multiprocessing: using all available processors (N=4)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 16:24:43: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2024-08-22 16:24:43: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2024-08-22 16:24:43: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -598,7 +587,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 15:18:17: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 16:24:45: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
 </div>
@@ -641,7 +630,7 @@ document.write(`
 <h3>Define the glaciers for the run<a class="headerlink" href="#define-the-glaciers-for-the-run" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.01328&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.00897&#39;</span><span class="p">]</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.01328&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.01450&#39;</span><span class="p">]</span> 
 </pre></div>
 </div>
 </div>
@@ -649,10 +638,11 @@ document.write(`
 <p>You can provide any number of glacier identifiers to OGGM. In this case, we chose:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.01328</span></code>: <a class="reference external" href="https://en.wikipedia.org/wiki/Unteraargletscher">Unteraar Glacier</a> in the Swiss Alps</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.00897</span></code>: <a class="reference external" href="http://acinn.uibk.ac.at/research/ice-and-climate/projects/hintereisferner">Hintereisferner</a> in the Austrian Alps.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.01450</span></code>: <a class="reference external" href="https://en.wikipedia.org/wiki/Aletsch_Glacier">Aletsch Glacier</a> in the Swiss Alps</p></li>
 </ul>
 <p>Here is a list of other glaciers you might want to try out:</p>
 <ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.00897</span></code>: <a class="reference external" href="http://acinn.uibk.ac.at/research/ice-and-climate/projects/hintereisferner">Hintereisferner</a> in the Austrian Alps.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">RGI60-18.02342</span></code>: <a class="reference external" href="https://en.wikipedia.org/wiki/Tasman_Glacier">Tasman Glacier</a> in New Zealand</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.00787</span></code>: <a class="reference external" href="https://de.wikipedia.org/wiki/Kesselwandferner">Kesselwandferner</a> in the Austrian Alps</p></li>
 <li><p>… or any other glacier identifier! You can find other glacier identifiers by exploring the <a class="reference external" href="https://www.glims.org/maps/glims">GLIMS viewer</a>.</p></li>
@@ -691,16 +681,15 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 15:18:18: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
-2024-08-22 15:18:18: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
-2024-08-22 15:18:18: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.01.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.01.tar...
-2024-08-22 15:18:28: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.00.tar...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 16:24:45: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
+2024-08-22 16:24:45: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+2024-08-22 16:24:45: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.01.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.01.tar...
 </pre></div>
 </div>
 </div>
 </div>
 <ul class="simple">
-<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">from_prepro_level</span></code> indicates that we will start from <a class="reference external" href="https://docs.oggm.org/en/stable/shop.html#pre-processed-directories">pre-processed directories</a>, i.e. data that are already prepared by the OGGM team. In many cases you will want to start from pre-processed directories, in most case from level 3 or 5. For level 3 and above the model has already been calibrated, so you no longer need to do that yourself and can start rigth away with your simulation. Here we start from level 4 and add some data to the processing in order to demonstrate the OGGM workflow.</p></li>
+<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">from_prepro_level</span></code> indicates that we will start from <a class="reference external" href="https://docs.oggm.org/en/stable/shop.html#pre-processed-directories">pre-processed directories</a>, i.e. data that are already prepared by the OGGM team. In many cases you will want to start from pre-processed directories, in most cases from level 3 or 5. For level 3 and above the model has already been calibrated, so you no longer need to do that yourself and can start rigth away with your simulation. Here we start from level 4 and add some data to the processing in order to demonstrate the OGGM workflow.</p></li>
 <li><p>the <code class="docutils literal notranslate"><span class="pre">prepro_border</span></code> keyword indicates the number of grid points which we’d like to add to each side of the glacier for the local map: the larger the glacier will grow, the larger the border parameter should be. The available pre-processed border values are: <strong>10, 80, 160, 240</strong> (depending on the model set-ups there might be more or less options). These are the fixed map sizes we prepared for you - any other map size will require a full processing (see the <a class="reference internal" href="../tutorials/dem_sources.html"><span class="std std-doc">further DEM sources example</span></a> for a tutorial).</p></li>
 </ul>
 <p>The <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.workflow.init_glacier_directories.html#oggm.workflow.init_glacier_directories">init_glacier_directories</a> task will allways be the very first task to call for all your OGGM experiments. Let’s see what it gives us back:</p>
@@ -786,7 +775,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 15:18:39: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 16:24:59: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -817,19 +806,13 @@ document.write(`
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="c1"># Plot the data</span>
-<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;AS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Annual temperature at </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">ref_hgt</span><span class="p">)</span><span class="si">}</span><span class="s1">m a.s.l.&#39;</span><span class="p">);</span>
-<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;AS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;30yr average&#39;</span><span class="p">);</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Annual temperature at </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">ref_hgt</span><span class="p">)</span><span class="si">}</span><span class="s1">m a.s.l.&#39;</span><span class="p">);</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;30yr average&#39;</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/usr/local/pyenv/versions/3.11.9/lib/python3.11/site-packages/xarray/core/groupby.py:668: FutureWarning: &#39;AS&#39; is deprecated and will be removed in a future version, please use &#39;YS&#39; instead.
-  index_grouper = pd.Grouper(
-/usr/local/pyenv/versions/3.11.9/lib/python3.11/site-packages/xarray/core/groupby.py:668: FutureWarning: &#39;AS&#39; is deprecated and will be removed in a future version, please use &#39;YS&#39; instead.
-  index_grouper = pd.Grouper(
-</pre></div>
-</div>
 <img alt="../../_images/7f18ba3bf7df30614b022d3354ef76d417f77a568fab3bf5316f35a3b311cf4a.png" src="../../_images/7f18ba3bf7df30614b022d3354ef76d417f77a568fab3bf5316f35a3b311cf4a.png" />
 </div>
 </div>
@@ -867,7 +850,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 15:18:40: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-22 16:24:59: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -1018,7 +1001,10 @@ By OGGM e.V. and OGGM Contributors
   </div>
   
   <div class="footer-item">
-    
+    <p class="last-updated">
+  Last updated on Aug 22, 2024.
+  <br/>
+</p>
   </div>
   
   <div class="footer-item">
@@ -1027,7 +1013,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2021.
+&copy; Copyright 2014-2024.
 </p>
 
 </div>
