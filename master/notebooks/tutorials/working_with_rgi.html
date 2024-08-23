@@ -217,11 +217,16 @@
 <li class="toctree-l2"><a class="reference internal" href="dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="ioggm.html">“Instructed OGGM”: running IGM within the OGGM workflow</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/thickness.html">Ice thickness</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="inversion.html">Ice thickness inversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="observed_thickness_with_dynamic_spinup.html">Dynamic model initialization using observed thickness data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/calving.html">Calving</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -244,8 +249,6 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 </details></li>
@@ -510,6 +513,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-out-the-id-of-a-glacier">Find out the ID of a glacier</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-glacier-outlines">Download the glacier outlines</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-a-region-file">Access a region file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rgi-files-and-their-attributes">The RGI files and their attributes</a></li>
@@ -531,8 +535,13 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="working-with-the-rgi-and-prepare-glaciers-for-a-run">
 <h1>Working with the RGI and prepare glaciers for a run<a class="headerlink" href="#working-with-the-rgi-and-prepare-glaciers-for-a-run" title="Link to this heading">#</a></h1>
-<p>The glacier outlines obtained from the <a class="reference external" href="https://www.glims.org/RGI/">Randolph Glacier Inventory</a> are the reference dataset for global and regional applications in OGGM. The current version supported by is V6, and OGGM ships with a slightly modified version which we called <code class="docutils literal notranslate"><span class="pre">62</span></code>. OGGM also supports RGI 7, but not yet for full modelling workflows. A tutorial will follow!</p>
+<p>The glacier outlines obtained from the <a class="reference external" href="https://www.glims.org/RGI/">Randolph Glacier Inventory</a> are the reference dataset for global and regional applications in OGGM. The current version supported by is V6, and OGGM ships with a slightly modified version which we called <code class="docutils literal notranslate"><span class="pre">62</span></code>. OGGM also supports RGI 7, but not yet for full modelling workflows.</p>
 <p><strong>Tags:</strong> beginner, glacier-directory, workflow, RGI</p>
+<section id="find-out-the-id-of-a-glacier">
+<h2>Find out the ID of a glacier<a class="headerlink" href="#find-out-the-id-of-a-glacier" title="Link to this heading">#</a></h2>
+<p>If there is a glacier you like, and you would like to know their RGI6 or RGI7 id, we recommend the <a class="reference external" href="https://www.glims.org/maps/glims">GLIMS glacier viewer</a>. To find the RGI6 ID, you’ll need to tick the “RGI6” box in the map layers, then click on the glacier of your choice as illustrated below.</p>
+<p><img alt="" src="../../_images/show_viewer.gif" /></p>
+</section>
 <section id="download-the-glacier-outlines">
 <h2>Download the glacier outlines<a class="headerlink" href="#download-the-glacier-outlines" title="Link to this heading">#</a></h2>
 <p>To download this version, simply do:</p>
@@ -540,7 +549,7 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># this might take a couple of minutes!</span>
 <span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span>
-<span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_dir</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s1">&#39;62&#39;</span><span class="p">)</span>  <span class="c1"># path to the data after download</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_dir</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s1">&#39;62&#39;</span><span class="p">)</span>  <span class="c1"># path to the data after download - for RGI7, you can use &#39;70G&#39; (for the glacier product) or &#39;70C&#39; (for the glacier complex product)</span>
 </pre></div>
 </div>
 </div>
@@ -883,13 +892,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:37:01: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2024-08-23 09:37:01: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2024-08-23 09:37:01: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2024-08-23 09:37:03: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
-2024-08-23 09:37:03: oggm.cfg: Multiprocessing switched ON after user settings.
-2024-08-23 09:37:03: oggm.workflow: init_glacier_directories from prepro level 5 on 54 glaciers.
-2024-08-23 09:37:03: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 54 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 15:29:10: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2024-08-23 15:29:10: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2024-08-23 15:29:10: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2024-08-23 15:29:11: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
+2024-08-23 15:29:11: oggm.cfg: Multiprocessing switched ON after user settings.
+2024-08-23 15:29:12: oggm.workflow: init_glacier_directories from prepro level 5 on 54 glaciers.
+2024-08-23 15:29:12: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 54 glaciers
 </pre></div>
 </div>
 </div>
@@ -903,9 +912,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:37:05: oggm.workflow: Execute entity tasks [run_random_climate] on 54 glaciers
-2024-08-23 09:37:11: oggm.utils: Applying global task compile_run_output on 54 glaciers
-2024-08-23 09:37:11: oggm.utils: Applying compile_run_output on 54 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 15:29:14: oggm.workflow: Execute entity tasks [run_random_climate] on 54 glaciers
+2024-08-23 15:29:20: oggm.utils: Applying global task compile_run_output on 54 glaciers
+2024-08-23 15:29:20: oggm.utils: Applying compile_run_output on 54 gdirs.
 </pre></div>
 </div>
 </div>
@@ -917,7 +926,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/8dde30472da6081bc26dbd462485bf47832b846d16a519786a84adec04a907ac.png" src="../../_images/8dde30472da6081bc26dbd462485bf47832b846d16a519786a84adec04a907ac.png" />
+<img alt="../../_images/da4c8ec52b50b207fef8277c55d53e806b2668b910e26460163a68eaef8d06c3.png" src="../../_images/da4c8ec52b50b207fef8277c55d53e806b2668b910e26460163a68eaef8d06c3.png" />
 </div>
 </div>
 <p>This shows the summed up volume evolution of all glaciers of the Rofental basin.</p>
@@ -995,6 +1004,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#find-out-the-id-of-a-glacier">Find out the ID of a glacier</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#download-the-glacier-outlines">Download the glacier outlines</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#access-a-region-file">Access a region file</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-rgi-files-and-their-attributes">The RGI files and their attributes</a></li>

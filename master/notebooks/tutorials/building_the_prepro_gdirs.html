@@ -217,11 +217,16 @@
 <li class="toctree-l2"><a class="reference internal" href="dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="ioggm.html">“Instructed OGGM”: running IGM within the OGGM workflow</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/thickness.html">Ice thickness</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="inversion.html">Ice thickness inversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="observed_thickness_with_dynamic_spinup.html">Dynamic model initialization using observed thickness data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/calving.html">Calving</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -244,8 +249,6 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 </details></li>
@@ -572,9 +575,9 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 08:59:52: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2024-08-23 08:59:52: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2024-08-23 08:59:52: oggm.cfg: Multiprocessing: using all available processors (N=4)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 14:50:34: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2024-08-23 14:50:34: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2024-08-23 14:50:34: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -616,8 +619,8 @@ print<span class="o">?</span>
 </ul>
 <p>Related Tutorials:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#tutorials/working_with_rgi.ipynb"><span class="xref myst">working_with_rgi</span></a> will show you how to read glacier outline files and prepare them for a run</p></li>
-<li><p><a class="reference internal" href="#tutorials/use_your_own_inventory.ipynb"><span class="xref myst">use_your_own_inventory</span></a>: Use custom glacier inventories with OGGM</p></li>
+<li><p><a class="reference internal" href="working_with_rgi.html"><span class="std std-doc">working_with_rgi</span></a> will show you how to read glacier outline files and prepare them for a run</p></li>
+<li><p><a class="reference internal" href="use_your_own_inventory.html"><span class="std std-doc">use_your_own_inventory</span></a>: Use custom glacier inventories with OGGM</p></li>
 </ul>
 <div class="alert alert-danger">
     <b> CAUTION: </b>
@@ -628,6 +631,9 @@ print<span class="o">?</span>
 <span class="n">rgidf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_region_file</span><span class="p">(</span><span class="n">rgi_region</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;62&#39;</span><span class="p">))</span>
 <span class="n">rgidf</span> <span class="o">=</span> <span class="n">rgidf</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rgidf</span><span class="o">.</span><span class="n">RGIId</span><span class="p">,</span> <span class="n">rgi_ids</span><span class="p">)]</span>
 
+<span class="c1"># We also take care of intersects for this RGI version</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">set_intersects_db</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_intersects_region_file</span><span class="p">(</span><span class="n">rgi_region</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="s1">&#39;62&#39;</span><span class="p">))</span>
+
 <span class="c1"># set the used projection used for gdir, options &#39;tmerc&#39; or &#39;utm&#39;</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;map_proj&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;map_proj&#39;</span><span class="p">]</span>  <span class="c1"># default is &#39;tmerc&#39;</span>
 
@@ -636,7 +642,7 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:00:33: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 14:51:02: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -674,8 +680,8 @@ print<span class="o">?</span>
 </ul>
 <p>Related Tutorials:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#tutorials/dem_sources.ipynb"><span class="xref myst">dem_sources</span></a>: Create local topography maps from different DEM sources with OGGM</p></li>
-<li><p><a class="reference internal" href="#tutorials/rgitopo_rgi6.ipynb"><span class="xref myst">rgitopo_rgi6</span></a>: RGI-TOPO for RGI v6.0</p></li>
+<li><p><a class="reference internal" href="dem_sources.html"><span class="std std-doc">dem_sources</span></a>: Create local topography maps from different DEM sources with OGGM</p></li>
+<li><p><a class="reference internal" href="rgitopo_rgi6.html"><span class="std std-doc">rgitopo_rgi6</span></a>: RGI-TOPO for RGI v6.0</p></li>
 </ul>
 <div class="alert alert-info">
         Please note that registration may be required to access some of the DEM sources. For more information, refer to the <a href="https://oggm.org/tutorials/master/notebooks/tutorials/dem_sources.html#register-for-online-datasets">dem_sources tutorial</a>.
@@ -699,7 +705,7 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:00:33: oggm.workflow: Execute entity tasks [define_glacier_region] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 14:51:02: oggm.workflow: Execute entity tasks [define_glacier_region] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -739,10 +745,10 @@ print<span class="o">?</span>
 </ul>
 <p>Related Tutorials:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#tutorials/elevation_bands_vs_centerlines.ipynb"><span class="xref myst">elevation_bands_vs_centerlines</span></a>: Differences between “elevation band” and “centerline” flowlines</p></li>
-<li><p><a class="reference internal" href="#tutorials/numeric_solvers.ipynb"><span class="xref myst">numeric_solvers</span></a>: Understand the difference between the ice dynamic solvers in OGGM</p></li>
-<li><p><a class="reference internal" href="#tutorials/oggm_shop.ipynb"><span class="xref myst">oggm_shop</span></a>: OGGM-Shop and Glacier Directories in OGGM</p></li>
-<li><p><a class="reference internal" href="#tutorials/ingest_gridded_data_on_flowlines.ipynb"><span class="xref myst">ingest_gridded_data_on_flowlines</span></a>: ingest gridded products such as ice velocity into OGGM (and compare them with model output)</p></li>
+<li><p><a class="reference internal" href="elevation_bands_vs_centerlines.html"><span class="std std-doc">elevation_bands_vs_centerlines</span></a>: Differences between “elevation band” and “centerline” flowlines</p></li>
+<li><p><a class="reference internal" href="numeric_solvers.html"><span class="std std-doc">numeric_solvers</span></a>: Understand the difference between the ice dynamic solvers in OGGM</p></li>
+<li><p><a class="reference internal" href="oggm_shop.html"><span class="std std-doc">oggm_shop</span></a>: OGGM-Shop and Glacier Directories in OGGM</p></li>
+<li><p><a class="reference internal" href="ingest_gridded_data_on_flowlines.html"><span class="std std-doc">ingest_gridded_data_on_flowlines</span></a>: ingest gridded products such as ice velocity into OGGM (and compare them with model output)</p></li>
 </ul>
 <div class="alert alert-info">
         Starting from this point, it's important to choose the prepro_base_url based on the type of flowline you're working with (see end of this chapter).
@@ -787,11 +793,11 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:00:39: oggm.workflow: Execute entity tasks [simple_glacier_masks] on 1 glaciers
-2024-08-23 09:00:39: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
-2024-08-23 09:00:39: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
-2024-08-23 09:00:39: oggm.workflow: Execute entity tasks [compute_downstream_line] on 1 glaciers
-2024-08-23 09:00:39: oggm.workflow: Execute entity tasks [compute_downstream_bedshape] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 14:51:14: oggm.workflow: Execute entity tasks [simple_glacier_masks] on 1 glaciers
+2024-08-23 14:51:14: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
+2024-08-23 14:51:14: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
+2024-08-23 14:51:14: oggm.workflow: Execute entity tasks [compute_downstream_line] on 1 glaciers
+2024-08-23 14:51:14: oggm.workflow: Execute entity tasks [compute_downstream_bedshape] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -837,10 +843,10 @@ print<span class="o">?</span>
 </ul>
 <p>Related Tutorials:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#tutorials/oggm_shop.ipynb"><span class="xref myst">oggm_shop</span></a>: OGGM-Shop and Glacier Directories in OGGM</p></li>
-<li><p><a class="reference internal" href="#tutorials/massbalance_calibration.ipynb"><span class="xref myst">massbalance_calibration</span></a>: A look into the new mass balance calibration in OGGM v1.6</p></li>
-<li><p><a class="reference internal" href="#tutorials/massbalance_perturbation.ipynb"><span class="xref myst">massbalance_perturbation</span></a>: Mass balance parameter perturbation experiments</p></li>
-<li><p><a class="reference internal" href="#tutorials/inversion.ipynb"><span class="xref myst">inversion</span></a>: run the OGGM ice thickness inversion model with various ice parameters</p></li>
+<li><p><a class="reference internal" href="oggm_shop.html"><span class="std std-doc">oggm_shop</span></a>: OGGM-Shop and Glacier Directories in OGGM</p></li>
+<li><p><a class="reference internal" href="massbalance_calibration.html"><span class="std std-doc">massbalance_calibration</span></a>: A look into the new mass balance calibration in OGGM v1.6</p></li>
+<li><p><a class="reference internal" href="massbalance_perturbation.html"><span class="std std-doc">massbalance_perturbation</span></a>: Mass balance parameter perturbation experiments</p></li>
+<li><p><a class="reference internal" href="inversion.html"><span class="std std-doc">inversion</span></a>: run the OGGM ice thickness inversion model with various ice parameters</p></li>
 </ul>
 <div class="alert alert-info">
         For the inversion, we diverge from the standard preprocessed directories when focusing on individual glaciers instead of entire regions. This is because calibrate_inversion_from_consensus adjusts glacier volume based on total regional consensus estimates, not per glacier. Since volume estimates are model-based and not directly observed, they're less reliable for individual calibration. However, for our example, we'll calibrate using the consensus estimate for a single glacier, differing from the preprocessed approach.
@@ -875,71 +881,71 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:00:39: oggm.workflow: Execute entity tasks [process_climate_data] on 1 glaciers
-2024-08-23 09:00:50: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
-2024-08-23 09:00:52: oggm.workflow: Execute entity tasks [apparent_mb_from_any_mb] on 1 glaciers
-2024-08-23 09:00:52: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 1 glaciers
-2024-08-23 09:00:52: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
-2024-08-23 09:00:52: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:52: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:52: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
-2024-08-23 09:00:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Consensus estimate optimisation with A factor: 7.876802795318141 and fs: 0
-2024-08-23 09:00:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Consensus estimate optimisation with A factor: 3.98840139765907 and fs: 0
-2024-08-23 09:00:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Consensus estimate optimisation with A factor: 2.044200698829535 and fs: 0
-2024-08-23 09:00:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Consensus estimate optimisation with A factor: 2.869309409059597 and fs: 0
-2024-08-23 09:00:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Consensus estimate optimisation with A factor: 2.7157333579518252 and fs: 0
-2024-08-23 09:00:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Consensus estimate optimisation with A factor: 2.6897121901531937 and fs: 0
-2024-08-23 09:00:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: calibrate_inversion_from_consensus converged after 7 iterations and fs=0. The resulting Glen A factor is 2.6897121901531937.
-2024-08-23 09:00:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [init_present_time_glacier] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 14:51:14: oggm.workflow: Execute entity tasks [process_climate_data] on 1 glaciers
+2024-08-23 14:51:22: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [apparent_mb_from_any_mb] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Consensus estimate optimisation with A factor: 7.876802795318141 and fs: 0
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Consensus estimate optimisation with A factor: 3.98840139765907 and fs: 0
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Consensus estimate optimisation with A factor: 2.044200698829535 and fs: 0
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Consensus estimate optimisation with A factor: 2.869309409059597 and fs: 0
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Consensus estimate optimisation with A factor: 2.7157333579518252 and fs: 0
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Consensus estimate optimisation with A factor: 2.6897121901531937 and fs: 0
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: calibrate_inversion_from_consensus converged after 7 iterations and fs=0. The resulting Glen A factor is 2.6897121901531937.
+2024-08-23 14:51:23: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [init_present_time_glacier] on 1 glaciers
 </pre></div>
 </div>
 </div>
 </div>
 <p><strong>Guidance on utilizing various baseline climates:</strong></p>
-<p>Currently, OGGM supports a variety of baseline climates, including ‘CRU’, ‘HISTALP’, ‘W5E5’, ‘GSWP3_W5E5’ (the default), ‘ERA5’, ‘ERA5L’, ‘CERA’, ‘ERA5dr’, and ‘ERA5L-HMA’. Although switching between these datasets is straightforward, calibrating the mass balance model according to each dataset is more complex. For instance, you’ll need to choose a default precipitation factor that suits both your selected climate dataset and your specific region. Additionally, you must determine the best method to calibrate the mass balance parameters. For a comprehensive guide on the available options, explanations, and how to incorporate your own geodetic observations, please refer to the tutorial <a class="reference internal" href="#tutorials/massbalance_calibration.ipynb"><span class="xref myst">massbalance_calibration</span></a>.</p>
+<p>Currently, OGGM supports a variety of baseline climates, including ‘CRU’, ‘HISTALP’, ‘W5E5’, ‘GSWP3_W5E5’ (the default), ‘ERA5’, ‘ERA5L’, ‘CERA’, ‘ERA5dr’, and ‘ERA5L-HMA’. Although switching between these datasets is straightforward, calibrating the mass balance model according to each dataset is more complex. For instance, you’ll need to choose a default precipitation factor that suits both your selected climate dataset and your specific region. Additionally, you must determine the best method to calibrate the mass balance parameters. For a comprehensive guide on the available options, explanations, and how to incorporate your own geodetic observations, please refer to the tutorial <a class="reference internal" href="massbalance_calibration.html"><span class="std std-doc">massbalance_calibration</span></a>.</p>
 <p>Here’s an example of using the ERA5 dataset:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># define the baseline climate and add it</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;baseline_climate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;ERA5&#39;</span>
@@ -1005,8 +1011,8 @@ print<span class="o">?</span>
 <p>Related Tutorials:</p>
 <ul class="simple">
 <li><p>10 minutes to… <a class="reference internal" href="../10minutes/dynamical_spinup.html"><span class="std std-doc">the new dynamical spinup in OGGM v1.6</span></a></p></li>
-<li><p><a class="reference internal" href="#tutorials/dynamical_spinup.ipynb"><span class="xref myst">dynamical_spinup</span></a>: a deeper dive into the dynamical spinup for past simulations</p></li>
-<li><p><a class="reference internal" href="#tutorials/numeric_solvers.ipynb"><span class="xref myst">numeric_solvers</span></a>: Understand the difference between the ice dynamic solvers in OGGM</p></li>
+<li><p><a class="reference internal" href="dynamical_spinup.html"><span class="std std-doc">dynamical_spinup</span></a>: a deeper dive into the dynamical spinup for past simulations</p></li>
+<li><p><a class="reference internal" href="numeric_solvers.html"><span class="std std-doc">numeric_solvers</span></a>: Understand the difference between the ice dynamic solvers in OGGM</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1045,8 +1051,8 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
-2024-08-23 09:00:53: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
+2024-08-23 14:51:23: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1086,7 +1092,7 @@ print<span class="o">?</span>
 </ul>
 <p>Related Tutorials:</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#tutorials/store_and_compress_glacierdirs.ipynb"><span class="xref myst">store_and_compress_glacierdirs</span></a>: storing glacier directories for later use</p></li>
+<li><p><a class="reference internal" href="store_and_compress_glacierdirs.html"><span class="std std-doc">store_and_compress_glacierdirs</span></a>: storing glacier directories for later use</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1099,7 +1105,7 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:00:56: oggm.workflow: Execute entity tasks [copy_to_basedir] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 14:51:26: oggm.workflow: Execute entity tasks [copy_to_basedir] on 1 glaciers
 </pre></div>
 </div>
 </div>

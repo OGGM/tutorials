@@ -61,7 +61,7 @@
     <script data-domain="tutorials.oggm.org" defer="defer" src="https://plausible.oggm.org/js/script.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="OGGM shop and additional data" href="../../book/shop.html" />
+    <link rel="next" title="Calving" href="../../book/calving.html" />
     <link rel="prev" title="Ice thickness inversion" href="inversion.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -217,11 +217,16 @@
 <li class="toctree-l2"><a class="reference internal" href="dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="ioggm.html">“Instructed OGGM”: running IGM within the OGGM workflow</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../book/thickness.html">Ice thickness</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="inversion.html">Ice thickness inversion</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Dynamic model initialization using observed thickness data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/calving.html">Calving</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -244,8 +249,6 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/merging_glaciers.html">Merging glaciers for past climate simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 </details></li>
@@ -565,11 +568,11 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:24:38: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2024-08-23 09:24:38: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2024-08-23 09:24:38: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2024-08-23 09:24:40: oggm.workflow: init_glacier_directories from prepro level 4 on 1 glaciers.
-2024-08-23 09:24:40: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 15:20:21: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2024-08-23 15:20:21: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2024-08-23 15:20:21: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2024-08-23 15:20:23: oggm.workflow: init_glacier_directories from prepro level 4 on 1 glaciers.
+2024-08-23 15:20:23: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -588,8 +591,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:25:13: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
-2024-08-23 09:25:13: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 15:20:46: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
+2024-08-23 15:20:46: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -674,11 +677,11 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:25:14: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:17: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 15:20:47: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:20:49: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.SemiImplicitModel at 0x7f20398d9750&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.SemiImplicitModel at 0x7f7136e21f10&gt;]
 </pre></div>
 </div>
 </div>
@@ -838,19 +841,19 @@ dmdtda millan:                               -1134.6 kg m-2 yr-1, diff. to ref.:
 dmdtda millan_adapted:                       -1110.3 kg m-2 yr-1, diff. to ref.: -10.0 kg m-2 yr-1
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 09:25:20: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:24: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:27: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:33: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:34: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:36: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:40: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:42: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:44: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:46: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:47: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:49: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-23 09:25:51: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-23 15:20:52: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:20:56: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:00: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:05: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:07: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:09: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:13: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:14: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:16: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:18: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:20: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:22: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2024-08-23 15:21:24: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
 </pre></div>
 </div>
 <img alt="../../_images/977114cbb9be327ffed4c7c48266460a83a1d01c4549735d61740251adafdad0.png" src="../../_images/977114cbb9be327ffed4c7c48266460a83a1d01c4549735d61740251adafdad0.png" />
@@ -933,11 +936,11 @@ dmdtda millan_adapted:                       -1110.3 kg m-2 yr-1, diff. to ref.:
       </div>
     </a>
     <a class="right-next"
-       href="../../book/shop.html"
+       href="../../book/calving.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">OGGM shop and additional data</p>
+        <p class="prev-next-title">Calving</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
