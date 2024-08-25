@@ -65,7 +65,7 @@
     <link rel="prev" title="Understand the difference between the ice dynamic solvers in OGGM" href="numeric_solvers.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Aug 23, 2024"/>
+    <meta name="docbuild:last-update" content="Aug 25, 2024"/>
   </head>
   
   
@@ -490,7 +490,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -506,6 +508,49 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-consensus-and-cook-thickness-product-to-the-gdir">Add consensus and cook thickness product to the gdir</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activate-the-3-lines-of-code-in-the-following-code-block-to-match-the-starting-volume-with-the-consensus-volume-farinotti-et-al-2019">Activate the 3 lines of code in the following code block to match the starting volume with the consensus volume (Farinotti et al. 2019)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#note-the-consensus-volume-is-used-as-a-reference-volume-for-oggm-s-dynamic-spinup-during-the-bed-inversion-as-a-reference-volume-but-in-the-further-workflow-only-the-rgi-area-is-matched-and-not-the-consensus-volume">Note: the consensus volume is used as a reference volume for OGGM’s dynamic spinup during the bed inversion as a reference volume, but in the further workflow only the RGI-area is matched and not the consensus volume.</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-gcm-climate">Running OGGM Flowline with a GCM Climate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model">create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-this-mb-model-with-the-instructed-oggm-doesn-t-work-yet">(using this MB model with the instructed-oggm doesn’t work yet)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-random-climate">Running OGGM Flowline with a Random Climate</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#this-run-is-forced-with-climate-data-from-1999-2019-randomly-sampled">this run is forced with climate data from 1999-2019 randomly sampled</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model">create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019">Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#once-with-random-and-once-with-the-same-gcm-climate-as-above">once with random and once with the same GCM climate as above</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product">Running the iOGGM from the Cook et al. 2023 ice thickness product</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">once with random and once with the same GCM climate as above</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-from-disk-for-plotting">load the data from disk for plotting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adapt-starting-date-for-the-random-runs">adapt starting date for the random runs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-plots">Comparison plots</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-plot-both-scenarios">Volume plot - both scenarios</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-plot-cropped-gcm-only">volume plot cropped - GCM only</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gcm-climate-only-volume-plot">gcm climate only - volume plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-climate-only-volume-plot">random climate only - volume plot</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -517,6 +562,735 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="instructed-oggm-running-igm-within-the-oggm-workflow">
 <h1>“Instructed OGGM”: running IGM within the OGGM workflow<a class="headerlink" href="#instructed-oggm-running-igm-within-the-oggm-workflow" title="Link to this heading">#</a></h1>
+<p>This tutorial gives you the tools to run IGM within OGGM and also compare it with OGGM runs.</p>
+<p><strong>This is very much work in progress.</strong> You’ll need an IGM installation for this to run. The notebook currently does not run on OGGM Hub or is not displayed on the website, because of the Tensorflow depedency. We are working on it!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span>
+<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">DEFAULT_BASE_URL</span>
+<span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">massbalance</span>
+<span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">gcm_climate</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">igm</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+
+<span class="c1">## Initialize OGGM and set up the default run parameters</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
+
+<span class="c1">## Local working directory (where OGGM will write its output)</span>
+<span class="c1"># WORKING_DIR = utils.gettempdir(&#39;OGGM_distr4&#39;)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_temp_dir</span><span class="p">(</span><span class="s1">&#39;OGGM_distributed_&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">## Pick a glacier</span>
+<span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.01450&#39;</span><span class="p">]</span>  <span class="c1"># This is Aletsch</span>
+<span class="c1"># rgi_ids = [&#39;RGI60-11.00897&#39;]  # This is Hintereisferner</span>
+<span class="c1"># rgi_ids = [&#39;RGI60-11.03638&#39;]  # This is Argentiere</span>
+<span class="c1"># base_url = &#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/exps/igm_v2&#39; # not used currently, data is taken from oggm.DEFAULT_BASE_URL</span>
+
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> 
+                                         <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">,</span> 
+                                         <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> 
+                                         <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="kn">import</span> <span class="nn">igm</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;igm&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="add-consensus-and-cook-thickness-product-to-the-gdir">
+<h2>Add consensus and cook thickness product to the gdir<a class="headerlink" href="#add-consensus-and-cook-thickness-product-to-the-gdir" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># add consensus now as well, as we use a different prepro</span>
+<span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">bedtopo</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">bedtopo</span><span class="o">.</span><span class="n">add_consensus_thickness</span><span class="p">,</span> <span class="n">gdir</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># add consensus now as well, as we use a different prepro</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">bedtopo</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">bedtopo</span><span class="o">.</span><span class="n">add_consensus_thickness</span><span class="p">,</span> <span class="n">gdir</span><span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">cook23</span>
+<span class="n">cook23</span><span class="o">.</span><span class="n">cook23_to_gdir</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">cook23</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">cook23</span><span class="o">.</span><span class="n">cook23_to_gdir</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<section id="activate-the-3-lines-of-code-in-the-following-code-block-to-match-the-starting-volume-with-the-consensus-volume-farinotti-et-al-2019">
+<h3>Activate the 3 lines of code in the following code block to match the starting volume with the consensus volume (Farinotti et al. 2019)<a class="headerlink" href="#activate-the-3-lines-of-code-in-the-following-code-block-to-match-the-starting-volume-with-the-consensus-volume-farinotti-et-al-2019" title="Link to this heading">#</a></h3>
+<section id="note-the-consensus-volume-is-used-as-a-reference-volume-for-oggm-s-dynamic-spinup-during-the-bed-inversion-as-a-reference-volume-but-in-the-further-workflow-only-the-rgi-area-is-matched-and-not-the-consensus-volume">
+<h4>Note: the consensus volume is used as a reference volume for OGGM’s dynamic spinup during the bed inversion as a reference volume, but in the further workflow only the RGI-area is matched and not the consensus volume.<a class="headerlink" href="#note-the-consensus-volume-is-used-as-a-reference-volume-for-oggm-s-dynamic-spinup-during-the-bed-inversion-as-a-reference-volume-but-in-the-further-workflow-only-the-rgi-area-is-matched-and-not-the-consensus-volume" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># match of consensus</span>
+<span class="c1"># ### Recompute the volume to match Farinotti et al. 2019 (for consistency with IGM later) </span>
+<span class="c1"># from oggm.global_tasks import calibrate_inversion_from_consensus</span>
+<span class="c1"># calibrate_inversion_from_consensus([gdir])</span>
+<span class="c1"># get ready for modelling</span>
+<span class="c1"># tasks.init_present_time_glacier(gdir)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="running-oggm-flowline-with-a-gcm-climate">
+<h3>Running OGGM Flowline with a GCM Climate<a class="headerlink" href="#running-oggm-flowline-with-a-gcm-climate" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can choose one of these 5 different GCMs:</span>
+<span class="c1"># &#39;gfdl-esm4_r1i1p1f1&#39;, &#39;mpi-esm1-2-hr_r1i1p1f1&#39;, &#39;mri-esm2-0_r1i1p1f1&#39; (&quot;low sensitivity&quot; models, within typical ranges from AR6)</span>
+<span class="c1"># &#39;ipsl-cm6a-lr_r1i1p1f1&#39;, &#39;ukesm1-0-ll_r1i1p1f2&#39; (&quot;hotter&quot; models, especially ukesm1-0-ll)</span>
+<span class="n">member</span> <span class="o">=</span> <span class="s1">&#39;mri-esm2-0_r1i1p1f1&#39;</span> 
+
+<span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span><span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
+    <span class="c1"># bias correct them</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_monthly_isimip_data</span><span class="p">,</span> <span class="n">gdir</span><span class="p">,</span> 
+                                 <span class="n">ssp</span> <span class="o">=</span> <span class="n">ssp</span><span class="p">,</span>
+                                 <span class="c1"># gcm member -&gt; you can choose another one</span>
+                                 <span class="n">member</span><span class="o">=</span><span class="n">member</span><span class="p">,</span>
+                                 <span class="c1"># recognize the climate file for later</span>
+                                 <span class="n">output_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">member</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                                 <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">member</span> <span class="o">=</span> <span class="s1">&#39;mri-esm2-0_r1i1p1f1&#39;</span> 
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span><span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="c1"># bias correct them</span>
+<span class="ne">----&gt; </span><span class="mi">8</span>     <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_monthly_isimip_data</span><span class="p">,</span> <span class="n">gdir</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">9</span>                                  <span class="n">ssp</span> <span class="o">=</span> <span class="n">ssp</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>                                  <span class="c1"># gcm member -&gt; you can choose another one</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span>                                  <span class="n">member</span><span class="o">=</span><span class="n">member</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span>                                  <span class="c1"># recognize the climate file for later</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span>                                  <span class="n">output_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">member</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span>                                  <span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
+    <span class="n">rid</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">member</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdir</span><span class="p">,</span>
+                                 <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
+                                 <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
+                                 <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
+                                 <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span> 
+                                 <span class="n">store_fl_diagnostics</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># recognize the run for later</span>
+                                <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">rid</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">member</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>     <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdir</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                                  <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                                  <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                                  <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>                                  <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">8</span>                                  <span class="n">store_fl_diagnostics</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># recognize the run for later</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>                                 <span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model">
+<h3>create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model<a class="headerlink" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model" title="Link to this heading">#</a></h3>
+<section id="using-this-mb-model-with-the-instructed-oggm-doesn-t-work-yet">
+<h4>(using this MB model with the instructed-oggm doesn’t work yet)<a class="headerlink" href="#using-this-mb-model-with-the-instructed-oggm-doesn-t-work-yet" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_gcm</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MultipleFlowlineMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> 
+                                                   <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>
+                                                   <span class="n">bias</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                                   <span class="n">input_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">member</span><span class="si">}</span><span class="s1">_ssp370&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mb_gcm</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MultipleFlowlineMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">2</span>                                                    <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>                                                    <span class="n">bias</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                                                    <span class="n">input_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">member</span><span class="si">}</span><span class="s1">_ssp370&#39;</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="running-oggm-flowline-with-a-random-climate">
+<h3>Running OGGM Flowline with a Random Climate<a class="headerlink" href="#running-oggm-flowline-with-a-random-climate" title="Link to this heading">#</a></h3>
+<section id="this-run-is-forced-with-climate-data-from-1999-2019-randomly-sampled">
+<h4>this run is forced with climate data from 1999-2019 randomly sampled<a class="headerlink" href="#this-run-is-forced-with-climate-data-from-1999-2019-randomly-sampled" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do a random run with a bit of warming</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+                         <span class="n">y0</span><span class="o">=</span><span class="mi">2009</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="c1"># Climate of 1999-2019</span>
+                         <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Change for another randomness </span>
+                         <span class="n">temperature_bias</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># casual warming - change for other scenarios</span>
+                         <span class="n">store_fl_diagnostics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># important! This will be needed for the redistribution</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_rdn_1&#39;</span><span class="p">,</span>  <span class="c1"># name the run</span>
+                         <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">,</span>
+                        <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Do a random run with a bit of warming</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">nyears</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span>                          <span class="n">y0</span><span class="o">=</span><span class="mi">2009</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="c1"># Climate of 1999-2019</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                          <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Change for another randomness </span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                          <span class="n">temperature_bias</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>  <span class="c1"># casual warming - change for other scenarios</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                          <span class="n">store_fl_diagnostics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># important! This will be needed for the redistribution</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>                          <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_rdn_1&#39;</span><span class="p">,</span>  <span class="c1"># name the run</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>                          <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>                         <span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model">
+<h3>create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model<a class="headerlink" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_rand</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">RandomMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                                   <span class="n">y0</span><span class="o">=</span><span class="mi">2009</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="c1"># Climate of 1999-2019</span>
+                                   <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Change for another randomness</span>
+                                   <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">mb_rand</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">RandomMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>                                    <span class="n">y0</span><span class="o">=</span><span class="mi">2009</span><span class="p">,</span> <span class="n">halfsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="c1"># Climate of 1999-2019</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>                                    <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Change for another randomness</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                                    <span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;gridded_data&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">gd</span><span class="p">:</span>
+    <span class="n">gd</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># set values outside the glacier to np.nan</span>
+<span class="c1"># using the glacier mask, as otherwise there is more ice from surrounding glaciers in the domain, </span>
+<span class="c1"># which shouldn&#39;t accumulate more ice, still adds to the total volume/area of the domain.. either mask it out beforehand or before doing plots.</span>
+<span class="c1"># experiment with it: does the mass outside of the mask only decrease? =&gt; ?</span>
+<span class="n">gd</span><span class="p">[</span><span class="s1">&#39;cook23_thk_masked&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="p">,</span> <span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">10</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;gridded_data&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">gd</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">gd</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># set values outside the glacier to np.nan</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># using the glacier mask, as otherwise there is more ice from surrounding glaciers in the domain, </span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># which shouldn&#39;t accumulate more ice, still adds to the total volume/area of the domain.. either mask it out beforehand or before doing plots.</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># experiment with it: does the mass outside of the mask only decrease? =&gt; ?</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bed_con</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">topo</span> <span class="o">-</span> <span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">bed_cook_masked</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">topo</span> <span class="o">-</span> <span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk_masked</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">bed_cook</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">topo</span> <span class="o">-</span> <span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">bed_con</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">topo</span> <span class="o">-</span> <span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">bed_cook_masked</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">topo</span> <span class="o">-</span> <span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk_masked</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">bed_cook</span> <span class="o">=</span> <span class="n">gd</span><span class="o">.</span><span class="n">topo</span> <span class="o">-</span> <span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk</span>
+
+<span class="ne">NameError</span>: name &#39;gd&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019">
+<h3>Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)<a class="headerlink" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019" title="Link to this heading">#</a></h3>
+<section id="once-with-random-and-once-with-the-same-gcm-climate-as-above">
+<h4>once with random and once with the same GCM climate as above<a class="headerlink" href="#once-with-random-and-once-with-the-same-gcm-climate-as-above" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">############################### OGGM-IGM - CONSENSUS - RANDOM CLIMATE</span>
+<span class="kn">from</span> <span class="nn">igm.instructed_oggm</span> <span class="kn">import</span> <span class="n">IGM_Model2D</span>
+
+<span class="n">sdmodel_igm_con_rnd</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_con</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                     <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_rand</span><span class="p">,</span> 
+                        <span class="n">y0</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">dsr_igm_con_rnd</span> <span class="o">=</span> <span class="n">sdmodel_igm_con_rnd</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">############################### OGGM-IGM - CONSENSUS - RANDOM CLIMATE</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">igm.instructed_oggm</span> <span class="kn">import</span> <span class="n">IGM_Model2D</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">sdmodel_igm_con_rnd</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_con</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                      <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_rand</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                         <span class="n">y0</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">dsr_igm_con_rnd</span> <span class="o">=</span> <span class="n">sdmodel_igm_con_rnd</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;igm&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">############################### OGGM-IGM - CONSENSUS - GCM CLIMATE</span>
+<span class="kn">from</span> <span class="nn">igm.instructed_oggm</span> <span class="kn">import</span> <span class="n">IGM_Model2D</span>
+
+<span class="n">sdmodel_igm_con_gcm</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_con</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                                    <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_gcm</span><span class="p">,</span> 
+                                    <span class="n">y0</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dsr_igm_con_gcm</span> <span class="o">=</span> <span class="n">sdmodel_igm_con_gcm</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">2100</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">############################### OGGM-IGM - CONSENSUS - GCM CLIMATE</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">igm.instructed_oggm</span> <span class="kn">import</span> <span class="n">IGM_Model2D</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">sdmodel_igm_con_gcm</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_con</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span>                                     <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_gcm</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                                     <span class="n">y0</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">dsr_igm_con_gcm</span> <span class="o">=</span> <span class="n">sdmodel_igm_con_gcm</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">2100</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;igm&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product">
+<h3>Running the iOGGM from the Cook et al. 2023 ice thickness product<a class="headerlink" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4>once with random and once with the same GCM climate as above<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">############################### OGGM-IGM - COOK_23 - RANDOM CLIMATE</span>
+<span class="n">sdmodel_igm_cook_rnd</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk_masked</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                     <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_rand</span><span class="p">,</span> 
+                        <span class="n">y0</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">dsr_igm_cook_rnd</span> <span class="o">=</span> <span class="n">sdmodel_igm_cook_rnd</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">############################### OGGM-IGM - COOK_23 - RANDOM CLIMATE</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">sdmodel_igm_cook_rnd</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk_masked</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span>                      <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_rand</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                         <span class="n">y0</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">dsr_igm_cook_rnd</span> <span class="o">=</span> <span class="n">sdmodel_igm_cook_rnd</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;IGM_Model2D&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">############################### OGGM-IGM - COOK_23 - GCM CLIMATE</span>
+<span class="n">sdmodel_igm_cook_gcm</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk_masked</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+                     <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_gcm</span><span class="p">,</span> 
+                        <span class="n">y0</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">dsr_igm_cook_gcm</span> <span class="o">=</span> <span class="n">sdmodel_igm_cook_gcm</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">2100</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">############################### OGGM-IGM - COOK_23 - GCM CLIMATE</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">sdmodel_igm_cook_gcm</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">cook23_thk_masked</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">3</span>                      <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_cook_masked</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_gcm</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                         <span class="n">y0</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">dsr_igm_cook_gcm</span> <span class="o">=</span> <span class="n">sdmodel_igm_cook_gcm</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">2100</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;IGM_Model2D&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="load-the-data-from-disk-for-plotting">
+<h2>load the data from disk for plotting<a class="headerlink" href="#load-the-data-from-disk-for-plotting" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;fl_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370&#39;</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fl_0&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds_gcm</span><span class="p">:</span>
+    <span class="n">ds_gcm</span> <span class="o">=</span> <span class="n">ds_gcm</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;fl_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370&#39;</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fl_0&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds_gcm</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">ds_gcm</span> <span class="o">=</span> <span class="n">ds_gcm</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;fl_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_rdn_1&#39;</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fl_0&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds_rnd</span><span class="p">:</span>
+    <span class="n">ds_rnd</span> <span class="o">=</span> <span class="n">ds_rnd</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;fl_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_rdn_1&#39;</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fl_0&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds_rnd</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">ds_rnd</span> <span class="o">=</span> <span class="n">ds_rnd</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;fl_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fl_0&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">spinup</span><span class="p">:</span>
+    <span class="n">spinup</span> <span class="o">=</span> <span class="n">spinup</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;fl_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_historical&#39;</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;fl_0&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">spinup</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">spinup</span> <span class="o">=</span> <span class="n">spinup</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<section id="adapt-starting-date-for-the-random-runs">
+<h3>adapt starting date for the random runs<a class="headerlink" href="#adapt-starting-date-for-the-random-runs" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ds_rnd</span><span class="p">,</span> <span class="n">dsr_igm_con_rnd</span><span class="p">,</span> <span class="n">dsr_igm_cook_rnd</span><span class="p">]:</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span>
+<span class="n">ds_rnd</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">ds_rnd</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ds_rnd</span><span class="p">,</span> <span class="n">dsr_igm_con_rnd</span><span class="p">,</span> <span class="n">dsr_igm_cook_rnd</span><span class="p">]:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">df</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">ds_rnd</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span>  <span class="n">ds_rnd</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">)</span> 
+
+<span class="ne">NameError</span>: name &#39;ds_rnd&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="comparison-plots">
+<h2>Comparison plots<a class="headerlink" href="#comparison-plots" title="Link to this heading">#</a></h2>
+<section id="volume-plot-both-scenarios">
+<h3>Volume plot - both scenarios<a class="headerlink" href="#volume-plot-both-scenarios" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comparison plots</span>
+<span class="c1"># OGGM Flowline</span>
+<span class="p">(</span><span class="n">ds_gcm</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">ds_rnd</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - RAND_CLIM&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+
+<span class="c1"># IGM (from consensus volume)</span>
+<span class="p">(</span><span class="n">dsr_igm_con_rnd</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - CONSENSUS - RAND_CLIM&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">dsr_igm_con_gcm</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - CONSENSUS - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+
+<span class="c1"># IGM (from cook23 volume)</span>
+<span class="p">(</span><span class="n">dsr_igm_cook_rnd</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - COOK - RAND_CLIM&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">dsr_igm_cook_gcm</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - COOK - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;VOLUME in km^3&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;YEAR&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Volume evolution comparison of different model runs</span><span class="se">\n</span><span class="s1"> OGGM(+dynamic spinup) and IGM&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># comparison plots</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># OGGM Flowline</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="p">(</span><span class="n">ds_gcm</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="p">(</span><span class="n">ds_rnd</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - RAND_CLIM&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;ds_gcm&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="volume-plot-cropped-gcm-only">
+<h3>volume plot cropped - GCM only<a class="headerlink" href="#volume-plot-cropped-gcm-only" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># comparison plots</span>
+<span class="c1"># OGGM Flowline</span>
+<span class="p">(</span><span class="n">ds_gcm</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="c1"># (ds_rnd.volume_m3.sum(dim=[&#39;dis_along_flowline&#39;])*1e-9).plot(label=&#39;OGGM-Flowline - RAND_CLIM&#39;);</span>
+<span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+
+<span class="c1"># IGM (from consensus volume)</span>
+<span class="c1"># (dsr_igm_con_rnd.ice_thickness.sum(dim=[&#39;x&#39;, &#39;y&#39;])*gdir.grid.dx**2*1e-9).plot(label=&#39;OGGM-IGM - CONSENSUS - RAND_CLIM&#39;);</span>
+<span class="p">(</span><span class="n">dsr_igm_con_gcm</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - CONSENSUS - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+
+<span class="c1"># IGM (from cook23 volume)</span>
+<span class="c1"># (dsr_igm_cook_rnd.ice_thickness.sum(dim=[&#39;x&#39;, &#39;y&#39;])*gdir.grid.dx**2*1e-9).plot(label=&#39;OGGM-IGM - COOK - RAND_CLIM&#39;);</span>
+<span class="p">(</span><span class="n">dsr_igm_cook_gcm</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - COOK - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+
+<span class="c1"># rgi date</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">2003</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;RGI-date&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">2003.1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;RGI-date&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">)</span>
+
+<span class="c1"># 2020</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;2020&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">2020.1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;2020&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;VOLUME in km^3&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;YEAR&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">1995</span><span class="p">,</span> <span class="mi">2030</span><span class="p">)</span>
+<span class="c1"># plt.ylim()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Volume evolution comparison of different model runs</span><span class="se">\n</span><span class="s1"> OGGM(+dynamic spinup) and IGM</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="s1">&#39;highlighting spinup time&#39;</span><span class="p">);</span>
+<span class="c1"># plt.xlim(2000, 2030)</span>
+<span class="c1"># plt.ylim(8, 15)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># comparison plots</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="c1"># OGGM Flowline</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="p">(</span><span class="n">ds_gcm</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="c1"># (ds_rnd.volume_m3.sum(dim=[&#39;dis_along_flowline&#39;])*1e-9).plot(label=&#39;OGGM-Flowline - RAND_CLIM&#39;);</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;ds_gcm&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="gcm-climate-only-volume-plot">
+<h3>gcm climate only - volume plot<a class="headerlink" href="#gcm-climate-only-volume-plot" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">ds_gcm</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP FROM CONSENSUS&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">dsr_igm_con_gcm</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - CONSENSUS - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">dsr_igm_cook_gcm</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - COOK - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;VOLUME in km^3&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;YEAR&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Volume evolution comparison of different model runs</span><span class="se">\n</span><span class="s1"> OGGM(+dynamic spinup) and IGM</span><span class="se">\n</span><span class="s1"> </span><span class="se">\&quot;</span><span class="s1"> climate</span><span class="se">\&quot;</span><span class="s1">&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">22</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="p">(</span><span class="n">ds_gcm</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP FROM CONSENSUS&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="p">(</span><span class="n">dsr_igm_con_gcm</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - CONSENSUS - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;ds_gcm&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="random-climate-only-volume-plot">
+<h3>random climate only - volume plot<a class="headerlink" href="#random-climate-only-volume-plot" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">ds_rnd</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - RAND_CLIM&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">dsr_igm_con_rnd</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - CONSENSUS - RAND_CLIM&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">dsr_igm_cook_rnd</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - COOK - RAND_CLIM&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;VOLUME in km^3&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;YEAR&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Volume evolution comparison of different model runs</span><span class="se">\n</span><span class="s1"> OGGM(+dynamic spinup) and IGM</span><span class="se">\n</span><span class="s1"> </span><span class="se">\&quot;</span><span class="s1">random climate</span><span class="se">\&quot;</span><span class="s1">&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="p">(</span><span class="n">ds_rnd</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - RAND_CLIM&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="p">(</span><span class="n">dsr_igm_con_rnd</span><span class="o">.</span><span class="n">ice_thickness</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span><span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - CONSENSUS - RAND_CLIM&#39;</span><span class="p">);</span>
+
+<span class="ne">NameError</span>: name &#39;ds_rnd&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+<span class="p">(</span><span class="n">ds_gcm</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="c1"># (ds_rnd.area_m2.sum(dim=[&#39;dis_along_flowline&#39;])*1e-6).plot(label=&#39;OGGM-Flowline - RAND_CLIM&#39;);</span>
+
+
+<span class="c1"># ((dsr_igm_con_rnd.ice_thickness &gt; 1).sum(dim=[&#39;x&#39;, &#39;y&#39;]) *gdir.grid.dx**2*1e-6).plot(label=&#39;OGGM-IGM - CONSENSUS- RAND_CLIM&#39;);</span>
+<span class="p">((</span><span class="n">dsr_igm_con_gcm</span><span class="o">.</span><span class="n">ice_thickness</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span> <span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - CONSENSUS - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="c1"># ((dsr_igm_cook_rnd.ice_thickness &gt; 1).sum(dim=[&#39;x&#39;, &#39;y&#39;]) *gdir.grid.dx**2*1e-6).plot(label=&#39;OGGM-IGM - COOK - RAND_CLIM&#39;);</span>
+<span class="p">((</span><span class="n">dsr_igm_cook_gcm</span><span class="o">.</span><span class="n">ice_thickness</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">])</span> <span class="o">*</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-IGM - COOK - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;AREA in km^2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;YEAR&#39;</span><span class="p">)</span>
+<span class="c1"># plt.xlim(2000, 2030)</span>
+<span class="c1"># plt.ylim(75, 90)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">24</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="p">(</span><span class="n">spinup</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - SPINUP&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;navy&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="p">(</span><span class="n">ds_gcm</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;dis_along_flowline&#39;</span><span class="p">])</span><span class="o">*</span><span class="mf">1e-6</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;OGGM-Flowline - ISIMIP - ssp370&#39;</span><span class="p">);</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># (ds_rnd.area_m2.sum(dim=[&#39;dis_along_flowline&#39;])*1e-6).plot(label=&#39;OGGM-Flowline - RAND_CLIM&#39;);</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> 
+<span class="g g-Whitespace">      </span><span class="mi">5</span> 
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="c1"># ((dsr_igm_con_rnd.ice_thickness &gt; 1).sum(dim=[&#39;x&#39;, &#39;y&#39;]) *gdir.grid.dx**2*1e-6).plot(label=&#39;OGGM-IGM - CONSENSUS- RAND_CLIM&#39;);</span>
+
+<span class="ne">NameError</span>: name &#39;spinup&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -574,6 +1348,56 @@ document.write(`
             
             
               
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-consensus-and-cook-thickness-product-to-the-gdir">Add consensus and cook thickness product to the gdir</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activate-the-3-lines-of-code-in-the-following-code-block-to-match-the-starting-volume-with-the-consensus-volume-farinotti-et-al-2019">Activate the 3 lines of code in the following code block to match the starting volume with the consensus volume (Farinotti et al. 2019)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#note-the-consensus-volume-is-used-as-a-reference-volume-for-oggm-s-dynamic-spinup-during-the-bed-inversion-as-a-reference-volume-but-in-the-further-workflow-only-the-rgi-area-is-matched-and-not-the-consensus-volume">Note: the consensus volume is used as a reference volume for OGGM’s dynamic spinup during the bed inversion as a reference volume, but in the further workflow only the RGI-area is matched and not the consensus volume.</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-gcm-climate">Running OGGM Flowline with a GCM Climate</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model">create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-this-mb-model-with-the-instructed-oggm-doesn-t-work-yet">(using this MB model with the instructed-oggm doesn’t work yet)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-random-climate">Running OGGM Flowline with a Random Climate</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#this-run-is-forced-with-climate-data-from-1999-2019-randomly-sampled">this run is forced with climate data from 1999-2019 randomly sampled</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model">create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019">Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#once-with-random-and-once-with-the-same-gcm-climate-as-above">once with random and once with the same GCM climate as above</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product">Running the iOGGM from the Cook et al. 2023 ice thickness product</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">once with random and once with the same GCM climate as above</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-from-disk-for-plotting">load the data from disk for plotting</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adapt-starting-date-for-the-random-runs">adapt starting date for the random runs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-plots">Comparison plots</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-plot-both-scenarios">Volume plot - both scenarios</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-plot-cropped-gcm-only">volume plot cropped - GCM only</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gcm-climate-only-volume-plot">gcm climate only - volume plot</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-climate-only-volume-plot">random climate only - volume plot</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
             
           </div>
           <footer class="bd-footer-content">
@@ -595,7 +1419,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Aug 23, 2024.
+  Last updated on Aug 25, 2024.
   <br/>
 </p>
   </div>
