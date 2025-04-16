@@ -28,13 +28,14 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -65,7 +66,7 @@
     <link rel="prev" title="Dynamic spinup and dynamic melt_f calibration for past simulations" href="dynamical_spinup.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Aug 25, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 16, 2025"/>
   </head>
   
   
@@ -115,6 +116,13 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content"><p class="announcement">
+   🚧 <strong>Scheduled maintenance:</strong> the OGGM cluster will be offline <strong>April 27 (evening CEST) – April 30 (morning CEST) 2025</strong>.
+   <a href="https://oggm.org/2025/04/15/service-maintenance/">Learn more</a>.
+</p>
+</div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -537,11 +545,11 @@ document.write(`
 <p>In version 1.6, OGGM changed the default numeric solver to the <strong>Semi-Implicit</strong> model. In this notebook, we explore the main differences compared to the old default, the <strong>Flux-Based</strong> model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">tasks</span>
-<span class="kn">from</span> <span class="nn">oggm.core.flowline</span> <span class="kn">import</span> <span class="n">FluxBasedModel</span><span class="p">,</span> <span class="n">SemiImplicitModel</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">tasks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.flowline</span><span class="w"> </span><span class="kn">import</span> <span class="n">FluxBasedModel</span><span class="p">,</span> <span class="n">SemiImplicitModel</span>
 </pre></div>
 </div>
 </div>
@@ -567,13 +575,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:21:12: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2024-08-25 21:21:12: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2024-08-25 21:21:12: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2024-08-25 21:21:13: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2024-08-25 21:21:13: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2024-08-25 21:21:14: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2024-08-25 21:21:14: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:49:19: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2025-04-16 10:49:19: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2025-04-16 10:49:19: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2025-04-16 10:49:20: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2025-04-16 10:49:20: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2025-04-16 10:49:21: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2025-04-16 10:49:21: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -601,7 +609,7 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/acf1ea3e70608e2ae4e77a3767c4b3eb2dbacb27f4bd339ccb78c9275a6aaf71.png" src="../../_images/acf1ea3e70608e2ae4e77a3767c4b3eb2dbacb27f4bd339ccb78c9275a6aaf71.png" />
+<img alt="../../_images/cafb6c8d710c45a758f08b6aa24505ba4faf18ecab2fa6f8626ed45d10250950.png" src="../../_images/cafb6c8d710c45a758f08b6aa24505ba4faf18ecab2fa6f8626ed45d10250950.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -625,7 +633,7 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/61e70170962983816fb55928457613f442a27c5a26505f2f8fc4e12b199b8200.png" src="../../_images/61e70170962983816fb55928457613f442a27c5a26505f2f8fc4e12b199b8200.png" />
+<img alt="../../_images/af1e481a70b7a58563e8dcaa4a4eb5b7ecc45415dffe49c97e2d89171787a5c1.png" src="../../_images/af1e481a70b7a58563e8dcaa4a4eb5b7ecc45415dffe49c97e2d89171787a5c1.png" />
 </div>
 </div>
 <p>Whereas the Semi-Impicit model only works for single trapezoidal flowlines (elevation bands).</p>
@@ -633,7 +641,7 @@ hands-on introduction to the different flowline types.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># run Semi-Implicit with centerlines raises an error </span>
 <span class="c1"># The code below would fail (expected)</span>
-<span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
 <span class="k">with</span> <span class="n">pytest</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">(</span><span class="n">gdir_cl</span><span class="p">,</span>
                              <span class="n">evolution_model</span><span class="o">=</span><span class="n">SemiImplicitModel</span><span class="p">,</span>
@@ -645,8 +653,8 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:24:09: oggm.core.flowline: ValueError occurred during task flowline_model_run_semi_implicit on RGI60-14.06794: Implicit model does not work with tributaries.
-2024-08-25 21:24:09: oggm.core.flowline: ValueError occurred during task run_random_climate_semi_implicit on RGI60-14.06794: Implicit model does not work with tributaries.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:52:07: oggm.core.flowline: ValueError occurred during task flowline_model_run_semi_implicit on RGI60-14.06794: Implicit model does not work with tributaries.
+2025-04-16 10:52:07: oggm.core.flowline: ValueError occurred during task run_random_climate_semi_implicit on RGI60-14.06794: Implicit model does not work with tributaries.
 </pre></div>
 </div>
 </div>
@@ -675,7 +683,7 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/586c7864f81efefe8217d3f79b1dcfd1df2db44b822063820838779e49e3e4ed.png" src="../../_images/586c7864f81efefe8217d3f79b1dcfd1df2db44b822063820838779e49e3e4ed.png" />
+<img alt="../../_images/6e028de5d88df1e0a952ab167192c73fd8c858289c91ee1b388ca46389e8f24a.png" src="../../_images/6e028de5d88df1e0a952ab167192c73fd8c858289c91ee1b388ca46389e8f24a.png" />
 </div>
 </div>
 <p>You see that for the elevation band flowlines, both produce similar results. The differences arise from numeric instabilities in the Flux-Based model (see next paragraph). You can redo the experiment with a glacier where these instabilities are not that severe (e.g. RGI60-11.00897 Hintereisferner) and you will see both models produce the same result.</p>
@@ -691,8 +699,8 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Semi-Implicit time needed: 1.8 s
-Flux-Based time needed: 3.0 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Semi-Implicit time needed: 1.7 s
+Flux-Based time needed: 2.8 s
 </pre></div>
 </div>
 </div>
@@ -718,7 +726,7 @@ Flux-Based time needed: 3.0 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/89f9b402950c0bb2e5eff5f156d8e0ae42015888cfa9285bf169620db8b195ab.png" src="../../_images/89f9b402950c0bb2e5eff5f156d8e0ae42015888cfa9285bf169620db8b195ab.png" />
+<img alt="../../_images/f93315ba09737b4824e7145288e5055a9a4c296df23d3604dec380f25656b7d8.png" src="../../_images/f93315ba09737b4824e7145288e5055a9a4c296df23d3604dec380f25656b7d8.png" />
 </div>
 </div>
 <p>In this case instabilities are visible for the FluxBasedModel at around 30 km distance along the flowline. They can lead to very large velocities which reduce the maximum possible step size due to the cfl-criterion (see also in the <a class="reference external" href="https://docs.oggm.org/en/latest/faq.html#ice-velocities-in-oggm-are-sometimes-noisy-or-unrealistic-how-so">documentation</a>).</p>
@@ -731,7 +739,7 @@ Flux-Based time needed: 3.0 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:24:11: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:52:09: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
 </pre></div>
 </div>
 </div>
@@ -749,7 +757,7 @@ Flux-Based time needed: 3.0 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4ac548e5a84e3a08d349e407705894bfcfe100693ed6e24f98e7cc054f30ed22.png" src="../../_images/4ac548e5a84e3a08d349e407705894bfcfe100693ed6e24f98e7cc054f30ed22.png" />
+<img alt="../../_images/6054742ca3bc569b46f829466a3171ccbc87b176777c6b37b129bdf3ddddbab6.png" src="../../_images/6054742ca3bc569b46f829466a3171ccbc87b176777c6b37b129bdf3ddddbab6.png" />
 </div>
 </div>
 <p>In OGGM before v1.6, with the FluxBasedModel, the shape of this downstream line was defined by fitting a parabola to the valley walls. However, for the SemiImplicitModel we had to change the shape to a trapezoidal, eventhough a parabola approximates a mountain valley arguably better. We checked the influence of this change on advancing glaciers and found negligibly small differences in the volume on a regional scale. There might be some differences in the area.</p>
@@ -789,7 +797,7 @@ Flux-Based time needed: 3.0 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:24:17: oggm.cfg: PARAMS[&#39;downstream_line_shape&#39;] changed from `trapezoidal` to `parabola`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:52:14: oggm.cfg: PARAMS[&#39;downstream_line_shape&#39;] changed from `trapezoidal` to `parabola`.
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([False, False, False, False, False, False, False, False, False,
@@ -912,7 +920,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Aug 25, 2024.
+  Last updated on Apr 16, 2025.
   <br/>
 </p>
   </div>
@@ -923,7 +931,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2024.
+&copy; Copyright 2014-2025.
 </p>
 
 </div>

@@ -28,13 +28,14 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -65,7 +66,7 @@
     <link rel="prev" title="Understand the difference between the ice dynamic solvers in OGGM" href="numeric_solvers.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Aug 25, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 16, 2025"/>
   </head>
   
   
@@ -115,6 +116,13 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content"><p class="announcement">
+   🚧 <strong>Scheduled maintenance:</strong> the OGGM cluster will be offline <strong>April 27 (evening CEST) – April 30 (morning CEST) 2025</strong>.
+   <a href="https://oggm.org/2025/04/15/service-maintenance/">Learn more</a>.
+</p>
+</div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -513,35 +521,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-consensus-and-cook-thickness-product-to-the-gdir">Add consensus and cook thickness product to the gdir</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activate-the-3-lines-of-code-in-the-following-code-block-to-match-the-starting-volume-with-the-consensus-volume-farinotti-et-al-2019">Activate the 3 lines of code in the following code block to match the starting volume with the consensus volume (Farinotti et al. 2019)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#note-the-consensus-volume-is-used-as-a-reference-volume-for-oggm-s-dynamic-spinup-during-the-bed-inversion-as-a-reference-volume-but-in-the-further-workflow-only-the-rgi-area-is-matched-and-not-the-consensus-volume">Note: the consensus volume is used as a reference volume for OGGM’s dynamic spinup during the bed inversion as a reference volume, but in the further workflow only the RGI-area is matched and not the consensus volume.</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-gcm-climate">Running OGGM Flowline with a GCM Climate</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model">create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-this-mb-model-with-the-instructed-oggm-doesn-t-work-yet">(using this MB model with the instructed-oggm doesn’t work yet)</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-random-climate">Running OGGM Flowline with a Random Climate</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#this-run-is-forced-with-climate-data-from-1999-2019-randomly-sampled">this run is forced with climate data from 1999-2019 randomly sampled</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model">create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019">Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#once-with-random-and-once-with-the-same-gcm-climate-as-above">once with random and once with the same GCM climate as above</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product">Running the iOGGM from the Cook et al. 2023 ice thickness product</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">once with random and once with the same GCM climate as above</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-from-disk-for-plotting">load the data from disk for plotting</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adapt-starting-date-for-the-random-runs">adapt starting date for the random runs</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-consensus-and-cook-thickness-product-to-the-gdir">Add consensus and cook thickness product to the gdir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-gcm-climate">Running OGGM Flowline with a GCM Climate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model">create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-random-climate">Running OGGM Flowline with a Random Climate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model">create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019">Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product">Running the iOGGM from the Cook et al. 2023 ice thickness product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-from-disk-for-plotting">load the data from disk for plotting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-plots">Comparison plots</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-plot-both-scenarios">Volume plot - both scenarios</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-plot-cropped-gcm-only">volume plot cropped - GCM only</a></li>
@@ -563,20 +550,20 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="instructed-oggm-running-igm-within-the-oggm-workflow">
 <h1>“Instructed OGGM”: running IGM within the OGGM workflow<a class="headerlink" href="#instructed-oggm-running-igm-within-the-oggm-workflow" title="Link to this heading">#</a></h1>
 <p>This tutorial gives you the tools to run IGM within OGGM and also compare it with OGGM runs.</p>
-<p><strong>This is very much work in progress.</strong> You’ll need an IGM installation for this to run. The notebook currently does not run on OGGM Hub or is not displayed on the website, because of the Tensorflow depedency. We are working on it!</p>
+<p><strong>This is very much work in progress.</strong> You’ll need an IGM installation for this to run. The notebook currently does not run on OGGM Hub, because of the Tensorflow depedency. We are working on it!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span>
-<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">DEFAULT_BASE_URL</span>
-<span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">massbalance</span>
-<span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">gcm_climate</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">igm</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">cfg</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">DEFAULT_BASE_URL</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">massbalance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.shop</span><span class="w"> </span><span class="kn">import</span> <span class="n">gcm_climate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">igm</span>
 
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
 
 <span class="c1">## Initialize OGGM and set up the default run parameters</span>
@@ -603,10 +590,10 @@ document.write(`
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="ne">----&gt; </span><span class="mi">9</span> <span class="kn">import</span> <span class="nn">igm</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">import</span> <span class="nn">warnings</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="ne">----&gt; </span><span class="mi">9</span> <span class="kn">import</span><span class="w"> </span><span class="nn">igm</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
 
 <span class="ne">ModuleNotFoundError</span>: No module named &#39;igm&#39;
@@ -619,7 +606,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># add consensus now as well, as we use a different prepro</span>
-<span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">bedtopo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.shop</span><span class="w"> </span><span class="kn">import</span> <span class="n">bedtopo</span>
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">bedtopo</span><span class="o">.</span><span class="n">add_consensus_thickness</span><span class="p">,</span> <span class="n">gdir</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -629,7 +616,7 @@ document.write(`
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># add consensus now as well, as we use a different prepro</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">bedtopo</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">oggm.shop</span><span class="w"> </span><span class="kn">import</span> <span class="n">bedtopo</span>
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">bedtopo</span><span class="o">.</span><span class="n">add_consensus_thickness</span><span class="p">,</span> <span class="n">gdir</span><span class="p">);</span>
 
 <span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
@@ -639,7 +626,7 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">cook23</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oggm.shop</span><span class="w"> </span><span class="kn">import</span> <span class="n">cook23</span>
 <span class="n">cook23</span><span class="o">.</span><span class="n">cook23_to_gdir</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -648,7 +635,7 @@ document.write(`
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">oggm.shop</span> <span class="kn">import</span> <span class="n">cook23</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">oggm.shop</span><span class="w"> </span><span class="kn">import</span> <span class="n">cook23</span>
 <span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">cook23</span><span class="o">.</span><span class="n">cook23_to_gdir</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
 
 <span class="ne">NameError</span>: name &#39;gdir&#39; is not defined
@@ -656,10 +643,8 @@ document.write(`
 </div>
 </div>
 </div>
-<section id="activate-the-3-lines-of-code-in-the-following-code-block-to-match-the-starting-volume-with-the-consensus-volume-farinotti-et-al-2019">
-<h3>Activate the 3 lines of code in the following code block to match the starting volume with the consensus volume (Farinotti et al. 2019)<a class="headerlink" href="#activate-the-3-lines-of-code-in-the-following-code-block-to-match-the-starting-volume-with-the-consensus-volume-farinotti-et-al-2019" title="Link to this heading">#</a></h3>
-<section id="note-the-consensus-volume-is-used-as-a-reference-volume-for-oggm-s-dynamic-spinup-during-the-bed-inversion-as-a-reference-volume-but-in-the-further-workflow-only-the-rgi-area-is-matched-and-not-the-consensus-volume">
-<h4>Note: the consensus volume is used as a reference volume for OGGM’s dynamic spinup during the bed inversion as a reference volume, but in the further workflow only the RGI-area is matched and not the consensus volume.<a class="headerlink" href="#note-the-consensus-volume-is-used-as-a-reference-volume-for-oggm-s-dynamic-spinup-during-the-bed-inversion-as-a-reference-volume-but-in-the-further-workflow-only-the-rgi-area-is-matched-and-not-the-consensus-volume" title="Link to this heading">#</a></h4>
+<p>Activate the 3 lines of code in the following code block to match the starting volume with the consensus volume (Farinotti et al. 2019)</p>
+<p>Note: the consensus volume is used as a reference volume for OGGM’s dynamic spinup during the bed inversion as a reference volume, but in the further workflow only the RGI-area is matched and not the consensus volume.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># match of consensus</span>
@@ -673,9 +658,8 @@ document.write(`
 </div>
 </div>
 </section>
-</section>
 <section id="running-oggm-flowline-with-a-gcm-climate">
-<h3>Running OGGM Flowline with a GCM Climate<a class="headerlink" href="#running-oggm-flowline-with-a-gcm-climate" title="Link to this heading">#</a></h3>
+<h2>Running OGGM Flowline with a GCM Climate<a class="headerlink" href="#running-oggm-flowline-with-a-gcm-climate" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># you can choose one of these 5 different GCMs:</span>
@@ -750,9 +734,8 @@ document.write(`
 </div>
 </section>
 <section id="create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model">
-<h3>create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model<a class="headerlink" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model" title="Link to this heading">#</a></h3>
-<section id="using-this-mb-model-with-the-instructed-oggm-doesn-t-work-yet">
-<h4>(using this MB model with the instructed-oggm doesn’t work yet)<a class="headerlink" href="#using-this-mb-model-with-the-instructed-oggm-doesn-t-work-yet" title="Link to this heading">#</a></h4>
+<h2>create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model<a class="headerlink" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model" title="Link to this heading">#</a></h2>
+<p>(using this MB model with the instructed-oggm doesn’t work yet)</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_gcm</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MultipleFlowlineMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> 
@@ -777,11 +760,9 @@ document.write(`
 </div>
 </div>
 </section>
-</section>
 <section id="running-oggm-flowline-with-a-random-climate">
-<h3>Running OGGM Flowline with a Random Climate<a class="headerlink" href="#running-oggm-flowline-with-a-random-climate" title="Link to this heading">#</a></h3>
-<section id="this-run-is-forced-with-climate-data-from-1999-2019-randomly-sampled">
-<h4>this run is forced with climate data from 1999-2019 randomly sampled<a class="headerlink" href="#this-run-is-forced-with-climate-data-from-1999-2019-randomly-sampled" title="Link to this heading">#</a></h4>
+<h2>Running OGGM Flowline with a Random Climate<a class="headerlink" href="#running-oggm-flowline-with-a-random-climate" title="Link to this heading">#</a></h2>
+<p>this run is forced with climate data from 1999-2019 randomly sampled</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Do a random run with a bit of warming</span>
@@ -816,9 +797,8 @@ document.write(`
 </div>
 </div>
 </section>
-</section>
 <section id="create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model">
-<h3>create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model<a class="headerlink" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model" title="Link to this heading">#</a></h3>
+<h2>create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model<a class="headerlink" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_rand</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">RandomMassBalance</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
@@ -894,13 +874,12 @@ document.write(`
 </div>
 </section>
 <section id="running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019">
-<h3>Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)<a class="headerlink" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019" title="Link to this heading">#</a></h3>
-<section id="once-with-random-and-once-with-the-same-gcm-climate-as-above">
-<h4>once with random and once with the same GCM climate as above<a class="headerlink" href="#once-with-random-and-once-with-the-same-gcm-climate-as-above" title="Link to this heading">#</a></h4>
+<h2>Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)<a class="headerlink" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019" title="Link to this heading">#</a></h2>
+<p>once with random and once with the same GCM climate as above</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">############################### OGGM-IGM - CONSENSUS - RANDOM CLIMATE</span>
-<span class="kn">from</span> <span class="nn">igm.instructed_oggm</span> <span class="kn">import</span> <span class="n">IGM_Model2D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">igm.instructed_oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IGM_Model2D</span>
 
 <span class="n">sdmodel_igm_con_rnd</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_con</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
                      <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_rand</span><span class="p">,</span> 
@@ -915,7 +894,7 @@ document.write(`
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">############################### OGGM-IGM - CONSENSUS - RANDOM CLIMATE</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">igm.instructed_oggm</span> <span class="kn">import</span> <span class="n">IGM_Model2D</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">igm.instructed_oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IGM_Model2D</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">sdmodel_igm_con_rnd</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_con</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
 <span class="g g-Whitespace">      </span><span class="mi">5</span>                      <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_rand</span><span class="p">,</span> 
 <span class="g g-Whitespace">      </span><span class="mi">6</span>                         <span class="n">y0</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
@@ -929,7 +908,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">############################### OGGM-IGM - CONSENSUS - GCM CLIMATE</span>
-<span class="kn">from</span> <span class="nn">igm.instructed_oggm</span> <span class="kn">import</span> <span class="n">IGM_Model2D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">igm.instructed_oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IGM_Model2D</span>
 
 <span class="n">sdmodel_igm_con_gcm</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_con</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
                                     <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_gcm</span><span class="p">,</span> 
@@ -943,7 +922,7 @@ document.write(`
 <span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1">############################### OGGM-IGM - CONSENSUS - GCM CLIMATE</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span> <span class="nn">igm.instructed_oggm</span> <span class="kn">import</span> <span class="n">IGM_Model2D</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">igm.instructed_oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">IGM_Model2D</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">sdmodel_igm_con_gcm</span> <span class="o">=</span> <span class="n">IGM_Model2D</span><span class="p">(</span><span class="n">bed_con</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">init_ice_thick</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">consensus_ice_thickness</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
 <span class="g g-Whitespace">      </span><span class="mi">5</span>                                     <span class="n">dx</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dy</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bed_con</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_gcm</span><span class="p">,</span> 
 <span class="g g-Whitespace">      </span><span class="mi">6</span>                                     <span class="n">y0</span><span class="o">=</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span><span class="p">,</span> <span class="n">mb_filter</span><span class="o">=</span><span class="n">gd</span><span class="o">.</span><span class="n">glacier_mask</span><span class="o">.</span><span class="n">values</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
@@ -955,11 +934,9 @@ document.write(`
 </div>
 </div>
 </section>
-</section>
 <section id="running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product">
-<h3>Running the iOGGM from the Cook et al. 2023 ice thickness product<a class="headerlink" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product" title="Link to this heading">#</a></h3>
-<section id="id1">
-<h4>once with random and once with the same GCM climate as above<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<h2>Running the iOGGM from the Cook et al. 2023 ice thickness product<a class="headerlink" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product" title="Link to this heading">#</a></h2>
+<p>once with random and once with the same GCM climate as above</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">############################### OGGM-IGM - COOK_23 - RANDOM CLIMATE</span>
@@ -1012,8 +989,6 @@ document.write(`
 </div>
 </div>
 </div>
-</section>
-</section>
 </section>
 <section id="load-the-data-from-disk-for-plotting">
 <h2>load the data from disk for plotting<a class="headerlink" href="#load-the-data-from-disk-for-plotting" title="Link to this heading">#</a></h2>
@@ -1074,8 +1049,7 @@ document.write(`
 </div>
 </div>
 </div>
-<section id="adapt-starting-date-for-the-random-runs">
-<h3>adapt starting date for the random runs<a class="headerlink" href="#adapt-starting-date-for-the-random-runs" title="Link to this heading">#</a></h3>
+<p>adapt starting date for the random runs</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ds_rnd</span><span class="p">,</span> <span class="n">dsr_igm_con_rnd</span><span class="p">,</span> <span class="n">dsr_igm_cook_rnd</span><span class="p">]:</span>
@@ -1097,7 +1071,6 @@ document.write(`
 </div>
 </div>
 </div>
-</section>
 </section>
 <section id="comparison-plots">
 <h2>Comparison plots<a class="headerlink" href="#comparison-plots" title="Link to this heading">#</a></h2>
@@ -1357,35 +1330,14 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-consensus-and-cook-thickness-product-to-the-gdir">Add consensus and cook thickness product to the gdir</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#activate-the-3-lines-of-code-in-the-following-code-block-to-match-the-starting-volume-with-the-consensus-volume-farinotti-et-al-2019">Activate the 3 lines of code in the following code block to match the starting volume with the consensus volume (Farinotti et al. 2019)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#note-the-consensus-volume-is-used-as-a-reference-volume-for-oggm-s-dynamic-spinup-during-the-bed-inversion-as-a-reference-volume-but-in-the-further-workflow-only-the-rgi-area-is-matched-and-not-the-consensus-volume">Note: the consensus volume is used as a reference volume for OGGM’s dynamic spinup during the bed inversion as a reference volume, but in the further workflow only the RGI-area is matched and not the consensus volume.</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-gcm-climate">Running OGGM Flowline with a GCM Climate</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model">create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#using-this-mb-model-with-the-instructed-oggm-doesn-t-work-yet">(using this MB model with the instructed-oggm doesn’t work yet)</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-random-climate">Running OGGM Flowline with a Random Climate</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#this-run-is-forced-with-climate-data-from-1999-2019-randomly-sampled">this run is forced with climate data from 1999-2019 randomly sampled</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model">create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019">Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#once-with-random-and-once-with-the-same-gcm-climate-as-above">once with random and once with the same GCM climate as above</a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product">Running the iOGGM from the Cook et al. 2023 ice thickness product</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">once with random and once with the same GCM climate as above</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-from-disk-for-plotting">load the data from disk for plotting</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adapt-starting-date-for-the-random-runs">adapt starting date for the random runs</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-consensus-and-cook-thickness-product-to-the-gdir">Add consensus and cook thickness product to the gdir</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-gcm-climate">Running OGGM Flowline with a GCM Climate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-mb-model">create the corresponding mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same MB model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-oggm-flowline-with-a-random-climate">Running OGGM Flowline with a Random Climate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-corresponding-random-mass-balance-model-mb-model-of-the-run-above-so-that-the-ioggm-run-can-be-forced-with-same-random-mb-model">create the corresponding random mass balance model(MB model) of the run above, so that the iOGGM run can be forced with same random MB model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-consensus-ice-thickness-farinotti-et-al-2019">Running the iOGGM from the consensus ice thickness (Farinotti et al. 2019)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-ioggm-from-the-cook-et-al-2023-ice-thickness-product">Running the iOGGM from the Cook et al. 2023 ice thickness product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-the-data-from-disk-for-plotting">load the data from disk for plotting</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-plots">Comparison plots</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-plot-both-scenarios">Volume plot - both scenarios</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#volume-plot-cropped-gcm-only">volume plot cropped - GCM only</a></li>
@@ -1419,7 +1371,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Aug 25, 2024.
+  Last updated on Apr 16, 2025.
   <br/>
 </p>
   </div>
@@ -1430,7 +1382,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2024.
+&copy; Copyright 2014-2025.
 </p>
 
 </div>

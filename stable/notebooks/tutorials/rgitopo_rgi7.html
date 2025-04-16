@@ -28,13 +28,14 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -65,7 +66,7 @@
     <link rel="prev" title="Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0" href="rgitopo_rgi6.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Aug 25, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 16, 2025"/>
   </head>
   
   
@@ -115,6 +116,13 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content"><p class="announcement">
+   🚧 <strong>Scheduled maintenance:</strong> the OGGM cluster will be offline <strong>April 27 (evening CEST) – April 30 (morning CEST) 2025</strong>.
+   <a href="https://oggm.org/2025/04/15/service-maintenance/">Learn more</a>.
+</p>
+</div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -582,7 +590,7 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plotting directory as well</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">plot_dir</span><span class="p">:</span>
     <span class="n">plot_dir</span> <span class="o">=</span> <span class="s1">&#39;./&#39;</span> <span class="o">+</span> <span class="n">rgi_id</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="n">plot_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -590,19 +598,19 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">GlacierDirectory</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="nn">rioxr</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
-<span class="kn">import</span> <span class="nn">salem</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">mpl_toolkits.axes_grid1</span> <span class="kn">import</span> <span class="n">AxesGrid</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span><span class="p">,</span> <span class="n">GlacierDirectory</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rioxarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rioxr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geopandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gpd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">salem</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpl_toolkits.axes_grid1</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxesGrid</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
 
-<span class="kn">from</span> <span class="nn">oggm.utils</span> <span class="kn">import</span> <span class="n">DEM_SOURCES</span>
-<span class="kn">from</span> <span class="nn">oggm.workflow</span> <span class="kn">import</span> <span class="n">init_glacier_directories</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">DEM_SOURCES</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.workflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">init_glacier_directories</span>
 </pre></div>
 </div>
 </div>
@@ -619,10 +627,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:29:06: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2024-08-25 21:29:06: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2024-08-25 21:29:06: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2024-08-25 21:29:07: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:53:52: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2025-04-16 10:53:52: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2025-04-16 10:53:52: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2025-04-16 10:53:52: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
 </pre></div>
 </div>
 </div>
@@ -641,8 +649,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:29:08: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
-2024-08-25 21:29:08: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:53:52: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+2025-04-16 10:53:52: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -690,7 +698,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RGI ID: RGI2000-v7.0-G-01-06486
-Available DEM sources: [&#39;COPDEM30&#39;, &#39;TANDEM&#39;, &#39;DEM3&#39;, &#39;AW3D30&#39;, &#39;ARCTICDEM&#39;, &#39;ASTER&#39;, &#39;COPDEM90&#39;, &#39;ALASKA&#39;, &#39;MAPZEN&#39;]
+Available DEM sources: [&#39;ASTER&#39;, &#39;ALASKA&#39;, &#39;ARCTICDEM&#39;, &#39;COPDEM90&#39;, &#39;AW3D30&#39;, &#39;TANDEM&#39;, &#39;MAPZEN&#39;, &#39;COPDEM30&#39;, &#39;DEM3&#39;]
 Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000-v7.0-G-01-06486
 </pre></div>
 </div>
@@ -704,7 +712,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     <span class="n">demfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">dir</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/dem.tif&#39;</span>
     <span class="k">with</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">demfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.</span>
-        <span class="n">ods</span><span class="p">[</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">)</span>
+        <span class="n">ods</span><span class="p">[</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
     
     <span class="n">sy</span><span class="p">,</span> <span class="n">sx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">ods</span><span class="p">[</span><span class="n">src</span><span class="p">],</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">)</span>
     <span class="n">ods</span><span class="p">[</span><span class="n">src</span> <span class="o">+</span> <span class="s1">&#39;_slope&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">),</span>  <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sy</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sx</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
@@ -772,7 +780,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/686fb97e26a0253f9b2e2d257292dedec0cb08006038b6a4f2214e41f4e2a22c.png" src="../../_images/686fb97e26a0253f9b2e2d257292dedec0cb08006038b6a4f2214e41f4e2a22c.png" />
+<img alt="../../_images/e33f153b6146d85c53c5addeb0a042bf8de307f6064a7f5bcb4dd28428c49ee8.png" src="../../_images/e33f153b6146d85c53c5addeb0a042bf8de307f6064a7f5bcb4dd28428c49ee8.png" />
 </div>
 </div>
 </section>
@@ -809,7 +817,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/e8a6e8826eb84628da263b100dd6cd166c4bf3790dfb314059db8cace7b7222a.png" src="../../_images/e8a6e8826eb84628da263b100dd6cd166c4bf3790dfb314059db8cace7b7222a.png" />
+<img alt="../../_images/8074a4fa4c9d7b34b8d0c8966462ae6fc3133eb42af0e6c7d4ed2cabe0760710.png" src="../../_images/8074a4fa4c9d7b34b8d0c8966462ae6fc3133eb42af0e6c7d4ed2cabe0760710.png" />
 </div>
 </div>
 </section>
@@ -850,7 +858,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/8147bd9096eaf62a78cdb4b31d7e324535e53fd20e64ddb978ff7b229d379bbc.png" src="../../_images/8147bd9096eaf62a78cdb4b31d7e324535e53fd20e64ddb978ff7b229d379bbc.png" />
+<img alt="../../_images/6d021057c7012c4aa21abc1cd904d32e20e0acfe96cac7d7890cef2eb22caf02.png" src="../../_images/6d021057c7012c4aa21abc1cd904d32e20e0acfe96cac7d7890cef2eb22caf02.png" />
 </div>
 </div>
 </section>
@@ -896,15 +904,15 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM30</th>
-      <th>TANDEM</th>
-      <th>DEM3</th>
-      <th>AW3D30</th>
-      <th>ARCTICDEM</th>
       <th>ASTER</th>
-      <th>COPDEM90</th>
       <th>ALASKA</th>
+      <th>ARCTICDEM</th>
+      <th>COPDEM90</th>
+      <th>AW3D30</th>
+      <th>TANDEM</th>
       <th>MAPZEN</th>
+      <th>COPDEM30</th>
+      <th>DEM3</th>
     </tr>
   </thead>
   <tbody>
@@ -912,9 +920,9 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
       <th>count</th>
       <td>1671.000000</td>
       <td>1671.000000</td>
+      <td>767.000000</td>
       <td>1671.000000</td>
       <td>0.0</td>
-      <td>767.000000</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
@@ -922,99 +930,99 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     </tr>
     <tr>
       <th>mean</th>
-      <td>5277.514160</td>
-      <td>5153.806152</td>
-      <td>5328.549372</td>
-      <td>NaN</td>
-      <td>5529.413086</td>
       <td>5295.587672</td>
-      <td>5277.694824</td>
       <td>5316.735352</td>
+      <td>5529.413086</td>
+      <td>5277.694824</td>
+      <td>NaN</td>
+      <td>5153.806152</td>
       <td>5319.226212</td>
+      <td>5277.514160</td>
+      <td>5328.549372</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>370.142792</td>
-      <td>388.357605</td>
-      <td>351.724101</td>
-      <td>NaN</td>
-      <td>393.222046</td>
       <td>351.229245</td>
-      <td>370.293671</td>
       <td>351.459656</td>
+      <td>393.222046</td>
+      <td>370.293671</td>
+      <td>NaN</td>
+      <td>388.357605</td>
       <td>350.840381</td>
+      <td>370.142792</td>
+      <td>351.724101</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>4585.657715</td>
-      <td>4497.636719</td>
-      <td>4644.000000</td>
-      <td>NaN</td>
-      <td>4871.422852</td>
       <td>4565.000000</td>
-      <td>4584.852539</td>
       <td>4610.906738</td>
+      <td>4871.422852</td>
+      <td>4584.852539</td>
+      <td>NaN</td>
+      <td>4497.636719</td>
       <td>4622.000000</td>
+      <td>4585.657715</td>
+      <td>4644.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>4982.135010</td>
-      <td>4837.172607</td>
-      <td>5058.000000</td>
-      <td>NaN</td>
-      <td>5111.490234</td>
       <td>5026.500000</td>
-      <td>4980.320312</td>
       <td>5047.515381</td>
+      <td>5111.490234</td>
+      <td>4980.320312</td>
+      <td>NaN</td>
+      <td>4837.172607</td>
       <td>5050.000000</td>
+      <td>4982.135010</td>
+      <td>5058.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>5231.779785</td>
-      <td>5044.266113</td>
-      <td>5259.000000</td>
-      <td>NaN</td>
-      <td>5613.539551</td>
       <td>5250.000000</td>
-      <td>5231.637207</td>
       <td>5255.337402</td>
+      <td>5613.539551</td>
+      <td>5231.637207</td>
+      <td>NaN</td>
+      <td>5044.266113</td>
       <td>5258.000000</td>
+      <td>5231.779785</td>
+      <td>5259.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>5562.813232</td>
-      <td>5441.289551</td>
-      <td>5590.000000</td>
-      <td>NaN</td>
-      <td>5869.918945</td>
       <td>5543.000000</td>
-      <td>5564.726562</td>
       <td>5578.190430</td>
+      <td>5869.918945</td>
+      <td>5564.726562</td>
+      <td>NaN</td>
+      <td>5441.289551</td>
       <td>5578.500000</td>
+      <td>5562.813232</td>
+      <td>5590.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>6073.898438</td>
-      <td>5975.219727</td>
-      <td>6120.000000</td>
-      <td>NaN</td>
-      <td>6126.963379</td>
       <td>6113.000000</td>
-      <td>6073.276855</td>
       <td>6116.865234</td>
+      <td>6126.963379</td>
+      <td>6073.276855</td>
+      <td>NaN</td>
+      <td>5975.219727</td>
       <td>6111.000000</td>
+      <td>6073.898438</td>
+      <td>6120.000000</td>
     </tr>
     <tr>
       <th>range</th>
-      <td>1488.240723</td>
-      <td>1477.583008</td>
-      <td>1476.000000</td>
-      <td>NaN</td>
-      <td>1255.540527</td>
       <td>1548.000000</td>
-      <td>1488.424316</td>
       <td>1505.958496</td>
+      <td>1255.540527</td>
+      <td>1488.424316</td>
+      <td>NaN</td>
+      <td>1477.583008</td>
       <td>1489.000000</td>
+      <td>1488.240723</td>
+      <td>1476.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1060,7 +1068,23 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-500, -300, -150, -100, -50, -20, -10, 0, 10, 20, 50, 100, 150, 300, 500]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-800,
+ -500,
+ -300,
+ -150,
+ -100,
+ -50,
+ -20,
+ -10,
+ 0,
+ 10,
+ 20,
+ 50,
+ 100,
+ 150,
+ 300,
+ 500,
+ 800]
 </pre></div>
 </div>
 </div>
@@ -1102,7 +1126,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/22aaee3816140df0f4fd60c32cdf18e678044208bb991ae2dcad3b85f921b44b.png" src="../../_images/22aaee3816140df0f4fd60c32cdf18e678044208bb991ae2dcad3b85f921b44b.png" />
+<img alt="../../_images/b95a37d19cdfd1c492cbe7c5959ed14cef8020e2dc6703769bc9d889efbed10c.png" src="../../_images/b95a37d19cdfd1c492cbe7c5959ed14cef8020e2dc6703769bc9d889efbed10c.png" />
 </div>
 </div>
 </section>
@@ -1110,13 +1134,13 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 <h2>Comparison scatter plot<a class="headerlink" href="#comparison-scatter-plot" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 
 <span class="n">l1</span><span class="p">,</span> <span class="n">l2</span> <span class="o">=</span> <span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">nicenumber</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">binsize</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> 
           <span class="n">utils</span><span class="o">.</span><span class="n">nicenumber</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">binsize</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 
-<span class="k">def</span> <span class="nf">plot_unity</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_unity</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
@@ -1133,7 +1157,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/4021db3f9fe19d5acdae5c2037563b1f630fb3580398792f560973fdb5d91f6e.png" src="../../_images/4021db3f9fe19d5acdae5c2037563b1f630fb3580398792f560973fdb5d91f6e.png" />
+<img alt="../../_images/affdcc251bba2e7784774e9a414097154bb471246b090c4026fe14f5b9817396.png" src="../../_images/affdcc251bba2e7784774e9a414097154bb471246b090c4026fe14f5b9817396.png" />
 </div>
 </div>
 </section>
@@ -1164,15 +1188,15 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM30</th>
-      <th>TANDEM</th>
-      <th>DEM3</th>
-      <th>AW3D30</th>
-      <th>ARCTICDEM</th>
       <th>ASTER</th>
-      <th>COPDEM90</th>
       <th>ALASKA</th>
+      <th>ARCTICDEM</th>
+      <th>COPDEM90</th>
+      <th>AW3D30</th>
+      <th>TANDEM</th>
       <th>MAPZEN</th>
+      <th>COPDEM30</th>
+      <th>DEM3</th>
     </tr>
   </thead>
   <tbody>
@@ -1180,9 +1204,9 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
       <th>count</th>
       <td>1671.000000</td>
       <td>1671.000000</td>
+      <td>767.000000</td>
       <td>1671.000000</td>
       <td>0.0</td>
-      <td>767.000000</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
@@ -1190,87 +1214,87 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     </tr>
     <tr>
       <th>mean</th>
-      <td>5277.514160</td>
-      <td>5153.806152</td>
-      <td>5328.549372</td>
-      <td>NaN</td>
-      <td>5529.413086</td>
       <td>5295.587672</td>
-      <td>5277.694824</td>
       <td>5316.735352</td>
+      <td>5529.413086</td>
+      <td>5277.694824</td>
+      <td>NaN</td>
+      <td>5153.806152</td>
       <td>5319.226212</td>
+      <td>5277.514160</td>
+      <td>5328.549372</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>370.142792</td>
-      <td>388.357605</td>
-      <td>351.724101</td>
-      <td>NaN</td>
-      <td>393.222046</td>
       <td>351.229245</td>
-      <td>370.293671</td>
       <td>351.459656</td>
+      <td>393.222046</td>
+      <td>370.293671</td>
+      <td>NaN</td>
+      <td>388.357605</td>
       <td>350.840381</td>
+      <td>370.142792</td>
+      <td>351.724101</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>4585.657715</td>
-      <td>4497.636719</td>
-      <td>4644.000000</td>
-      <td>NaN</td>
-      <td>4871.422852</td>
       <td>4565.000000</td>
-      <td>4584.852539</td>
       <td>4610.906738</td>
+      <td>4871.422852</td>
+      <td>4584.852539</td>
+      <td>NaN</td>
+      <td>4497.636719</td>
       <td>4622.000000</td>
+      <td>4585.657715</td>
+      <td>4644.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>4982.135010</td>
-      <td>4837.172607</td>
-      <td>5058.000000</td>
-      <td>NaN</td>
-      <td>5111.490234</td>
       <td>5026.500000</td>
-      <td>4980.320312</td>
       <td>5047.515381</td>
+      <td>5111.490234</td>
+      <td>4980.320312</td>
+      <td>NaN</td>
+      <td>4837.172607</td>
       <td>5050.000000</td>
+      <td>4982.135010</td>
+      <td>5058.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>5231.779785</td>
-      <td>5044.266113</td>
-      <td>5259.000000</td>
-      <td>NaN</td>
-      <td>5613.539551</td>
       <td>5250.000000</td>
-      <td>5231.637207</td>
       <td>5255.337402</td>
+      <td>5613.539551</td>
+      <td>5231.637207</td>
+      <td>NaN</td>
+      <td>5044.266113</td>
       <td>5258.000000</td>
+      <td>5231.779785</td>
+      <td>5259.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>5562.813232</td>
-      <td>5441.289551</td>
-      <td>5590.000000</td>
-      <td>NaN</td>
-      <td>5869.918945</td>
       <td>5543.000000</td>
-      <td>5564.726562</td>
       <td>5578.190430</td>
+      <td>5869.918945</td>
+      <td>5564.726562</td>
+      <td>NaN</td>
+      <td>5441.289551</td>
       <td>5578.500000</td>
+      <td>5562.813232</td>
+      <td>5590.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>6073.898438</td>
-      <td>5975.219727</td>
-      <td>6120.000000</td>
-      <td>NaN</td>
-      <td>6126.963379</td>
       <td>6113.000000</td>
-      <td>6073.276855</td>
       <td>6116.865234</td>
+      <td>6126.963379</td>
+      <td>6073.276855</td>
+      <td>NaN</td>
+      <td>5975.219727</td>
       <td>6111.000000</td>
+      <td>6073.898438</td>
+      <td>6120.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1301,53 +1325,65 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM30</th>
-      <th>TANDEM</th>
-      <th>DEM3</th>
-      <th>AW3D30</th>
-      <th>ARCTICDEM</th>
       <th>ASTER</th>
-      <th>COPDEM90</th>
       <th>ALASKA</th>
+      <th>ARCTICDEM</th>
+      <th>COPDEM90</th>
+      <th>AW3D30</th>
+      <th>TANDEM</th>
       <th>MAPZEN</th>
+      <th>COPDEM30</th>
+      <th>DEM3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>COPDEM30</th>
+      <th>ASTER</th>
       <td>1.000000</td>
-      <td>0.928303</td>
-      <td>0.995141</td>
+      <td>0.997280</td>
+      <td>0.960869</td>
+      <td>0.995702</td>
       <td>NaN</td>
-      <td>0.957143</td>
+      <td>0.923299</td>
+      <td>0.997390</td>
       <td>0.995283</td>
-      <td>0.999891</td>
-      <td>0.995697</td>
-      <td>0.995645</td>
+      <td>0.997277</td>
     </tr>
     <tr>
-      <th>TANDEM</th>
-      <td>0.928303</td>
+      <th>ALASKA</th>
+      <td>0.997280</td>
       <td>1.000000</td>
-      <td>0.934220</td>
+      <td>0.957513</td>
+      <td>0.996075</td>
+      <td>NaN</td>
+      <td>0.930687</td>
+      <td>0.999929</td>
+      <td>0.995697</td>
+      <td>0.998666</td>
+    </tr>
+    <tr>
+      <th>ARCTICDEM</th>
+      <td>0.960869</td>
+      <td>0.957513</td>
+      <td>1.000000</td>
+      <td>0.957821</td>
       <td>NaN</td>
       <td>0.858754</td>
-      <td>0.923299</td>
-      <td>0.928387</td>
-      <td>0.930687</td>
-      <td>0.930963</td>
+      <td>0.957611</td>
+      <td>0.957143</td>
+      <td>0.957046</td>
     </tr>
     <tr>
-      <th>DEM3</th>
-      <td>0.995141</td>
-      <td>0.934220</td>
+      <th>COPDEM90</th>
+      <td>0.995702</td>
+      <td>0.996075</td>
+      <td>0.957821</td>
       <td>1.000000</td>
       <td>NaN</td>
-      <td>0.957046</td>
-      <td>0.997277</td>
+      <td>0.928387</td>
+      <td>0.996033</td>
+      <td>0.999891</td>
       <td>0.995559</td>
-      <td>0.998666</td>
-      <td>0.998911</td>
     </tr>
     <tr>
       <th>AW3D30</th>
@@ -1362,63 +1398,51 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
       <td>NaN</td>
     </tr>
     <tr>
-      <th>ARCTICDEM</th>
-      <td>0.957143</td>
-      <td>0.858754</td>
-      <td>0.957046</td>
-      <td>NaN</td>
-      <td>1.000000</td>
-      <td>0.960869</td>
-      <td>0.957821</td>
-      <td>0.957513</td>
-      <td>0.957611</td>
-    </tr>
-    <tr>
-      <th>ASTER</th>
-      <td>0.995283</td>
+      <th>TANDEM</th>
       <td>0.923299</td>
-      <td>0.997277</td>
-      <td>NaN</td>
-      <td>0.960869</td>
-      <td>1.000000</td>
-      <td>0.995702</td>
-      <td>0.997280</td>
-      <td>0.997390</td>
-    </tr>
-    <tr>
-      <th>COPDEM90</th>
-      <td>0.999891</td>
-      <td>0.928387</td>
-      <td>0.995559</td>
-      <td>NaN</td>
-      <td>0.957821</td>
-      <td>0.995702</td>
-      <td>1.000000</td>
-      <td>0.996075</td>
-      <td>0.996033</td>
-    </tr>
-    <tr>
-      <th>ALASKA</th>
-      <td>0.995697</td>
       <td>0.930687</td>
-      <td>0.998666</td>
+      <td>0.858754</td>
+      <td>0.928387</td>
       <td>NaN</td>
-      <td>0.957513</td>
-      <td>0.997280</td>
-      <td>0.996075</td>
       <td>1.000000</td>
-      <td>0.999929</td>
+      <td>0.930963</td>
+      <td>0.928303</td>
+      <td>0.934220</td>
     </tr>
     <tr>
       <th>MAPZEN</th>
-      <td>0.995645</td>
-      <td>0.930963</td>
-      <td>0.998911</td>
-      <td>NaN</td>
-      <td>0.957611</td>
       <td>0.997390</td>
-      <td>0.996033</td>
       <td>0.999929</td>
+      <td>0.957611</td>
+      <td>0.996033</td>
+      <td>NaN</td>
+      <td>0.930963</td>
+      <td>1.000000</td>
+      <td>0.995645</td>
+      <td>0.998911</td>
+    </tr>
+    <tr>
+      <th>COPDEM30</th>
+      <td>0.995283</td>
+      <td>0.995697</td>
+      <td>0.957143</td>
+      <td>0.999891</td>
+      <td>NaN</td>
+      <td>0.928303</td>
+      <td>0.995645</td>
+      <td>1.000000</td>
+      <td>0.995141</td>
+    </tr>
+    <tr>
+      <th>DEM3</th>
+      <td>0.997277</td>
+      <td>0.998666</td>
+      <td>0.957046</td>
+      <td>0.995559</td>
+      <td>NaN</td>
+      <td>0.934220</td>
+      <td>0.998911</td>
+      <td>0.995141</td>
       <td>1.000000</td>
     </tr>
   </tbody>
@@ -1450,47 +1474,47 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM30-TANDEM</th>
-      <th>COPDEM30-DEM3</th>
-      <th>COPDEM30-AW3D30</th>
-      <th>COPDEM30-ARCTICDEM</th>
-      <th>COPDEM30-ASTER</th>
-      <th>COPDEM30-COPDEM90</th>
-      <th>COPDEM30-ALASKA</th>
-      <th>COPDEM30-MAPZEN</th>
-      <th>TANDEM-DEM3</th>
-      <th>TANDEM-AW3D30</th>
-      <th>...</th>
-      <th>ARCTICDEM-ASTER</th>
-      <th>ARCTICDEM-COPDEM90</th>
-      <th>ARCTICDEM-ALASKA</th>
-      <th>ARCTICDEM-MAPZEN</th>
-      <th>ASTER-COPDEM90</th>
       <th>ASTER-ALASKA</th>
+      <th>ASTER-ARCTICDEM</th>
+      <th>ASTER-COPDEM90</th>
+      <th>ASTER-AW3D30</th>
+      <th>ASTER-TANDEM</th>
       <th>ASTER-MAPZEN</th>
-      <th>COPDEM90-ALASKA</th>
-      <th>COPDEM90-MAPZEN</th>
-      <th>ALASKA-MAPZEN</th>
+      <th>ASTER-COPDEM30</th>
+      <th>ASTER-DEM3</th>
+      <th>ALASKA-ARCTICDEM</th>
+      <th>ALASKA-COPDEM90</th>
+      <th>...</th>
+      <th>AW3D30-TANDEM</th>
+      <th>AW3D30-MAPZEN</th>
+      <th>AW3D30-COPDEM30</th>
+      <th>AW3D30-DEM3</th>
+      <th>TANDEM-MAPZEN</th>
+      <th>TANDEM-COPDEM30</th>
+      <th>TANDEM-DEM3</th>
+      <th>MAPZEN-COPDEM30</th>
+      <th>MAPZEN-DEM3</th>
+      <th>COPDEM30-DEM3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>count</th>
       <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>0.0</td>
       <td>767.000000</td>
       <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
       <td>0.0</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>767.000000</td>
+      <td>1671.000000</td>
       <td>...</td>
-      <td>767.000000</td>
-      <td>767.000000</td>
-      <td>767.000000</td>
-      <td>767.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
@@ -1500,171 +1524,171 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     </tr>
     <tr>
       <th>mean</th>
-      <td>123.708183</td>
-      <td>-51.034972</td>
-      <td>NaN</td>
-      <td>-110.319916</td>
-      <td>-18.073272</td>
-      <td>-0.180525</td>
-      <td>-39.221443</td>
-      <td>-41.711812</td>
-      <td>-174.743149</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>102.185113</td>
-      <td>110.184074</td>
-      <td>85.975136</td>
-      <td>83.946521</td>
-      <td>17.892747</td>
       <td>-21.148171</td>
+      <td>-102.185113</td>
+      <td>17.892747</td>
+      <td>NaN</td>
+      <td>141.781450</td>
       <td>-23.638540</td>
-      <td>-39.040920</td>
-      <td>-41.531287</td>
-      <td>-2.490369</td>
+      <td>18.073272</td>
+      <td>-32.961700</td>
+      <td>-85.975136</td>
+      <td>39.040920</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-165.419989</td>
+      <td>-123.708183</td>
+      <td>-174.743149</td>
+      <td>41.711812</td>
+      <td>-9.323160</td>
+      <td>-51.034972</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>144.721756</td>
-      <td>40.056016</td>
-      <td>NaN</td>
-      <td>114.278862</td>
-      <td>39.801988</td>
-      <td>5.457573</td>
-      <td>38.322636</td>
-      <td>38.776733</td>
-      <td>138.969170</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>108.948818</td>
-      <td>113.430321</td>
-      <td>113.401772</td>
-      <td>113.273900</td>
-      <td>38.488241</td>
       <td>25.915689</td>
+      <td>108.948818</td>
+      <td>38.488241</td>
+      <td>NaN</td>
+      <td>149.341491</td>
       <td>25.367381</td>
+      <td>39.801988</td>
+      <td>25.941984</td>
+      <td>113.401772</td>
       <td>37.098961</td>
-      <td>37.537576</td>
-      <td>4.234587</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>142.198023</td>
+      <td>144.721756</td>
+      <td>138.969170</td>
+      <td>38.776733</td>
+      <td>16.420294</td>
+      <td>40.056016</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>-84.786133</td>
-      <td>-173.853027</td>
-      <td>NaN</td>
-      <td>-459.774902</td>
-      <td>-128.154297</td>
-      <td>-18.569824</td>
-      <td>-135.432617</td>
-      <td>-137.803711</td>
-      <td>-872.888672</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>-121.276367</td>
-      <td>-131.313965</td>
-      <td>-147.653809</td>
-      <td>-146.276367</td>
-      <td>-111.338867</td>
       <td>-137.751953</td>
+      <td>-428.646973</td>
+      <td>-111.338867</td>
+      <td>NaN</td>
+      <td>-85.662109</td>
       <td>-130.000000</td>
-      <td>-130.026367</td>
-      <td>-135.499023</td>
-      <td>-20.434082</td>
+      <td>-123.904297</td>
+      <td>-128.000000</td>
+      <td>-401.538574</td>
+      <td>-42.941895</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-851.888672</td>
+      <td>-812.099121</td>
+      <td>-872.888672</td>
+      <td>-38.260254</td>
+      <td>-60.000000</td>
+      <td>-173.853027</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>18.154541</td>
-      <td>-73.800049</td>
-      <td>NaN</td>
-      <td>-158.155029</td>
-      <td>-42.359863</td>
-      <td>-3.210938</td>
-      <td>-65.968750</td>
-      <td>-69.063965</td>
-      <td>-217.682861</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>28.157715</td>
-      <td>36.502441</td>
-      <td>5.880127</td>
-      <td>4.010010</td>
-      <td>-7.423828</td>
       <td>-36.852539</td>
+      <td>-171.116211</td>
+      <td>-7.423828</td>
+      <td>NaN</td>
+      <td>44.948730</td>
       <td>-40.000000</td>
-      <td>-65.058350</td>
-      <td>-68.542236</td>
-      <td>-5.209473</td>
+      <td>-8.449463</td>
+      <td>-48.000000</td>
+      <td>-143.909668</td>
+      <td>10.340332</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-214.740479</td>
+      <td>-178.104980</td>
+      <td>-217.682861</td>
+      <td>13.209717</td>
+      <td>-20.000000</td>
+      <td>-73.800049</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>95.392578</td>
-      <td>-39.264160</td>
-      <td>NaN</td>
-      <td>-82.882324</td>
-      <td>-13.353027</td>
-      <td>-0.013672</td>
-      <td>-32.329102</td>
-      <td>-34.193848</td>
-      <td>-133.516602</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>71.489746</td>
-      <td>81.454102</td>
-      <td>58.945312</td>
-      <td>56.379883</td>
-      <td>12.738770</td>
       <td>-19.398438</td>
+      <td>-71.489746</td>
+      <td>12.738770</td>
+      <td>NaN</td>
+      <td>100.195801</td>
       <td>-22.000000</td>
-      <td>-33.313477</td>
-      <td>-34.726074</td>
-      <td>-2.204590</td>
+      <td>13.353027</td>
+      <td>-29.000000</td>
+      <td>-58.945312</td>
+      <td>33.313477</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-123.718750</td>
+      <td>-95.392578</td>
+      <td>-133.516602</td>
+      <td>34.193848</td>
+      <td>-10.000000</td>
+      <td>-39.264160</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>178.104980</td>
-      <td>-22.958496</td>
-      <td>NaN</td>
-      <td>-35.619141</td>
-      <td>8.449463</td>
-      <td>2.751221</td>
-      <td>-10.385498</td>
-      <td>-13.209717</td>
-      <td>-84.589355</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>171.116211</td>
-      <td>158.221924</td>
-      <td>143.909668</td>
-      <td>143.172607</td>
-      <td>40.641357</td>
       <td>-1.874023</td>
+      <td>-28.157715</td>
+      <td>40.641357</td>
+      <td>NaN</td>
+      <td>193.438232</td>
       <td>-6.000000</td>
-      <td>-10.340332</td>
-      <td>-12.118164</td>
-      <td>-0.054199</td>
+      <td>42.359863</td>
+      <td>-19.000000</td>
+      <td>-5.880127</td>
+      <td>65.058350</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>-71.849121</td>
+      <td>-18.154541</td>
+      <td>-84.589355</td>
+      <td>69.063965</td>
+      <td>0.000000</td>
+      <td>-22.958496</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>812.099121</td>
-      <td>26.395508</td>
-      <td>NaN</td>
-      <td>136.359863</td>
-      <td>123.904297</td>
-      <td>17.572266</td>
-      <td>46.030762</td>
-      <td>38.260254</td>
-      <td>14.181152</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>428.646973</td>
-      <td>452.215332</td>
-      <td>401.538574</td>
-      <td>396.646973</td>
-      <td>124.032227</td>
       <td>55.279785</td>
+      <td>121.276367</td>
+      <td>124.032227</td>
+      <td>NaN</td>
+      <td>829.932129</td>
       <td>54.000000</td>
-      <td>42.941895</td>
-      <td>33.757324</td>
-      <td>14.705078</td>
+      <td>128.154297</td>
+      <td>52.000000</td>
+      <td>147.653809</td>
+      <td>130.026367</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>16.507324</td>
+      <td>84.786133</td>
+      <td>14.181152</td>
+      <td>137.803711</td>
+      <td>47.000000</td>
+      <td>26.395508</td>
     </tr>
   </tbody>
 </table>
@@ -1696,47 +1720,47 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM30-TANDEM</th>
-      <th>COPDEM30-DEM3</th>
-      <th>COPDEM30-AW3D30</th>
-      <th>COPDEM30-ARCTICDEM</th>
-      <th>COPDEM30-ASTER</th>
-      <th>COPDEM30-COPDEM90</th>
-      <th>COPDEM30-ALASKA</th>
-      <th>COPDEM30-MAPZEN</th>
-      <th>TANDEM-DEM3</th>
-      <th>TANDEM-AW3D30</th>
-      <th>...</th>
-      <th>ARCTICDEM-ASTER</th>
-      <th>ARCTICDEM-COPDEM90</th>
-      <th>ARCTICDEM-ALASKA</th>
-      <th>ARCTICDEM-MAPZEN</th>
-      <th>ASTER-COPDEM90</th>
       <th>ASTER-ALASKA</th>
+      <th>ASTER-ARCTICDEM</th>
+      <th>ASTER-COPDEM90</th>
+      <th>ASTER-AW3D30</th>
+      <th>ASTER-TANDEM</th>
       <th>ASTER-MAPZEN</th>
-      <th>COPDEM90-ALASKA</th>
-      <th>COPDEM90-MAPZEN</th>
-      <th>ALASKA-MAPZEN</th>
+      <th>ASTER-COPDEM30</th>
+      <th>ASTER-DEM3</th>
+      <th>ALASKA-ARCTICDEM</th>
+      <th>ALASKA-COPDEM90</th>
+      <th>...</th>
+      <th>AW3D30-TANDEM</th>
+      <th>AW3D30-MAPZEN</th>
+      <th>AW3D30-COPDEM30</th>
+      <th>AW3D30-DEM3</th>
+      <th>TANDEM-MAPZEN</th>
+      <th>TANDEM-COPDEM30</th>
+      <th>TANDEM-DEM3</th>
+      <th>MAPZEN-COPDEM30</th>
+      <th>MAPZEN-DEM3</th>
+      <th>COPDEM30-DEM3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>count</th>
       <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>0.0</td>
       <td>767.000000</td>
       <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
       <td>0.0</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>767.000000</td>
+      <td>1671.000000</td>
       <td>...</td>
-      <td>767.000000</td>
-      <td>767.000000</td>
-      <td>767.000000</td>
-      <td>767.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
@@ -1746,171 +1770,171 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     </tr>
     <tr>
       <th>mean</th>
-      <td>135.184494</td>
-      <td>52.023959</td>
-      <td>NaN</td>
-      <td>118.163139</td>
-      <td>32.801881</td>
-      <td>4.060298</td>
-      <td>42.954536</td>
-      <td>44.739207</td>
-      <td>174.815853</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>112.711556</td>
-      <td>117.711647</td>
-      <td>105.086456</td>
-      <td>103.447394</td>
-      <td>31.869296</td>
       <td>26.224301</td>
+      <td>112.711556</td>
+      <td>31.869296</td>
+      <td>NaN</td>
+      <td>147.605664</td>
       <td>27.788151</td>
+      <td>32.801881</td>
+      <td>35.226212</td>
+      <td>105.086456</td>
       <td>42.339176</td>
-      <td>44.107472</td>
-      <td>3.799071</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>165.650691</td>
+      <td>135.184494</td>
+      <td>174.815853</td>
+      <td>44.739207</td>
+      <td>15.171155</td>
+      <td>52.023959</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>134.057739</td>
-      <td>38.762088</td>
-      <td>NaN</td>
-      <td>106.137970</td>
-      <td>28.886490</td>
-      <td>3.649907</td>
-      <td>34.083324</td>
-      <td>35.238571</td>
-      <td>138.877648</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>98.004051</td>
-      <td>105.587395</td>
-      <td>95.936180</td>
-      <td>95.769833</td>
-      <td>28.025463</td>
       <td>20.760783</td>
+      <td>98.004051</td>
+      <td>28.025463</td>
+      <td>NaN</td>
+      <td>143.584187</td>
       <td>20.735849</td>
+      <td>28.886490</td>
+      <td>22.770194</td>
+      <td>95.936180</td>
       <td>33.283024</td>
-      <td>34.471963</td>
-      <td>3.113807</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>141.929044</td>
+      <td>134.057739</td>
+      <td>138.877648</td>
+      <td>35.238571</td>
+      <td>11.238222</td>
+      <td>38.762088</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>0.002441</td>
-      <td>0.012207</td>
-      <td>NaN</td>
-      <td>0.650879</td>
-      <td>0.005371</td>
-      <td>0.000488</td>
-      <td>0.007324</td>
-      <td>0.117188</td>
-      <td>0.848633</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>0.155762</td>
-      <td>0.624512</td>
-      <td>0.155273</td>
-      <td>0.289062</td>
-      <td>0.000000</td>
       <td>0.001953</td>
+      <td>0.155762</td>
       <td>0.000000</td>
+      <td>NaN</td>
+      <td>0.175293</td>
       <td>0.000000</td>
-      <td>0.069336</td>
-      <td>0.002930</td>
+      <td>0.005371</td>
+      <td>0.000000</td>
+      <td>0.155273</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.151367</td>
+      <td>0.002441</td>
+      <td>0.848633</td>
+      <td>0.117188</td>
+      <td>0.000000</td>
+      <td>0.012207</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>38.805664</td>
-      <td>23.231689</td>
-      <td>NaN</td>
-      <td>41.187012</td>
-      <td>11.155762</td>
-      <td>1.359131</td>
-      <td>14.802979</td>
-      <td>16.361816</td>
-      <td>84.589355</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>41.791260</td>
-      <td>41.026611</td>
-      <td>36.557861</td>
-      <td>33.356445</td>
-      <td>10.204102</td>
       <td>11.052246</td>
+      <td>41.791260</td>
+      <td>10.204102</td>
+      <td>NaN</td>
+      <td>49.170898</td>
       <td>12.000000</td>
+      <td>11.155762</td>
+      <td>20.000000</td>
+      <td>36.557861</td>
       <td>14.249756</td>
-      <td>14.985596</td>
-      <td>1.328125</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>71.849121</td>
+      <td>38.805664</td>
+      <td>84.589355</td>
+      <td>16.361816</td>
+      <td>6.000000</td>
+      <td>23.231689</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>95.392578</td>
-      <td>39.264160</td>
-      <td>NaN</td>
-      <td>84.257812</td>
-      <td>23.466309</td>
-      <td>2.911621</td>
-      <td>32.889648</td>
-      <td>34.610840</td>
-      <td>133.516602</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>73.289062</td>
-      <td>82.970215</td>
-      <td>65.577148</td>
-      <td>64.257812</td>
-      <td>22.945801</td>
       <td>21.200195</td>
+      <td>73.289062</td>
+      <td>22.945801</td>
+      <td>NaN</td>
+      <td>100.195801</td>
       <td>24.000000</td>
+      <td>23.466309</td>
+      <td>29.000000</td>
+      <td>65.577148</td>
       <td>33.496582</td>
-      <td>34.726074</td>
-      <td>3.072266</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>123.718750</td>
+      <td>95.392578</td>
+      <td>133.516602</td>
+      <td>34.610840</td>
+      <td>12.000000</td>
+      <td>39.264160</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>178.104980</td>
-      <td>73.800049</td>
-      <td>NaN</td>
-      <td>158.155029</td>
-      <td>47.615723</td>
-      <td>5.748779</td>
-      <td>65.968750</td>
-      <td>69.063965</td>
-      <td>217.682861</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>171.116211</td>
-      <td>158.221924</td>
-      <td>144.205811</td>
-      <td>144.176514</td>
-      <td>46.310059</td>
       <td>37.241211</td>
+      <td>171.116211</td>
+      <td>46.310059</td>
+      <td>NaN</td>
+      <td>193.438232</td>
       <td>40.000000</td>
+      <td>47.615723</td>
+      <td>48.000000</td>
+      <td>144.205811</td>
       <td>65.058350</td>
-      <td>68.542236</td>
-      <td>5.534912</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>214.740479</td>
+      <td>178.104980</td>
+      <td>217.682861</td>
+      <td>69.063965</td>
+      <td>22.000000</td>
+      <td>73.800049</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>812.099121</td>
-      <td>173.853027</td>
-      <td>NaN</td>
-      <td>459.774902</td>
-      <td>128.154297</td>
-      <td>18.569824</td>
-      <td>135.432617</td>
-      <td>137.803711</td>
-      <td>872.888672</td>
-      <td>NaN</td>
-      <td>...</td>
-      <td>428.646973</td>
-      <td>452.215332</td>
-      <td>401.538574</td>
-      <td>396.646973</td>
-      <td>124.032227</td>
       <td>137.751953</td>
+      <td>428.646973</td>
+      <td>124.032227</td>
+      <td>NaN</td>
+      <td>829.932129</td>
       <td>130.000000</td>
+      <td>128.154297</td>
+      <td>128.000000</td>
+      <td>401.538574</td>
       <td>130.026367</td>
-      <td>135.499023</td>
-      <td>20.434082</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>851.888672</td>
+      <td>812.099121</td>
+      <td>872.888672</td>
+      <td>137.803711</td>
+      <td>60.000000</td>
+      <td>173.853027</td>
     </tr>
   </tbody>
 </table>
@@ -2029,7 +2053,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Aug 25, 2024.
+  Last updated on Apr 16, 2025.
   <br/>
 </p>
   </div>
@@ -2040,7 +2064,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2024.
+&copy; Copyright 2014-2025.
 </p>
 
 </div>

@@ -28,13 +28,14 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -65,7 +66,7 @@
     <link rel="prev" title="Ice thickness inversion" href="inversion.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Aug 25, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 16, 2025"/>
   </head>
   
   
@@ -115,6 +116,13 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content"><p class="announcement">
+   🚧 <strong>Scheduled maintenance:</strong> the OGGM cluster will be offline <strong>April 27 (evening CEST) – April 30 (morning CEST) 2025</strong>.
+   <a href="https://oggm.org/2025/04/15/service-maintenance/">Learn more</a>.
+</p>
+</div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -532,13 +540,13 @@ document.write(`
 <p>This notebook demonstrates the translation of thickness observations into bed topography in ‘flowline-space’ and a dynamic model initialization for projections. Guidelines for adding thickness observations to your glacier directory are provided in the tutorials <a class="reference internal" href="#../advanced/ingest_gridded_data_on_flowlines.ipynb"><span class="xref myst">Ingest gridded products such as ice velocity into OGGM</span></a> and <a class="reference internal" href="#../beginner/oggm_shop.ipynb"><span class="xref myst">OGGM-Shop and Glacier Directories in OGGM</span></a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">graphics</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">graphics</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">optimize</span>
 </pre></div>
 </div>
 </div>
@@ -568,11 +576,11 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:24:19: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2024-08-25 21:24:19: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2024-08-25 21:24:19: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2024-08-25 21:24:21: oggm.workflow: init_glacier_directories from prepro level 4 on 1 glaciers.
-2024-08-25 21:24:21: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:52:17: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2025-04-16 10:52:17: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2025-04-16 10:52:17: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2025-04-16 10:52:17: oggm.workflow: init_glacier_directories from prepro level 4 on 1 glaciers.
+2025-04-16 10:52:17: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -591,8 +599,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:24:21: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
-2024-08-25 21:24:21: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:52:18: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
+2025-04-16 10:52:18: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -629,7 +637,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/8c9daff8a59672f8871d58623abb40875294a0463bf40b5227122da235c1c2e6.png" src="../../_images/8c9daff8a59672f8871d58623abb40875294a0463bf40b5227122da235c1c2e6.png" />
+<img alt="../../_images/06b72945069225cbdc0d1e745191de23f9696cccf6d44babe19518414fa4ae7f.png" src="../../_images/06b72945069225cbdc0d1e745191de23f9696cccf6d44babe19518414fa4ae7f.png" />
 </div>
 </div>
 <p>The resulting flowlines exhibit identical surface and area height distributions, defined by the outline and the DEM. Comparing individual bed heights, there is minimal difference between OGGM default and consensus flowline bed heights. This is attributed to OGGM’s past contribution to the consensus estimate and the use of the consensus volume estimate in OGGM inversion. In contrast, the Millan bed height differs significantly.</p>
@@ -677,11 +685,11 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:24:22: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:24: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:52:19: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:21: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.SemiImplicitModel at 0x7f11c90aed90&gt;]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;oggm.core.flowline.SemiImplicitModel at 0x7f9699a052d0&gt;]
 </pre></div>
 </div>
 </div>
@@ -689,7 +697,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define a plotting function to compare the dynamic model runs with the observations</span>
-<span class="k">def</span> <span class="nf">compare_model_to_observations</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffixes</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compare_model_to_observations</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffixes</span><span class="p">):</span>
     
     <span class="n">area_ref</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span>
     <span class="n">area_ref_error</span> <span class="o">=</span> <span class="n">area_ref</span> <span class="o">*</span> <span class="mf">0.01</span>  <span class="c1"># 1% is the default of the dynamic spinup</span>
@@ -707,7 +715,7 @@ document.write(`
     
     <span class="n">dmdtda_comparison</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;dmdtda reference (with reduced uncertainty): </span><span class="si">{</span><span class="n">dmdtda_ref</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">dmdtda_ref_error</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kg m-2 yr-1&#39;</span>
 
-    <span class="k">def</span> <span class="nf">get_dmdtda_modelled</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">area_ref</span><span class="p">,</span> <span class="n">yr0_ref_mb</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">yr1_ref_mb</span><span class="o">=</span><span class="mi">2020</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dmdtda_modelled</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">area_ref</span><span class="p">,</span> <span class="n">yr0_ref_mb</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">yr1_ref_mb</span><span class="o">=</span><span class="mi">2020</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">((</span><span class="n">volume</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr1_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span>
                  <span class="n">volume</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr0_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span>
                 <span class="n">area_ref</span> <span class="o">/</span>
@@ -776,7 +784,7 @@ dmdtda consensus:                            -1078.0 kg m-2 yr-1, diff. to ref.:
 dmdtda millan:                               -1134.6 kg m-2 yr-1, diff. to ref.: -34.3 kg m-2 yr-1
 </pre></div>
 </div>
-<img alt="../../_images/4a77ac8ffe0190f064c0cbba581a07fab7f9c6b0bb595db102043d6395fd38f5.png" src="../../_images/4a77ac8ffe0190f064c0cbba581a07fab7f9c6b0bb595db102043d6395fd38f5.png" />
+<img alt="../../_images/1efe65c2c87de2b88cb9175ac6ddd87ef144b2dc77b6e6c602f0269b6aa6f127.png" src="../../_images/1efe65c2c87de2b88cb9175ac6ddd87ef144b2dc77b6e6c602f0269b6aa6f127.png" />
 </div>
 </div>
 <p>In all three simulations, we observe that both the area and geodetic mass balance align within the target boundaries. Nevertheless, the volume is only coincidentally matched for the consensus estimate. This discrepancy arises because the current deformation parameter was calibrated during the inversion for OGGM default initialization, which incorporates an equilibrium assumption (see <a class="reference external" href="https://docs.oggm.org/en/stable/inversion.html">documention</a> for more information). However, when defining the glacier bed from thickness observations, it becomes possible/necessary to calibrate the deformation parameter to match the observed volume during initialization. Although there is currently no implemented function for this, the following code should provide an idea of how it can be achieved:</p>
@@ -786,7 +794,7 @@ dmdtda millan:                               -1134.6 kg m-2 yr-1, diff. to ref.:
 <span class="n">tasks</span><span class="o">.</span><span class="n">init_present_time_glacier</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_millan_adapted&#39;</span><span class="p">,</span>
                                 <span class="n">use_binned_thickness_data</span><span class="o">=</span><span class="s1">&#39;millan_ice_thickness&#39;</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">to_minimize</span><span class="p">(</span><span class="n">glen_a</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_minimize</span><span class="p">(</span><span class="n">glen_a</span><span class="p">):</span>
     <span class="n">ref_volume</span> <span class="o">=</span> <span class="n">fls_millan</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">volume_m3</span>
     <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span>
         <span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_melt_f_calibration</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
@@ -841,22 +849,22 @@ dmdtda millan:                               -1134.6 kg m-2 yr-1, diff. to ref.:
 dmdtda millan_adapted:                       -1110.3 kg m-2 yr-1, diff. to ref.: -10.0 kg m-2 yr-1
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:24:28: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:32: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:34: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:40: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:42: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:44: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:48: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:50: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:51: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:53: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:55: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:57: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
-2024-08-25 21:24:59: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:52:24: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:28: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:31: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:36: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:38: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:40: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:44: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:46: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:47: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:49: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:51: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:53: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+2025-04-16 10:52:55: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
 </pre></div>
 </div>
-<img alt="../../_images/977114cbb9be327ffed4c7c48266460a83a1d01c4549735d61740251adafdad0.png" src="../../_images/977114cbb9be327ffed4c7c48266460a83a1d01c4549735d61740251adafdad0.png" />
+<img alt="../../_images/e224489d960bafb60273eeb0dede5359204ab3ba4b4e40f323f233e05094de81.png" src="../../_images/e224489d960bafb60273eeb0dede5359204ab3ba4b4e40f323f233e05094de81.png" />
 </div>
 </div>
 <p>Now, we achieve dynamic consistency by calibrating the Glen A factor, ensuring a match in area, geodetic mass balance <strong>and</strong> volume.</p>
@@ -867,7 +875,7 @@ dmdtda millan_adapted:                       -1110.3 kg m-2 yr-1, diff. to ref.:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.7797147426841996e-23
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.7797138551028473e-23
 </pre></div>
 </div>
 </div>
@@ -989,7 +997,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Aug 25, 2024.
+  Last updated on Apr 16, 2025.
   <br/>
 </p>
   </div>
@@ -1000,7 +1008,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2024.
+&copy; Copyright 2014-2025.
 </p>
 
 </div>

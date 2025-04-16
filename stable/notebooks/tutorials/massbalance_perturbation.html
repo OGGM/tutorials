@@ -28,13 +28,14 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -65,7 +66,7 @@
     <link rel="prev" title="Global distribution of the mass-balance model parameters" href="massbalance_global_params.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Aug 25, 2024"/>
+    <meta name="docbuild:last-update" content="Apr 16, 2025"/>
   </head>
   
   
@@ -115,6 +116,13 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content"><p class="announcement">
+   🚧 <strong>Scheduled maintenance:</strong> the OGGM cluster will be offline <strong>April 27 (evening CEST) – April 30 (morning CEST) 2025</strong>.
+   <a href="https://oggm.org/2025/04/15/service-maintenance/">Learn more</a>.
+</p>
+</div>
+</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -542,17 +550,17 @@ document.write(`
 <h2>Set-up<a class="headerlink" href="#set-up" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">os</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span> <span class="nn">oggm</span>
-<span class="kn">from</span> <span class="nn">oggm</span> <span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
-<span class="kn">from</span> <span class="nn">oggm.core</span> <span class="kn">import</span> <span class="n">massbalance</span>
-<span class="kn">from</span> <span class="nn">oggm.core.massbalance</span> <span class="kn">import</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">,</span> <span class="n">mb_calibration_from_geodetic_mb</span><span class="p">,</span> <span class="n">mb_calibration_from_wgms_mb</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">oggm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">massbalance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.massbalance</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">,</span> <span class="n">mb_calibration_from_geodetic_mb</span><span class="p">,</span> <span class="n">mb_calibration_from_wgms_mb</span>
 </pre></div>
 </div>
 </div>
@@ -566,9 +574,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:20:14: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2024-08-25 21:20:14: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2024-08-25 21:20:14: oggm.cfg: Multiprocessing: using all available processors (N=4)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:48:21: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2025-04-16 10:48:21: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2025-04-16 10:48:21: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -583,8 +591,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2024-08-25 21:20:15: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
-2024-08-25 21:20:15: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:48:22: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
+2025-04-16 10:48:22: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -725,7 +733,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5a042813a4144951d295ff496106e11d3f0329b56b53d3a89e19aec1b1718566.png" src="../../_images/5a042813a4144951d295ff496106e11d3f0329b56b53d3a89e19aec1b1718566.png" />
+<img alt="../../_images/05bdba8c29f8d69fc88a787ee945b8225561713f6d33c8e003636d5cc4eef654.png" src="../../_images/05bdba8c29f8d69fc88a787ee945b8225561713f6d33c8e003636d5cc4eef654.png" />
 </div>
 </div>
 <p>So far so good. But how to feed this into the heavy OGGM pipeline? Many OGGM users will be more familiar with the <code class="docutils literal notranslate"><span class="pre">run_*</span></code> entity tasks. These tasks “hide” the process of creating the mass balance model and therefore make it look like we cant’s change anything internally.</p>
@@ -741,7 +749,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39; create another &quot;mass balance model&quot; which is like the default one but with another default parameter</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
 <span class="n">PerturbedMassBalance</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">,</span> <span class="n">mb_params_filesuffix</span><span class="o">=</span><span class="s1">&#39;_perturbed&#39;</span><span class="p">)</span>
 
 <span class="c1"># Pass it to the run task</span>
@@ -771,7 +779,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/cb373766bb5cdaa4e9f70fc06331257ea847a0059ee3732b7508960bab6d652b.png" src="../../_images/cb373766bb5cdaa4e9f70fc06331257ea847a0059ee3732b7508960bab6d652b.png" />
+<img alt="../../_images/0834ab4d252af305107b2d8812fc3f1c78dfe5adf538cffb9c1ead31801c13a2.png" src="../../_images/0834ab4d252af305107b2d8812fc3f1c78dfe5adf538cffb9c1ead31801c13a2.png" />
 </div>
 </div>
 <p>Quite a big difference for “just” 2 units of melt factor more, from 5 to 7!</p>
@@ -782,7 +790,7 @@ document.write(`
 <p>For this I wrote a “task”, originally outside of OGGM but that is now (v1.6.4) part of the main codebase. Let’s have a look at it:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
 <span class="nd">@entity_task</span><span class="p">(</span><span class="n">log</span><span class="p">,</span> <span class="n">writes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">perturbate_mb_params</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">perturbation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset_default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">perturbate_mb_params</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">perturbation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reset_default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Replaces pre-calibrated MB params with perturbed ones for this glacier.</span>
 
 <span class="sd">    It simply replaces the existing `mb_calib.json` file with an</span>
@@ -846,11 +854,11 @@ document.write(`
 <p>It’s a fairly easy piece of code isn’t it? Let’s apply it in a latin hypercube parameter set where we change all parameters in a structured way:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">qmc</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
 <span class="n">sampler</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">sample</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">log_scale_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">log_scale_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This is to sample multiplicative factors in log space to avoid assymetry (detail, but important).&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="mi">2</span><span class="o">**</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">high</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">low</span><span class="p">))</span><span class="o">*</span><span class="n">value</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">low</span><span class="p">))</span>
 
@@ -864,7 +872,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f81ed12cdf843f2988b5e76b4ffaf07cdff50eb27484fdcaa29ed78b2c7b930f.png" src="../../_images/f81ed12cdf843f2988b5e76b4ffaf07cdff50eb27484fdcaa29ed78b2c7b930f.png" />
+<img alt="../../_images/685ce3a1870c73b585b552f2e7e4f6deaeaff952437bd8736bfaec35135148a5.png" src="../../_images/685ce3a1870c73b585b552f2e7e4f6deaeaff952437bd8736bfaec35135148a5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -913,7 +921,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/85aea4e396f745c119934aaad615fc3fd3ff1a6b12652d555c347f4184beeb66.png" src="../../_images/85aea4e396f745c119934aaad615fc3fd3ff1a6b12652d555c347f4184beeb66.png" />
+<img alt="../../_images/b2d951ddeb9951ca1a6756c0818ada3fc775dd56fb3ccef80a1166442429c785.png" src="../../_images/b2d951ddeb9951ca1a6756c0818ada3fc775dd56fb3ccef80a1166442429c785.png" />
 </div>
 </div>
 </section>
@@ -1028,7 +1036,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Aug 25, 2024.
+  Last updated on Apr 16, 2025.
   <br/>
 </p>
   </div>
@@ -1039,7 +1047,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2024.
+&copy; Copyright 2014-2025.
 </p>
 
 </div>
