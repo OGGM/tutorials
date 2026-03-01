@@ -35,6 +35,9 @@ jobs:
           ${PIP} install --upgrade pip setuptools wheel
           ${PIP} install -r requirements.txt
           ${PIP} uninstall -y progressbar2
+      - name: Check notebook cleanliness
+        run: |
+          python3 scripts/check_notebook_kernelspec.py
       - name: Build Book
         env:
           STATIC_MAP_API_KEY: ${{ secrets.STATIC_MAP_API_KEY }}
