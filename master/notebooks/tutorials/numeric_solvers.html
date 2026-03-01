@@ -30,9 +30,9 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
@@ -51,7 +51,7 @@
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -66,7 +66,7 @@
     <link rel="prev" title="Dynamic spinup and dynamic melt_f calibration for past simulations" href="dynamical_spinup.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Apr 16, 2025"/>
+    <meta name="docbuild:last-update" content="Mar 01, 2026"/>
   </head>
   
   
@@ -116,13 +116,6 @@
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
-<aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content"><p class="announcement">
-   🚧 <strong>Scheduled maintenance:</strong> the OGGM cluster will be offline <strong>April 27 (evening CEST) – April 30 (morning CEST) 2025</strong>.
-   <a href="https://oggm.org/2025/04/15/service-maintenance/">Learn more</a>.
-</p>
-</div>
-</aside>
 
   
     <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
@@ -238,7 +231,7 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_your_own_inventory.html">Using your own glacier inventory with OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
@@ -555,32 +548,46 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;function oggm.workflow.init_glacier_directories(rgidf=None, *, reset=False, force=False, from_prepro_level=None, prepro_border=None, prepro_rgi_version=None, prepro_base_url=None, from_tar=False, delete_tar=False)&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize OGGM and set up the default run parameters</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
 
 <span class="c1"># Define our test glacier (Baltoro)</span>
 <span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-14.06794&#39;</span><span class="p">]</span>
+<span class="c1"># change border around the individual glaciers</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
 
 <span class="c1"># load elevation band representation</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_dynamic_solvers_elevation_bands&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">base_url_eb</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5/&#39;</span>
+<span class="n">base_url_eb</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2025.6/elev_bands/W5E5/per_glacier_spinup&#39;</span>
 <span class="n">gdir_eb</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url_eb</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="c1"># load centerline representation</span>
-<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_dynamic_solvers_centerliens&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">base_url_cl</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/centerlines/W5E5/&#39;</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_dynamic_solvers_centerlines&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">base_url_cl</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2025.6/centerlines/W5E5/per_glacier_spinup&#39;</span>
 <span class="n">gdir_cl</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url_cl</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:52:57: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2025-04-16 10:52:57: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2025-04-16 10:52:57: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2025-04-16 10:52:58: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2025-04-16 10:52:58: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2025-04-16 10:52:59: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2025-04-16 10:52:59: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-01 22:56:26: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-03-01 22:56:26: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-03-01 22:56:26: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2026-03-01 22:56:27: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2026-03-01 22:56:27: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2026-03-01 22:56:27: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2026-03-01 22:56:27: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -608,13 +615,13 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/cafb6c8d710c45a758f08b6aa24505ba4faf18ecab2fa6f8626ed45d10250950.png" src="../../_images/cafb6c8d710c45a758f08b6aa24505ba4faf18ecab2fa6f8626ed45d10250950.png" />
+<img alt="../../_images/e776083b42ada26315b6c2a0ae16705b3de2c66135cfac5cb38d0c64a6e844ca.png" src="../../_images/e776083b42ada26315b6c2a0ae16705b3de2c66135cfac5cb38d0c64a6e844ca.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># run Flux-Based with elevation bands</span>
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># time it for later comparision</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># time it for later comparison</span>
 <span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">(</span><span class="n">gdir_eb</span><span class="p">,</span>
                          <span class="n">evolution_model</span><span class="o">=</span><span class="n">FluxBasedModel</span><span class="p">,</span>
                          <span class="n">nyears</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
@@ -632,10 +639,10 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/af1e481a70b7a58563e8dcaa4a4eb5b7ecc45415dffe49c97e2d89171787a5c1.png" src="../../_images/af1e481a70b7a58563e8dcaa4a4eb5b7ecc45415dffe49c97e2d89171787a5c1.png" />
+<img alt="../../_images/ad23e9126baeb20ed9fb5d9ed39544a9fbc1aa4027d41cb8afcd053b1ffd64e9.png" src="../../_images/ad23e9126baeb20ed9fb5d9ed39544a9fbc1aa4027d41cb8afcd053b1ffd64e9.png" />
 </div>
 </div>
-<p>Whereas the Semi-Impicit model only works for single trapezoidal flowlines (elevation bands).</p>
+<p>Whereas the Semi-Implicit model only works for single trapezoidal flowlines (elevation bands).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># run Semi-Implicit with centerlines raises an error </span>
@@ -652,8 +659,8 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:55:49: oggm.core.flowline: ValueError occurred during task flowline_model_run_semi_implicit on RGI60-14.06794: Implicit model does not work with tributaries.
-2025-04-16 10:55:49: oggm.core.flowline: ValueError occurred during task run_random_climate_semi_implicit on RGI60-14.06794: Implicit model does not work with tributaries.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-01 22:59:58: oggm.core.flowline: ValueError occurred during task flowline_model_run_semi_implicit on RGI60-14.06794: Implicit model does not work with tributaries.
+2026-03-01 22:59:58: oggm.core.flowline: ValueError occurred during task run_random_climate_semi_implicit on RGI60-14.06794: Implicit model does not work with tributaries.
 </pre></div>
 </div>
 </div>
@@ -661,7 +668,7 @@ hands-on introduction to the different flowline types.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># run Semi-Implicit with elevation bands</span>
-<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># time it for later comparision</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>  <span class="c1"># time it for later comparison</span>
 <span class="n">tasks</span><span class="o">.</span><span class="n">run_random_climate</span><span class="p">(</span><span class="n">gdir_eb</span><span class="p">,</span>
                          <span class="n">evolution_model</span><span class="o">=</span><span class="n">SemiImplicitModel</span><span class="p">,</span>
                          <span class="n">nyears</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
@@ -682,7 +689,7 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6e028de5d88df1e0a952ab167192c73fd8c858289c91ee1b388ca46389e8f24a.png" src="../../_images/6e028de5d88df1e0a952ab167192c73fd8c858289c91ee1b388ca46389e8f24a.png" />
+<img alt="../../_images/4f5bbc315e50edd2cdff5c083021690ea559bbf3ca0baa5a90be1f6562c7a2d4.png" src="../../_images/4f5bbc315e50edd2cdff5c083021690ea559bbf3ca0baa5a90be1f6562c7a2d4.png" />
 </div>
 </div>
 <p>You see that for the elevation band flowlines, both produce similar results. The differences arise from numeric instabilities in the Flux-Based model (see next paragraph). You can redo the experiment with a glacier where these instabilities are not that severe (e.g. RGI60-11.00897 Hintereisferner) and you will see both models produce the same result.</p>
@@ -698,8 +705,8 @@ hands-on introduction to the different flowline types.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Semi-Implicit time needed: 1.7 s
-Flux-Based time needed: 2.9 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Semi-Implicit time needed: 2.2 s
+Flux-Based time needed: 3.4 s
 </pre></div>
 </div>
 </div>
@@ -725,7 +732,7 @@ Flux-Based time needed: 2.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f93315ba09737b4824e7145288e5055a9a4c296df23d3604dec380f25656b7d8.png" src="../../_images/f93315ba09737b4824e7145288e5055a9a4c296df23d3604dec380f25656b7d8.png" />
+<img alt="../../_images/76f93c9f4cb89fa04e9f58e6ba473f143d742065c32656bddc4290ae65049c8d.png" src="../../_images/76f93c9f4cb89fa04e9f58e6ba473f143d742065c32656bddc4290ae65049c8d.png" />
 </div>
 </div>
 <p>In this case instabilities are visible for the FluxBasedModel at around 30 km distance along the flowline. They can lead to very large velocities which reduce the maximum possible step size due to the cfl-criterion (see also in the <a class="reference external" href="https://docs.oggm.org/en/latest/faq.html#ice-velocities-in-oggm-are-sometimes-noisy-or-unrealistic-how-so">documentation</a>).</p>
@@ -738,7 +745,7 @@ Flux-Based time needed: 2.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:55:51: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-01 23:00:00: oggm.cfg: PARAMS[&#39;evolution_model&#39;] changed from `SemiImplicit` to `FluxBased`.
 </pre></div>
 </div>
 </div>
@@ -756,10 +763,10 @@ Flux-Based time needed: 2.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6054742ca3bc569b46f829466a3171ccbc87b176777c6b37b129bdf3ddddbab6.png" src="../../_images/6054742ca3bc569b46f829466a3171ccbc87b176777c6b37b129bdf3ddddbab6.png" />
+<img alt="../../_images/7ce511c41495bc4ef57b5ec8451d29a82fc1202eb81643a45f9a1ca91b21c741.png" src="../../_images/7ce511c41495bc4ef57b5ec8451d29a82fc1202eb81643a45f9a1ca91b21c741.png" />
 </div>
 </div>
-<p>In OGGM before v1.6, with the FluxBasedModel, the shape of this downstream line was defined by fitting a parabola to the valley walls. However, for the SemiImplicitModel we had to change the shape to a trapezoidal, eventhough a parabola approximates a mountain valley arguably better. We checked the influence of this change on advancing glaciers and found negligibly small differences in the volume on a regional scale. There might be some differences in the area.</p>
+<p>In OGGM before v1.6, with the FluxBasedModel, the shape of this downstream line was defined by fitting a parabola to the valley walls. However, for the SemiImplicitModel we had to change the shape to a trapezoidal, even though a parabola approximates a mountain valley arguably better. We checked the influence of this change on advancing glaciers and found negligibly small differences in the volume on a regional scale. There might be some differences in the area.</p>
 <p>By default, we use a trapezoidal bed shape for the downstream line:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -776,7 +783,7 @@ Flux-Based time needed: 2.9 s
         True,  True,  True,  True,  True,  True,  True,  True,  True,
         True,  True,  True,  True,  True,  True,  True,  True,  True,
         True,  True,  True,  True,  True,  True,  True,  True,  True,
-        True,  True,  True,  True,  True,  True,  True,  True])
+        True,  True,  True,  True,  True,  True,  True,  True,  True])
 </pre></div>
 </div>
 </div>
@@ -796,7 +803,7 @@ Flux-Based time needed: 2.9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-04-16 10:55:56: oggm.cfg: PARAMS[&#39;downstream_line_shape&#39;] changed from `trapezoidal` to `parabola`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-01 23:00:07: oggm.cfg: PARAMS[&#39;downstream_line_shape&#39;] changed from `trapezoidal` to `parabola`.
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([False, False, False, False, False, False, False, False, False,
@@ -806,7 +813,7 @@ Flux-Based time needed: 2.9 s
        False, False, False, False, False, False, False, False, False,
        False, False, False, False, False, False, False, False, False,
        False, False, False, False, False, False, False, False, False,
-       False, False, False, False, False, False, False, False])
+       False, False, False, False, False, False, False, False, False])
 </pre></div>
 </div>
 </div>
@@ -919,7 +926,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 16, 2025.
+  Last updated on Mar 01, 2026.
   <br/>
 </p>
   </div>
