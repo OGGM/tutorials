@@ -541,7 +541,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="minutes-to-a-preprocessed-directory">
 <h1>10 minutes to… a preprocessed directory<a class="headerlink" href="#minutes-to-a-preprocessed-directory" title="Link to this heading">#</a></h1>
-<p>This tutorial is a first introduction into running OGGM. The OGGM workflow is best explained with an example. In the following, we will show you the OGGM fundamentals (<a class="reference external" href="https://docs.oggm.org/en/stable/structure.html">Doc page: model structure and fundamentals</a>). This example is also meant to guide you through a first-time setup if you are using OGGM on your own computer. If you prefer not to install OGGM on your computer, you can always run this notebook <a class="reference external" href="https://docs.oggm.org/en/stable/cloud.html">online</a> instead!</p>
+<p>This tutorial provides a first introduction to running OGGM. The OGGM workflow is best understood through a concrete example, and in the following we will guide you through the core concepts and workflow of OGGM (<a class="reference external" href="https://docs.oggm.org/en/stable/structure.html">model structure and fundamentals</a>).</p>
+<p>This example is also designed to help you set up OGGM for the first time on your own computer. If you prefer not to install OGGM locally, you can run this notebook online instead via <a class="reference external" href="https://docs.oggm.org/en/stable/cloud.html">MyBinder or OGGM-Hub</a>.</p>
 <p><strong>Tags:</strong> beginner, glacier-directory, workflow</p>
 <section id="first-time-set-up">
 <h2>First time set-up<a class="headerlink" href="#first-time-set-up" title="Link to this heading">#</a></h2>
@@ -561,9 +562,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 06:46:55: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-03-02 06:46:55: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-03-02 06:46:55: oggm.cfg: Multiprocessing: using all available processors (N=4)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 10:40:46: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-03-02 10:40:46: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-03-02 10:40:46: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -590,7 +591,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 06:46:55: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 10:40:46: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
 </div>
@@ -633,7 +634,7 @@ document.write(`
 <h3>Define the glaciers for the run<a class="headerlink" href="#define-the-glaciers-for-the-run" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.01328&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.01450&#39;</span><span class="p">]</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.01328&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.01450&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -677,16 +678,15 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span>
     <span class="n">rgi_ids</span><span class="p">,</span>  <span class="c1"># which glaciers?</span>
     <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">,</span>  <span class="c1"># where to fetch the data?</span>
-    <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># what kind of data? </span>
+    <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># what kind of data?</span>
     <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span>  <span class="c1"># how big of a map?</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 06:46:55: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
-2026-03-02 06:46:55: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
-2026-03-02 06:46:55: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2025.6/elev_bands/W5E5/per_glacier_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.01.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2025.6/elev_bands/W5E5/per_glacier_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.01.tar...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 10:40:47: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
+2026-03-02 10:40:47: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -778,7 +778,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 06:47:15: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 10:40:48: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -853,7 +853,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 06:47:15: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-02 10:40:48: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -868,7 +868,7 @@ document.write(`
 <span class="n">fl</span> <span class="o">=</span> <span class="n">inversion_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="c1"># the last grid points often have irrealistic velocities</span>
 <span class="c1"># because of the equilibrium assumption</span>
-<span class="n">vel</span> <span class="o">=</span> <span class="n">fl</span><span class="p">[</span><span class="s1">&#39;u_surface&#39;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  
+<span class="n">vel</span> <span class="o">=</span> <span class="n">fl</span><span class="p">[</span><span class="s1">&#39;u_surface&#39;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vel</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Velocity along flowline (m yr-1)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
