@@ -51,7 +51,9 @@ def main() -> int:
             print(f" - {notebook}", file=sys.stderr)
 
     if kernelspec_offenders or output_offenders:
-        print("\nNotebooks committed to this repository must be output-free and kernelspec-free.", file=sys.stderr)
+        msg = ("\nNotebooks committed to this repository must be output-free and kernelspec-free. "
+               "To do this, run python scripts/strip_notebook_outputs.py from the tutorials root folder.")
+        print(msg, file=sys.stderr)
         return 1
 
     print("OK: notebooks are clean (no metadata.kernelspec, outputs, or execution_count)")
