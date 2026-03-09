@@ -1,0 +1,27 @@
+name: Notebook Cleanliness
+
+on:
+  pull_request:
+    branches:
+      - master
+      - stable
+      - v1.5.3
+  push:
+    branches:
+      - master
+      - stable
+      - v1.5.3
+
+jobs:
+  check_notebooks:
+    name: Check notebook kernelspec/output
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate notebook cleanliness
+        run: python scripts/check_notebook_kernelspec.py
