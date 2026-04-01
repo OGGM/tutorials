@@ -1,0 +1,1542 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Avalanches in OGGM &#8212; OGGM tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'notebooks/tutorials/running_oggm_with_avalanches';</script>
+    <script data-domain="tutorials.oggm.org" defer="defer" src="https://plausible.oggm.org/js/script.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Create local topography maps from different DEM sources with OGGM" href="dem_sources.html" />
+    <link rel="prev" title="Ingest gridded products such as ice velocity into OGGM" href="ingest_gridded_data_on_flowlines.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Apr 01, 2026"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../welcome.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="OGGM tutorials - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="OGGM tutorials - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../welcome.html">
+                    OGGM tutorials
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/10minutes.html">10 minutes tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/preprocessed_directories.html">10 minutes to… a preprocessed directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM-shop as a data provider for your worksflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/workflow.html">OGGM workflow</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="working_with_rgi.html">Working with the RGI and prepare glaciers for a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deal_with_errors.html">Dealing with errors after a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="elevation_bands_vs_centerlines.html">Differences between the “elevation band” and “centerline” flowlines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="building_the_prepro_gdirs.html">Step-by-Step guide to building preprocessed directories from scratch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="full_prepro_workflow.html">What’s in my preprocessed directories? A full centerlines workflow, step by step</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/massbalance.html">Mass balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="massbalance_global_params.html">Global distribution of the mass-balance model parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="massbalance_perturbation.html">Mass balance parameter perturbation experiments with OGGM</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/hydro.html">Hydrological output</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources.html">Glaciers as water resources (OGGM-Edu part 1 - idealized)</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources_projections.html">Glaciers as water resources (OGGM-Edu part 2 - projections)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/dynamics.html">Dynamical runs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="run_with_a_spinup_and_gcm_data.html">Run with a long spinup and GCM data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamical_spinup.html">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/thickness.html">Ice thickness</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="inversion.html">Ice thickness inversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="observed_thickness_with_dynamic_spinup.html">Dynamic model initialization using observed thickness data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/calving.html">Calving</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="kcalving_parameterization.html">The Oerlemans &amp; Nick frontal ablation parameterization in OGGM</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_your_own_inventory.html">Using your own glacier inventory with OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Avalanches in OGGM</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/visualisation.html">Visualisation and post-processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="distribute_flowline.html">Display glacier area and thickness changes on a grid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preprocessing_errors.html">Error analysis of the global pre-processing workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="merge_gcm_runs_and_visualize.html">Merge, analyse and visualize OGGM GCM runs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="holoviz_intro.html">Small overview of HoloViz capability of data exploration</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/tutorials/running_oggm_with_avalanches.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/tutorials/running_oggm_with_avalanches.ipynb&branch=master" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on JupyterHub"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="JupyterHub logo" src="../../_static/images/logo_jupyterhub.svg">
+  </span>
+<span class="btn__text-container">JupyterHub</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/tutorials/running_oggm_with_avalanches.ipynb" target="_blank"
+   class="btn btn-sm btn-source-edit-button dropdown-item"
+   title="Suggest edit"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="btn__text-container">Suggest edit</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/OGGM/tutorials/issues/new?title=Issue%20on%20page%20%2Fnotebooks/tutorials/running_oggm_with_avalanches.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/notebooks/tutorials/running_oggm_with_avalanches.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Avalanches in OGGM</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Avalanches in OGGM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#snow-redistribution-from-avalanches-maps-with-oggm-snowslide">Snow redistribution from avalanches maps with OGGM-Snowslide</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#influence-of-avalanches-on-glacier-mass-balance">Influence of avalanches on glacier mass balance</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#influence-of-avalanches-on-future-projections-of-glacier-volumes-and-runoff">Influence of avalanches on future projections of glacier volumes and runoff</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="avalanches-in-oggm">
+<h1>Avalanches in OGGM<a class="headerlink" href="#avalanches-in-oggm" title="Link to this heading">#</a></h1>
+<p>In this notebook, we showcase a recent addition to OGGM: a representation of avalanche contribution to glacier mass balance, based on the work by <a class="reference external" href="https://doi.org/10.1038/s41467-025-65608-z">Kneib et al. (2025)</a>.</p>
+<p>This is part of a series of two notebooks:</p>
+<ul class="simple">
+<li><p>the first notebook, available on the <a class="reference external" href="https://github.com/OGGM/Snowslide/blob/main/notebooks/avalanche_maps_for_gdirs.ipynb">snowslide repository</a>, showcases how avalanche maps can be created and added to the OGGM glacier directories</p></li>
+<li><p>in this notebook here, we explain how one can use these maps to account for the avalanche contribution to glacier mass balance for future projections of glacier volume change.</p></li>
+</ul>
+<p><strong>Notes on dependencies</strong></p>
+<p>This notebook and the first one relies on a lightweight python package which can be run with the latest version of OGGM (v1.6.3):</p>
+<p><a class="github reference external" href="https://github.com/OGGM/Snowslide">OGGM/Snowslide</a></p>
+<p>You will need to install this package using pip install.</p>
+<p>Dependencies are explained in the README. Note that this package addresses 2 important functionalities:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">snowslide_main.py</span></code> (which calls <code class="docutils literal notranslate"><span class="pre">functions.py</span></code>) has all the tools to run the Snowslide avalanche routing on any DEM, competely independently from OGGM</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">oggm_snowslide_compat_minimal.py</span></code> contains a list of functions and objects to link OGGM with Snowslide, starting with <code class="docutils literal notranslate"><span class="pre">snowslide_to_gdir</span></code> and <code class="docutils literal notranslate"><span class="pre">snowslide_to_gdir_meanmonthly</span></code> which OGGM calls to produce maps of snow redistribution for its DEMs.</p></li>
+</ul>
+<p>To create the avalanche maps, Snowslide currently runs with pysheds v0.5, which is not part of the default OGGM environment and will need to be installed accordingly in your environment if you wish to produce your own avalanche maps (for example to run this notebook). This can be done easily:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">pysheds</span><span class="o">=</span><span class="m">0</span>.5
+</pre></div>
+</div>
+<p>In the most recent OGGM glacier directories we provide maps of snow redistribution by avalanches representative of the calibration period 2000-2019 for all glaciers in the world (level L3, glacier boundaries 80), which can then be ingested in the classic OGGM workflow without the need to re-run Snowslide, therefore with a very limited number of dependencies.</p>
+<p>In this notebook, we simply install the minimal version of Snowslide below if needed:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># !pip install --no-deps git+https://github.com/OGGM/Snowslide.git</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="snow-redistribution-from-avalanches-maps-with-oggm-snowslide">
+<h2>Snow redistribution from avalanches maps with OGGM-Snowslide<a class="headerlink" href="#snow-redistribution-from-avalanches-maps-with-oggm-snowslide" title="Link to this heading">#</a></h2>
+<p>In the previous notebook we generated maps of avalanche correction factors for a specific glacier. These maps are available in the most recent OGGM glacier directories. Let’s quickly check these maps. First, we load the glacier directory containing the avalanche map.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Libs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Locals</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span>
+
+<span class="c1"># Initialize OGGM and set up the default run parameters</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;INFO&#39;</span><span class="p">)</span>
+
+<span class="c1"># Local working directory (where OGGM will write its output)</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">get_temp_dir</span><span class="p">(</span><span class="s1">&#39;snowslide&#39;</span><span class="p">))</span>
+
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_model_geometry&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;min_ice_thick_for_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># a glacier is when ice thicker than 1m</span>
+
+<span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.03638&#39;</span><span class="p">]</span> <span class="c1"># Argentiere Glacier</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:14:35: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-01 11:14:35: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-01 11:14:35: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2026-04-01 11:14:35: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+2026-04-01 11:14:35: oggm.cfg: PARAMS[&#39;min_ice_thick_for_length&#39;] changed from `0.0` to `1`.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">base_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~mkneib/global_snowslide_maps_oggm_2025.6/global_whypso/&#39;</span>  <span class="c1"># gdirs with avalanche maps</span>
+<span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgi_ids</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">gdirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:14:36: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2026-04-01 11:14:36: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+2026-04-01 11:14:36: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~mkneib/global_snowslide_maps_oggm_2025.6/global_whypso/RGI62/b_080/L3/RGI60-11/RGI60-11.03.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~mkneib/global_snowslide_maps_oggm_2025.6/global_whypso/RGI62/b_080/L3/RGI60-11/RGI60-11.03.tar...
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we access the gridded information contained in the glacier directory</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the glacier DEM (to compute the initial distributed snow height)</span>
+<span class="n">gridded_data_path</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s2">&quot;gridded_data&quot;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gridded_data_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="n">pfact</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">snowslide_1m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s now have a look at these snow depth maps!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">pfact</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">glacier_mask</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu&quot;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">add_colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">img</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;Avalanche correction factor (-)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">img</span><span class="o">.</span><span class="n">colorbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/bf63d49c7b0ca835033577b9b6c87a62a6b9e6800aecf2f6db7422cfbb8f407c.png" src="../../_images/bf63d49c7b0ca835033577b9b6c87a62a6b9e6800aecf2f6db7422cfbb8f407c.png" />
+</div>
+</div>
+<p>OK we have our maps of avalanche correction factors for our glacier - just as a reminder, these correspond to the ratio of snow depth with and without avalanches for the period 2000-2020. Now let’s look into how we account for this avalanche contribution to glacier mass balance.</p>
+</section>
+<section id="influence-of-avalanches-on-glacier-mass-balance">
+<h2>Influence of avalanches on glacier mass balance<a class="headerlink" href="#influence-of-avalanches-on-glacier-mass-balance" title="Link to this heading">#</a></h2>
+<p>OGGM being a flowline model, the avalanche correction factors need to be aggregated in 1D along the flowline. This of course introduces a very strong simplification - 2 tributaries, one with a strong avalanche input, and one without, will be attributed the same contribution. In an ideal world, one would be able to run a fully distributed model to properly account for this contribution, but as a first step, already having snow redistributed in 1D enables to get a first order estimate of the avalanche effect :)</p>
+<p>In the glacier directory with avalanches generation process, these avalanche correction factors have bin binned along our flowlines to recalibrate the model. As an illustration, we repeat the steps that have been done below:</p>
+<p>More documentation here:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.elevation_band_flowline.html">https://docs.oggm.org/en/stable/generated/oggm.tasks.elevation_band_flowline.html</a></p></li>
+<li><p><a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.fixed_dx_elevation_band_flowline.html">https://docs.oggm.org/en/stable/generated/oggm.tasks.fixed_dx_elevation_band_flowline.html</a></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">elevation_band_flowline</span><span class="p">,</span> <span class="n">gdir</span><span class="p">,</span> <span class="n">bin_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;snowslide_1m&#39;</span><span class="p">])</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">fixed_dx_elevation_band_flowline</span><span class="p">,</span> <span class="n">gdir</span><span class="p">,</span> <span class="n">bin_variables</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;snowslide_1m&#39;</span><span class="p">],</span> <span class="n">preserve_totals</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:15:16: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
+2026-04-01 11:15:16: oggm.core.centerlines: (RGI60-11.03638) elevation_band_flowline
+2026-04-01 11:15:17: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
+2026-04-01 11:15:17: oggm.core.centerlines: (RGI60-11.03638) fixed_dx_elevation_band_flowline
+</pre></div>
+</div>
+</div>
+</div>
+<p>OK so now that we have avalanche correction factors along the flowline we can actually update our mass balance model from the OGGM TI model:</p>
+<div class="math notranslate nohighlight">
+\[B_i(z) = k_p \times P_i^{Solid}(z) - d_f \times \max(t_b + T_i(z) - T_{Melt}, 0)\]</div>
+<p>To a model that accounts for the avalanche contribution:</p>
+<div class="math notranslate nohighlight">
+\[B_i(z) = k_{ava, i}(z) \times k_p \times P_i^{Solid}(z) - d_f \times \max(t_b + T_i(z) - T_{Melt}, 0)\]</div>
+<p>And of course, the parameters of the model now need to be recalibrated against the geodetic mass balance.</p>
+<p>At this stage, Snowslide has not been adapted to the spinup recalibration scheme, so we simply use the informed 3 steps calibration strategy introduced in OGGM v1.6 and described in Schuster et al. (2023).</p>
+<p>First we check the pre-calibrated parameters from the glacier directory originally obtained with model spinup</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;mb_calib&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.03638&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: 4.8469078329007225,
+ &#39;prcp_fac&#39;: 2.967819925599159,
+ &#39;temp_bias&#39;: -0.6326349913941922,
+ &#39;reference_mb&#39;: -1049.4,
+ &#39;reference_mb_err&#39;: 166.8,
+ &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we recalibrate WITHOUT avalanches (informed 3 steps, Schuster et al., 2023) for reference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.massbalance</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_calibration_from_geodetic_mb</span>
+
+<span class="n">mb_calibration_from_geodetic_mb</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span> <span class="n">write_to_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                <span class="n">informed_threestep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;mb_calib&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:15:17: oggm.core.massbalance: (RGI60-11.03638) mb_calibration_from_geodetic_mb
+2026-04-01 11:15:17: oggm.core.massbalance: (RGI60-11.03638) mb_calibration_from_scalar_mb
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.03638&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: 4.894659932282654,
+ &#39;prcp_fac&#39;: 2.967819925599159,
+ &#39;temp_bias&#39;: -0.6712514064382084,
+ &#39;reference_mb&#39;: -1049.4,
+ &#39;reference_mb_err&#39;: 166.8,
+ &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Finally, we recalibrate WITH avalanches (informed 3 steps, Schuster et al., 2023), using the adapted functionaties from oggm_snowslide_compat</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">snowslide.oggm_snowslide_compat_minimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_calibration_from_geodetic_mb_with_avalanches</span>
+
+<span class="n">mb_calibration_from_geodetic_mb_with_avalanches</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                                                <span class="n">write_to_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                <span class="n">informed_threestep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s2">&quot;mb_calib&quot;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_with_ava&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:15:17: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) mb_calibration_from_geodetic_mb_with_avalanches
+2026-04-01 11:15:17: oggm.core.massbalance: (RGI60-11.03638) mb_calibration_from_scalar_mb_with_ava
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.03638&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: 5.0,
+ &#39;prcp_fac&#39;: 2.5919504914856173,
+ &#39;temp_bias&#39;: -0.6712514064382084,
+ &#39;reference_mb&#39;: -1049.4,
+ &#39;reference_mb_err&#39;: 166.8,
+ &#39;reference_period&#39;: &#39;2000-01-01_2020-01-01&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
+</pre></div>
+</div>
+</div>
+</div>
+<p>You can notice that both the precipitation correction and the degree-day factor are influenced by the introduction of the snow redistribution by avalanches. But let’s now compare directly the altitudinal mass balances from our ‘control’ and ‘avalanches’ scenarios.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import TI model classes from oggm and oggm_snowslide_compat</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.massbalance</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonthlyTIModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snowslide.oggm_snowslide_compat_minimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">MonthlyTIAvalancheModel</span>
+
+<span class="c1"># Get flowline</span>
+<span class="n">flowline</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s1">&#39;inversion_flowlines&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># get mass balance model</span>
+<span class="n">mb_control</span> <span class="o">=</span> <span class="n">MonthlyTIModel</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="n">mb_ava</span> <span class="o">=</span> <span class="n">MonthlyTIAvalancheModel</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+
+<span class="c1"># SMB 2000-2020 (control &amp; ava models)</span>
+
+<span class="c1"># get annual mass balance at bin elevation</span>
+<span class="n">df_control</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">flowline</span><span class="o">.</span><span class="n">dx_meter</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flowline</span><span class="o">.</span><span class="n">nx</span><span class="p">))</span>
+<span class="n">df_ava</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">flowline</span><span class="o">.</span><span class="n">dx_meter</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">flowline</span><span class="o">.</span><span class="n">nx</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2020</span><span class="p">):</span>
+    <span class="n">df_control</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">mb_control</span><span class="o">.</span><span class="n">get_annual_mb</span><span class="p">(</span><span class="n">flowline</span><span class="o">.</span><span class="n">surface_h</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">SEC_IN_YEAR</span> <span class="o">*</span> <span class="n">mb_control</span><span class="o">.</span><span class="n">rho</span>
+    <span class="n">df_ava</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">=</span> <span class="n">mb_ava</span><span class="o">.</span><span class="n">get_annual_mb</span><span class="p">(</span><span class="n">flowline</span><span class="o">.</span><span class="n">surface_h</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span> <span class="o">*</span> <span class="n">cfg</span><span class="o">.</span><span class="n">SEC_IN_YEAR</span> <span class="o">*</span> <span class="n">mb_control</span><span class="o">.</span><span class="n">rho</span>
+
+<span class="n">df_control</span> <span class="o">=</span> <span class="n">df_control</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">df_ava</span> <span class="o">=</span> <span class="n">df_ava</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">flowline</span><span class="o">.</span><span class="n">surface_h</span><span class="p">,</span><span class="n">df_control</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Control&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">flowline</span><span class="o">.</span><span class="n">surface_h</span><span class="p">,</span><span class="n">df_ava</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Avalanches&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;2000-2020 SMB&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Elevation [m a.s.l]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Annual SMB [mm w.eq/yr]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/03abb329b760a94246e65ced0f578c6b678a611dd6216a18c9c422ee869bb779.png" src="../../_images/03abb329b760a94246e65ced0f578c6b678a611dd6216a18c9c422ee869bb779.png" />
+</div>
+</div>
+<p>The 2 models were calibrated following the same procedure (informed 3 steps) and against the same geodetic mass balance from Hugonnet et al. (2021). The glacier-wide mass balance is therefore the same. However, you can see that introducing avalanches introduced more spatial variability in the SMB patterns, even in 1D.</p>
+<p>IMPORTANT NOTE: All the steps above were included as such in the processing of the most recent glacier directories, so the different maps, parameter values &amp; figures can be easily extracted for each glacier, even without having Snowslide installed!!</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="influence-of-avalanches-on-future-projections-of-glacier-volumes-and-runoff">
+<h1>Influence of avalanches on future projections of glacier volumes and runoff<a class="headerlink" href="#influence-of-avalanches-on-future-projections-of-glacier-volumes-and-runoff" title="Link to this heading">#</a></h1>
+<p>This part now discusses how to make future projections of glacier &amp; runoff changes that include these avalanche effects. For this, we still need a few functions from oggm_snowslide_compat, but which have much fewer ‘problematic’ dependencies. While for now you still need to install Snowslide entirely to run these, hopefully this’ll change in the future.</p>
+<p>For the future projections we use ISIMIP3b GCMs since these are already bias-corrected with W5E5. It’s also a smaller subset so takes less time to download. Note that it would still work with the CMIP6 GCMs.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># oggm &amp; oggm_snowslide_compat functions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">massbalance</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.shop</span><span class="w"> </span><span class="kn">import</span> <span class="n">gcm_climate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">snowslide.oggm_snowslide_compat_minimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_with_hydro_ava</span>
+
+<span class="c1"># required configuration</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;store_fl_diagnostics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1">### FORWARD SIMULATIONS 2000-2020</span>
+
+<span class="c1"># control scenario</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">,</span><span class="n">gdir</span><span class="p">,</span>
+                        <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span>
+                        <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">,</span>  <span class="c1"># use climate_historical for 2000-2020 period,</span>
+                        <span class="n">mb_model_class</span><span class="o">=</span><span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">,</span>
+                        <span class="n">output_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_control_2000-2020&#39;</span><span class="p">,</span> <span class="c1"># recognize run for later</span>
+                        <span class="n">fixed_geometry_spinup_yr</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="c1"># start simulation year 2000 (adds volume but not area)</span>
+                        <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span> <span class="c1"># for 2000-2020 use W5E5 simulation</span>
+                        <span class="p">);</span>
+
+<span class="c1"># avalanches scenario</span>
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">run_with_hydro_ava</span><span class="p">,</span><span class="n">gdir</span><span class="p">,</span>
+                        <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span>
+                        <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical,</span>
+                        <span class="n">mb_model_class</span><span class="o">=</span><span class="n">MonthlyTIAvalancheModel</span><span class="p">,</span>
+                        <span class="n">output_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ava_2000-2020&#39;</span><span class="p">,</span> <span class="c1"># recognize run for later</span>
+                        <span class="n">fixed_geometry_spinup_yr</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="c1"># start simulation year 2000 (adds volume but not area)</span>
+                        <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span>
+                        <span class="p">);</span>
+
+
+<span class="c1">### FORWARD SIMULATIONS 2020-2100</span>
+
+<span class="c1"># you can choose one of these 5 different GCMs:</span>
+<span class="c1"># &#39;gfdl-esm4_r1i1p1f1&#39;, &#39;mpi-esm1-2-hr_r1i1p1f1&#39;, &#39;mri-esm2-0_r1i1p1f1&#39; (&quot;low sensitivity&quot; models, within typical ranges from AR6)</span>
+<span class="c1"># &#39;ipsl-cm6a-lr_r1i1p1f1&#39;, &#39;ukesm1-0-ll_r1i1p1f2&#39; (&quot;hotter&quot; models, especially ukesm1-0-ll)</span>
+<span class="n">members</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ipsl-cm6a-lr_r1i1p1f1&#39;</span><span class="p">,</span><span class="s1">&#39;gfdl-esm4_r1i1p1f1&#39;</span><span class="p">,</span> <span class="s1">&#39;mpi-esm1-2-hr_r1i1p1f1&#39;</span><span class="p">,</span> <span class="s1">&#39;mri-esm2-0_r1i1p1f1&#39;</span><span class="p">,</span><span class="s1">&#39;ukesm1-0-ll_r1i1p1f2&#39;</span><span class="p">]</span>
+<span class="n">ssps</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span><span class="s1">&#39;ssp585&#39;</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">gcm</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="n">ssps</span><span class="p">:</span>
+        <span class="n">rid</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">gcm</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_monthly_isimip_data</span><span class="p">,</span> <span class="n">gdir</span><span class="p">,</span>
+                                <span class="n">ssp</span> <span class="o">=</span> <span class="n">ssp</span><span class="p">,</span>
+                                <span class="n">member</span><span class="o">=</span><span class="n">gcm</span><span class="p">,</span>
+                                <span class="c1"># recognize the climate file for later</span>
+                                <span class="n">output_filesuffix</span><span class="o">=</span><span class="n">rid</span>
+                                <span class="p">);</span>
+
+        <span class="c1"># control</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_with_hydro</span><span class="p">,</span><span class="n">gdir</span><span class="p">,</span>
+                                <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span>
+                                <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data for 2020-2100 period,</span>
+                                <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
+                                <span class="n">mb_model_class</span><span class="o">=</span><span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">,</span>
+                                <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_control_2000-2020&#39;</span><span class="p">,</span>  <span class="c1"># we start from last simulation year year</span>
+                                <span class="n">output_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rid</span><span class="si">}</span><span class="s1">_control_2020-2100&#39;</span><span class="p">,</span> <span class="c1"># recognize run for later</span>
+                                <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2100</span> <span class="c1"># for 2000-2020 use W5E5 simulation</span>
+                                <span class="p">);</span>
+
+        <span class="c1"># avalanches</span>
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">run_with_hydro_ava</span><span class="p">,</span><span class="n">gdir</span><span class="p">,</span>
+                                <span class="n">run_task</span><span class="o">=</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span>
+                                <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data for 2020-2100 period,</span>
+                                <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
+                                <span class="n">mb_model_class</span><span class="o">=</span><span class="n">MonthlyTIAvalancheModel</span><span class="p">,</span>
+                                <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ava_2000-2020&#39;</span><span class="p">,</span>  <span class="c1"># we start from last simulation year year</span>
+                                <span class="n">output_filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rid</span><span class="si">}</span><span class="s1">_ava_2020-2100&#39;</span><span class="p">,</span> <span class="c1"># recognize run for later</span>
+                                <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> <span class="n">ye</span><span class="o">=</span><span class="mi">2100</span> <span class="c1"># for 2000-2020 use W5E5 simulation</span>
+                                <span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:15:17: oggm.cfg: PARAMS[&#39;store_fl_diagnostics&#39;] changed from `False` to `True`.
+2026-04-01 11:15:17: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:15:17: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_control_2000-2020
+2026-04-01 11:15:17: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_control_2000-2020
+2026-04-01 11:15:17: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_control_2000-2020
+2026-04-01 11:15:18: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:15:18: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ava_2000-2020
+2026-04-01 11:15:18: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ava_2000-2020
+2026-04-01 11:15:18: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ava_2000-2020
+2026-04-01 11:15:18: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:15:18: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp126
+2026-04-01 11:15:18: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp126_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp126_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:20: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_historical_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_historical_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:23: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp126_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp126_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:26: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:34: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp126
+2026-04-01 11:15:34: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:15:34: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:15:34: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:15:34: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:15:34: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:15:34: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:15:34: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:15:34: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:15:35: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:15:35: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp370
+2026-04-01 11:15:35: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp370_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp370_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:41: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp370_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp370_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:44: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp370
+2026-04-01 11:15:44: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:15:44: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:15:44: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:15:44: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:15:44: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:15:44: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:15:44: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:15:44: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:15:45: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:15:45: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp585
+2026-04-01 11:15:45: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp585_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp585_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:47: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp585_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ipsl-cm6a-lr_r1i1p1f1_w5e5_ssp585_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:50: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp585
+2026-04-01 11:15:50: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:15:50: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:15:50: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:15:50: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:15:51: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:15:51: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:15:51: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:15:51: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ipsl-cm6a-lr_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:15:51: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:15:51: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp126
+2026-04-01 11:15:51: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp126_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp126_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:54: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_historical_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_historical_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:57: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp126_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp126_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:15:59: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:03: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp126
+2026-04-01 11:16:03: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:03: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:03: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:03: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:04: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:04: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:04: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:04: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:04: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:04: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp370
+2026-04-01 11:16:04: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp370_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp370_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:07: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp370_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp370_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:11: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp370
+2026-04-01 11:16:11: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:11: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:11: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:11: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:11: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:11: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:11: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:11: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:12: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:12: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp585
+2026-04-01 11:16:12: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp585_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp585_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:14: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp585_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/gfdl-esm4_r1i1p1f1_w5e5_ssp585_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:20: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp585
+2026-04-01 11:16:20: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:20: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:20: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:20: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:20: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:20: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:20: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:20: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_gfdl-esm4_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:21: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:21: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp126
+2026-04-01 11:16:21: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp126_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp126_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:23: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_historical_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_historical_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:26: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp126_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp126_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:29: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_historical_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:32: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp126
+2026-04-01 11:16:33: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:33: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:33: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:33: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:33: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:33: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:33: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:33: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:33: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:33: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp370
+2026-04-01 11:16:33: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp370_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp370_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:36: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp370_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp370_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:39: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp370
+2026-04-01 11:16:39: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:39: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:39: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:39: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:40: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:40: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:40: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:40: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:40: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:40: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp585
+2026-04-01 11:16:40: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp585_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp585_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:48: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp585_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/mpi-esm1-2-hr_r1i1p1f1_w5e5_ssp585_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:16:52: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp585
+2026-04-01 11:16:52: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:52: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:52: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:52: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:52: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:52: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:52: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:52: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mpi-esm1-2-hr_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:53: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:53: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126
+2026-04-01 11:16:53: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126
+2026-04-01 11:16:53: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:53: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:53: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:54: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126_control_2020-2100
+2026-04-01 11:16:54: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:54: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:54: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:54: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp126_ava_2020-2100
+2026-04-01 11:16:54: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:54: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370
+2026-04-01 11:16:55: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370
+2026-04-01 11:16:55: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:55: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:55: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:55: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370_control_2020-2100
+2026-04-01 11:16:56: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:56: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:56: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:56: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp370_ava_2020-2100
+2026-04-01 11:16:56: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:56: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp585
+2026-04-01 11:16:57: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp585
+2026-04-01 11:16:57: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:16:57: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:57: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:57: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp585_control_2020-2100
+2026-04-01 11:16:57: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:16:57: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:57: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:58: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_mri-esm2-0_r1i1p1f1_ssp585_ava_2020-2100
+2026-04-01 11:16:58: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:16:58: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp126
+2026-04-01 11:16:58: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp126_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp126_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:17:01: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_historical_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_historical_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:17:04: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp126_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp126_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:17:07: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_historical_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_historical_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:17:21: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp126
+2026-04-01 11:17:21: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:17:21: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp126_control_2020-2100
+2026-04-01 11:17:21: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp126_control_2020-2100
+2026-04-01 11:17:21: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp126_control_2020-2100
+2026-04-01 11:17:21: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:17:21: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp126_ava_2020-2100
+2026-04-01 11:17:21: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp126_ava_2020-2100
+2026-04-01 11:17:21: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp126_ava_2020-2100
+2026-04-01 11:17:22: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:17:22: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp370
+2026-04-01 11:17:22: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp370_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp370_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:17:24: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp370_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp370_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:17:27: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp370
+2026-04-01 11:17:27: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:17:27: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp370_control_2020-2100
+2026-04-01 11:17:27: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp370_control_2020-2100
+2026-04-01 11:17:27: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp370_control_2020-2100
+2026-04-01 11:17:28: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:17:28: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp370_ava_2020-2100
+2026-04-01 11:17:28: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp370_ava_2020-2100
+2026-04-01 11:17:28: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp370_ava_2020-2100
+2026-04-01 11:17:28: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 1 glaciers
+2026-04-01 11:17:28: oggm.shop.gcm_climate: (RGI60-11.03638) process_monthly_isimip_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp585
+2026-04-01 11:17:28: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp585_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp585_tasAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:17:31: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp585_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm//cmip6/isimip3b/flat/2025.11.25/monthly/ukesm1-0-ll_r1i1p1f2_w5e5_ssp585_prAdjust_global_monthly_flat_glaciers_v2025.11.25.nc...
+2026-04-01 11:17:34: oggm.shop.gcm_climate: (RGI60-11.03638) process_gcm_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp585
+2026-04-01 11:17:34: oggm.workflow: Execute entity tasks [run_with_hydro] on 1 glaciers
+2026-04-01 11:17:34: oggm.core.flowline: (RGI60-11.03638) run_with_hydro_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp585_control_2020-2100
+2026-04-01 11:17:34: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp585_control_2020-2100
+2026-04-01 11:17:34: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp585_control_2020-2100
+2026-04-01 11:17:34: oggm.workflow: Execute entity tasks [run_with_hydro_ava] on 1 glaciers
+2026-04-01 11:17:34: snowslide.oggm_snowslide_compat_minimal: (RGI60-11.03638) run_with_hydro_ava_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp585_ava_2020-2100
+2026-04-01 11:17:34: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp585_ava_2020-2100
+2026-04-01 11:17:34: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_ISIMIP3b_ukesm1-0-ll_r1i1p1f2_ssp585_ava_2020-2100
+</pre></div>
+</div>
+</div>
+</div>
+<p>OK, let’s plot the results!!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_stats</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;median&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;p25&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="s2">&quot;p75&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>             <span class="c1"># Base font size</span>
+    <span class="s1">&#39;axes.titlesize&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>        <span class="c1"># Title font size</span>
+    <span class="s1">&#39;axes.labelsize&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>        <span class="c1"># Axis label font size</span>
+    <span class="s1">&#39;xtick.labelsize&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>       <span class="c1"># X-tick label font size</span>
+    <span class="s1">&#39;ytick.labelsize&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>       <span class="c1"># Y-tick label font size</span>
+    <span class="s1">&#39;legend.fontsize&#39;</span><span class="p">:</span> <span class="mi">16</span>        <span class="c1"># Legend font size</span>
+<span class="p">})</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+
+<span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="n">ssps</span><span class="p">:</span>
+    <span class="n">control_volumes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ava_volumes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">control_hist_volumes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ava_hist_volumes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">gcm</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+        <span class="n">rid</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;_ISIMIP3b_</span><span class="si">{</span><span class="n">gcm</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">ssp</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rid</span><span class="si">}</span><span class="s1">_control_2020-2100&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">control_volumes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">rid</span><span class="si">}</span><span class="s1">_ava_2020-2100&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">ava_volumes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="n">time</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span>
+
+        <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_control_2000-2020&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">control_hist_volumes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;_ava_2000-2020&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+            <span class="n">ava_hist_volumes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="n">time_hist</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="n">control_stats</span> <span class="o">=</span> <span class="n">compute_stats</span><span class="p">(</span><span class="n">control_volumes</span><span class="p">)</span>
+    <span class="n">ava_stats</span> <span class="o">=</span> <span class="n">compute_stats</span><span class="p">(</span><span class="n">ava_volumes</span><span class="p">)</span>
+    <span class="n">control_hist_stats</span> <span class="o">=</span> <span class="n">compute_stats</span><span class="p">(</span><span class="n">control_hist_volumes</span><span class="p">)</span>
+    <span class="n">ava_hist_stats</span> <span class="o">=</span> <span class="n">compute_stats</span><span class="p">(</span><span class="n">ava_hist_volumes</span><span class="p">)</span>
+
+    <span class="n">init_diff</span> <span class="o">=</span> <span class="n">control_hist_stats</span><span class="p">[</span><span class="s2">&quot;median&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">ava_hist_stats</span><span class="p">[</span><span class="s2">&quot;median&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">control_stats</span><span class="p">[</span><span class="s2">&quot;median&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="n">ssp</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">control_stats</span><span class="p">[</span><span class="s2">&quot;p25&quot;</span><span class="p">],</span> <span class="n">control_stats</span><span class="p">[</span><span class="s2">&quot;p75&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">ava_stats</span><span class="p">[</span><span class="s2">&quot;median&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">init_diff</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">ava_stats</span><span class="p">[</span><span class="s2">&quot;p25&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">init_diff</span><span class="p">,</span> <span class="n">ava_stats</span><span class="p">[</span><span class="s2">&quot;p75&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">init_diff</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_hist</span><span class="p">,</span> <span class="n">control_hist_stats</span><span class="p">[</span><span class="s2">&quot;median&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time_hist</span><span class="p">,</span> <span class="n">ava_hist_stats</span><span class="p">[</span><span class="s2">&quot;median&quot;</span><span class="p">]</span><span class="o">+</span><span class="n">init_diff</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time [yrs]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Volume [m³]&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+    <span class="n">ii</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">flowline</span><span class="o">.</span><span class="n">surface_h</span><span class="p">,</span><span class="n">df_control</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Control&#39;</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">flowline</span><span class="o">.</span><span class="n">surface_h</span><span class="p">,</span><span class="n">df_ava</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Avalanches&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span> <span class="o">=</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Elevation [m a.s.l]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Annual 2000-2020 SMB [mm w.eq/yr]&#39;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">16</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/ce0e06668fc9ab5c8f41c00982e5ef283155dca66eed88d396de3d196133c3b7.png" src="../../_images/ce0e06668fc9ab5c8f41c00982e5ef283155dca66eed88d396de3d196133c3b7.png" />
+</div>
+</div>
+<p>As you can see for Argentière, including avalanches does not seem to strongly affect the future evolution of that glacier, despite an avalanche contribution to accumulation of around 20%. Feel free to test this for your own favorite glacier just by changing the RGI ID at the start of the notebook! Example - Bazhin Glacier in the Karakorum (RGI60-18.02066).</p>
+<p>The calibration of the MonthlyTIAvalanche model above was conducted with the informed three-steps approach described in <a class="reference external" href="https://doi.org/10.1017/aog.2023.57">Schuster et al. (2023)</a>, as was done in <a class="reference external" href="https://doi.org/10.1038/s41467-025-65608-z">Kneib et al. (2025)</a> to allow for a direct comparison to the OGGM standard runs without avalanches and avoid the additional stochasticity from the dynamicc spinup. One can however also use this model with the OGGM dynamical spinup - just keep in mind though that the avalanche correction factors are fixed and correspond to the period 2000-2020 though! The example below follows the <a class="reference external" href="https://tutorials.oggm.org/stable/notebooks/tutorials/dynamical_spinup.html">advanced dynamical spinup notebook</a>. It would be similarly straightforward to use it for the daily model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We will &quot;reconstruct&quot; a possible glacier evolution from this year onwards</span>
+<span class="n">spinup_start_yr</span> <span class="o">=</span> <span class="mi">1979</span>
+
+<span class="c1"># here we save the original melt_f for later</span>
+<span class="n">melt_f_original</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span>
+
+<span class="c1"># and save some reference values we can compare to later</span>
+<span class="n">area_reference</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span>  <span class="c1"># RGI area</span>
+<span class="n">volume_reference</span> <span class="o">=</span> <span class="n">tasks</span><span class="o">.</span><span class="n">get_inversion_volume</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>  <span class="c1"># volume after regional calibration to consensus</span>
+<span class="n">ref_period</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">]</span>  <span class="c1"># get the reference period we want to use, 2000 to 2020</span>
+<span class="n">df_ref_dmdtda</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_geodetic_mb_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">]</span>  <span class="c1"># get the data from Hugonnet 2021</span>
+<span class="n">df_ref_dmdtda</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">ref_period</span><span class="p">]</span>  <span class="c1"># only select the desired period</span>
+<span class="n">dmdtda_reference</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;dmdtda&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># get the reference dmdtda and convert into kg m-2 yr-1</span>
+<span class="n">dmdtda_reference_error</span> <span class="o">=</span> <span class="n">df_ref_dmdtda</span><span class="p">[</span><span class="s1">&#39;err_dmdtda&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># corresponding uncertainty</span>
+
+<span class="c1"># ---- First do the fixed geometry spinup ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                            <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">,</span>
+                            <span class="n">mb_model_class</span><span class="o">=</span><span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">,</span>
+                            <span class="n">fixed_geometry_spinup_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># Start the run at the RGI date but retro-actively correct the data with fixed geometry</span>
+                            <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom&#39;</span><span class="p">,</span>  <span class="c1"># where to write the output</span>
+                            <span class="p">);</span>
+
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_hist</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># with avalanches</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                            <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">,</span>
+                            <span class="n">mb_model_class</span><span class="o">=</span><span class="n">MonthlyTIAvalancheModel</span><span class="p">,</span>
+                            <span class="n">fixed_geometry_spinup_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># Start the run at the RGI date but retro-actively correct the data with fixed geometry</span>
+                            <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom_ava&#39;</span><span class="p">,</span>  <span class="c1"># where to write the output</span>
+                            <span class="p">);</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_hist_fixed_geom_ava&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_hist_ava</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># ---- Second the dynamic spinup alone, matching area ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                         <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                         <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_area</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># with avalanches</span>
+<span class="n">mb_ava</span> <span class="o">=</span> <span class="n">MonthlyTIAvalancheModel</span><span class="p">(</span><span class="n">gdir</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">mb_ava</span><span class="p">,</span> <span class="s1">&#39;repeat&#39;</span><span class="p">):</span>
+    <span class="n">mb_ava</span><span class="o">.</span><span class="n">repeat</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mb_ava</span><span class="o">.</span><span class="n">repeat</span><span class="p">)</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">mb_model_historical</span><span class="o">=</span><span class="n">mb_ava</span><span class="p">,</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;area&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area_ava&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                         <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                         <span class="p">);</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_area_ava&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_area_ava</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># ---- Third the dynamic spinup alone, matching volume ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_volume&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                         <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                         <span class="p">);</span>
+<span class="c1"># Read the output</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_volume&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_volume</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># with avalanches</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_spinup</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                         <span class="n">spinup_start_yr</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                         <span class="n">mb_model_historical</span><span class="o">=</span><span class="n">mb_ava</span><span class="p">,</span>
+                         <span class="n">minimise_for</span><span class="o">=</span><span class="s1">&#39;volume&#39;</span><span class="p">,</span>  <span class="c1"># what target to match at the RGI date</span>
+                         <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_volume_ava&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                         <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                         <span class="p">);</span>
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_spinup_dynamic_volume_ava&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_spinup_volume_ava</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># ---- Fourth the dynamic melt_f calibration (includes a dynamic spinup matching area) ----</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_melt_f_calibration</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                                     <span class="n">ys</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                                     <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_dynamic_melt_f&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                                    <span class="p">);</span>
+
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_dynamic_melt_f&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_melt_f</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># with avalanches</span>
+<span class="n">run_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mb_model_historical&#39;</span><span class="p">:</span> <span class="n">mb_ava</span><span class="p">}</span>
+<span class="n">tasks</span><span class="o">.</span><span class="n">run_dynamic_melt_f_calibration</span><span class="p">(</span><span class="n">gdir</span><span class="p">,</span>
+                                     <span class="n">ys</span><span class="o">=</span><span class="n">spinup_start_yr</span><span class="p">,</span>  <span class="c1"># When to start the spinup</span>
+                                     <span class="n">kwargs_run_function</span><span class="o">=</span><span class="n">run_kwargs</span><span class="p">,</span>
+                                     <span class="n">ye</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>  <span class="c1"># When the simulation should stop</span>
+                                     <span class="n">output_filesuffix</span><span class="o">=</span><span class="s1">&#39;_dynamic_melt_f_ava&#39;</span><span class="p">,</span>  <span class="c1"># Where to write the output</span>
+                                    <span class="p">);</span>
+
+<span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;model_diagnostics&#39;</span><span class="p">,</span> <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_dynamic_melt_f_ava&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
+    <span class="n">ds_dynamic_melt_f_ava</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+<span class="c1"># Now make a plot for comparision</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_date</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;C2&#39;</span><span class="p">,</span> <span class="s1">&#39;C3&#39;</span><span class="p">]</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">ds_hist_ava</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_melt_f</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="n">ds_dynamic_melt_f_ava</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="n">ds_dynamic_spinup_area_ava</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+<span class="n">ds_dynamic_spinup_volume_ava</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Volume&#39;</span><span class="p">);</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">volume_reference</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">);</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">ds_hist_ava</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_melt_f</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+<span class="n">ds_dynamic_melt_f_ava</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+<span class="n">ds_dynamic_spinup_area_ava</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+<span class="n">ds_dynamic_spinup_volume_ava</span><span class="o">.</span><span class="n">area_m2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Area&#39;</span><span class="p">);</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">area_reference</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+<span class="n">ds_hist</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fixed geometry spinup&#39;</span><span class="p">);</span>
+<span class="n">ds_hist_ava</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Avalanches&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_melt_f</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical melt_f calibration&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_melt_f_ava</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical spinup match area&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_area_ava</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Dynamical spinup match volume&#39;</span><span class="p">);</span>
+<span class="n">ds_dynamic_spinup_volume_ava</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Length&#39;</span><span class="p">);</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">ds_hist</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">y0</span><span class="p">)</span><span class="o">.</span><span class="n">length_m</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Reference values&#39;</span><span class="p">)</span>
+<span class="n">handles</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">get_legend_handles_labels</span><span class="p">()</span>
+<span class="n">f</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span>
+           <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower center&#39;</span><span class="p">,</span>
+           <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.15</span><span class="p">),</span> <span class="c1"># Slightly below the figure bottom</span>
+           <span class="n">ncol</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>                      <span class="c1"># Spread items horizontally</span>
+           <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:17:35: oggm.core.inversion: (RGI60-11.03638) get_inversion_volume
+2026-04-01 11:17:35: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_hist_fixed_geom
+2026-04-01 11:17:35: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_hist_fixed_geom
+2026-04-01 11:17:36: oggm.core.flowline: (RGI60-11.03638) run_from_climate_data_hist_fixed_geom_ava
+2026-04-01 11:17:36: oggm.core.flowline: (RGI60-11.03638) flowline_model_run_hist_fixed_geom_ava
+2026-04-01 11:17:36: oggm.core.dynamic_spinup: (RGI60-11.03638) run_dynamic_spinup_spinup_dynamic_area
+2026-04-01 11:17:38: oggm.core.dynamic_spinup: (RGI60-11.03638) run_dynamic_spinup_spinup_dynamic_area_ava
+2026-04-01 11:17:41: oggm.core.dynamic_spinup: (RGI60-11.03638) run_dynamic_spinup_spinup_dynamic_volume
+2026-04-01 11:17:42: oggm.core.dynamic_spinup: (RGI60-11.03638) run_dynamic_spinup_spinup_dynamic_volume_ava
+2026-04-01 11:17:43: oggm.core.dynamic_spinup: (RGI60-11.03638) run_dynamic_melt_f_calibration_dynamic_melt_f
+2026-04-01 11:17:43: oggm.core.flowline: (RGI60-11.03638) init_present_time_glacier_dyn_melt_f_calib
+2026-04-01 11:17:43: oggm.core.dynamic_spinup: (RGI60-11.03638) run_dynamic_spinup_dynamic_melt_f
+2026-04-01 11:17:45: oggm.core.dynamic_spinup: Dynamic melt_f calibration worked for RGI60-11.03638!
+2026-04-01 11:17:45: oggm.core.dynamic_spinup: (RGI60-11.03638) run_dynamic_melt_f_calibration_dynamic_melt_f_ava
+2026-04-01 11:17:45: oggm.core.flowline: (RGI60-11.03638) init_present_time_glacier_dyn_melt_f_calib
+2026-04-01 11:17:45: oggm.core.dynamic_spinup: (RGI60-11.03638) run_dynamic_spinup_dynamic_melt_f_ava
+2026-04-01 11:17:48: oggm.core.dynamic_spinup: Dynamic melt_f calibration worked for RGI60-11.03638!
+</pre></div>
+</div>
+<img alt="../../_images/16281da8d6cef7eea35a892b5b4c5c6ef8a9ba75ce8fe322a3cf282194399d58.png" src="../../_images/16281da8d6cef7eea35a892b5b4c5c6ef8a9ba75ce8fe322a3cf282194399d58.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># and print out the modeled geodetic mass balances for comparison</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_dmdtda</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
+    <span class="n">yr0_ref_mb</span><span class="p">,</span> <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="n">ref_period</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="n">yr0_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr0_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">yr1_ref_mb</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">yr1_ref_mb</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">((</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr1_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span>
+             <span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">yr0_ref_mb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span>
+            <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_area_m2</span> <span class="o">/</span>
+            <span class="p">(</span><span class="n">yr1_ref_mb</span> <span class="o">-</span> <span class="n">yr0_ref_mb</span><span class="p">)</span> <span class="o">*</span>
+            <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;ice_density&#39;</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reference dmdtda 2000 to 2020 (Hugonnet 2021):     </span><span class="si">{</span><span class="n">dmdtda_reference</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> +/- </span><span class="si">{</span><span class="n">dmdtda_reference_error</span><span class="si">:</span><span class="s1">6.2f</span><span class="si">}</span><span class="s1"> kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fixed geometry spinup dmdtda 2000 to 2020:         </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_hist</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fixed geometry spinup dmdtda 2000 to 2020 (avalanches):         </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_hist_ava</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match area dmdtda 2000 to 2020:   </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_area</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match area dmdtda 2000 to 2020 (avalanches):   </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_area_ava</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match volume dmdtda 2000 to 2020: </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_volume</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical spinup match volume dmdtda 2000 to 2020 (avalanches): </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_spinup_volume_ava</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical melt_f calibration dmdtda 2000 to 2020:  </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_melt_f</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Dynamical melt_f calibration dmdtda 2000 to 2020 (avalanches):  </span><span class="si">{</span><span class="n">get_dmdtda</span><span class="p">(</span><span class="n">ds_dynamic_melt_f_ava</span><span class="p">)</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">            kg m-2 yr-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Original melt_f:  </span><span class="si">{</span><span class="n">melt_f_original</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> kg m-2 day-1 °C-1&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dynamic melt_f:   </span><span class="si">{</span><span class="n">gdir</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="s1">&#39;mb_calib&#39;</span><span class="p">)[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> kg m-2 day-1 °C-1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Reference dmdtda 2000 to 2020 (Hugonnet 2021):     -1049.40 +/- 166.80 kg m-2 yr-1
+Fixed geometry spinup dmdtda 2000 to 2020:         -1005.96            kg m-2 yr-1
+Fixed geometry spinup dmdtda 2000 to 2020 (avalanches):         -1009.40            kg m-2 yr-1
+Dynamical spinup match area dmdtda 2000 to 2020:   -1062.32            kg m-2 yr-1
+Dynamical spinup match area dmdtda 2000 to 2020 (avalanches):   -1035.92            kg m-2 yr-1
+Dynamical spinup match volume dmdtda 2000 to 2020: -1268.63            kg m-2 yr-1
+Dynamical spinup match volume dmdtda 2000 to 2020 (avalanches): -1293.18            kg m-2 yr-1
+Dynamical melt_f calibration dmdtda 2000 to 2020:  -1062.32            kg m-2 yr-1
+Dynamical melt_f calibration dmdtda 2000 to 2020 (avalanches):  -1035.92            kg m-2 yr-1
+Original melt_f:  4.9 kg m-2 day-1 °C-1
+Dynamic melt_f:   4.9 kg m-2 day-1 °C-1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./notebooks/tutorials"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ingest_gridded_data_on_flowlines.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Ingest gridded products such as ice velocity into OGGM</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="dem_sources.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Create local topography maps from different DEM sources with OGGM</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Avalanches in OGGM</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#snow-redistribution-from-avalanches-maps-with-oggm-snowslide">Snow redistribution from avalanches maps with OGGM-Snowslide</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#influence-of-avalanches-on-glacier-mass-balance">Influence of avalanches on glacier mass balance</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#influence-of-avalanches-on-future-projections-of-glacier-volumes-and-runoff">Influence of avalanches on future projections of glacier volumes and runoff</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By OGGM e.V. and OGGM Contributors
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    <p class="last-updated">
+  Last updated on Apr 01, 2026.
+  <br/>
+</p>
+  </div>
+  
+  <div class="footer-item">
+    
+<div class="extra_footer">
+  <p>
+These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
+<br>
+&copy; Copyright 2014-2026 OGGM Contributors. <a href="https://community.oggm.org/legal.html" target="_blank" rel="noopener noreferrer">Legal & Privacy</a>
+</p>
+
+</div>
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
