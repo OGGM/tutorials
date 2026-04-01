@@ -524,37 +524,50 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="the-oerlemans-nick-frontal-ablation-parameterization-in-oggm">
 <h1>The Oerlemans &amp; Nick frontal ablation parameterization in OGGM<a class="headerlink" href="#the-oerlemans-nick-frontal-ablation-parameterization-in-oggm" title="Link to this heading">#</a></h1>
-<div class="alert alert-info">
-    <b>
-        The calving parameterization in OGGM has been developped for versions of OGGM before 1.6 (mostly: 1.5.3). The v1.6 series brought several changes in the mass balance calibration which made a lot of the calibration code obsolete and in need of updates. As of today (August 2024), calving dynamics are implemented in the dynamical model and they "work", as illustrated below. However, there is still quite some work to make calving (including calibration) fully operational for large scale runs.</b><br>See <a href="https://github.com/OGGM/oggm/issues/1733">this github issue</a> for a longer discussion.
-</div><p>We implement the simple frontal ablation parameterization of <a class="reference external" href="https://www.cambridge.org/core/journals/annals-of-glaciology/article/minimal-model-of-a-tidewater-glacier/C6B72F547D8C44CDAAAD337E1F2FC97F">Oerlemans &amp; Nick (2005)</a> in OGGM’s flowline model:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The calving parameterization in OGGM has been developped for versions of OGGM before 1.6 (mostly: 1.5.3).</p>
+<p>The v1.6 series brought several changes in the mass balance calibration which made a lot of the calibration code obsolete and in need of updates. As of today (April 2026), calving dynamics are implemented in the dynamical model and they work, as illustrated below. A <a class="reference external" href="https://github.com/OGGM/oggm/pull/1858">recent PR</a> by Beatriz Recinos further improved the model by adding the calving parameterization to the default OGGM solver, which is what we use below.</p>
+<p>However, there is quite some work to make calving (including calibration) fully operational for large scale runs. OGGM’s calving is used operationally by PyGEM - which means it can be done!</p>
+<p>See <a class="reference external" href="https://github.com/OGGM/oggm/issues/1733">this github issue</a> for a longer discussion.</p>
+</div>
+<p>We implement the simple frontal ablation parameterization of <a class="reference external" href="https://www.cambridge.org/core/journals/annals-of-glaciology/article/minimal-model-of-a-tidewater-glacier/C6B72F547D8C44CDAAAD337E1F2FC97F">Oerlemans &amp; Nick (2005)</a> in OGGM’s flowline model:</p>
 <div class="math notranslate nohighlight">
 \[F_{calving} = k d H_f w\]</div>
 <p>With <span class="math notranslate nohighlight">\(H_f\)</span>, <span class="math notranslate nohighlight">\(d\)</span> and <span class="math notranslate nohighlight">\(w\)</span> the ice thickness, the water depth and the glacier width at the calving front, <span class="math notranslate nohighlight">\(F_{calving}\)</span> the calving flux in units m<span class="math notranslate nohighlight">\(^3\)</span> yr<span class="math notranslate nohighlight">\(^{-1}\)</span> and <span class="math notranslate nohighlight">\(k\)</span> a scaling parameter that needs to be calibrated (units: yr<span class="math notranslate nohighlight">\(^{-1}\)</span>). Another way to see at this equation is to note that the frontal calving rate <span class="math notranslate nohighlight">\(\frac{F_{Calving}}{H_f w}\)</span> (m yr<span class="math notranslate nohighlight">\(^{-1}\)</span>) is simply the water depth scaled by the <span class="math notranslate nohighlight">\(k\)</span> parameter.</p>
-<p><a class="reference external" href="https://doi.org/10.1017/jog.2023.19">Malles et al., 2023</a> introduces some changes to the physics and numerics of calving. We illustrate both models below.</p>
+<p><a class="reference external" href="https://doi.org/10.1017/jog.2023.19">Malles et al., 2023</a> introduces some changes to the physics and numerics of calving. We illustrate its use at the end of this notebook.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.massbalance</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScalarMassBalance</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oggm.tests.funcs</span><span class="w"> </span><span class="kn">import</span> <span class="n">bu_tidewater_bed</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.flowline</span><span class="w"> </span><span class="kn">import</span> <span class="n">FluxBasedModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.flowline</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrapezoidalBedFlowline</span><span class="p">,</span> <span class="n">SemiImplicitModel</span>
 
 <span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>
-<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;cfl_number&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># less numerical instabilities</span>
-<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;cfl_number&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;mp_processes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;tidewater_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;clip_tidewater_border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_kcalving_for_inversion&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_kcalving_for_run&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 10:39:02: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-04-01 10:39:02: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-04-01 10:39:02: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2026-04-01 10:39:02: oggm.cfg: PARAMS[&#39;cfl_number&#39;] changed from `0.02` to `0.01`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 12:07:35: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-01 12:07:35: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-01 12:07:35: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2026-04-01 12:07:35: oggm.cfg: PARAMS[&#39;cfl_number&#39;] changed from `0.02` to `0.01`.
+2026-04-01 12:07:35: oggm.cfg: Multiprocessing switched ON after user settings.
+2026-04-01 12:07:35: oggm.cfg: PARAMS[&#39;tidewater_type&#39;] changed from `2` to `4`.
+2026-04-01 12:07:35: oggm.cfg: PARAMS[&#39;use_kcalving_for_inversion&#39;] changed from `False` to `True`.
+2026-04-01 12:07:35: oggm.cfg: PARAMS[&#39;use_kcalving_for_run&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
@@ -574,7 +587,7 @@
 <p>We use the idealized bed profile from <a class="reference external" href="https://www.cambridge.org/core/journals/annals-of-glaciology/article/minimal-model-of-a-tidewater-glacier/C6B72F547D8C44CDAAAD337E1F2FC97F">Oerlemans &amp; Nick (2005)</a> and <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019JF005160">Bassis &amp; Ultee (2019)</a>. This profile has a deepening followed by a bump, allowing to study quite interesting water-depth – calving-rate feedbacks:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bu_fl</span> <span class="o">=</span> <span class="n">bu_tidewater_bed</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bu_fl</span> <span class="o">=</span> <span class="n">bu_tidewater_bed</span><span class="p">(</span><span class="n">bed_shape</span><span class="o">=</span><span class="s1">&#39;trapezoidal&#39;</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
 <span class="n">xc</span> <span class="o">=</span> <span class="n">bu_fl</span><span class="o">.</span><span class="n">dis_on_line</span> <span class="o">*</span> <span class="n">bu_fl</span><span class="o">.</span><span class="n">dx_meter</span> <span class="o">/</span> <span class="mi">1000</span>
 <span class="n">f</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -596,32 +609,35 @@
 <span class="n">to_plot</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">flux_gate</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.16</span><span class="p">]:</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">FluxBasedModel</span><span class="p">(</span><span class="n">bu_tidewater_bed</span><span class="p">(),</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_model</span><span class="p">,</span>
-                           <span class="n">is_tidewater</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                           <span class="n">flux_gate</span><span class="o">=</span><span class="n">flux_gate</span><span class="p">,</span>  <span class="c1"># default is 0</span>
-                           <span class="n">calving_k</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># default is 2.4</span>
-                           <span class="n">do_kcalving</span><span class="o">=</span><span class="kc">True</span>
-                          <span class="p">)</span>
-    <span class="c1"># long enough to reach approx. equilibrium </span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">SemiImplicitModel</span><span class="p">(</span>
+        <span class="n">bu_tidewater_bed</span><span class="p">(</span><span class="n">bed_shape</span><span class="o">=</span><span class="s1">&#39;trapezoidal&#39;</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>   <span class="c1"># use your trapezoid builder</span>
+        <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_model</span><span class="p">,</span>
+        <span class="n">flux_gate</span><span class="o">=</span><span class="n">flux_gate</span><span class="p">,</span>
+        <span class="n">do_calving</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">calving_k</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">water_level</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">cfl_number</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>           <span class="c1"># optional, if you want similar strictness</span>
+    <span class="p">)</span>
+    <span class="c1"># long enough to reach approx. equilibrium</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">6000</span><span class="p">)</span>
     <span class="n">df_diag</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_diagnostics</span><span class="p">()</span>
-    
+
     <span class="k">if</span> <span class="n">to_plot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">to_plot</span> <span class="o">=</span> <span class="n">df_diag</span>
-    
+
     <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Flux gate=</span><span class="si">{:.02f}</span><span class="s1">. Calving rate: </span><span class="si">{:.0f}</span><span class="s1"> m yr-1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">flux_gate</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">calving_rate_myr</span><span class="p">)</span>
     <span class="n">to_plot</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_diag</span><span class="p">[</span><span class="s1">&#39;surface_h&#39;</span><span class="p">]</span>
     <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    
+
     <span class="c1"># Plot of volume</span>
-    <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">key</span><span class="p">);</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Volume [km$^</span><span class="si">{3}</span><span class="s1">$]&#39;</span><span class="p">);</span>
 <span class="n">to_plot</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">xc</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/526919dfcd165fc56ce263dac5f8eafeacacd9cd0dbf165c06da607b4322d65f.png" src="../../_images/526919dfcd165fc56ce263dac5f8eafeacacd9cd0dbf165c06da607b4322d65f.png" />
+<img alt="../../_images/92092d638da17641cd11e3252603c75026aeee44fd03bf59dfa096350baea12e.png" src="../../_images/92092d638da17641cd11e3252603c75026aeee44fd03bf59dfa096350baea12e.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -635,7 +651,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/9eb5e5f26c2fdbafc9d2fbac7c30b52d99141de5b3c6f3b86c738ddd2ba2548c.png" src="../../_images/9eb5e5f26c2fdbafc9d2fbac7c30b52d99141de5b3c6f3b86c738ddd2ba2548c.png" />
+<img alt="../../_images/86fdebdec5bb0fb708bc0fc94ae908470c057bfd936da7ca14941cbc7749e998.png" src="../../_images/86fdebdec5bb0fb708bc0fc94ae908470c057bfd936da7ca14941cbc7749e998.png" />
 </div>
 </div>
 <p>The larger the incoming ice flux, the bigger and longer the glacier. If the flux is large enough, the glacier will grow past the deepening and the bump, until the water depth and the calving rate become large enough to compensate for the total ice entering the domain.</p>
@@ -648,33 +664,35 @@
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">to_plot</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="n">keys</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">limiter</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">FluxBasedModel</span><span class="p">(</span><span class="n">bu_tidewater_bed</span><span class="p">(),</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_model</span><span class="p">,</span>
-                           <span class="n">is_tidewater</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+    <span class="n">model</span> <span class="o">=</span> <span class="n">SemiImplicitModel</span><span class="p">(</span><span class="n">bu_tidewater_bed</span><span class="p">(</span><span class="n">bed_shape</span><span class="o">=</span><span class="s1">&#39;trapezoidal&#39;</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+                              <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_model</span><span class="p">,</span>
+                              <span class="n">water_level</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                           <span class="n">is_tidewater</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                            <span class="n">calving_use_limiter</span><span class="o">=</span><span class="n">limiter</span><span class="p">,</span>  <span class="c1"># default is True</span>
                            <span class="n">flux_gate</span><span class="o">=</span><span class="mf">0.06</span><span class="p">,</span>  <span class="c1"># default is 0</span>
                            <span class="n">calving_k</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># default is 2.4</span>
-                           <span class="n">do_kcalving</span><span class="o">=</span><span class="kc">True</span>
+                        <span class="n">do_calving</span><span class="o">=</span><span class="kc">True</span>
                           <span class="p">)</span>
-    <span class="c1"># long enough to reach approx. equilibrium </span>
+    <span class="c1"># long enough to reach approx. equilibrium</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="mi">7000</span><span class="p">)</span>
     <span class="n">df_diag</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_diagnostics</span><span class="p">()</span>
-    
+
     <span class="k">if</span> <span class="n">to_plot</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">to_plot</span> <span class="o">=</span> <span class="n">df_diag</span>
-    
-    <span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;Flux limiter=</span><span class="si">{}</span><span class="s1">. Calving rate: </span><span class="si">{:.0f}</span><span class="s1"> m yr-1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">limiter</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">calving_rate_myr</span><span class="p">)</span>
-    <span class="n">to_plot</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_diag</span><span class="p">[</span><span class="s1">&#39;surface_h&#39;</span><span class="p">]</span>
+
+    <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Flux limiter=</span><span class="si">{</span><span class="n">limiter</span><span class="si">}</span><span class="s2">. Calving rate: </span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">calving_rate_myr</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> m yr-1&quot;</span>
+    <span class="n">to_plot</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_diag</span><span class="p">[</span><span class="s2">&quot;surface_h&quot;</span><span class="p">]</span>
     <span class="n">keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    
-    <span class="c1"># Plot of volume</span>
+
     <span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">volume_m3</span> <span class="o">*</span> <span class="mf">1e-9</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Volume [km$^</span><span class="si">{3}</span><span class="s1">$]&#39;</span><span class="p">);</span>
 <span class="n">to_plot</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">xc</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/b0dae623ad4450da4533c3f99af50bf483031c5c74ff8b7bc87d86bf0d143d48.png" src="../../_images/b0dae623ad4450da4533c3f99af50bf483031c5c74ff8b7bc87d86bf0d143d48.png" />
+<img alt="../../_images/80ba288cd3e553d36f23abcc093580e6c77cd7fc589c5c1df433b67f6cbe5700.png" src="../../_images/80ba288cd3e553d36f23abcc093580e6c77cd7fc589c5c1df433b67f6cbe5700.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -688,7 +706,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/0ec3fa9f2b71c58c2c3d10cae0414ebbd7c315c2018c42380538b1043e1ae2ae.png" src="../../_images/0ec3fa9f2b71c58c2c3d10cae0414ebbd7c315c2018c42380538b1043e1ae2ae.png" />
+<img alt="../../_images/39aee64d391630ba031348a001e9e8090cb154b6b937cd44ceea742a0f4f7481.png" src="../../_images/39aee64d391630ba031348a001e9e8090cb154b6b937cd44ceea742a0f4f7481.png" />
 </div>
 </div>
 <p>For the rest of this notebook, we will keep the flux limiter <strong>on</strong>. It is also switched on per default in OGGM.</p>
@@ -721,13 +739,14 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">FluxBasedModel</span><span class="p">(</span><span class="n">bu_tidewater_bed</span><span class="p">(),</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_model</span><span class="p">,</span>
-                       <span class="n">is_tidewater</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-                       <span class="n">glen_a</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;glen_a&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="c1"># make the glacier flow faster</span>
-                       <span class="n">flux_gate</span><span class="o">=</span><span class="n">flux_gate</span><span class="p">,</span>  <span class="c1"># default is 0</span>
-                       <span class="n">calving_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># default is 2.4</span>
-                       <span class="n">do_kcalving</span><span class="o">=</span><span class="kc">True</span>
-                      <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">SemiImplicitModel</span><span class="p">(</span><span class="n">bu_tidewater_bed</span><span class="p">(</span><span class="n">bed_shape</span><span class="o">=</span><span class="s1">&#39;trapezoidal&#39;</span><span class="p">,</span> <span class="n">lambdas</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
+                          <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_model</span><span class="p">,</span>
+                          <span class="n">is_tidewater</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                          <span class="n">glen_a</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;glen_a&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="c1"># make the glacier flow faster</span>
+                          <span class="n">flux_gate</span><span class="o">=</span><span class="n">flux_gate</span><span class="p">,</span>  <span class="c1"># default is 0</span>
+                          <span class="n">calving_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># default is 2.4</span>
+                          <span class="n">do_calving</span><span class="o">=</span><span class="kc">True</span>
+                          <span class="p">)</span>
 <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">ds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">run_until_and_store</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">flux</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done! Time needed: </span><span class="si">{}</span><span class="s1">s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="p">)))</span>
@@ -735,7 +754,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done! Time needed: 130s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done! Time needed: 64s
 </pre></div>
 </div>
 </div>
@@ -787,7 +806,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/efeab5a340edeeeed3e61aa8955aadb853fe975c92c1581ba54587facd5b1d0b.png" src="../../_images/efeab5a340edeeeed3e61aa8955aadb853fe975c92c1581ba54587facd5b1d0b.png" />
+<img alt="../../_images/85e9f051faff40262abf83599b697b1e9aa5f80ddb40373e7013a32689c14452.png" src="../../_images/85e9f051faff40262abf83599b697b1e9aa5f80ddb40373e7013a32689c14452.png" />
 </div>
 </div>
 <p>Our simple model reproduces the results of <a class="reference external" href="https://www.cambridge.org/core/journals/annals-of-glaciology/article/minimal-model-of-a-tidewater-glacier/C6B72F547D8C44CDAAAD337E1F2FC97F">Oerlemans &amp; Nick (2005)</a> and <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019JF005160">Bassis &amp; Ultee (2019)</a> qualitatively (with the models and model parameters being different, an exact comparison is difficult). For example, here is Fig. 8 from <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2019JF005160">Bassis &amp; Ultee (2019)</a>:</p>
@@ -800,6 +819,7 @@
 <li><p>backpressure from the water is implemented, making physics more realistic and removing the need for the flux limiter</p></li>
 <li><p>sliding is increased when below water</p></li>
 <li><p>some other logics and checks that where needed to make calving more realistic in edge cases (this is a large part of the code)</p></li>
+<li><p>it’s only implemented for the <code class="docutils literal notranslate"><span class="pre">FluxBasedModel</span></code>, which is much less stable and slowier than the SemiImplicitModel used above</p></li>
 </ul>
 <p>Otherwise, it works pretty much like the existing one:</p>
 <div class="cell docutils container">
@@ -812,7 +832,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">calving_jan</span><span class="o">.</span><span class="n">CalvingFluxBasedModelJan</span><span class="p">(</span><span class="n">bu_tidewater_bed</span><span class="p">(),</span> <span class="n">mb_model</span><span class="o">=</span><span class="n">mb_model</span><span class="p">,</span>
-                                             <span class="n">is_tidewater</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                             <span class="n">is_tidewater</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                              <span class="n">glen_a</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;glen_a&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="c1"># make the glacier flow faster</span>
                                              <span class="n">flux_gate</span><span class="o">=</span><span class="n">flux_gate</span><span class="p">,</span>  <span class="c1"># default is 0</span>
                                              <span class="n">calving_k</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>  <span class="c1"># default is 2.4 - Note the different value for calving here to obtain similar results as above</span>
@@ -825,16 +845,16 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done! Time needed: 287s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Done! Time needed: 291s
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 10:43:20: oggm.cfg: WARNING: adding an unknown parameter `ocean_density`:`1028` to PARAMS.
-2026-04-01 10:43:20: oggm.cfg: WARNING: adding an unknown parameter `max_calving_stretch_distance`:`8000` to PARAMS.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 12:10:42: oggm.cfg: WARNING: adding an unknown parameter `ocean_density`:`1028` to PARAMS.
+2026-04-01 12:10:42: oggm.cfg: WARNING: adding an unknown parameter `max_calving_stretch_distance`:`8000` to PARAMS.
 </pre></div>
 </div>
 </div>
 </div>
-<p>First observation is that its slower by a factor at least two. Let’s have a look at the results:</p>
+<p><strong>First observation is that its at least ~5× slower</strong>. Let’s have a look at the results:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare the data for plotting</span>
@@ -887,13 +907,14 @@
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="n">ds_new</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;old&quot;</span><span class="p">)</span>
+<span class="n">ds_new</span><span class="o">.</span><span class="n">length_m</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;new&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/32a21466a4e84abbb6b58bc74c07b9e329b26efe7f06b95f7f4d1e1fc8f23342.png" src="../../_images/32a21466a4e84abbb6b58bc74c07b9e329b26efe7f06b95f7f4d1e1fc8f23342.png" />
+<img alt="../../_images/4175914656e1474d287f1e631f1ac7085fba7c2fb54e4413780b53bb9d69b899.png" src="../../_images/4175914656e1474d287f1e631f1ac7085fba7c2fb54e4413780b53bb9d69b899.png" />
 </div>
 </div>
 </section>
