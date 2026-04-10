@@ -14,25 +14,33 @@ on:
       - master
       - stable
       - v1.5.3
+  issue_comment:
+    types:
+      - created
 
 permissions:
   contents: read
+  issues: read
+  pull-requests: read
 
 concurrency:
-  group: linkcheck-${{ github.event_name }}-${{ github.event.pull_request.number || inputs.ref || github.ref }}
+  group: linkcheck-${{ github.event_name }}-${{ github.event.pull_request.number || github.event.issue.number || inputs.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
   linkcheck:
     name: Build Jupyter Book Linkcheck
-    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'run-linkcheck'
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event.label.name == 'run-linkcheck' ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.body == '/linkcheck')
     runs-on: ubuntu-latest
     container: ghcr.io/oggm/oggm:latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.event.pull_request.head.sha }}
+          ref: ${{ github.event_name == 'issue_comment' && format('refs/pull/{0}/head', github.event.issue.number) || github.event_name == 'workflow_dispatch' && inputs.ref || github.event.pull_request.head.sha }}
 
       - name: Fix git permission check
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
