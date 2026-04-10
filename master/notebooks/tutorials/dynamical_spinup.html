@@ -199,6 +199,12 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/hydro.html">Hydrological output</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runoff_sensitivity.html">Runoff Sensitivity  to Mass Balance Parameters</a></li>
+
+
+
+
+
 <li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources.html">Glaciers as water resources (OGGM-Edu part 1 - idealized)</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources_projections.html">Glaciers as water resources (OGGM-Edu part 2 - projections)</a></li>
 </ul>
@@ -208,6 +214,7 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Dynamic spinup and dynamic <em>melt_f</em> calibration for past simulations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="numeric_solvers.html">Understand the difference between the ice dynamic solvers in OGGM</a></li>
 
+<li class="toctree-l2"><a class="reference internal" href="ioggm.html">“Instructed OGGM”: running IGM within the OGGM workflow</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/thickness.html">Ice thickness</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -554,7 +561,7 @@
 <li><p>Get the model area or volume of the glacier at <em>t_end</em>.</p></li>
 <li><p>Compare the model value to the reference value we want to meet.</p></li>
 <li><p>If the difference is inside a given precision, stop the procedure and save the glacier evolution of this run.</p></li>
-<li><p>If the difference is outside a given precision, change the temperature bias for mb_spinup and start over again (how the next guess is found is descript <a class="reference internal" href="#the-minimization-algorithm"><span class="xref myst">here</span></a>).</p></li>
+<li><p>If the difference is outside a given precision, change the temperature bias for mb_spinup and start over again (how the next guess is found is described below).</p></li>
 </ul>
 <p>With OGGM version 1.6.1 it is now also possible to provide a custom target year <code class="docutils literal notranslate"><span class="pre">target_yr</span></code> with target value <code class="docutils literal notranslate"><span class="pre">target_value</span></code> to match. This could be useful if you have more data available than on a global scale (e.g. an extra outline at a later date than the RGI).</p>
 <section id="two-main-problems-why-the-dynamic-spinup-could-not-work">
@@ -580,7 +587,7 @@
 <li><p>calculate the modelled geodetic mass balance</p></li>
 <li><p>calculate the difference between modelled value and observation</p></li>
 <li><p>if the difference is inside the observation uncertainty stop and save the model run (indicated in diagnostics with <code class="docutils literal notranslate"><span class="pre">used_spinup_option</span> <span class="pre">=</span> <span class="pre">dynamic</span> <span class="pre">melt_f</span> <span class="pre">calibration</span> <span class="pre">(full</span> <span class="pre">success)</span></code>)</p></li>
-<li><p>if the difference is larger, define a new <em>melt_f</em> and start over again (how the next guess is found is described <a class="reference internal" href="#the-minimization-algorithm"><span class="xref myst">here</span></a>)</p></li>
+<li><p>if the difference is larger, define a new <em>melt_f</em> and start over again (how the next guess is found is described below</p></li>
 </ul>
 <p>If the iterative search is not successful and <code class="docutils literal notranslate"><span class="pre">ignore_errors</span> <span class="pre">=</span> <span class="pre">True</span></code> there are several possible outcomes:</p>
 <ul class="simple">
@@ -592,7 +599,7 @@
 </section>
 <section id="the-minimization-algorithm">
 <h2>The minimization algorithm:<a class="headerlink" href="#the-minimization-algorithm" title="Link to this heading">#</a></h2>
-<p>To start, a first guess of the control variable (temperature bias or <em>melt_f</em>) is used and evaluated. If by chance, the mismatch between model and observation is close enough, the algorithm stops already. Otherwise, the second guess depends on the calculated first guess mismatch. For example, if the first resulting area is smaller (larger) than the searched one, the second temperature bias will be colder (warmer). Because a colder (warmer) temperature leads to a larger (smaller) initial glacier state at <em>t_start</em>. If the second guess is still unsuccessful, for all consecutive guesses the previous value pairs (control variable, mismatch) are used to determine the next guess. For this, a stepwise linear function is fitted to these pairs and afterwards, the mismatch is set to 0 to get the following guess (this method is similar to the one described in Zekollari et al. 2019 Appendix A). Moreover, a maximum step length between two guesses is defined as too large step-sizes could easily lead to failing model runs (e.g. see <a class="reference internal" href="#two-main-problems-why-the-dynamic-spinup-could-not-work"><span class="xref myst">here</span></a>). Further, the algorithm was adapted independently inside <code class="docutils literal notranslate"><span class="pre">run_dynamic_spinup</span></code> and <code class="docutils literal notranslate"><span class="pre">run_dynamic_melt_f_calibration</span></code> to cope with failing model runs individually. Note that this minimization algorithm only works if the underlying relationship between the control variable and the mismatch is strictly monotone.</p>
+<p>To start, a first guess of the control variable (temperature bias or <em>melt_f</em>) is used and evaluated. If by chance, the mismatch between model and observation is close enough, the algorithm stops already. Otherwise, the second guess depends on the calculated first guess mismatch. For example, if the first resulting area is smaller (larger) than the searched one, the second temperature bias will be colder (warmer). Because a colder (warmer) temperature leads to a larger (smaller) initial glacier state at <em>t_start</em>. If the second guess is still unsuccessful, for all consecutive guesses the previous value pairs (control variable, mismatch) are used to determine the next guess. For this, a stepwise linear function is fitted to these pairs and afterwards, the mismatch is set to 0 to get the following guess (this method is similar to the one described in Zekollari et al. 2019 Appendix A). Moreover, a maximum step length between two guesses is defined as too large step-sizes could easily lead to failing model runs (e.g. see the section above). Further, the algorithm was adapted independently inside <code class="docutils literal notranslate"><span class="pre">run_dynamic_spinup</span></code> and <code class="docutils literal notranslate"><span class="pre">run_dynamic_melt_f_calibration</span></code> to cope with failing model runs individually. Note that this minimization algorithm only works if the underlying relationship between the control variable and the mismatch is strictly monotone.</p>
 <p>If someone is interested in how this algorithm works in more detail, here is a conceptual code snippet:</p>
 <div class="cell tag_hide-input docutils container">
 <details class="admonition hide above-input">
@@ -703,9 +710,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:16:23: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-04-10 21:16:23: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-04-10 21:16:23: oggm.cfg: Multiprocessing: using all available processors (N=4)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 23:02:11: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-10 23:02:11: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-10 23:02:11: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -743,8 +750,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:16:23: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2026-04-10 21:16:23: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 23:02:11: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2026-04-10 23:02:11: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -916,7 +923,7 @@ Dynamic melt_f:   5.0 kg m-2 day-1 °C-1
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:16:42: oggm.core.dynamic_spinup: RuntimeError occurred during task run_dynamic_melt_f_calibration_dynamic_melt_f_artificial on RGI60-11.00897: Dynamic melt_f calibration not successful. Error message: Could not find mismatch smaller 30 kg m-2 yr-1 (only 30.076775527795917 kg m-2 yr-1) in 20 Iterations!
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 23:02:27: oggm.core.dynamic_spinup: RuntimeError occurred during task run_dynamic_melt_f_calibration_dynamic_melt_f_artificial on RGI60-11.00897: Dynamic melt_f calibration not successful. Error message: Could not find mismatch smaller 30 kg m-2 yr-1 (only 30.076775527795917 kg m-2 yr-1) in 20 Iterations!
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -1049,7 +1056,7 @@ Dynamic melt_f:   5.0 kg m-2 day-1 °C-1
 </div>
 </div>
 <p>It is a made-up example, but you see that the dynamic <em>melt_f</em> calibration can match our ‘very accurate’ geodetic mass balance.</p>
-<p>For additional options of the two run tasks have a look at their doc-strings (<a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.run_dynamic_spinup.html#oggm.tasks.run_dynamic_spinup">run_dynamic_spinup</a> and <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.run_dynamic_melt_f_star_calibration.html#oggm.tasks.run_dynamic_melt_f_star_calibration">run_dynamic_melt_f_star_calibration</a>). You can also change all the settings of the included dynamic spinup inside the <code class="docutils literal notranslate"><span class="pre">run_dynamic_melt_f_star_calibration</span></code> by using <code class="docutils literal notranslate"><span class="pre">kwargs_run_function</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">kwargs_run_function</span> <span class="pre">=</span> <span class="pre">{'minimize_for':'volume'}</span></code> to match for volume instead of area).</p>
+<p>For additional options of the two run tasks have a look at their doc-strings (<a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.run_dynamic_spinup.html#oggm.tasks.run_dynamic_spinup">run_dynamic_spinup</a> and <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.tasks.run_dynamic_melt_f_calibration.html">run_dynamic_melt_f_star_calibration</a>). You can also change all the settings of the included dynamic spinup inside the <code class="docutils literal notranslate"><span class="pre">run_dynamic_melt_f_star_calibration</span></code> by using <code class="docutils literal notranslate"><span class="pre">kwargs_run_function</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">kwargs_run_function</span> <span class="pre">=</span> <span class="pre">{'minimize_for':'volume'}</span></code> to match for volume instead of area).</p>
 </section>
 <section id="example-where-it-is-not-working-so-well">
 <h2>Example where it is not working so well<a class="headerlink" href="#example-where-it-is-not-working-so-well" title="Link to this heading">#</a></h2>
@@ -1169,7 +1176,7 @@ Dynamic melt_f:   5.0 kg m-2 day-1 °C-1
 <img alt="../../_images/fbf3601e1fd1de778d7b7c94710107b0836f766d5047a286cdb2c809b6764d0b.png" src="../../_images/fbf3601e1fd1de778d7b7c94710107b0836f766d5047a286cdb2c809b6764d0b.png" />
 </div>
 </div>
-<p>In this example, you see that the dynamic spinup run matching area does not start in 1980. The reason for this are the two main problems and the coping strategy of reducing the spinup time, described <a class="reference internal" href="#two-main-problems-why-the-dynamic-spinup-could-not-work"><span class="xref myst">here</span></a> in more detail.</p>
+<p>In this example, you see that the dynamic spinup run matching area does not start in 1980. The reason for this are the two main problems and the coping strategy of reducing the spinup time, described above in more detail.</p>
 <p>To get a glacier evolution starting at 1980 you can use <code class="docutils literal notranslate"><span class="pre">add_fixed_geometry_spinup</span> <span class="pre">=</span> <span class="pre">True</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1224,7 +1231,7 @@ Dynamic melt_f:   5.0 kg m-2 day-1 °C-1
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:16:48: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 23:02:32: oggm.cfg: PARAMS[&#39;store_model_geometry&#39;] changed from `False` to `True`.
 </pre></div>
 </div>
 </div>
