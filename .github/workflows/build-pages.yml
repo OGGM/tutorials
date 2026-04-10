@@ -35,6 +35,14 @@ jobs:
           ${PIP} install --upgrade pip setuptools wheel
           ${PIP} install -r requirements.txt
           ${PIP} uninstall -y progressbar2
+      - name: Cache notebook execution results
+        uses: actions/cache@v4
+        with:
+          path: .jupyter_cache
+          key: jupyter-cache-${{ github.ref_name }}-${{ hashFiles('_config.yml', '_toc.yml', 'requirements.txt', 'book/**/*.md', 'notebooks/**/*.ipynb') }}
+          restore-keys: |
+            jupyter-cache-${{ github.ref_name }}-
+            jupyter-cache-
       - name: Check notebook cleanliness
         run: |
           python3 scripts/check_notebook_kernelspec.py
