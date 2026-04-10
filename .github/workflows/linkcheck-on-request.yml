@@ -1,0 +1,68 @@
+name: Linkcheck On Request
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag, or commit SHA to run the linkcheck against
+        required: false
+        default: master
+  pull_request:
+    types:
+      - labeled
+    branches:
+      - master
+      - stable
+      - v1.5.3
+
+permissions:
+  contents: read
+
+concurrency:
+  group: linkcheck-${{ github.event_name }}-${{ github.event.pull_request.number || inputs.ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linkcheck:
+    name: Build Jupyter Book Linkcheck
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'run-linkcheck'
+    runs-on: ubuntu-latest
+    container: ghcr.io/oggm/oggm:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || github.event.pull_request.head.sha }}
+
+      - name: Fix git permission check
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Cache
+        uses: TimoRoth/cache@re-eval-key
+        with:
+          path: /github/home/OGGM/download_cache
+          key: oggm-download-cache-${{ hashFiles('dl_file_list.txt') }}
+          restore-keys: |
+            oggm-download-cache-
+          reeval-key: true
+
+      - name: Install Dependencies
+        run: |
+          ${PIP} install --upgrade pip setuptools wheel
+          ${PIP} install -r requirements.txt
+          ${PIP} uninstall -y progressbar2
+
+      - name: Validate notebook cleanliness
+        run: python3 scripts/check_notebook_kernelspec.py
+
+      - name: Run linkcheck build
+        env:
+          STATIC_MAP_API_KEY: ${{ secrets.STATIC_MAP_API_KEY }}
+        run: jupyter-book build . --builder linkcheck
+
+      - name: Upload Linkcheck Artifacts
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: linkcheck-output
+          path: _build/
