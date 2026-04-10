@@ -70,7 +70,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 01, 2026"/>
+    <meta name="docbuild:last-update" content="Apr 10, 2026"/>
   </head>
   
   
@@ -181,6 +181,7 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/workflow.html">OGGM workflow</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/working_with_rgi.html">Working with the RGI and prepare glaciers for a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/rgi7_directories.html">RGI version 7 in OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/deal_with_errors.html">Dealing with errors after a run</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/elevation_bands_vs_centerlines.html">Differences between the “elevation band” and “centerline” flowlines</a></li>
@@ -549,7 +550,7 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize OGGM and set up the default run parameters</span>
-<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>  <span class="c1"># print less log messages than the default </span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s1">&#39;WARNING&#39;</span><span class="p">)</span>  <span class="c1"># print less log messages than the default</span>
 
 <span class="c1"># Local working directory (where OGGM will write its output)</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s1">&#39;working_dir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">(</span><span class="s1">&#39;OGGM_gcm_run&#39;</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -564,11 +565,11 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:51:19: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-04-01 11:51:19: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-04-01 11:51:19: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2026-04-01 11:51:20: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
-2026-04-01 11:51:20: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:12:54: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-10 21:12:54: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-10 21:12:54: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2026-04-10 21:12:54: oggm.workflow: init_glacier_directories from prepro level 5 on 2 glaciers.
+2026-04-10 21:12:54: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -588,8 +589,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:51:20: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2026-04-01 11:51:20: oggm.utils: Applying compile_run_output on 2 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:12:55: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2026-04-10 21:12:55: oggm.utils: Applying compile_run_output on 2 gdirs.
 </pre></div>
 </div>
 <img alt="../../_images/c9056d2cd70722fd31556de7cb0eb58928766639265f8d16842bf3ed8579b2df.png" src="../../_images/c9056d2cd70722fd31556de7cb0eb58928766639265f8d16842bf3ed8579b2df.png" />
@@ -619,11 +620,11 @@
 <span class="c1"># Here are for example the 5 primary GCMs:</span>
 <span class="c1"># &#39;gfdl-esm4_r1i1p1f1&#39;, &#39;mpi-esm1-2-hr_r1i1p1f1&#39;, &#39;mri-esm2-0_r1i1p1f1&#39; (&quot;low sensitivity&quot; models, within typical ranges from AR6)</span>
 <span class="c1"># &#39;ipsl-cm6a-lr_r1i1p1f1&#39;, &#39;ukesm1-0-ll_r1i1p1f2&#39; (&quot;hotter&quot; models, especially ukesm1-0-ll)</span>
-<span class="n">member</span> <span class="o">=</span> <span class="s1">&#39;mri-esm2-0_r1i1p1f1&#39;</span> 
+<span class="n">member</span> <span class="o">=</span> <span class="s1">&#39;mri-esm2-0_r1i1p1f1&#39;</span>
 
 <span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp370&#39;</span><span class="p">,</span><span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
     <span class="c1"># bias correct them</span>
-    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_monthly_isimip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
+    <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_monthly_isimip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
                                  <span class="n">ssp</span> <span class="o">=</span> <span class="n">ssp</span><span class="p">,</span>
                                  <span class="c1"># gcm member -&gt; you can choose another one</span>
                                  <span class="n">member</span><span class="o">=</span><span class="n">member</span><span class="p">,</span>
@@ -634,9 +635,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:51:20: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
-2026-04-01 11:51:22: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
-2026-04-01 11:51:24: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:12:55: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+2026-04-10 21:12:57: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
+2026-04-10 21:12:59: oggm.workflow: Execute entity tasks [process_monthly_isimip_data] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -678,9 +679,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:51:26: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2026-04-01 11:51:27: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
-2026-04-01 11:51:28: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:13:01: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+2026-04-10 21:13:02: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
+2026-04-10 21:13:03: oggm.workflow: Execute entity tasks [run_from_climate_data] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -705,12 +706,12 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-01 11:51:29: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2026-04-01 11:51:29: oggm.utils: Applying compile_run_output on 2 gdirs.
-2026-04-01 11:51:29: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2026-04-01 11:51:29: oggm.utils: Applying compile_run_output on 2 gdirs.
-2026-04-01 11:51:29: oggm.utils: Applying global task compile_run_output on 2 glaciers
-2026-04-01 11:51:29: oggm.utils: Applying compile_run_output on 2 gdirs.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-10 21:13:04: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2026-04-10 21:13:04: oggm.utils: Applying compile_run_output on 2 gdirs.
+2026-04-10 21:13:04: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2026-04-10 21:13:04: oggm.utils: Applying compile_run_output on 2 gdirs.
+2026-04-10 21:13:04: oggm.utils: Applying global task compile_run_output on 2 glaciers
+2026-04-10 21:13:04: oggm.utils: Applying compile_run_output on 2 gdirs.
 </pre></div>
 </div>
 <img alt="../../_images/622344a6797c586b1b0e3d53d63836d527337e6ac6be6e624519bb651da99a98.png" src="../../_images/622344a6797c586b1b0e3d53d63836d527337e6ac6be6e624519bb651da99a98.png" />
@@ -753,7 +754,7 @@
         <span class="n">ft</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
         <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">))</span>
         <span class="c1"># bias correct them</span>
-        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
                                      <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">),</span>  <span class="c1"># recognize the climate file for later</span>
                                      <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
                                      <span class="n">fpath_precip</span><span class="o">=</span><span class="n">fp</span><span class="p">,</span>  <span class="c1"># precip projections</span>
@@ -762,7 +763,7 @@
     <span class="c1"># Run OGGM</span>
     <span class="k">for</span> <span class="n">rcp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;rcp26&#39;</span><span class="p">,</span> <span class="s1">&#39;rcp45&#39;</span><span class="p">,</span>  <span class="s1">&#39;rcp85&#39;</span><span class="p">]:</span> <span class="c1">#&#39;rcp60&#39;,</span>
         <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP5_CCSM4_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rcp</span><span class="p">)</span>
-        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> 
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>
                                      <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
                                      <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
                                      <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
@@ -802,7 +803,7 @@
         <span class="n">ft</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bt</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssp</span><span class="p">))</span>
         <span class="n">fp</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">file_downloader</span><span class="p">(</span><span class="n">bp</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssp</span><span class="p">))</span>
         <span class="c1"># bias correct them</span>
-        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> 
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">gcm_climate</span><span class="o">.</span><span class="n">process_cmip_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span>
                                      <span class="c1">#year_range=(&#39;1979&#39;, &#39;2014&#39;),</span>
                                      <span class="n">filesuffix</span><span class="o">=</span><span class="s1">&#39;_CMIP6_CESM2_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssp</span><span class="p">),</span>  <span class="c1"># recognize the climate file for later</span>
                                      <span class="n">fpath_temp</span><span class="o">=</span><span class="n">ft</span><span class="p">,</span>  <span class="c1"># temperature projections</span>
@@ -812,7 +813,7 @@
     <span class="c1"># Run OGGM</span>
     <span class="k">for</span> <span class="n">ssp</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;ssp126&#39;</span><span class="p">,</span> <span class="s1">&#39;ssp585&#39;</span><span class="p">]:</span>
         <span class="n">rid</span> <span class="o">=</span> <span class="s1">&#39;_CMIP6_CESM2_</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ssp</span><span class="p">)</span>
-        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span> 
+        <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">run_from_climate_data</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">ys</span><span class="o">=</span><span class="mi">2020</span><span class="p">,</span>
                                      <span class="n">climate_filename</span><span class="o">=</span><span class="s1">&#39;gcm_data&#39;</span><span class="p">,</span>  <span class="c1"># use gcm_data, not climate_historical</span>
                                      <span class="n">climate_input_filesuffix</span><span class="o">=</span><span class="n">rid</span><span class="p">,</span>  <span class="c1"># use the chosen scenario</span>
                                      <span class="n">init_model_filesuffix</span><span class="o">=</span><span class="s1">&#39;_historical&#39;</span><span class="p">,</span>  <span class="c1"># this is important! Start from 2020 glacier</span>
@@ -955,7 +956,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 01, 2026.
+  Last updated on Apr 10, 2026.
   <br/>
 </p>
   </div>
