@@ -15,3 +15,9 @@ Before opening a PR, strip notebook outputs and kernelspec metadata:
 ```bash
 python3 scripts/strip_notebook_outputs.py
 ```
+
+Maintainers can request a docs link check in two ways:
+
+- In GitHub, open the Actions tab, select `Linkcheck On Request`, and use `Run workflow`.
+- On a PR targeting `master`, `stable`, or `v1.5.3`, add the label `run-linkcheck` to trigger the same workflow for that PR head.
+- On a PR, add a comment containing exactly `/linkcheck` to trigger the same workflow for that PR head.
