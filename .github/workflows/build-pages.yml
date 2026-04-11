@@ -11,6 +11,13 @@ on:
       - master
       - stable
       - v1.5.3
+  workflow_dispatch:
+    inputs:
+      fresh_run:
+        description: "Run notebooks from scratch and force latest OGGM"
+        type: boolean
+        required: false
+        default: false
 
 jobs:
   build_pages:
@@ -36,6 +43,7 @@ jobs:
           ${PIP} install -r requirements.txt
           ${PIP} uninstall -y progressbar2
       - name: Cache notebook execution results
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.fresh_run) }}
         uses: actions/cache@v5
         with:
           path: _build/.jupyter_cache
@@ -43,6 +51,10 @@ jobs:
           restore-keys: |
             jupyter-cache-${{ github.ref_name }}-
             jupyter-cache-
+      - name: Fresh run setup
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.fresh_run }}
+        run: |
+          rm -rf _build/.jupyter_cache
       - name: Check notebook cleanliness
         run: |
           python3 scripts/check_notebook_kernelspec.py
