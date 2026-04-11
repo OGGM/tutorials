@@ -531,6 +531,7 @@
 <h1>Step-by-Step guide to building preprocessed directories from scratch<a class="headerlink" href="#step-by-step-guide-to-building-preprocessed-directories-from-scratch" title="Link to this heading">#</a></h1>
 <p>This guide is for anyone who wants to learn how to start from scratch with building preprocessed directories, the same way OGGM does for its users. You might even use your own data. This tutorial assumes you are already familiar with OGGM basics. We won’t go into every little detail here, but you’ll find links for more information if you’re interested.</p>
 <p>We’ve structured the guide into five main sections, each dedicated to a different level of preprocessing. At the beginning of each section, we’ll outline the tasks to be performed, the data we’ll use, and provide links to related tutorials. Additionally, at the end of each section, we’ll share a corresponding <code class="docutils literal notranslate"><span class="pre">prepro_base_url</span></code>. This URL allows you to start directly at that level with everything pre-setup, bypassing the need to complete the earlier steps. Plus, in the tutorial <a class="reference internal" href="store_and_compress_glacierdirs.html"><span class="std std-doc">storing glacier directories for later use</span></a>, we show you how to save your work. This way, you don’t have to redo everything from the beginning every time (many steps only need to be done once).</p>
+<p><strong>Note: this tutorial may not always be up-to-date to the latest developments in the glacier directories (esp. regarding OGGM-Shop datasets). If you want to check what OGGM is doing, check out the <a class="reference external" href="https://github.com/OGGM/oggm/blob/master/oggm/cli/prepro_levels.py">OGGM run_prepro_levels function</a>.</strong></p>
 <p><strong>Tags:</strong> advanced, glacier-directory, workflow</p>
 <p>Tip: There’s a lot to learn here. If you’re curious about a specific function and want to know more, just add a question mark (?) right after it, and you’ll see more details.</p>
 <div class="cell docutils container">
@@ -560,6 +561,11 @@ print<span class="o">?</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading salem-sample-data...
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -570,9 +576,9 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:16:24: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-04-11 16:16:24: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-04-11 16:16:24: oggm.cfg: Multiprocessing: using all available processors (N=4)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 20:15:34: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-11 20:15:34: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-11 20:15:34: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -637,7 +643,7 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:19:52: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 20:17:47: oggm.workflow: Execute entity tasks [GlacierDirectory] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -693,14 +699,14 @@ print<span class="o">?</span>
 <span class="n">source</span> <span class="o">=</span> <span class="s1">&#39;COPDEM90&#39;</span>  <span class="c1"># we use COPDEM here</span>
 
 <span class="c1"># this task adds the DEM and defines the local grid</span>
-<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">,</span> 
+<span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">define_glacier_region</span><span class="p">,</span>
                              <span class="n">gdirs</span><span class="p">,</span>
                              <span class="n">source</span><span class="o">=</span><span class="n">source</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:19:52: oggm.workflow: Execute entity tasks [define_glacier_region] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 20:17:47: oggm.workflow: Execute entity tasks [define_glacier_region] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -781,18 +787,18 @@ print<span class="o">?</span>
 
     <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">centerline_task_list</span><span class="p">:</span>
         <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">);</span>
-    
+
 <span class="k">else</span><span class="p">:</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown flowline type &#39;</span><span class="si">{</span><span class="n">flowline_type_to_use</span><span class="si">}</span><span class="s2">&#39;! Select &#39;elevation_band&#39; or &#39;centerline&#39;!&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:19:52: oggm.workflow: Execute entity tasks [simple_glacier_masks] on 1 glaciers
-2026-04-11 16:19:52: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
-2026-04-11 16:19:52: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
-2026-04-11 16:19:52: oggm.workflow: Execute entity tasks [compute_downstream_line] on 1 glaciers
-2026-04-11 16:19:52: oggm.workflow: Execute entity tasks [compute_downstream_bedshape] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 20:17:47: oggm.workflow: Execute entity tasks [simple_glacier_masks] on 1 glaciers
+2026-04-11 20:17:47: oggm.workflow: Execute entity tasks [elevation_band_flowline] on 1 glaciers
+2026-04-11 20:17:47: oggm.workflow: Execute entity tasks [fixed_dx_elevation_band_flowline] on 1 glaciers
+2026-04-11 20:17:47: oggm.workflow: Execute entity tasks [compute_downstream_line] on 1 glaciers
+2026-04-11 20:17:47: oggm.workflow: Execute entity tasks [compute_downstream_bedshape] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -876,65 +882,65 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [process_climate_data] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [apparent_mb_from_any_mb] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
-2026-04-11 16:19:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
-2026-04-11 16:19:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Consensus estimate optimisation with A factor: 7.860491105148401 and fs: 0
-2026-04-11 16:19:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Consensus estimate optimisation with A factor: 3.9802455525742 and fs: 0
-2026-04-11 16:19:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Consensus estimate optimisation with A factor: 2.0401227762871 and fs: 0
-2026-04-11 16:19:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Consensus estimate optimisation with A factor: 2.842352606063083 and fs: 0
-2026-04-11 16:19:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Consensus estimate optimisation with A factor: 2.6900860881384983 and fs: 0
-2026-04-11 16:19:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Consensus estimate optimisation with A factor: 2.6650075799061743 and fs: 0
-2026-04-11 16:19:53: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:53: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: calibrate_inversion_from_consensus converged after 7 iterations and fs=0. The resulting Glen A factor is 2.6650075799061743.
-2026-04-11 16:19:54: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [init_present_time_glacier] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [process_climate_data] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [apparent_mb_from_any_mb] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
+2026-04-11 20:17:48: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
+2026-04-11 20:17:48: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Consensus estimate optimisation with A factor: 7.860491105148401 and fs: 0
+2026-04-11 20:17:48: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:48: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Consensus estimate optimisation with A factor: 3.9802455525742 and fs: 0
+2026-04-11 20:17:49: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Consensus estimate optimisation with A factor: 2.0401227762871 and fs: 0
+2026-04-11 20:17:49: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Consensus estimate optimisation with A factor: 2.842352606063083 and fs: 0
+2026-04-11 20:17:49: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Consensus estimate optimisation with A factor: 2.6900860881384983 and fs: 0
+2026-04-11 20:17:49: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Consensus estimate optimisation with A factor: 2.6650075799061743 and fs: 0
+2026-04-11 20:17:49: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: calibrate_inversion_from_consensus converged after 7 iterations and fs=0. The resulting Glen A factor is 2.6650075799061743.
+2026-04-11 20:17:49: oggm.workflow: Applying global task inversion_tasks on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [filter_inversion_output] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [get_inversion_volume] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [init_present_time_glacier] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1047,8 +1053,8 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
-2026-04-11 16:19:54: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [run_from_climate_data] on 1 glaciers
+2026-04-11 20:17:49: oggm.workflow: Execute entity tasks [run_dynamic_melt_f_calibration] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -1102,7 +1108,7 @@ print<span class="o">?</span>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:19:57: oggm.workflow: Execute entity tasks [copy_to_basedir] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 20:17:52: oggm.workflow: Execute entity tasks [copy_to_basedir] on 1 glaciers
 </pre></div>
 </div>
 </div>
