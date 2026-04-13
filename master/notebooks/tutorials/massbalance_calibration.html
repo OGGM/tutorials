@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>A look into the new mass balance calibration in OGGM v1.6 &#8212; OGGM tutorials</title>
+    <title>A look into the mass balance calibration in OGGM v1.6 &#8212; OGGM tutorials</title>
   
   
   
@@ -72,7 +72,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
-    <meta name="docbuild:last-update" content="Apr 11, 2026"/>
+    <meta name="docbuild:last-update" content="Apr 13, 2026"/>
   </head>
   
   
@@ -192,7 +192,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../book/massbalance.html">Mass balance</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">A look into the mass balance calibration in OGGM v1.6</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="massbalance_global_params.html">Global distribution of the mass-balance model parameters</a></li>
@@ -501,7 +501,7 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>A look into the new mass balance calibration in OGGM v1.6</h1>
+    <h1>A look into the mass balance calibration in OGGM v1.6</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -515,6 +515,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">Calibrated mass balance parameters in OGGM v1.6 pre-processed directories</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-new-flexible-calibration-scheme-in-oggm">The new flexible calibration scheme in OGGM</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrate-on-direct-glaciological-in-situ-mb-observations">Calibrate on direct glaciological in-situ MB observations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrating-on-direct-glaciological-in-situ-mb-observations-by-minimising-the-rmsd">Calibrating on direct glaciological in-situ MB observations by minimising the RMSD</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-errors-and-including-your-own-mass-balance-observations">Dealing with errors and including your own mass-balance observations</a></li>
 </ul>
 </li>
@@ -539,8 +540,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="a-look-into-the-new-mass-balance-calibration-in-oggm-v1-6">
-<h1>A look into the new mass balance calibration in OGGM v1.6<a class="headerlink" href="#a-look-into-the-new-mass-balance-calibration-in-oggm-v1-6" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="a-look-into-the-mass-balance-calibration-in-oggm-v1-6">
+<h1>A look into the mass balance calibration in OGGM v1.6<a class="headerlink" href="#a-look-into-the-mass-balance-calibration-in-oggm-v1-6" title="Link to this heading">#</a></h1>
 <p>The default mass-balance (MB) model of OGGM is a very standard <a class="reference external" href="https://doi.org/10.1016/S0022-1694(03)00257-9">temperature index melt model</a>.</p>
 <p>In versions before 1.6, OGGM had a complex calibration procedure which originated from the times, where we had only observations from a few hundred glaciers. We used them to calibrate the model and then a so-called infamous <em>tstar</em> (infamous in very niche circles of first- and second-gen OGGMers) which was interpolated to glaciers without observations (see the <a class="reference external" href="https://www.the-cryosphere.net/6/1295/2012/tc-6-1295-2012.html">original publication</a>). This method was very powerful but, as new observational datasets emerged, we can now calibrate on a glacier-per-glacier basis. With the new era of geodetic observations, OGGM uses the average geodetic observations from Jan 2000–Jan 2020 of <a class="reference external" href="https://www.nature.com/articles/s41586-021-03436-z">Hugonnet al. 2021</a>, that are now available for almost every glacier world-wide.</p>
 <p>Pre-processed directories from OGGM (from the Bremen server) have been calibrated for you, based on a specific climate dataset (W5E5) and our own dedicated calibration strategy. But, what if you want to use another climate dataset? Or another reference dataset?</p>
@@ -561,7 +562,13 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">cfg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">workflow</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">graphics</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">massbalance</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.massbalance</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">,</span> <span class="n">mb_calibration_from_geodetic_mb</span><span class="p">,</span> <span class="n">mb_calibration_from_wgms_mb</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.core.massbalance</span><span class="w"> </span><span class="kn">import</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">,</span> <span class="n">mb_calibration_from_geodetic_mb</span><span class="p">,</span> <span class="n">mb_calibration_from_wgms_mb</span><span class="p">,</span> <span class="n">mb_calibration_to_rmsd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">oggm.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">rmsd</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Downloading salem-sample-data...
 </pre></div>
 </div>
 </div>
@@ -575,9 +582,9 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:50:13: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-04-11 16:50:13: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-04-11 16:50:13: oggm.cfg: Multiprocessing: using all available processors (N=4)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-13 20:53:06: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-13 20:53:06: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-13 20:53:06: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -592,8 +599,8 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:50:14: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
-2026-04-11 16:50:14: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-13 20:53:07: oggm.workflow: init_glacier_directories from prepro level 3 on 2 glaciers.
+2026-04-13 20:53:07: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -796,7 +803,7 @@ reference MB time period: 2000-01-01_2020-01-01
 <p>For example, let’s calibrate the <code class="docutils literal notranslate"><span class="pre">melt_f</span></code> to match the same observations as before (i.e., average geodetic observation) and fix the other parameters. We will use the more general function <a class="reference external" href="https://docs.oggm.org/en/latest/generated/oggm.tasks.mb_calibration_from_scalar_mb.html">mb_calibration_from_scalar_mb</a> which is more flexible. However, it requires you to give manually the observed MB on which you want to calibrate:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if you use the default calibration data from Hugonnet et al., 2021, </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if you use the default calibration data from Hugonnet et al., 2021,</span>
 <span class="c1"># we can get the geodetic data from any glacier from here:</span>
 <span class="n">ref_mb_df</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_geodetic_mb_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gdir_hef</span><span class="o">.</span><span class="n">rgi_id</span><span class="p">]</span>
 <span class="n">ref_mb_df</span> <span class="o">=</span> <span class="n">ref_mb_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">ref_mb_df</span><span class="p">[</span><span class="s1">&#39;period&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -818,7 +825,7 @@ reference MB time period: 2000-01-01_2020-01-01
 <span class="c1"># overwrite_gdir has to be set to True,</span>
 <span class="c1"># because we want to overwrite the old calibration</span>
 <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span>
-                              <span class="n">ref_mb</span> <span class="o">=</span> <span class="n">ref_mb</span><span class="p">,</span> 
+                              <span class="n">ref_mb</span> <span class="o">=</span> <span class="n">ref_mb</span><span class="p">,</span>
                               <span class="n">ref_period</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span>
                               <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 
@@ -862,7 +869,7 @@ reference MB time period: 2000-01-01_2020-01-01
 <span class="c1"># overwrite_gdir has to be set to True,</span>
 <span class="c1"># because we want to overwrite the old calibration</span>
 <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span>
-                              <span class="n">ref_mb</span> <span class="o">=</span> <span class="n">ref_mb</span><span class="p">,</span> 
+                              <span class="n">ref_mb</span> <span class="o">=</span> <span class="n">ref_mb</span><span class="p">,</span>
                               <span class="n">ref_period</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span>
                               <span class="n">calibrate_param1</span><span class="o">=</span><span class="s1">&#39;temp_bias&#39;</span><span class="p">,</span>
                               <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -895,7 +902,7 @@ reference MB time period: 2000-01-01_2020-01-01
 <span class="c1"># overwrite_gdir has to be set to True,</span>
 <span class="c1"># because we want to overwrite the old calibration</span>
 <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span>
-                              <span class="n">ref_mb</span> <span class="o">=</span> <span class="n">ref_mb</span><span class="p">,</span> 
+                              <span class="n">ref_mb</span> <span class="o">=</span> <span class="n">ref_mb</span><span class="p">,</span>
                               <span class="n">ref_period</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span>
                               <span class="n">calibrate_param1</span><span class="o">=</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">,</span>
                               <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -985,7 +992,7 @@ but applies directly the average annual in-situ MB observations from the WGMS. P
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbdf_in_situ</span> <span class="o">=</span> <span class="n">gdir_hef</span><span class="o">.</span><span class="n">get_ref_mb_data</span><span class="p">()</span>
 <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">]</span>
-<span class="c1"># check that every year between the beginning and the end has MB observations </span>
+<span class="c1"># check that every year between the beginning and the end has MB observations</span>
 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">ref_mb</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">ref_mb</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 </pre></div>
@@ -1010,6 +1017,20 @@ but applies directly the average annual in-situ MB observations from the WGMS. P
 </div>
 <div class="cell_output docutils container">
 <img alt="../../_images/f7d13d697a1b0c6e29b46fa3480bfb8e5ca19cb71c9b5da2e05840d2e5f75a86.png" src="../../_images/f7d13d697a1b0c6e29b46fa3480bfb8e5ca19cb71c9b5da2e05840d2e5f75a86.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbdf_in_situ</span><span class="p">[[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">,</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ref_mb   -648.223881
+mod_mb   -648.223881
+dtype: float64
+</pre></div>
+</div>
 </div>
 </div>
 <p>The average MB over the entire time period is matched as we calibrate to it. However, the interannual mass-balance variability is different. How well the modelled annual mass-balance time series matches the observations can be for example assessed by looking at the correlation between modelled and observed annual MB:</p>
@@ -1040,6 +1061,244 @@ dtype: float64
 </div>
 </div>
 </div>
+<section id="calibrating-on-direct-glaciological-in-situ-mb-observations-by-minimising-the-rmsd">
+<h3>Calibrating on direct glaciological in-situ MB observations by minimising the RMSD<a class="headerlink" href="#calibrating-on-direct-glaciological-in-situ-mb-observations-by-minimising-the-rmsd" title="Link to this heading">#</a></h3>
+<p>In the previous section, we calibrated the model using in-situ observations via <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_wgms_mb</span></code>, which internally relies on <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_scalar_mb</span></code>. This approach minimises the <em>mean difference</em> between model and observations. While effective, it reduces the dataset to its average value and therefore ignores valuable information about year-to-year variability.</p>
+<p>However, WGMS mass balance observations provide <em>annual</em> values over the observation period. This richer dataset allows us to use calibration methods that account for interannual variability.</p>
+<p>OGGM now provides such a method: <code class="docutils literal notranslate"><span class="pre">mb_calibration_to_rmsd</span></code>. Instead of focusing only on the mean, it minimises the Root Mean Square Deviation (RMSD) between observed and modelled annual mass balance values.</p>
+<p>Another key difference is that this method performs a <strong>multi-parameter optimisation</strong>, whereas previous approaches typically optimise one parameter at a time.</p>
+<p>In the following, we compare this RMSD-based calibration to the previous approach, focusing on differences in mean, variability (standard deviation), and overall fit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The mass balance time series generated by calibrating melt_f</span>
+<span class="c1"># to minimise the mean mass balance using mb_calibration_from_wgms_mb</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RMSD: </span><span class="si">{</span><span class="n">rmsd</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+
+<span class="n">sd_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">-</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Std dev difference: </span><span class="si">{</span><span class="n">sd_diff</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+
+<span class="n">mean_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean difference: </span><span class="si">{</span><span class="n">mean_diff</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSD: 815.51 kg m-2
+Std dev difference: 614.24 kg m-2
+Mean difference: 0.00 kg m-2
+</pre></div>
+</div>
+</div>
+</div>
+<p>The difference in mean mass balance is negligible. However, the differences in standard deviation and RMSD are much larger, indicating that important aspects of the variability are not well captured.</p>
+<p>Let us now consider an alternative approach, using the RMSD as the cost function.</p>
+<p>We begin by calibrating only the melt factor, while keeping the temperature bias and precipitation factor fixed at their default values. If no calibration parameters are specified, the function uses this configuration by default.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_calibration_to_rmsd</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span> <span class="n">ref_df</span><span class="o">=</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">],</span> <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: np.float64(9.964597895422955),
+ &#39;prcp_fac&#39;: np.float64(3.3571363074447045),
+ &#39;temp_bias&#39;: 0,
+ &#39;reference_mb&#39;: np.float64(-648.223880597015),
+ &#39;reference_mb_err&#39;: None,
+ &#39;reference_period&#39;: &#39;[1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966\n 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980\n 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994\n 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008\n 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019]&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;,
+ &#39;rmsd&#39;: np.float64(780.22120953369)}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbmod_rmsd</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">)</span>
+<span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod_rmsd</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span>
+    <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">index</span>
+<span class="p">)</span>
+
+<span class="n">ref</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span>
+<span class="n">mod_mean</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">]</span>
+<span class="n">mod_rmsd</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd&#39;</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ref</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;in-situ observations</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;average: </span><span class="si">{</span><span class="n">ref</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;kg m$^{-2}$&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">mod_mean</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;modelled mass balance</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;calibrated on mean</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;average: </span><span class="si">{</span><span class="n">mod_mean</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;kg m$^{-2}$&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">mod_rmsd</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;modelled mass balance</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;calibrated on RMSD</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;average: </span><span class="si">{</span><span class="n">mod_rmsd</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;kg m$^{-2}$&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;specific mass balance (kg m$^{-2}$)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Calibrating melt_f using RMSD vs mean-based calibration&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/4ab5a74641ce4a2653a2403232d05fc0ac497199b861b58662495e9581ee8157.png" src="../../_images/4ab5a74641ce4a2653a2403232d05fc0ac497199b861b58662495e9581ee8157.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RMSD: </span><span class="si">{</span><span class="n">rmsd</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+
+<span class="n">sd_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">-</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Std dev difference: </span><span class="si">{</span><span class="n">sd_diff</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+
+<span class="n">mean_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean difference: </span><span class="si">{</span><span class="n">mean_diff</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSD: 780.22 kg m-2
+Std dev difference: 536.20 kg m-2
+Mean difference: 223.24 kg m-2
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see a slight reduction in the RMSD and the differences in the standard deviation, however, now our differences in the means is far larger. Overall, all of these errors are still quite large. Let’s see if we can reduce these errors further…</p>
+<p>Now let’s try by calibrating all of the mass-balance parameters.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mb_calibration_to_rmsd</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span> <span class="n">ref_df</span><span class="o">=</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">],</span> <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                       <span class="n">calibrate_params</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;melt_f&#39;</span><span class="p">,</span> <span class="s1">&#39;prcp_fac&#39;</span><span class="p">,</span> <span class="s1">&#39;temp_bias&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
+ &#39;bias&#39;: 0,
+ &#39;melt_f&#39;: np.float64(3.8274774605404125),
+ &#39;prcp_fac&#39;: np.float64(1.5733986926439936),
+ &#39;temp_bias&#39;: np.float64(1.2712679488762386),
+ &#39;reference_mb&#39;: np.float64(-648.223880597015),
+ &#39;reference_mb_err&#39;: None,
+ &#39;reference_period&#39;: &#39;[1953 1954 1955 1956 1957 1958 1959 1960 1961 1962 1963 1964 1965 1966\n 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980\n 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990 1991 1992 1993 1994\n 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008\n 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 2019]&#39;,
+ &#39;mb_global_params&#39;: {&#39;temp_default_gradient&#39;: -0.0065,
+  &#39;temp_all_solid&#39;: 0.0,
+  &#39;temp_all_liq&#39;: 2.0,
+  &#39;temp_melt&#39;: -1.0},
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;,
+ &#39;rmsd&#39;: np.float64(353.7527996139987)}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mbmod_rmsd3</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">)</span>
+<span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd3&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mbmod_rmsd3</span><span class="o">.</span><span class="n">get_specific_mb</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+<span class="n">ref</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span>
+<span class="n">mod_mean</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb&#39;</span><span class="p">]</span>
+<span class="n">mod_rmsd</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd&#39;</span><span class="p">]</span>
+<span class="n">mod_rmsd3</span> <span class="o">=</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd3&#39;</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ref</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;in-situ observations</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;average: </span><span class="si">{</span><span class="n">ref</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;kg m$^{-2}$&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">mod_mean</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;modelled mass balance</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;calibrated on mean</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;average: </span><span class="si">{</span><span class="n">mod_mean</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;kg m$^{-2}$&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">mod_rmsd</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;modelled mass balance</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;calibrated on RMSD</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;average: </span><span class="si">{</span><span class="n">mod_rmsd</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;kg m$^{-2}$&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">mod_rmsd3</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="p">(</span>
+        <span class="s2">&quot;modelled mass balance</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;calibrated on RMSD (3 params)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">&quot;average: </span><span class="si">{</span><span class="n">mod_rmsd3</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;kg m$^{-2}$&quot;</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;specific mass balance (kg m$^{-2}$)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Calibrating melt_f using RMSD vs mean-based calibration&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/96dda8d657f74d36b465690910d5516cf9c680dac0886ed57fcb7d50238c72df.png" src="../../_images/96dda8d657f74d36b465690910d5516cf9c680dac0886ed57fcb7d50238c72df.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;RMSD: </span><span class="si">{</span><span class="n">rmsd</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd3&#39;</span><span class="p">])</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+
+<span class="n">sd_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">-</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd3&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Std dev difference: </span><span class="si">{</span><span class="n">sd_diff</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+
+<span class="n">mean_diff</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;ref_mb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">mbdf_in_situ</span><span class="p">[</span><span class="s1">&#39;mod_mb_rmsd3&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mean difference: </span><span class="si">{</span><span class="n">mean_diff</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kg m-2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RMSD: 353.75 kg m-2
+Std dev difference: 113.13 kg m-2
+Mean difference: 1.12 kg m-2
+</pre></div>
+</div>
+</div>
+</div>
+<p>When calibrating all three mass-balance parameters simultaneously, we can identify more optimal parameter combinations that reduce the RMSD, while also improving the agreement in mean and standard deviation.</p>
+<p>This approach provides an alternative calibration strategy that captures multiple characteristics of the dataset, rather than focusing solely on the mean mass balance.</p>
+</section>
 <section id="dealing-with-errors-and-including-your-own-mass-balance-observations">
 <h3>Dealing with errors and including your own mass-balance observations<a class="headerlink" href="#dealing-with-errors-and-including-your-own-mass-balance-observations" title="Link to this heading">#</a></h3>
 <p>Let’s look at another glacier, now in Central Asia, for example the Golubin glacier:</p>
@@ -1056,8 +1315,8 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:50:17: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
-2026-04-11 16:50:17: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-13 20:53:20: oggm.workflow: init_glacier_directories from prepro level 3 on 1 glaciers.
+2026-04-13 20:53:20: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 <img alt="../../_images/8ede7a0a652997c53138a586dbc618e725a4384c2a59f160875acd10133c96b6.png" src="../../_images/8ede7a0a652997c53138a586dbc618e725a4384c2a59f160875acd10133c96b6.png" />
@@ -1091,7 +1350,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:50:18: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-13.11609: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-13 20:53:21: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-13.11609: RGI60-13.11609: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1118,10 +1377,10 @@ first introduced in <a class="reference external" href="https://doi.org/10.3389/
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Allowing another parameter to change is done by defining calibrate_param2</span>
-<span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_gol</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> 
+<span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_gol</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span>
                               <span class="n">write_to_gdir</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                              <span class="n">ref_period</span> <span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span> 
-                              <span class="n">calibrate_param1</span><span class="o">=</span><span class="s1">&#39;melt_f&#39;</span><span class="p">,</span> 
+                              <span class="n">ref_period</span> <span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span>
+                              <span class="n">calibrate_param1</span><span class="o">=</span><span class="s1">&#39;melt_f&#39;</span><span class="p">,</span>
                               <span class="n">calibrate_param2</span><span class="o">=</span><span class="s1">&#39;temp_bias&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1152,8 +1411,8 @@ first introduced in <a class="reference external" href="https://doi.org/10.3389/
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_period</span> <span class="o">=</span> <span class="s1">&#39;2000-01-01_2010-01-01&#39;</span>
 <span class="n">ref_mb</span> <span class="o">=</span> <span class="mi">2000</span> <span class="c1"># Let&#39;s use an unrealistically positive mass-balance</span>
 <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span>
-                              <span class="n">ref_period</span><span class="o">=</span><span class="n">ref_period</span><span class="p">,</span> 
-                              <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                              <span class="n">ref_period</span><span class="o">=</span><span class="n">ref_period</span><span class="p">,</span>
+                              <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                               <span class="n">calibrate_param2</span><span class="o">=</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -1182,7 +1441,8 @@ first introduced in <a class="reference external" href="https://doi.org/10.3389/
   &#39;temp_all_solid&#39;: 0.0,
   &#39;temp_all_liq&#39;: 2.0,
   &#39;temp_melt&#39;: -1.0},
- &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;,
+ &#39;rmsd&#39;: 353.7527996139987}
 </pre></div>
 </div>
 </div>
@@ -1234,7 +1494,8 @@ Let’s try it out, by using now the same order as in <a class="reference extern
   &#39;temp_all_solid&#39;: 0.0,
   &#39;temp_all_liq&#39;: 2.0,
   &#39;temp_melt&#39;: -1.0},
- &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}
+ &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;,
+ &#39;rmsd&#39;: 353.7527996139987}
 </pre></div>
 </div>
 </div>
@@ -1279,20 +1540,20 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calibrate the melt_f and annual MB </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># calibrate the melt_f and annual MB</span>
 <span class="c1"># Create a dataframe with precip factor going from 0.1 to 5.0 in 0.3 steps</span>
 <span class="n">pd_prcp_fac_sens</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.3</span><span class="p">))</span>
 <span class="c1"># Calibrate the melt factor for each of these</span>
 <span class="n">spec_mb_prcp_fac_sens_dict</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">prcp_fac</span> <span class="ow">in</span> <span class="n">pd_prcp_fac_sens</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
-    <span class="n">calib_param</span> <span class="o">=</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span> 
-                                                <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> 
+    <span class="n">calib_param</span> <span class="o">=</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span>
+                                                <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span>
                                                 <span class="n">ref_period</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span>
-                                                <span class="n">prcp_fac</span><span class="o">=</span><span class="n">prcp_fac</span><span class="p">,</span> 
+                                                <span class="n">prcp_fac</span><span class="o">=</span><span class="n">prcp_fac</span><span class="p">,</span>
                                                 <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="c1"># Fill the dataframe with the calibrated parameters</span>
     <span class="n">pd_prcp_fac_sens</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">prcp_fac</span><span class="p">,</span> <span class="s1">&#39;melt_f&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calib_param</span><span class="p">[</span><span class="s1">&#39;melt_f&#39;</span><span class="p">]</span>
-     
+
     <span class="c1"># Check the modelled massbalance</span>
     <span class="n">mb_prcp_fac_sens</span> <span class="o">=</span> <span class="n">massbalance</span><span class="o">.</span><span class="n">MonthlyTIModel</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">)</span>
     <span class="c1"># ok, we actually matched the new ref_mb</span>
@@ -1330,11 +1591,11 @@ range. If you really want to match the observation, then you would need to chang
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">prcp_fac</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pd_prcp_fac_sens</span><span class="o">.</span><span class="n">index</span><span class="p">):</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2020</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
-             <span class="n">spec_mb_prcp_fac_sens_dict</span><span class="p">[</span><span class="n">prcp_fac</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> 
+             <span class="n">spec_mb_prcp_fac_sens_dict</span><span class="p">[</span><span class="n">prcp_fac</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
              <span class="n">color</span><span class="o">=</span><span class="n">colors_prcp_fac</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prcp_fac</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
          <span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">][</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">],</span>
-         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;observed in-situ&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Annual mass-balance (kg m$^{-2}$)&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
@@ -1402,9 +1663,9 @@ range. If you really want to match the observation, then you would need to chang
 <span class="n">spec_mb_temp_b_sens_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="k">for</span> <span class="n">temp_bias</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">):</span>
-    <span class="c1"># for too negative temp_bias, no melt_f is found that matches the observations. We would need to </span>
+    <span class="c1"># for too negative temp_bias, no melt_f is found that matches the observations. We would need to</span>
     <span class="c1"># change the prcp_fac , but here we will just look</span>
-    <span class="c1"># at those combinations where calibration works with a fixed prcp_fac. </span>
+    <span class="c1"># at those combinations where calibration works with a fixed prcp_fac.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">calib_param</span> <span class="o">=</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span> <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> <span class="n">ref_period</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span>
                                                     <span class="n">temp_bias</span><span class="o">=</span><span class="n">temp_bias</span><span class="p">,</span> <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1418,13 +1679,13 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:50:19: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:19: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:19: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:19: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:19: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:19: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:19: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-13 20:53:22: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:22: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:22: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:22: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:22: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:22: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:22: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1438,17 +1699,17 @@ range. If you really want to match the observation, then you would need to chang
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">temp_bias</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">melt_f_dict_tb</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
     <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">temp_bias</span><span class="p">,</span> <span class="n">melt_f_dict_tb</span><span class="p">[</span><span class="n">temp_bias</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span>
-             <span class="n">color</span><span class="o">=</span><span class="n">colors_temp_bias</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">temp_bias</span><span class="p">)))</span> 
+             <span class="n">color</span><span class="o">=</span><span class="n">colors_temp_bias</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">temp_bias</span><span class="p">)))</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;melt_f (kg m$^{-2}$ day$^{-1}$ K$^{-1}$)&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;temp_bias (°C)&#39;</span><span class="p">);</span>
 
 
 <span class="k">for</span> <span class="n">temp_bias</span> <span class="ow">in</span> <span class="n">melt_f_dict_tb</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2020</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
-             <span class="n">spec_mb_temp_b_sens_dict</span><span class="p">[</span><span class="n">temp_bias</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> 
+             <span class="n">spec_mb_temp_b_sens_dict</span><span class="p">[</span><span class="n">temp_bias</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
              <span class="n">color</span><span class="o">=</span><span class="n">colors_temp_bias</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">temp_bias</span><span class="p">)),</span>
              <span class="n">label</span><span class="o">=</span><span class="n">temp_bias</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">][</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">][</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;observed in-situ&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Annual mass-balance (kg m$^{-2}$)&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
@@ -1471,9 +1732,9 @@ range. If you really want to match the observation, then you would need to chang
 <span class="n">spec_mb_pf_temp_b_sens_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="k">for</span> <span class="n">temp_bias</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mf">5.0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">):</span>
-    <span class="c1"># for too negative temp_bias, no prcp_fac is found that matches the observations. We would need to </span>
+    <span class="c1"># for too negative temp_bias, no prcp_fac is found that matches the observations. We would need to</span>
     <span class="c1"># change the melt_f , but here we will just look</span>
-    <span class="c1"># at those combinations where calibration works with a fixed melt_f. </span>
+    <span class="c1"># at those combinations where calibration works with a fixed melt_f.</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">calib_param</span> <span class="o">=</span> <span class="n">mb_calibration_from_scalar_mb</span><span class="p">(</span><span class="n">gdir_hef</span><span class="p">,</span> <span class="n">calibrate_param1</span><span class="o">=</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">,</span>
                                                     <span class="n">ref_mb</span><span class="o">=</span><span class="n">ref_mb</span><span class="p">,</span> <span class="n">ref_period</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;geodetic_mb_period&#39;</span><span class="p">],</span>
@@ -1488,15 +1749,15 @@ range. If you really want to match the observation, then you would need to chang
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:50:20: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:20: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:20: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:20: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:21: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:21: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:21: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:21: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
-2026-04-11 16:50:21: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-13 20:53:23: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:23: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:23: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:23: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:23: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:23: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:23: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:23: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
+2026-04-13 20:53:24: oggm.core.massbalance: RuntimeError occurred during task mb_calibration_from_scalar_mb on RGI60-11.00897: RGI60-11.00897: ref mb not matched. Try to set calibrate_param2.
 </pre></div>
 </div>
 </div>
@@ -1510,17 +1771,17 @@ range. If you really want to match the observation, then you would need to chang
 <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">temp_bias</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pf_temp_b_dict_tb</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
     <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">temp_bias</span><span class="p">,</span> <span class="n">pf_temp_b_dict_tb</span><span class="p">[</span><span class="n">temp_bias</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span>
-             <span class="n">color</span><span class="o">=</span><span class="n">colors_temp_bias</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">temp_bias</span><span class="p">)))</span> 
+             <span class="n">color</span><span class="o">=</span><span class="n">colors_temp_bias</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">temp_bias</span><span class="p">)))</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;prcp_fac&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;temp_bias (°C)&#39;</span><span class="p">);</span>
 
 
 <span class="k">for</span> <span class="n">temp_bias</span> <span class="ow">in</span> <span class="n">pf_temp_b_dict_tb</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span><span class="mi">2020</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
-             <span class="n">spec_mb_pf_temp_b_sens_dict</span><span class="p">[</span><span class="n">temp_bias</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> 
+             <span class="n">spec_mb_pf_temp_b_sens_dict</span><span class="p">[</span><span class="n">temp_bias</span><span class="p">],</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
              <span class="n">color</span><span class="o">=</span><span class="n">colors_temp_bias</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">temp_bias</span><span class="p">)),</span>
              <span class="n">label</span><span class="o">=</span><span class="n">temp_bias</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">][</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> 
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">mbdf_in_situ</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">2000</span><span class="p">:</span><span class="mi">2019</span><span class="p">][</span><span class="s1">&#39;ANNUAL_BALANCE&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;observed in-situ&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Annual mass-balance (kg m$^{-2}$)&#39;</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
@@ -1546,15 +1807,15 @@ range. If you really want to match the observation, then you would need to chang
 <p>In the <a class="reference external" href="https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2025.6">preprocessed directories</a> MB model calibration is done by using <code class="docutils literal notranslate"><span class="pre">mb_calibration_from_geodetic_mb</span></code> to determine the MB model parameters. We will reproduce the option from the preprocessed directory first:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">mb_calibration_from_geodetic_mb</span><span class="p">,</span> 
-                             <span class="n">gdir_hef</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">mb_calibration_from_geodetic_mb</span><span class="p">,</span>
+                             <span class="n">gdir_hef</span><span class="p">,</span>
                              <span class="n">informed_threestep</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   <span class="c1"># &quot;informed_threestep&quot; is what OGGM used for 1.6</span>
                              <span class="n">overwrite_gdir</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:50:21: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-13 20:53:24: oggm.workflow: Execute entity tasks [mb_calibration_from_geodetic_mb] on 1 glaciers
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;rgi_id&#39;: &#39;RGI60-11.00897&#39;,
@@ -1569,7 +1830,8 @@ range. If you really want to match the observation, then you would need to chang
    &#39;temp_all_solid&#39;: 0.0,
    &#39;temp_all_liq&#39;: 2.0,
    &#39;temp_melt&#39;: -1.0},
-  &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;}]
+  &#39;baseline_climate_source&#39;: &#39;GSWP3_W5E5&#39;,
+  &#39;rmsd&#39;: 353.7527996139987}]
 </pre></div>
 </div>
 </div>
@@ -1609,7 +1871,7 @@ range. If you really want to match the observation, then you would need to chang
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">49</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">57</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">w_prcp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">51</span><span class="p">)</span>
 <span class="nn">      2 # we basically do here the same as</span> in <span class="ni">massbalance.decide_winter_precip_factor</span><span class="nt">(gdir)</span>
 <span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;winter_prcp_fac_ab&#39;</span><span class="p">]</span>
@@ -1756,6 +2018,7 @@ range. If you really want to match the observation, then you would need to chang
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrated-mass-balance-parameters-in-oggm-v1-6-pre-processed-directories">Calibrated mass balance parameters in OGGM v1.6 pre-processed directories</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-new-flexible-calibration-scheme-in-oggm">The new flexible calibration scheme in OGGM</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrate-on-direct-glaciological-in-situ-mb-observations">Calibrate on direct glaciological in-situ MB observations</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calibrating-on-direct-glaciological-in-situ-mb-observations-by-minimising-the-rmsd">Calibrating on direct glaciological in-situ MB observations by minimising the RMSD</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-errors-and-including-your-own-mass-balance-observations">Dealing with errors and including your own mass-balance observations</a></li>
 </ul>
 </li>
@@ -1795,7 +2058,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Apr 11, 2026.
+  Last updated on Apr 13, 2026.
   <br/>
 </p>
   </div>
