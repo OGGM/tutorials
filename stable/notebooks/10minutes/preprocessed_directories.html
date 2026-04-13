@@ -16,20 +16,22 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
@@ -37,21 +39,22 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -66,7 +69,8 @@
     <link rel="prev" title="10 minutes tutorials" href="../../book/10minutes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Mar 05, 2026"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Apr 13, 2026"/>
   </head>
   
   
@@ -82,19 +86,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -102,7 +95,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -110,8 +102,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -127,7 +119,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -157,21 +150,17 @@
     
     
     <img src="../../_static/logo.png" class="logo__image only-light" alt="OGGM tutorials - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="OGGM tutorials - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="OGGM tutorials - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -186,12 +175,13 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../book/10minutes.html">10 minutes tutorials</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">10 minutes to… a preprocessed directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="machine_learning.html">10 minutes to… OGGM as an accelerator for machine learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="machine_learning.html">10 minutes to… OGGM-shop as a data provider for your worksflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/workflow.html">OGGM workflow</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/working_with_rgi.html">Working with the RGI and prepare glaciers for a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/rgi7_directories.html">RGI version 7 in OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/deal_with_errors.html">Dealing with errors after a run</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/elevation_bands_vs_centerlines.html">Differences between the “elevation band” and “centerline” flowlines</a></li>
@@ -200,7 +190,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/massbalance.html">Mass balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/massbalance_calibration.html">A look into the mass balance calibration in OGGM v1.6</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/massbalance_global_params.html">Global distribution of the mass-balance model parameters</a></li>
@@ -209,6 +199,12 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/hydro.html">Hydrological output</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/runoff_sensitivity.html">Runoff Sensitivity  to Mass Balance Parameters</a></li>
+
+
+
+
+
 <li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources.html">Glaciers as water resources (OGGM-Edu part 1 - idealized)</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources_projections.html">Glaciers as water resources (OGGM-Edu part 2 - projections)</a></li>
 </ul>
@@ -232,14 +228,17 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorials/use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/use_your_own_inventory.html">Using your own glacier inventory with OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/running_oggm_with_avalanches.html">Avalanches in OGGM</a></li>
+
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/visualisation.html">Visualisation and post-processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/area_length_filter.html">Filter the glacier length and area time series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/distribute_flowline.html">Display glacier area and thickness changes on a grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
@@ -250,7 +249,6 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 </details></li>
 </ul>
@@ -261,9 +259,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -307,7 +310,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/stable?urlpath=lab/tree/./notebooks/10minutes/preprocessed_directories.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/10minutes/preprocessed_directories.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -325,7 +328,7 @@
       
       
       
-      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/10minutes/preprocessed_directories.ipynb&branch=stable" target="_blank"
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/10minutes/preprocessed_directories.ipynb&branch=master" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on JupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -373,7 +376,7 @@
       
       
       
-      <li><a href="https://github.com/OGGM/tutorials/edit/stable/./notebooks/10minutes/preprocessed_directories.ipynb" target="_blank"
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/10minutes/preprocessed_directories.ipynb" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -459,7 +462,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -473,25 +476,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -542,7 +537,8 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="minutes-to-a-preprocessed-directory">
 <h1>10 minutes to… a preprocessed directory<a class="headerlink" href="#minutes-to-a-preprocessed-directory" title="Link to this heading">#</a></h1>
-<p>This tutorial is a first introduction into running OGGM. The OGGM workflow is best explained with an example. In the following, we will show you the OGGM fundamentals (<a class="reference external" href="https://docs.oggm.org/en/stable/structure.html">Doc page: model structure and fundamentals</a>). This example is also meant to guide you through a first-time setup if you are using OGGM on your own computer. If you prefer not to install OGGM on your computer, you can always run this notebook <a class="reference external" href="https://docs.oggm.org/en/stable/cloud.html">online</a> instead!</p>
+<p>This tutorial provides a first introduction to running OGGM. The OGGM workflow is best understood through a concrete example, and in the following we will guide you through the core concepts and workflow of OGGM (<a class="reference external" href="https://docs.oggm.org/en/stable/structure.html">model structure and fundamentals</a>).</p>
+<p>This example is also designed to help you set up OGGM for the first time on your own computer. If you prefer not to install OGGM locally, you can run this notebook online instead via <a class="reference external" href="https://docs.oggm.org/en/stable/cloud.html">MyBinder or OGGM-Hub</a>.</p>
 <p><strong>Tags:</strong> beginner, glacier-directory, workflow</p>
 <section id="first-time-set-up">
 <h2>First time set-up<a class="headerlink" href="#first-time-set-up" title="Link to this heading">#</a></h2>
@@ -562,9 +558,9 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:35:31: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-03-05 20:35:31: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-03-05 20:35:31: oggm.cfg: Multiprocessing: using all available processors (N=4)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:15:53: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-11 16:15:53: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-11 16:15:53: oggm.cfg: Multiprocessing: using all available processors (N=4)
 </pre></div>
 </div>
 </div>
@@ -591,7 +587,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:35:31: oggm.cfg: Multiprocessing switched ON after user settings.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:15:54: oggm.cfg: Multiprocessing switched ON after user settings.
 </pre></div>
 </div>
 </div>
@@ -634,7 +630,7 @@ document.write(`
 <h3>Define the glaciers for the run<a class="headerlink" href="#define-the-glaciers-for-the-run" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.01328&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.01450&#39;</span><span class="p">]</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.01328&#39;</span><span class="p">,</span> <span class="s1">&#39;RGI60-11.01450&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -646,7 +642,7 @@ document.write(`
 </ul>
 <p>Here is a list of other glaciers you might want to try out:</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.00897</span></code>: <a class="reference external" href="http://acinn.uibk.ac.at/research/ice-and-climate/projects/hintereisferner">Hintereisferner</a> in the Austrian Alps.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.00897</span></code>: <a class="reference external" href="https://www.uibk.ac.at/en/acinn/research/ice-and-climate/projects/hintereisferner/">Hintereisferner</a> in the Austrian Alps.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">RGI60-18.02342</span></code>: <a class="reference external" href="https://en.wikipedia.org/wiki/Tasman_Glacier">Tasman Glacier</a> in New Zealand</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">RGI60-11.00787</span></code>: <a class="reference external" href="https://de.wikipedia.org/wiki/Kesselwandferner">Kesselwandferner</a> in the Austrian Alps</p></li>
 <li><p>… or any other glacier identifier! You can find other glacier identifiers by exploring the <a class="reference external" href="https://www.glims.org/maps/glims">GLIMS viewer</a>. See the <a class="reference internal" href="../tutorials/working_with_rgi.html"><span class="std std-doc">working with the RGI</span></a> tutorial for an introduction on RGI IDs and the GLIMS browser.</p></li>
@@ -657,7 +653,7 @@ document.write(`
 <h3>Glacier directories<a class="headerlink" href="#glacier-directories" title="Link to this heading">#</a></h3>
 <p>The OGGM workflow is organized as a list of <strong>tasks</strong> that have to be applied to a list of glaciers. The vast majority of tasks are called <strong>entity tasks</strong>: they are standalone operations to be realized on one single glacier entity. These tasks are executed sequentially (one after another): they often need input generated by the previous task(s): for example, the climate calibration needs the glacier flowlines, which can be only computed after the topography data has been processed, and so on.</p>
 <p>To handle this situation, OGGM uses a workflow based on data persistence on disk: instead of passing data as python variables from one task to another, each task will read the data from disk and then write the computation results back to the disk, making these new data available for the next task in the queue. These glacier specific data are located in <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.GlacierDirectory.html#oggm.GlacierDirectory">glacier directories</a>.</p>
-<p>One main advantage of this workflow is that OGGM can prepare data and make it available to everyone! Here is an example of an url where such data can be found:</p>
+<p>One main advantage of this workflow is that OGGM can prepare data and make it available to everyone! Here is an example of a url where such data can be found:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">oggm</span><span class="w"> </span><span class="kn">import</span> <span class="n">workflow</span>
@@ -667,7 +663,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup&#39;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2025.6/elev_bands/W5E5/per_glacier_spinup/&#39;
 </pre></div>
 </div>
 </div>
@@ -678,22 +674,21 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span>
     <span class="n">rgi_ids</span><span class="p">,</span>  <span class="c1"># which glaciers?</span>
     <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">DEFAULT_BASE_URL</span><span class="p">,</span>  <span class="c1"># where to fetch the data?</span>
-    <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># what kind of data? </span>
+    <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># what kind of data?</span>
     <span class="n">prepro_border</span><span class="o">=</span><span class="mi">80</span>  <span class="c1"># how big of a map?</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:35:32: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
-2026-03-05 20:35:32: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
-2026-03-05 20:35:32: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.01.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/L3-L5_files/2023.3/elev_bands/W5E5_spinup/RGI62/b_080/L4/RGI60-11/RGI60-11.01.tar...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:15:54: oggm.workflow: init_glacier_directories from prepro level 4 on 2 glaciers.
+2026-04-11 16:15:54: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 2 glaciers
 </pre></div>
 </div>
 </div>
 </div>
 <ul class="simple">
-<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">from_prepro_level</span></code> indicates that we will start from <a class="reference external" href="https://docs.oggm.org/en/stable/shop.html#pre-processed-directories">pre-processed directories</a>, i.e. data that are already prepared by the OGGM team. In many cases you will want to start from pre-processed directories, in most cases from level 3 or 5. For level 3 and above the model has already been calibrated, so you no longer need to do that yourself and can start rigth away with your simulation. Here we start from level 4 and add some data to the processing in order to demonstrate the OGGM workflow.</p></li>
+<li><p>the keyword <code class="docutils literal notranslate"><span class="pre">from_prepro_level</span></code> indicates that we will start from <a class="reference external" href="https://docs.oggm.org/en/stable/shop.html#pre-processed-directories">pre-processed directories</a>, i.e. data that are already prepared by the OGGM team. In many cases you will want to start from pre-processed directories, in most cases from level 3 or 5. For level 3 and above the model has already been calibrated, so you no longer need to do that yourself and can start right away with your simulation. Here we start from level 4 and add some data to the processing in order to demonstrate the OGGM workflow.</p></li>
 <li><p>the <code class="docutils literal notranslate"><span class="pre">prepro_border</span></code> keyword indicates the number of grid points which we’d like to add to each side of the glacier for the local map: the larger the glacier will grow, the larger the border parameter should be. The available pre-processed border values are: <strong>10, 80, 160, 240</strong> (depending on the model set-ups there might be more or less options). These are the fixed map sizes we prepared for you - any other map size will require a full processing (see the <a class="reference internal" href="../tutorials/dem_sources.html"><span class="std std-doc">further DEM sources example</span></a> for a tutorial).</p></li>
 </ul>
 <p>The <a class="reference external" href="https://docs.oggm.org/en/stable/generated/oggm.workflow.init_glacier_directories.html#oggm.workflow.init_glacier_directories">init_glacier_directories</a> task will allways be the very first task to call for all your OGGM experiments. Let’s see what it gives us back:</p>
@@ -767,7 +762,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/2bb761fd48301ef0109f9669e60103d41a1568f1b365bc18e80cc21bf3e5be97.png" src="../../_images/2bb761fd48301ef0109f9669e60103d41a1568f1b365bc18e80cc21bf3e5be97.png" />
+<img alt="../../_images/2f7225d633cc06c00c9a7706a88f03cb18f5e6815a759b13c49c5623d38f0807.png" src="../../_images/2f7225d633cc06c00c9a7706a88f03cb18f5e6815a759b13c49c5623d38f0807.png" />
 </div>
 </div>
 <p>Another advantage of glacier directories is their persistence on disk: once created, <strong>they can be recovered from the same location</strong> by using <code class="docutils literal notranslate"><span class="pre">init_glacier_directories</span></code> again, but without keyword arguments:</p>
@@ -779,7 +774,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:35:46: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:15:55: oggm.workflow: Execute entity tasks [GlacierDirectory] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -788,7 +783,7 @@ document.write(`
 </section>
 <section id="accessing-data-in-the-preprocessed-directories">
 <h3>Accessing data in the preprocessed directories<a class="headerlink" href="#accessing-data-in-the-preprocessed-directories" title="Link to this heading">#</a></h3>
-<p>Glacier directories are the central object for model users and developpers to access data for this glacier. Let’s say for example that you would like to retrieve the climate data that we have prepared for you. You can ask the glacier directory to tell you where this data is:</p>
+<p>Glacier directories are the central object for model users and developers to access data for this glacier. Let’s say for example that you would like to retrieve the climate data that we have prepared for you. You can ask the glacier directory to tell you where this data is:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">)</span>
@@ -810,14 +805,14 @@ document.write(`
 <span class="k">with</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="s1">&#39;climate_historical&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
     <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
 <span class="c1"># Plot the data</span>
-<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Annual temperature at </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">ref_hgt</span><span class="p">)</span><span class="si">}</span><span class="s1">m a.s.l.&#39;</span><span class="p">);</span>
-<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;30yr average&#39;</span><span class="p">);</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Annual temperature at </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">ref_hgt</span><span class="p">)</span><span class="si">}</span><span class="s1">m a.s.l.&#39;</span><span class="p">)</span>
+<span class="n">ds</span><span class="o">.</span><span class="n">temp</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s1">&#39;YS&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="mi">31</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_periods</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;30yr average&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d604a325964a5f4319bf15b9921b797584e9de7a6005763f7c3c1b71f8afd129.png" src="../../_images/d604a325964a5f4319bf15b9921b797584e9de7a6005763f7c3c1b71f8afd129.png" />
+<img alt="../../_images/f9232a45b56b48f19e4d65c89f3230f715528d2a43845cb563480839783b3e7e.png" src="../../_images/f9232a45b56b48f19e4d65c89f3230f715528d2a43845cb563480839783b3e7e.png" />
 </div>
 </div>
 <p>As a result of the processing workflow the glacier directories can store many more files. If you are interested, you can have a look at the list:</p>
@@ -829,7 +824,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;elevation_band_flowline.csv&#39;, &#39;glacier_grid.json&#39;, &#39;diagnostics.json&#39;, &#39;model_geometry_spinup_historical.nc&#39;, &#39;model_diagnostics_historical.nc&#39;, &#39;inversion_flowlines.pkl&#39;, &#39;dem_source.txt&#39;, &#39;inversion_output.pkl&#39;, &#39;mb_calib.json&#39;, &#39;intersects.tar.gz&#39;, &#39;model_flowlines_dyn_melt_f_calib.pkl&#39;, &#39;gridded_data.nc&#39;, &#39;inversion_input.pkl&#39;, &#39;outlines.tar.gz&#39;, &#39;dem.tif&#39;, &#39;climate_historical.nc&#39;, &#39;log.txt&#39;, &#39;fl_diagnostics_historical.nc&#39;, &#39;fl_diagnostics_spinup_historical.nc&#39;, &#39;model_geometry_historical.nc&#39;, &#39;model_diagnostics_spinup_historical.nc&#39;, &#39;model_flowlines.pkl&#39;, &#39;downstream_line.pkl&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;diagnostics.json&#39;, &#39;dem.tif&#39;, &#39;fl_diagnostics_historical.nc&#39;, &#39;inversion_output.pkl&#39;, &#39;model_flowlines_dyn_melt_f_calib.pkl&#39;, &#39;model_diagnostics_spinup_historical.nc&#39;, &#39;intersects.tar.gz&#39;, &#39;model_flowlines.pkl&#39;, &#39;log.txt&#39;, &#39;elevation_band_flowline.csv&#39;, &#39;glacier_grid.json&#39;, &#39;model_geometry_historical.nc&#39;, &#39;model_geometry_spinup_historical.nc&#39;, &#39;model_diagnostics_historical.nc&#39;, &#39;inversion_flowlines.pkl&#39;, &#39;climate_historical.nc&#39;, &#39;inversion_input.pkl&#39;, &#39;fl_diagnostics_spinup_historical.nc&#39;, &#39;dem_source.txt&#39;, &#39;downstream_line.pkl&#39;, &#39;mb_calib.json&#39;, &#39;outlines.tar.gz&#39;, &#39;gridded_data.nc&#39;]
 </pre></div>
 </div>
 </div>
@@ -838,9 +833,9 @@ document.write(`
 </section>
 <section id="oggm-tasks">
 <h3>OGGM tasks<a class="headerlink" href="#oggm-tasks" title="Link to this heading">#</a></h3>
-<p>There are two different types of “<a class="reference external" href="http://docs.oggm.org/en/stable/api.html#entity-tasks">tasks</a>” in OGGM:</p>
+<p>There are two different types of “<a class="reference external" href="https://docs.oggm.org/en/stable/api.html#entity-tasks">tasks</a>” in OGGM:</p>
 <p><strong>Entity Tasks</strong>
-: Standalone operations to be realized on one single glacier entity, independently from the others. The majority of OGGM tasks are entity tasks. They are parallelisable: the same task can run on several glaciers in parallel.</p>
+: Standalone operations to be realized on one single glacier entity, independently of the others. The majority of OGGM tasks are entity tasks. They are parallelisable: the same task can run on several glaciers in parallel.</p>
 <p><strong>Global Tasks</strong>
 : Tasks which require to work on several glacier entities at the same time. Model parameter calibration or the compilation of several glaciers’ output are examples of global tasks.</p>
 <p>OGGM implements a simple mechanism to run a specific task on a list of <code class="docutils literal notranslate"><span class="pre">GlacierDirectory</span></code> objects. Here, for the sake of the demonstration of how tasks work, we are going to compute something new from the directory:</p>
@@ -854,7 +849,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:35:47: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:15:56: oggm.workflow: Execute entity tasks [compute_inversion_velocities] on 2 glaciers
 </pre></div>
 </div>
 </div>
@@ -869,13 +864,13 @@ document.write(`
 <span class="n">fl</span> <span class="o">=</span> <span class="n">inversion_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="c1"># the last grid points often have irrealistic velocities</span>
 <span class="c1"># because of the equilibrium assumption</span>
-<span class="n">vel</span> <span class="o">=</span> <span class="n">fl</span><span class="p">[</span><span class="s1">&#39;u_surface&#39;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  
+<span class="n">vel</span> <span class="o">=</span> <span class="n">fl</span><span class="p">[</span><span class="s1">&#39;u_surface&#39;</span><span class="p">][:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vel</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Velocity along flowline (m yr-1)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/d7ff29c265496cebb991e7abf71856eb328a05e0f62220103f0c3278a5656e46.png" src="../../_images/d7ff29c265496cebb991e7abf71856eb328a05e0f62220103f0c3278a5656e46.png" />
+<img alt="../../_images/96a8dd24fd0c28763116ab02ac9f04feb326a7c0b98425c8c4668b3161905ee6.png" src="../../_images/96a8dd24fd0c28763116ab02ac9f04feb326a7c0b98425c8c4668b3161905ee6.png" />
 </div>
 </div>
 </section>
@@ -895,6 +890,7 @@ document.write(`
 <h2>What’s next?<a class="headerlink" href="#what-s-next" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>visit the next tutorial: 10 minutes to… <a class="reference internal" href="run_with_gcm.html"><span class="std std-doc">a glacier change projection with GCM data</span></a></p></li>
+<li><p>do you want to understand how the preprocessed directories are built? Check out <a class="reference internal" href="../tutorials/full_prepro_workflow.html"><span class="std std-doc">this step-by-step guide</span></a></p></li>
 <li><p>back to the <a class="reference internal" href="../welcome.html"><span class="std std-doc">table of contents</span></a></p></li>
 <li><p>return to the <a class="reference external" href="https://docs.oggm.org">OGGM documentation</a></p></li>
 </ul>
@@ -956,14 +952,16 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-time-set-up">First time set-up</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-data-folders">Input data folders</a></li>
@@ -1006,7 +1004,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Mar 05, 2026.
+  Last updated on Apr 13, 2026.
   <br/>
 </p>
   </div>
@@ -1017,7 +1015,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2025.
+&copy; Copyright 2014-2026 OGGM Contributors. <a href="https://community.oggm.org/legal.html" target="_blank" rel="noopener noreferrer">Legal & Privacy</a>
 </p>
 
 </div>
@@ -1032,8 +1030,8 @@ These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

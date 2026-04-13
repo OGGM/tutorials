@@ -16,20 +16,22 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
@@ -37,21 +39,22 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -66,7 +69,8 @@
     <link rel="prev" title="Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0" href="rgitopo_rgi6.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Mar 05, 2026"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Apr 13, 2026"/>
   </head>
   
   
@@ -82,19 +86,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -102,7 +95,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -110,8 +102,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -127,7 +119,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -157,21 +150,17 @@
     
     
     <img src="../../_static/logo.png" class="logo__image only-light" alt="OGGM tutorials - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="OGGM tutorials - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="OGGM tutorials - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -186,12 +175,13 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/10minutes.html">10 minutes tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../10minutes/preprocessed_directories.html">10 minutes to… a preprocessed directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10minutes/run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for machine learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM-shop as a data provider for your worksflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/workflow.html">OGGM workflow</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="working_with_rgi.html">Working with the RGI and prepare glaciers for a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rgi7_directories.html">RGI version 7 in OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deal_with_errors.html">Dealing with errors after a run</a></li>
 <li class="toctree-l2"><a class="reference internal" href="elevation_bands_vs_centerlines.html">Differences between the “elevation band” and “centerline” flowlines</a></li>
@@ -200,7 +190,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/massbalance.html">Mass balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="massbalance_calibration.html">A look into the mass balance calibration in OGGM v1.6</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="massbalance_global_params.html">Global distribution of the mass-balance model parameters</a></li>
@@ -209,6 +199,12 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/hydro.html">Hydrological output</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runoff_sensitivity.html">Runoff Sensitivity  to Mass Balance Parameters</a></li>
+
+
+
+
+
 <li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources.html">Glaciers as water resources (OGGM-Edu part 1 - idealized)</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources_projections.html">Glaciers as water resources (OGGM-Edu part 2 - projections)</a></li>
 </ul>
@@ -232,14 +228,17 @@
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_your_own_inventory.html">Using your own glacier inventory with OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_oggm_with_avalanches.html">Avalanches in OGGM</a></li>
+
 <li class="toctree-l2"><a class="reference internal" href="dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">RGI-TOPO for RGI 7.0</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/visualisation.html">Visualisation and post-processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="area_length_filter.html">Filter the glacier length and area time series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distribute_flowline.html">Display glacier area and thickness changes on a grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
@@ -250,7 +249,6 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 </details></li>
 </ul>
@@ -261,9 +259,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -307,7 +310,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/stable?urlpath=lab/tree/./notebooks/tutorials/rgitopo_rgi7.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/tutorials/rgitopo_rgi7.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -325,7 +328,7 @@
       
       
       
-      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/tutorials/rgitopo_rgi7.ipynb&branch=stable" target="_blank"
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/tutorials/rgitopo_rgi7.ipynb&branch=master" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on JupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -373,7 +376,7 @@
       
       
       
-      <li><a href="https://github.com/OGGM/tutorials/edit/stable/./notebooks/tutorials/rgitopo_rgi7.ipynb" target="_blank"
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/tutorials/rgitopo_rgi7.ipynb" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -459,7 +462,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -473,25 +476,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -546,7 +541,7 @@ document.write(`
 <p>This notebook can be run as a script with parameters using <a class="reference external" href="https://github.com/nteract/papermill">papermill</a>, but it is not necessary. The following cell contains the parameters you can choose from:</p>
 <div class="cell tag_parameters docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The RGI Id of the glaciers you want to look for</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The RGI-id of the glaciers you want to look for</span>
 <span class="c1"># Use the original shapefiles or the GLIMS viewer to check for the ID: https://www.glims.org/maps/glims</span>
 <span class="n">rgi_id</span> <span class="o">=</span> <span class="s1">&#39;RGI2000-v7.0-G-01-06486&#39;</span>  <span class="c1"># Denali</span>
 
@@ -620,10 +615,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 21:04:19: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-03-05 21:04:19: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-03-05 21:04:19: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2026-03-05 21:04:19: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 17:38:08: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-11 17:38:08: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-11 17:38:08: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2026-04-11 17:38:08: oggm.cfg: PARAMS[&#39;use_intersects&#39;] changed from `True` to `False`.
 </pre></div>
 </div>
 </div>
@@ -635,16 +630,15 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># URL of the preprocessed GDirs</span>
-<span class="n">gdir_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/rgitopo/2023.1/&#39;</span>
+<span class="n">gdir_url</span> <span class="o">=</span> <span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/rgitopo/2026.1/all_dems/&#39;</span>
 <span class="c1"># We use OGGM to download the data</span>
-<span class="n">gdir</span> <span class="o">=</span> <span class="n">init_glacier_directories</span><span class="p">([</span><span class="n">rgi_id</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="n">prepro_rgi_version</span><span class="o">=</span><span class="s1">&#39;70&#39;</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">gdir_url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">gdir</span> <span class="o">=</span> <span class="n">init_glacier_directories</span><span class="p">([</span><span class="n">rgi_id</span><span class="p">],</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">prepro_border</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>  <span class="n">prepro_rgi_version</span><span class="o">=</span><span class="s1">&#39;70G&#39;</span><span class="p">,</span> <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">gdir_url</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 21:04:19: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
-2026-03-05 21:04:19: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
-2026-03-05 21:04:19: oggm.utils: Downloading https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/rgitopo/2023.1/RGI70/b_010/L1/RGI2000-v7.0-G-01/RGI2000-v7.0-G-01-06.tar to /github/home/OGGM/download_cache/cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/rgitopo/2023.1/RGI70/b_010/L1/RGI2000-v7.0-G-01/RGI2000-v7.0-G-01-06.tar...
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 17:38:08: oggm.workflow: init_glacier_directories from prepro level 1 on 1 glaciers.
+2026-04-11 17:38:08: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 1 glaciers
 </pre></div>
 </div>
 </div>
@@ -692,7 +686,7 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>RGI ID: RGI2000-v7.0-G-01-06486
-Available DEM sources: [&#39;COPDEM90&#39;, &#39;ARCTICDEM&#39;, &#39;TANDEM&#39;, &#39;COPDEM30&#39;, &#39;DEM3&#39;, &#39;ASTER&#39;, &#39;MAPZEN&#39;, &#39;ALASKA&#39;, &#39;AW3D30&#39;]
+Available DEM sources: [&#39;ARCTICDEM&#39;, &#39;AW3D30&#39;, &#39;TANDEM&#39;, &#39;ASTER&#39;, &#39;MAPZEN&#39;, &#39;COPDEM90&#39;, &#39;COPDEM30&#39;, &#39;ALASKA&#39;, &#39;DEM3&#39;]
 Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000-v7.0-G-01-06486
 </pre></div>
 </div>
@@ -707,7 +701,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     <span class="k">with</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">demfile</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.</span>
         <span class="n">ods</span><span class="p">[</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-    
+
     <span class="n">sy</span><span class="p">,</span> <span class="n">sx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">ods</span><span class="p">[</span><span class="n">src</span><span class="p">],</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">gdir</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">dx</span><span class="p">)</span>
     <span class="n">ods</span><span class="p">[</span><span class="n">src</span> <span class="o">+</span> <span class="s1">&#39;_slope&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">),</span>  <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sy</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sx</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 
@@ -760,7 +754,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
         <span class="k">continue</span>
     <span class="n">cax</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">cbar_axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">smap</span><span class="o">.</span><span class="n">colorbarbase</span><span class="p">(</span><span class="n">cax</span><span class="p">)</span>
-    
+
 <span class="c1"># take care of uneven grids</span>
 <span class="k">if</span> <span class="n">ax</span> <span class="o">!=</span> <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">get_text</span><span class="p">():</span>
     <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
@@ -774,7 +768,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/2859f2b5a1495d2ecda607949ee410511340306d12a06a9b8586995528490cae.png" src="../../_images/2859f2b5a1495d2ecda607949ee410511340306d12a06a9b8586995528490cae.png" />
+<img alt="../../_images/4d9745b451d2c0437295fb8fdbe6b95918ef2e1c3bbb2ced9004a2db4982915b.png" src="../../_images/4d9745b451d2c0437295fb8fdbe6b95918ef2e1c3bbb2ced9004a2db4982915b.png" />
 </div>
 </div>
 </section>
@@ -797,7 +791,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     <span class="n">ax</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">smap</span><span class="o">.</span><span class="n">set_topography</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">smap</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">addcbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
-    
+
 <span class="c1"># take care of uneven grids</span>
 <span class="k">if</span> <span class="n">ax</span> <span class="o">!=</span> <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">get_text</span><span class="p">():</span>
     <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
@@ -811,7 +805,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/589c48d7ed85923106f73f6f9cca12938511d32b3050150b9d178c5274bb89e2.png" src="../../_images/589c48d7ed85923106f73f6f9cca12938511d32b3050150b9d178c5274bb89e2.png" />
+<img alt="../../_images/e3c7a8646f731d8db6922d56ab26a8676bb7987b2511ee53d9aca41e729d9f3d.png" src="../../_images/e3c7a8646f731d8db6922d56ab26a8676bb7987b2511ee53d9aca41e729d9f3d.png" />
 </div>
 </div>
 </section>
@@ -828,7 +822,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
                 <span class="n">cbar_pad</span><span class="o">=</span><span class="mf">0.1</span>
                 <span class="p">)</span>
 
-<span class="n">smap</span><span class="o">.</span><span class="n">set_topography</span><span class="p">();</span>
+<span class="n">smap</span><span class="o">.</span><span class="n">set_topography</span><span class="p">()</span>
 <span class="n">smap</span><span class="o">.</span><span class="n">set_plot_params</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sources</span><span class="p">):</span>
@@ -838,7 +832,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     <span class="n">smap</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">addcbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">s</span> <span class="o">+</span> <span class="s1">&#39; (slope)&#39;</span><span class="p">)</span>
     <span class="n">cax</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">cbar_axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
     <span class="n">smap</span><span class="o">.</span><span class="n">colorbarbase</span><span class="p">(</span><span class="n">cax</span><span class="p">)</span>
-    
+
 <span class="c1"># take care of uneven grids</span>
 <span class="k">if</span> <span class="n">ax</span> <span class="o">!=</span> <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">get_text</span><span class="p">():</span>
     <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
@@ -847,12 +841,17 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
     <span class="n">grid</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">cax</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="s1">&#39;dem_slope.png&#39;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="s1">&#39;dem_slope.png&#39;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">):</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/898b059e9ca6fede7aac2ba9a0a91241b7289db1fb26d3179d2a535818c35095.png" src="../../_images/898b059e9ca6fede7aac2ba9a0a91241b7289db1fb26d3179d2a535818c35095.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">29</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plot_dir</span><span class="p">,</span> <span class="s1">&#39;dem_slope.png&#39;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">):</span>
+                                                                                      <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
 </div>
 </div>
 </section>
@@ -898,125 +897,125 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM90</th>
       <th>ARCTICDEM</th>
+      <th>AW3D30</th>
       <th>TANDEM</th>
-      <th>COPDEM30</th>
-      <th>DEM3</th>
       <th>ASTER</th>
       <th>MAPZEN</th>
+      <th>COPDEM90</th>
+      <th>COPDEM30</th>
       <th>ALASKA</th>
-      <th>AW3D30</th>
+      <th>DEM3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>count</th>
-      <td>1671.000000</td>
       <td>767.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
       <td>0.0</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>5277.694824</td>
       <td>5529.413086</td>
+      <td>NaN</td>
       <td>5153.806152</td>
-      <td>5277.514160</td>
-      <td>5328.549372</td>
       <td>5295.587672</td>
       <td>5319.226212</td>
+      <td>5277.694824</td>
+      <td>5277.514160</td>
       <td>5316.735352</td>
-      <td>NaN</td>
+      <td>5328.549372</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>370.293671</td>
       <td>393.222046</td>
+      <td>NaN</td>
       <td>388.357605</td>
-      <td>370.142792</td>
-      <td>351.724101</td>
       <td>351.229245</td>
       <td>350.840381</td>
+      <td>370.293671</td>
+      <td>370.142792</td>
       <td>351.459656</td>
-      <td>NaN</td>
+      <td>351.724101</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>4584.852539</td>
       <td>4871.422852</td>
+      <td>NaN</td>
       <td>4497.636719</td>
-      <td>4585.657715</td>
-      <td>4644.000000</td>
       <td>4565.000000</td>
       <td>4622.000000</td>
+      <td>4584.852539</td>
+      <td>4585.657715</td>
       <td>4610.906738</td>
-      <td>NaN</td>
+      <td>4644.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>4980.320312</td>
       <td>5111.490234</td>
+      <td>NaN</td>
       <td>4837.172607</td>
-      <td>4982.135010</td>
-      <td>5058.000000</td>
       <td>5026.500000</td>
       <td>5050.000000</td>
+      <td>4980.320312</td>
+      <td>4982.135010</td>
       <td>5047.515381</td>
-      <td>NaN</td>
+      <td>5058.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>5231.637207</td>
       <td>5613.539551</td>
+      <td>NaN</td>
       <td>5044.266113</td>
-      <td>5231.779785</td>
-      <td>5259.000000</td>
       <td>5250.000000</td>
       <td>5258.000000</td>
+      <td>5231.637207</td>
+      <td>5231.779785</td>
       <td>5255.337402</td>
-      <td>NaN</td>
+      <td>5259.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>5564.726562</td>
       <td>5869.918945</td>
+      <td>NaN</td>
       <td>5441.289551</td>
-      <td>5562.813232</td>
-      <td>5590.000000</td>
       <td>5543.000000</td>
       <td>5578.500000</td>
+      <td>5564.726562</td>
+      <td>5562.813232</td>
       <td>5578.190430</td>
-      <td>NaN</td>
+      <td>5590.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>6073.276855</td>
       <td>6126.963379</td>
+      <td>NaN</td>
       <td>5975.219727</td>
-      <td>6073.898438</td>
-      <td>6120.000000</td>
       <td>6113.000000</td>
       <td>6111.000000</td>
+      <td>6073.276855</td>
+      <td>6073.898438</td>
       <td>6116.865234</td>
-      <td>NaN</td>
+      <td>6120.000000</td>
     </tr>
     <tr>
       <th>range</th>
-      <td>1488.424316</td>
       <td>1255.540527</td>
+      <td>NaN</td>
       <td>1477.583008</td>
-      <td>1488.240723</td>
-      <td>1476.000000</td>
       <td>1548.000000</td>
       <td>1489.000000</td>
+      <td>1488.424316</td>
+      <td>1488.240723</td>
       <td>1505.958496</td>
-      <td>NaN</td>
+      <td>1476.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1111,7 +1110,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
     <span class="n">smap</span><span class="o">.</span><span class="n">visualize</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">addcbar</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">done</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">))</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">s1</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">s2</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    
+
 <span class="n">cax</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">cbar_axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">smap</span><span class="o">.</span><span class="n">colorbarbase</span><span class="p">(</span><span class="n">cax</span><span class="p">);</span>
 
@@ -1120,7 +1119,7 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/0eb114d63b7d8c18320296d6890bc6eeb810bdd4e391dfb53e7a4968a03ee7f4.png" src="../../_images/0eb114d63b7d8c18320296d6890bc6eeb810bdd4e391dfb53e7a4968a03ee7f4.png" />
+<img alt="../../_images/ca294d247fe982ff7c51b8409f4175be0bf2420581d9dcb584b5c7f7b44087e7.png" src="../../_images/ca294d247fe982ff7c51b8409f4175be0bf2420581d9dcb584b5c7f7b44087e7.png" />
 </div>
 </div>
 </section>
@@ -1131,10 +1130,10 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;ticks&quot;</span><span class="p">)</span>
 
-<span class="n">l1</span><span class="p">,</span> <span class="n">l2</span> <span class="o">=</span> <span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">nicenumber</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">binsize</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> 
+<span class="n">l1</span><span class="p">,</span> <span class="n">l2</span> <span class="o">=</span> <span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">nicenumber</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">binsize</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
           <span class="n">utils</span><span class="o">.</span><span class="n">nicenumber</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">binsize</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_unity</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_unity</span><span class="p">():</span>
     <span class="n">points</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
@@ -1151,7 +1150,63 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/58d24a04fd91c66ea49c34e806972b1a01712489d9f853e4a25eec6859da13ae.png" src="../../_images/58d24a04fd91c66ea49c34e806972b1a01712489d9f853e4a25eec6859da13ae.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">13</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span>                    <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> 
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">g</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(),</span> <span class="n">plot_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;C0&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">));</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="n">g</span><span class="o">.</span><span class="n">map_offdiag</span><span class="p">(</span><span class="n">plot_unity</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="k">for</span> <span class="n">asx</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">axes</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">asx</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">))</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/seaborn/axisgrid.py:1425,</span> in <span class="ni">PairGrid.map_offdiag</span><span class="nt">(self, func, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1414</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Plot with a bivariate function on the off-diagonal subplots.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1415</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1416</span><span class="sd"> Parameters</span>
+<span class="sd">   (...)   1422 </span>
+<span class="g g-Whitespace">   </span><span class="mi">1423</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1424</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">square_grid</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1425</span>     <span class="bp">self</span><span class="o">.</span><span class="n">map_lower</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1426</span>     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_corner</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1427</span>         <span class="bp">self</span><span class="o">.</span><span class="n">map_upper</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/seaborn/axisgrid.py:1395,</span> in <span class="ni">PairGrid.map_lower</span><span class="nt">(self, func, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1384</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Plot with a bivariate function on the lower diagonal subplots.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1385</span><span class="sd"> </span>
+<span class="g g-Whitespace">   </span><span class="mi">1386</span><span class="sd"> Parameters</span>
+<span class="sd">   (...)   1392 </span>
+<span class="g g-Whitespace">   </span><span class="mi">1393</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1394</span> <span class="n">indices</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tril_indices_from</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="ne">-&gt; </span><span class="mi">1395</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_bivariate</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">indices</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1396</span> <span class="k">return</span> <span class="bp">self</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/seaborn/axisgrid.py:1574,</span> in <span class="ni">PairGrid._map_bivariate</span><span class="nt">(self, func, indices, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1572</span>     <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># i.e. we are in corner mode</span>
+<span class="g g-Whitespace">   </span><span class="mi">1573</span>         <span class="k">continue</span>
+<span class="ne">-&gt; </span><span class="mi">1574</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_plot_bivariate</span><span class="p">(</span><span class="n">x_var</span><span class="p">,</span> <span class="n">y_var</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1575</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_axis_labels</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1577</span> <span class="k">if</span> <span class="s2">&quot;hue&quot;</span> <span class="ow">in</span> <span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/seaborn/axisgrid.py:1583,</span> in <span class="ni">PairGrid._plot_bivariate</span><span class="nt">(self, x_var, y_var, ax, func, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1581</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Draw a bivariate plot on the specified axes.&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">1582</span> <span class="k">if</span> <span class="s2">&quot;hue&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1583</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_plot_bivariate_iter_hue</span><span class="p">(</span><span class="n">x_var</span><span class="p">,</span> <span class="n">y_var</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1584</span>     <span class="k">return</span>
+<span class="g g-Whitespace">   </span><span class="mi">1586</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/seaborn/axisgrid.py:1659,</span> in <span class="ni">PairGrid._plot_bivariate_iter_hue</span><span class="nt">(self, x_var, y_var, ax, func, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1657</span>         <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1658</span>     <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1659</span>         <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kws</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1661</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_legend_data</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+
+<span class="ne">TypeError</span>: plot_unity() got an unexpected keyword argument &#39;color&#39;
+</pre></div>
+</div>
+<img alt="../../_images/f05567bfbb0962b01464bfba84fa70c217ca45de4b0ae08e19b2ff78789709a4.png" src="../../_images/f05567bfbb0962b01464bfba84fa70c217ca45de4b0ae08e19b2ff78789709a4.png" />
 </div>
 </div>
 </section>
@@ -1182,113 +1237,113 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM90</th>
       <th>ARCTICDEM</th>
+      <th>AW3D30</th>
       <th>TANDEM</th>
-      <th>COPDEM30</th>
-      <th>DEM3</th>
       <th>ASTER</th>
       <th>MAPZEN</th>
+      <th>COPDEM90</th>
+      <th>COPDEM30</th>
       <th>ALASKA</th>
-      <th>AW3D30</th>
+      <th>DEM3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>count</th>
-      <td>1671.000000</td>
       <td>767.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
       <td>0.0</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>5277.694824</td>
       <td>5529.413086</td>
+      <td>NaN</td>
       <td>5153.806152</td>
-      <td>5277.514160</td>
-      <td>5328.549372</td>
       <td>5295.587672</td>
       <td>5319.226212</td>
+      <td>5277.694824</td>
+      <td>5277.514160</td>
       <td>5316.735352</td>
-      <td>NaN</td>
+      <td>5328.549372</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>370.293671</td>
       <td>393.222046</td>
+      <td>NaN</td>
       <td>388.357605</td>
-      <td>370.142792</td>
-      <td>351.724101</td>
       <td>351.229245</td>
       <td>350.840381</td>
+      <td>370.293671</td>
+      <td>370.142792</td>
       <td>351.459656</td>
-      <td>NaN</td>
+      <td>351.724101</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>4584.852539</td>
       <td>4871.422852</td>
+      <td>NaN</td>
       <td>4497.636719</td>
-      <td>4585.657715</td>
-      <td>4644.000000</td>
       <td>4565.000000</td>
       <td>4622.000000</td>
+      <td>4584.852539</td>
+      <td>4585.657715</td>
       <td>4610.906738</td>
-      <td>NaN</td>
+      <td>4644.000000</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>4980.320312</td>
       <td>5111.490234</td>
+      <td>NaN</td>
       <td>4837.172607</td>
-      <td>4982.135010</td>
-      <td>5058.000000</td>
       <td>5026.500000</td>
       <td>5050.000000</td>
+      <td>4980.320312</td>
+      <td>4982.135010</td>
       <td>5047.515381</td>
-      <td>NaN</td>
+      <td>5058.000000</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>5231.637207</td>
       <td>5613.539551</td>
+      <td>NaN</td>
       <td>5044.266113</td>
-      <td>5231.779785</td>
-      <td>5259.000000</td>
       <td>5250.000000</td>
       <td>5258.000000</td>
+      <td>5231.637207</td>
+      <td>5231.779785</td>
       <td>5255.337402</td>
-      <td>NaN</td>
+      <td>5259.000000</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>5564.726562</td>
       <td>5869.918945</td>
+      <td>NaN</td>
       <td>5441.289551</td>
-      <td>5562.813232</td>
-      <td>5590.000000</td>
       <td>5543.000000</td>
       <td>5578.500000</td>
+      <td>5564.726562</td>
+      <td>5562.813232</td>
       <td>5578.190430</td>
-      <td>NaN</td>
+      <td>5590.000000</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>6073.276855</td>
       <td>6126.963379</td>
+      <td>NaN</td>
       <td>5975.219727</td>
-      <td>6073.898438</td>
-      <td>6120.000000</td>
       <td>6113.000000</td>
       <td>6111.000000</td>
+      <td>6073.276855</td>
+      <td>6073.898438</td>
       <td>6116.865234</td>
-      <td>NaN</td>
+      <td>6120.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1319,113 +1374,29 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM90</th>
       <th>ARCTICDEM</th>
+      <th>AW3D30</th>
       <th>TANDEM</th>
-      <th>COPDEM30</th>
-      <th>DEM3</th>
       <th>ASTER</th>
       <th>MAPZEN</th>
+      <th>COPDEM90</th>
+      <th>COPDEM30</th>
       <th>ALASKA</th>
-      <th>AW3D30</th>
+      <th>DEM3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>COPDEM90</th>
-      <td>1.000000</td>
-      <td>0.957821</td>
-      <td>0.928387</td>
-      <td>0.999891</td>
-      <td>0.995559</td>
-      <td>0.995702</td>
-      <td>0.996033</td>
-      <td>0.996075</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
       <th>ARCTICDEM</th>
+      <td>1.000000</td>
+      <td>NaN</td>
+      <td>0.858754</td>
+      <td>0.960869</td>
+      <td>0.957611</td>
       <td>0.957821</td>
-      <td>1.000000</td>
-      <td>0.858754</td>
       <td>0.957143</td>
-      <td>0.957046</td>
-      <td>0.960869</td>
-      <td>0.957611</td>
       <td>0.957513</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>TANDEM</th>
-      <td>0.928387</td>
-      <td>0.858754</td>
-      <td>1.000000</td>
-      <td>0.928303</td>
-      <td>0.934220</td>
-      <td>0.923299</td>
-      <td>0.930963</td>
-      <td>0.930687</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>COPDEM30</th>
-      <td>0.999891</td>
-      <td>0.957143</td>
-      <td>0.928303</td>
-      <td>1.000000</td>
-      <td>0.995141</td>
-      <td>0.995283</td>
-      <td>0.995645</td>
-      <td>0.995697</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>DEM3</th>
-      <td>0.995559</td>
       <td>0.957046</td>
-      <td>0.934220</td>
-      <td>0.995141</td>
-      <td>1.000000</td>
-      <td>0.997277</td>
-      <td>0.998911</td>
-      <td>0.998666</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>ASTER</th>
-      <td>0.995702</td>
-      <td>0.960869</td>
-      <td>0.923299</td>
-      <td>0.995283</td>
-      <td>0.997277</td>
-      <td>1.000000</td>
-      <td>0.997390</td>
-      <td>0.997280</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>MAPZEN</th>
-      <td>0.996033</td>
-      <td>0.957611</td>
-      <td>0.930963</td>
-      <td>0.995645</td>
-      <td>0.998911</td>
-      <td>0.997390</td>
-      <td>1.000000</td>
-      <td>0.999929</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>ALASKA</th>
-      <td>0.996075</td>
-      <td>0.957513</td>
-      <td>0.930687</td>
-      <td>0.995697</td>
-      <td>0.998666</td>
-      <td>0.997280</td>
-      <td>0.999929</td>
-      <td>1.000000</td>
-      <td>NaN</td>
     </tr>
     <tr>
       <th>AW3D30</th>
@@ -1438,6 +1409,90 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+    </tr>
+    <tr>
+      <th>TANDEM</th>
+      <td>0.858754</td>
+      <td>NaN</td>
+      <td>1.000000</td>
+      <td>0.923299</td>
+      <td>0.930963</td>
+      <td>0.928387</td>
+      <td>0.928303</td>
+      <td>0.930687</td>
+      <td>0.934220</td>
+    </tr>
+    <tr>
+      <th>ASTER</th>
+      <td>0.960869</td>
+      <td>NaN</td>
+      <td>0.923299</td>
+      <td>1.000000</td>
+      <td>0.997390</td>
+      <td>0.995702</td>
+      <td>0.995283</td>
+      <td>0.997280</td>
+      <td>0.997277</td>
+    </tr>
+    <tr>
+      <th>MAPZEN</th>
+      <td>0.957611</td>
+      <td>NaN</td>
+      <td>0.930963</td>
+      <td>0.997390</td>
+      <td>1.000000</td>
+      <td>0.996033</td>
+      <td>0.995645</td>
+      <td>0.999929</td>
+      <td>0.998911</td>
+    </tr>
+    <tr>
+      <th>COPDEM90</th>
+      <td>0.957821</td>
+      <td>NaN</td>
+      <td>0.928387</td>
+      <td>0.995702</td>
+      <td>0.996033</td>
+      <td>1.000000</td>
+      <td>0.999891</td>
+      <td>0.996075</td>
+      <td>0.995559</td>
+    </tr>
+    <tr>
+      <th>COPDEM30</th>
+      <td>0.957143</td>
+      <td>NaN</td>
+      <td>0.928303</td>
+      <td>0.995283</td>
+      <td>0.995645</td>
+      <td>0.999891</td>
+      <td>1.000000</td>
+      <td>0.995697</td>
+      <td>0.995141</td>
+    </tr>
+    <tr>
+      <th>ALASKA</th>
+      <td>0.957513</td>
+      <td>NaN</td>
+      <td>0.930687</td>
+      <td>0.997280</td>
+      <td>0.999929</td>
+      <td>0.996075</td>
+      <td>0.995697</td>
+      <td>1.000000</td>
+      <td>0.998666</td>
+    </tr>
+    <tr>
+      <th>DEM3</th>
+      <td>0.957046</td>
+      <td>NaN</td>
+      <td>0.934220</td>
+      <td>0.997277</td>
+      <td>0.998911</td>
+      <td>0.995559</td>
+      <td>0.995141</td>
+      <td>0.998666</td>
+      <td>1.000000</td>
     </tr>
   </tbody>
 </table>
@@ -1468,221 +1523,221 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM90-ARCTICDEM</th>
-      <th>COPDEM90-TANDEM</th>
-      <th>COPDEM90-COPDEM30</th>
-      <th>COPDEM90-DEM3</th>
-      <th>COPDEM90-ASTER</th>
-      <th>COPDEM90-MAPZEN</th>
-      <th>COPDEM90-ALASKA</th>
-      <th>COPDEM90-AW3D30</th>
+      <th>ARCTICDEM-AW3D30</th>
       <th>ARCTICDEM-TANDEM</th>
+      <th>ARCTICDEM-ASTER</th>
+      <th>ARCTICDEM-MAPZEN</th>
+      <th>ARCTICDEM-COPDEM90</th>
       <th>ARCTICDEM-COPDEM30</th>
+      <th>ARCTICDEM-ALASKA</th>
+      <th>ARCTICDEM-DEM3</th>
+      <th>AW3D30-TANDEM</th>
+      <th>AW3D30-ASTER</th>
       <th>...</th>
-      <th>DEM3-ASTER</th>
-      <th>DEM3-MAPZEN</th>
-      <th>DEM3-ALASKA</th>
-      <th>DEM3-AW3D30</th>
-      <th>ASTER-MAPZEN</th>
-      <th>ASTER-ALASKA</th>
-      <th>ASTER-AW3D30</th>
+      <th>MAPZEN-COPDEM90</th>
+      <th>MAPZEN-COPDEM30</th>
       <th>MAPZEN-ALASKA</th>
-      <th>MAPZEN-AW3D30</th>
-      <th>ALASKA-AW3D30</th>
+      <th>MAPZEN-DEM3</th>
+      <th>COPDEM90-COPDEM30</th>
+      <th>COPDEM90-ALASKA</th>
+      <th>COPDEM90-DEM3</th>
+      <th>COPDEM30-ALASKA</th>
+      <th>COPDEM30-DEM3</th>
+      <th>ALASKA-DEM3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>count</th>
-      <td>767.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
       <td>0.0</td>
       <td>767.000000</td>
       <td>767.000000</td>
+      <td>767.000000</td>
+      <td>767.000000</td>
+      <td>767.000000</td>
+      <td>767.000000</td>
+      <td>767.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>...</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
-      <td>0.0</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
-      <td>0.0</td>
       <td>1671.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>-110.184074</td>
-      <td>123.888710</td>
-      <td>0.180525</td>
-      <td>-50.854447</td>
-      <td>-17.892747</td>
-      <td>-41.531287</td>
-      <td>-39.040920</td>
       <td>NaN</td>
       <td>251.653717</td>
+      <td>102.185113</td>
+      <td>83.946521</td>
+      <td>110.184074</td>
       <td>110.319916</td>
+      <td>85.975136</td>
+      <td>76.316795</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>32.961700</td>
-      <td>9.323160</td>
-      <td>11.813529</td>
-      <td>NaN</td>
-      <td>-23.638540</td>
-      <td>-21.148171</td>
-      <td>NaN</td>
+      <td>41.531287</td>
+      <td>41.711812</td>
       <td>2.490369</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-9.323160</td>
+      <td>0.180525</td>
+      <td>-39.040920</td>
+      <td>-50.854447</td>
+      <td>-39.221443</td>
+      <td>-51.034972</td>
+      <td>-11.813529</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>113.430321</td>
-      <td>144.647827</td>
-      <td>5.457573</td>
-      <td>38.750864</td>
-      <td>38.488241</td>
-      <td>37.537576</td>
-      <td>37.098961</td>
       <td>NaN</td>
       <td>224.423676</td>
+      <td>108.948818</td>
+      <td>113.273900</td>
+      <td>113.430321</td>
       <td>114.278862</td>
+      <td>113.401772</td>
+      <td>114.381777</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>25.941984</td>
-      <td>16.420294</td>
-      <td>18.159255</td>
-      <td>NaN</td>
-      <td>25.367381</td>
-      <td>25.915689</td>
-      <td>NaN</td>
+      <td>37.537576</td>
+      <td>38.776733</td>
       <td>4.234587</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>16.420294</td>
+      <td>5.457573</td>
+      <td>37.098961</td>
+      <td>38.750864</td>
+      <td>38.322636</td>
+      <td>40.056016</td>
+      <td>18.159255</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>-452.215332</td>
-      <td>-78.665039</td>
-      <td>-17.572266</td>
-      <td>-163.009766</td>
-      <td>-124.032227</td>
-      <td>-135.499023</td>
-      <td>-130.026367</td>
       <td>NaN</td>
       <td>-48.799805</td>
+      <td>-121.276367</td>
+      <td>-146.276367</td>
+      <td>-131.313965</td>
       <td>-136.359863</td>
+      <td>-147.653809</td>
+      <td>-151.276367</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>-52.000000</td>
-      <td>-47.000000</td>
-      <td>-44.825195</td>
-      <td>NaN</td>
-      <td>-130.000000</td>
-      <td>-137.751953</td>
-      <td>NaN</td>
+      <td>-33.757324</td>
+      <td>-38.260254</td>
       <td>-14.705078</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-60.000000</td>
+      <td>-17.572266</td>
+      <td>-130.026367</td>
+      <td>-163.009766</td>
+      <td>-135.432617</td>
+      <td>-173.853027</td>
+      <td>-73.005371</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>-158.221924</td>
-      <td>17.190430</td>
-      <td>-2.751221</td>
-      <td>-74.026611</td>
-      <td>-40.641357</td>
-      <td>-68.542236</td>
-      <td>-65.058350</td>
       <td>NaN</td>
       <td>111.032227</td>
+      <td>28.157715</td>
+      <td>4.010010</td>
+      <td>36.502441</td>
       <td>35.619141</td>
+      <td>5.880127</td>
+      <td>-1.839355</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>19.000000</td>
-      <td>0.000000</td>
-      <td>1.023926</td>
-      <td>NaN</td>
-      <td>-40.000000</td>
-      <td>-36.852539</td>
-      <td>NaN</td>
+      <td>12.118164</td>
+      <td>13.209717</td>
       <td>0.054199</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-20.000000</td>
+      <td>-2.751221</td>
+      <td>-65.058350</td>
+      <td>-74.026611</td>
+      <td>-65.968750</td>
+      <td>-73.800049</td>
+      <td>-23.316650</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>-81.454102</td>
-      <td>95.284180</td>
-      <td>0.013672</td>
-      <td>-39.517090</td>
-      <td>-12.738770</td>
-      <td>-34.726074</td>
-      <td>-33.313477</td>
       <td>NaN</td>
       <td>170.058594</td>
+      <td>71.489746</td>
+      <td>56.379883</td>
+      <td>81.454102</td>
       <td>82.882324</td>
+      <td>58.945312</td>
+      <td>38.955078</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>29.000000</td>
-      <td>10.000000</td>
-      <td>11.001953</td>
-      <td>NaN</td>
-      <td>-22.000000</td>
-      <td>-19.398438</td>
-      <td>NaN</td>
+      <td>34.726074</td>
+      <td>34.193848</td>
       <td>2.204590</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>-10.000000</td>
+      <td>0.013672</td>
+      <td>-33.313477</td>
+      <td>-39.517090</td>
+      <td>-32.329102</td>
+      <td>-39.264160</td>
+      <td>-11.001953</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>-36.502441</td>
-      <td>179.401855</td>
-      <td>3.210938</td>
-      <td>-23.536377</td>
-      <td>7.423828</td>
-      <td>-12.118164</td>
-      <td>-10.340332</td>
       <td>NaN</td>
       <td>358.547607</td>
+      <td>171.116211</td>
+      <td>143.172607</td>
+      <td>158.221924</td>
       <td>158.155029</td>
+      <td>143.909668</td>
+      <td>139.544922</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>48.000000</td>
-      <td>20.000000</td>
-      <td>23.316650</td>
-      <td>NaN</td>
-      <td>-6.000000</td>
-      <td>-1.874023</td>
-      <td>NaN</td>
+      <td>68.542236</td>
+      <td>69.063965</td>
       <td>5.209473</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.000000</td>
+      <td>3.210938</td>
+      <td>-10.340332</td>
+      <td>-23.536377</td>
+      <td>-10.385498</td>
+      <td>-22.958496</td>
+      <td>-1.023926</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>131.313965</td>
-      <td>812.890137</td>
-      <td>18.569824</td>
-      <td>17.004395</td>
-      <td>111.338867</td>
-      <td>33.757324</td>
-      <td>42.941895</td>
       <td>NaN</td>
       <td>1085.924805</td>
+      <td>428.646973</td>
+      <td>396.646973</td>
+      <td>452.215332</td>
       <td>459.774902</td>
+      <td>401.538574</td>
+      <td>399.646973</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>128.000000</td>
-      <td>60.000000</td>
-      <td>73.005371</td>
-      <td>NaN</td>
-      <td>54.000000</td>
-      <td>55.279785</td>
-      <td>NaN</td>
+      <td>135.499023</td>
+      <td>137.803711</td>
       <td>20.434082</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>47.000000</td>
+      <td>18.569824</td>
+      <td>42.941895</td>
+      <td>17.004395</td>
+      <td>46.030762</td>
+      <td>26.395508</td>
+      <td>44.825195</td>
     </tr>
   </tbody>
 </table>
@@ -1714,221 +1769,221 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>COPDEM90-ARCTICDEM</th>
-      <th>COPDEM90-TANDEM</th>
-      <th>COPDEM90-COPDEM30</th>
-      <th>COPDEM90-DEM3</th>
-      <th>COPDEM90-ASTER</th>
-      <th>COPDEM90-MAPZEN</th>
-      <th>COPDEM90-ALASKA</th>
-      <th>COPDEM90-AW3D30</th>
+      <th>ARCTICDEM-AW3D30</th>
       <th>ARCTICDEM-TANDEM</th>
+      <th>ARCTICDEM-ASTER</th>
+      <th>ARCTICDEM-MAPZEN</th>
+      <th>ARCTICDEM-COPDEM90</th>
       <th>ARCTICDEM-COPDEM30</th>
+      <th>ARCTICDEM-ALASKA</th>
+      <th>ARCTICDEM-DEM3</th>
+      <th>AW3D30-TANDEM</th>
+      <th>AW3D30-ASTER</th>
       <th>...</th>
-      <th>DEM3-ASTER</th>
-      <th>DEM3-MAPZEN</th>
-      <th>DEM3-ALASKA</th>
-      <th>DEM3-AW3D30</th>
-      <th>ASTER-MAPZEN</th>
-      <th>ASTER-ALASKA</th>
-      <th>ASTER-AW3D30</th>
+      <th>MAPZEN-COPDEM90</th>
+      <th>MAPZEN-COPDEM30</th>
       <th>MAPZEN-ALASKA</th>
-      <th>MAPZEN-AW3D30</th>
-      <th>ALASKA-AW3D30</th>
+      <th>MAPZEN-DEM3</th>
+      <th>COPDEM90-COPDEM30</th>
+      <th>COPDEM90-ALASKA</th>
+      <th>COPDEM90-DEM3</th>
+      <th>COPDEM30-ALASKA</th>
+      <th>COPDEM30-DEM3</th>
+      <th>ALASKA-DEM3</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>count</th>
-      <td>767.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
-      <td>1671.000000</td>
       <td>0.0</td>
       <td>767.000000</td>
       <td>767.000000</td>
+      <td>767.000000</td>
+      <td>767.000000</td>
+      <td>767.000000</td>
+      <td>767.000000</td>
+      <td>767.000000</td>
+      <td>0.0</td>
+      <td>0.0</td>
       <td>...</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
-      <td>0.0</td>
       <td>1671.000000</td>
       <td>1671.000000</td>
-      <td>0.0</td>
       <td>1671.000000</td>
-      <td>0.0</td>
-      <td>0.0</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
+      <td>1671.000000</td>
     </tr>
     <tr>
       <th>mean</th>
-      <td>117.711647</td>
-      <td>134.962799</td>
-      <td>4.060298</td>
-      <td>51.431971</td>
-      <td>31.869296</td>
-      <td>44.107472</td>
-      <td>42.339176</td>
       <td>NaN</td>
       <td>253.502304</td>
+      <td>112.711556</td>
+      <td>103.447394</td>
+      <td>117.711647</td>
       <td>118.163139</td>
+      <td>105.086456</td>
+      <td>95.275925</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>35.226212</td>
-      <td>15.171155</td>
-      <td>17.200776</td>
-      <td>NaN</td>
-      <td>27.788151</td>
-      <td>26.224301</td>
-      <td>NaN</td>
+      <td>44.107472</td>
+      <td>44.739207</td>
       <td>3.799071</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>15.171155</td>
+      <td>4.060298</td>
+      <td>42.339176</td>
+      <td>51.431971</td>
+      <td>42.954536</td>
+      <td>52.023959</td>
+      <td>17.200776</td>
     </tr>
     <tr>
       <th>std</th>
-      <td>105.587395</td>
-      <td>134.367798</td>
-      <td>3.649907</td>
-      <td>37.980538</td>
-      <td>28.025463</td>
-      <td>34.471963</td>
-      <td>33.283024</td>
       <td>NaN</td>
       <td>222.330780</td>
+      <td>98.004051</td>
+      <td>95.769833</td>
+      <td>105.587395</td>
       <td>106.137970</td>
+      <td>95.936180</td>
+      <td>99.124644</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>22.770194</td>
-      <td>11.238222</td>
-      <td>13.166538</td>
-      <td>NaN</td>
-      <td>20.735849</td>
-      <td>20.760783</td>
-      <td>NaN</td>
+      <td>34.471963</td>
+      <td>35.238571</td>
       <td>3.113807</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>11.238222</td>
+      <td>3.649907</td>
+      <td>33.283024</td>
+      <td>37.980538</td>
+      <td>34.083324</td>
+      <td>38.762088</td>
+      <td>13.166538</td>
     </tr>
     <tr>
       <th>min</th>
-      <td>0.624512</td>
-      <td>0.050781</td>
-      <td>0.000488</td>
-      <td>0.002441</td>
-      <td>0.000000</td>
-      <td>0.069336</td>
-      <td>0.000000</td>
       <td>NaN</td>
       <td>0.293457</td>
+      <td>0.155762</td>
+      <td>0.289062</td>
+      <td>0.624512</td>
       <td>0.650879</td>
+      <td>0.155273</td>
+      <td>0.184570</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
+      <td>0.069336</td>
+      <td>0.117188</td>
+      <td>0.002930</td>
       <td>0.000000</td>
+      <td>0.000488</td>
       <td>0.000000</td>
       <td>0.002441</td>
-      <td>NaN</td>
-      <td>0.000000</td>
-      <td>0.001953</td>
-      <td>NaN</td>
-      <td>0.002930</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>0.007324</td>
+      <td>0.012207</td>
+      <td>0.002441</td>
     </tr>
     <tr>
       <th>25%</th>
-      <td>41.026611</td>
-      <td>38.032227</td>
-      <td>1.359131</td>
-      <td>23.536377</td>
-      <td>10.204102</td>
-      <td>14.985596</td>
-      <td>14.249756</td>
       <td>NaN</td>
       <td>111.032227</td>
+      <td>41.791260</td>
+      <td>33.356445</td>
+      <td>41.026611</td>
       <td>41.187012</td>
+      <td>36.557861</td>
+      <td>21.433594</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>20.000000</td>
-      <td>6.000000</td>
-      <td>6.530273</td>
-      <td>NaN</td>
-      <td>12.000000</td>
-      <td>11.052246</td>
-      <td>NaN</td>
+      <td>14.985596</td>
+      <td>16.361816</td>
       <td>1.328125</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>6.000000</td>
+      <td>1.359131</td>
+      <td>14.249756</td>
+      <td>23.536377</td>
+      <td>14.802979</td>
+      <td>23.231689</td>
+      <td>6.530273</td>
     </tr>
     <tr>
       <th>50%</th>
-      <td>82.970215</td>
-      <td>95.284180</td>
-      <td>2.911621</td>
-      <td>39.517090</td>
-      <td>22.945801</td>
-      <td>34.726074</td>
-      <td>33.496582</td>
       <td>NaN</td>
       <td>170.058594</td>
+      <td>73.289062</td>
+      <td>64.257812</td>
+      <td>82.970215</td>
       <td>84.257812</td>
+      <td>65.577148</td>
+      <td>52.738770</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>29.000000</td>
-      <td>12.000000</td>
-      <td>13.911133</td>
-      <td>NaN</td>
-      <td>24.000000</td>
-      <td>21.200195</td>
-      <td>NaN</td>
+      <td>34.726074</td>
+      <td>34.610840</td>
       <td>3.072266</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>12.000000</td>
+      <td>2.911621</td>
+      <td>33.496582</td>
+      <td>39.517090</td>
+      <td>32.889648</td>
+      <td>39.264160</td>
+      <td>13.911133</td>
     </tr>
     <tr>
       <th>75%</th>
-      <td>158.221924</td>
-      <td>179.401855</td>
-      <td>5.748779</td>
-      <td>74.026611</td>
-      <td>46.310059</td>
-      <td>68.542236</td>
-      <td>65.058350</td>
       <td>NaN</td>
       <td>358.547607</td>
+      <td>171.116211</td>
+      <td>144.176514</td>
+      <td>158.221924</td>
       <td>158.155029</td>
+      <td>144.205811</td>
+      <td>141.093506</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>48.000000</td>
-      <td>22.000000</td>
-      <td>25.122559</td>
-      <td>NaN</td>
-      <td>40.000000</td>
-      <td>37.241211</td>
-      <td>NaN</td>
+      <td>68.542236</td>
+      <td>69.063965</td>
       <td>5.534912</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>22.000000</td>
+      <td>5.748779</td>
+      <td>65.058350</td>
+      <td>74.026611</td>
+      <td>65.968750</td>
+      <td>73.800049</td>
+      <td>25.122559</td>
     </tr>
     <tr>
       <th>max</th>
-      <td>452.215332</td>
-      <td>812.890137</td>
-      <td>18.569824</td>
-      <td>163.009766</td>
-      <td>124.032227</td>
-      <td>135.499023</td>
-      <td>130.026367</td>
       <td>NaN</td>
       <td>1085.924805</td>
+      <td>428.646973</td>
+      <td>396.646973</td>
+      <td>452.215332</td>
       <td>459.774902</td>
+      <td>401.538574</td>
+      <td>399.646973</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>...</td>
-      <td>128.000000</td>
-      <td>60.000000</td>
-      <td>73.005371</td>
-      <td>NaN</td>
-      <td>130.000000</td>
-      <td>137.751953</td>
-      <td>NaN</td>
+      <td>135.499023</td>
+      <td>137.803711</td>
       <td>20.434082</td>
-      <td>NaN</td>
-      <td>NaN</td>
+      <td>60.000000</td>
+      <td>18.569824</td>
+      <td>130.026367</td>
+      <td>163.009766</td>
+      <td>135.432617</td>
+      <td>173.853027</td>
+      <td>73.005371</td>
     </tr>
   </tbody>
 </table>
@@ -2000,14 +2055,16 @@ Plotting directory: /__w/tutorials/tutorials/notebooks/tutorials/outputs/RGI2000
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#input-parameters">Input parameters</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#check-input-and-set-up">Check input and set up</a></li>
@@ -2047,7 +2104,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Mar 05, 2026.
+  Last updated on Apr 13, 2026.
   <br/>
 </p>
   </div>
@@ -2058,7 +2115,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2025.
+&copy; Copyright 2014-2026 OGGM Contributors. <a href="https://community.oggm.org/legal.html" target="_blank" rel="noopener noreferrer">Legal & Privacy</a>
 </p>
 
 </div>
@@ -2073,8 +2130,8 @@ These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

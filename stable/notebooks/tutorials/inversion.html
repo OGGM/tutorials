@@ -16,20 +16,22 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
@@ -37,21 +39,22 @@
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=0f10b2f5" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../../_static/togglebutton.js?v=1ae7504c"></script>
+    <script src="../../_static/togglebutton.js?v=b8b12719"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
@@ -68,7 +71,8 @@
     <link rel="prev" title="Ice thickness" href="../../book/thickness.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Mar 05, 2026"/>
+  <meta name="docsearch:version" content="" />
+    <meta name="docbuild:last-update" content="Apr 13, 2026"/>
   </head>
   
   
@@ -84,19 +88,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -104,7 +97,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -112,8 +104,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -129,7 +121,8 @@
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -159,21 +152,17 @@
     
     
     <img src="../../_static/logo.png" class="logo__image only-light" alt="OGGM tutorials - Home"/>
-    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="OGGM tutorials - Home"/>`);</script>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="OGGM tutorials - Home"/>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -188,12 +177,13 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/10minutes.html">10 minutes tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../10minutes/preprocessed_directories.html">10 minutes to… a preprocessed directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10minutes/run_with_gcm.html">10 minutes to… a glacier change projection with GCM data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM as an accelerator for machine learning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../10minutes/machine_learning.html">10 minutes to… OGGM-shop as a data provider for your worksflows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../10minutes/dynamical_spinup.html">10 minutes to… understand the new dynamical spinup in OGGM v1.6</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/workflow.html">OGGM workflow</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="working_with_rgi.html">Working with the RGI and prepare glaciers for a run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rgi7_directories.html">RGI version 7 in OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="store_and_compress_glacierdirs.html">Storing glacier directories for later use</a></li>
 <li class="toctree-l2"><a class="reference internal" href="deal_with_errors.html">Dealing with errors after a run</a></li>
 <li class="toctree-l2"><a class="reference internal" href="elevation_bands_vs_centerlines.html">Differences between the “elevation band” and “centerline” flowlines</a></li>
@@ -202,7 +192,7 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/massbalance.html">Mass balance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="massbalance_calibration.html">A look into the new mass balance calibration in OGGM v1.6</a></li>
+<li class="toctree-l2"><a class="reference internal" href="massbalance_calibration.html">A look into the mass balance calibration in OGGM v1.6</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plot_mass_balance.html">Plotting the OGGM surface mass-balance, the ELA and AAR</a></li>
 
 <li class="toctree-l2"><a class="reference internal" href="massbalance_global_params.html">Global distribution of the mass-balance model parameters</a></li>
@@ -211,6 +201,12 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/hydro.html">Hydrological output</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="hydrological_output.html">Hydrological mass-balance output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="runoff_sensitivity.html">Runoff Sensitivity  to Mass Balance Parameters</a></li>
+
+
+
+
+
 <li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources.html">Glaciers as water resources (OGGM-Edu part 1 - idealized)</a></li>
 <li class="toctree-l2"><a class="reference external" href="https://oggm.org/oggm-edu-notebooks/oggm-edu/glacier_water_resources_projections.html">Glaciers as water resources (OGGM-Edu part 2 - projections)</a></li>
 </ul>
@@ -234,14 +230,17 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/shop.html">OGGM shop and additional data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="oggm_shop.html">OGGM-Shop and Glacier Directories in OGGM</a></li>
-<li class="toctree-l2"><a class="reference internal" href="use_your_own_inventory.html">Using your our own glacier inventory with OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_your_own_inventory.html">Using your own glacier inventory with OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="ingest_gridded_data_on_flowlines.html">Ingest gridded products such as ice velocity into OGGM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_oggm_with_avalanches.html">Avalanches in OGGM</a></li>
+
 <li class="toctree-l2"><a class="reference internal" href="dem_sources.html">Create local topography maps from different DEM sources with OGGM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rgitopo_rgi6.html">Compare different DEMs for individual glaciers: RGI-TOPO for RGI v6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="rgitopo_rgi7.html">RGI-TOPO for RGI 7.0</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/visualisation.html">Visualisation and post-processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="area_length_filter.html">Filter the glacier length and area time series</a></li>
 <li class="toctree-l2"><a class="reference internal" href="distribute_flowline.html">Display glacier area and thickness changes on a grid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="where_are_the_flowlines.html">OGGM flowlines: where are they?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="centerlines_to_shape.html">Compute smoother centerlines for shapefile output</a></li>
@@ -252,7 +251,6 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../book/construction.html">Tutorials in (re-)construction</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../construction/inversion_with_frontal_ablation.html">Ice thickness inversion with frontal ablation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../construction/area_length_filter.html">Filter the glacier length and area time series</a></li>
 </ul>
 </details></li>
 </ul>
@@ -263,9 +261,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -309,7 +312,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/stable?urlpath=lab/tree/./notebooks/tutorials/inversion.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/OGGM/tutorials/master?urlpath=lab/tree/./notebooks/tutorials/inversion.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -327,7 +330,7 @@
       
       
       
-      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/tutorials/inversion.ipynb&branch=stable" target="_blank"
+      <li><a href="https://hub.oggm.org/hub/user-redirect/git-pull?repo=https%3A//github.com/OGGM/tutorials&urlpath=lab/tree/tutorials/./notebooks/tutorials/inversion.ipynb&branch=master" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on JupyterHub"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -375,7 +378,7 @@
       
       
       
-      <li><a href="https://github.com/OGGM/tutorials/edit/stable/./notebooks/tutorials/inversion.ipynb" target="_blank"
+      <li><a href="https://github.com/OGGM/tutorials/edit/master/./notebooks/tutorials/inversion.ipynb" target="_blank"
    class="btn btn-sm btn-source-edit-button dropdown-item"
    title="Suggest edit"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -461,7 +464,7 @@
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -475,25 +478,17 @@
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
 </div></div>
@@ -554,7 +549,7 @@ OGGM participated with a deformation parameter A that is 1.5 times larger than t
 generally accepted default value.</p>
 <p>There is no reason to think that the ice parameters are the same between
 neighboring glaciers. There is currently no “good” way to calibrate them,
-or at least no generaly accepted one.
+or at least no generally accepted one.
 We won’t discuss the details here, but we provide a script to illustrate
 the sensitivity of the model to this choice.</p>
 <p><strong>New in version 1.4</strong>: we demonstrate how to apply a new global task in OGGM, <code class="docutils literal notranslate"><span class="pre">workflow.calibrate_inversion_from_consensus</span></code> to calibrate the A parameter to match the consensus estimate from <a class="reference external" href="https://www.nature.com/articles/s41561-019-0300-3">Farinotti et al. (2019)</a>.</p>
@@ -581,6 +576,9 @@ the sensitivity of the model to this choice.</p>
 <span class="c1"># This is useful here</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;use_multiprocessing&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
+<span class="c1"># continue if some individual glaciers give errors</span>
+<span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;continue_on_error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
 <span class="c1"># RGI file</span>
 <span class="n">path</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_rgi_region_file</span><span class="p">(</span><span class="n">rgi_region</span><span class="p">)</span>
 <span class="n">rgidf</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -597,7 +595,7 @@ the sensitivity of the model to this choice.</p>
 <span class="c1"># (we specifically need `geometries.pkl` in the gdirs)</span>
 <span class="n">cfg</span><span class="o">.</span><span class="n">PARAMS</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">80</span>
 <span class="n">base_url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://cluster.klima.uni-bremen.de/~oggm/gdirs/oggm_v1.6/&#39;</span>
-            <span class="s1">&#39;L3-L5_files/2023.3/centerlines/W5E5/&#39;</span><span class="p">)</span>
+            <span class="s1">&#39;L3-L5_files/2025.6/centerlines/W5E5/per_glacier_spinup&#39;</span><span class="p">)</span>
 <span class="n">gdirs</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">init_glacier_directories</span><span class="p">(</span><span class="n">rgidf</span><span class="p">,</span> <span class="n">from_prepro_level</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                                          <span class="n">prepro_base_url</span><span class="o">=</span><span class="n">base_url</span><span class="p">)</span>
 
@@ -615,12 +613,13 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:46:12: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
-2026-03-05 20:46:12: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
-2026-03-05 20:46:12: oggm.cfg: Multiprocessing: using all available processors (N=4)
-2026-03-05 20:46:12: oggm.cfg: Multiprocessing switched ON after user settings.
-2026-03-05 20:46:13: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
-2026-03-05 20:46:13: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:41:53: oggm.cfg: Reading default parameters from the OGGM `params.cfg` configuration file.
+2026-04-11 16:41:53: oggm.cfg: Multiprocessing switched OFF according to the parameter file.
+2026-04-11 16:41:53: oggm.cfg: Multiprocessing: using all available processors (N=4)
+2026-04-11 16:41:53: oggm.cfg: Multiprocessing switched ON after user settings.
+2026-04-11 16:41:53: oggm.cfg: PARAMS[&#39;continue_on_error&#39;] changed from `False` to `True`.
+2026-04-11 16:41:53: oggm.workflow: init_glacier_directories from prepro level 3 on 35 glaciers.
+2026-04-11 16:41:53: oggm.workflow: Execute entity tasks [gdir_from_prepro] on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -658,7 +657,7 @@ the sensitivity of the model to this choice.</p>
 </section>
 <section id="read-the-data">
 <h2>Read the data<a class="headerlink" href="#read-the-data" title="Link to this heading">#</a></h2>
-<p>The data are stored as csv files in the working directory. The easiest way to read them is to use <a class="reference external" href="http://pandas.pydata.org/">pandas</a>!</p>
+<p>The data are stored as csv files in the working directory. The easiest way to read them is to use <a class="reference external" href="https://pandas.pydata.org/">pandas</a>!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -761,13 +760,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.017699</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>2</td>
       <td>centerlines</td>
       <td>0.205128</td>
       <td>737.400000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03232</th>
@@ -785,13 +784,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.011306</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>1168.200000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03222</th>
@@ -809,13 +808,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.006733</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>2</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>887.700000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03209</th>
@@ -833,13 +832,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.005334</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>593.500000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03231</th>
@@ -857,13 +856,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.002057</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>509.400000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03213</th>
@@ -881,13 +880,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.001533</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>572.600000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03239</th>
@@ -905,13 +904,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.001375</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.562500</td>
       <td>731.500000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03229</th>
@@ -929,13 +928,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.001184</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>1600.600000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03218</th>
@@ -953,13 +952,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.001128</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>1095.300000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03228</th>
@@ -977,13 +976,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.001110</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>1738.800000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03205</th>
@@ -1001,13 +1000,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.001001</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>108.800000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03206</th>
@@ -1025,13 +1024,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000827</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>1392.800000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03217</th>
@@ -1049,13 +1048,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000662</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>882.900000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03210</th>
@@ -1073,13 +1072,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000614</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>402.100000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03221</th>
@@ -1097,13 +1096,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000614</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>871.000000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03233</th>
@@ -1121,13 +1120,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000599</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>532.200000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03225</th>
@@ -1145,13 +1144,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000583</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>1260.300000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03211</th>
@@ -1169,13 +1168,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000553</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>687.600000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03240</th>
@@ -1193,13 +1192,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000538</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>1706.700000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03227</th>
@@ -1217,13 +1216,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000493</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>1058.400000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03219</th>
@@ -1241,13 +1240,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000435</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>620.000000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03220</th>
@@ -1265,13 +1264,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000421</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>383.300000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03212</th>
@@ -1289,13 +1288,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000407</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>532.500000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03226</th>
@@ -1313,13 +1312,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000339</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>-763.200000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03241</th>
@@ -1337,13 +1336,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000312</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
-      <td>0.250000</td>
+      <td>0.000000</td>
       <td>1036.800000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03230</th>
@@ -1361,13 +1360,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000237</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>131.700000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03215</th>
@@ -1385,13 +1384,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000225</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>677.300000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03234</th>
@@ -1409,13 +1408,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000213</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>346.200000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03223</th>
@@ -1433,13 +1432,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000190</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>596.371893</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03224</th>
@@ -1457,13 +1456,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000179</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>760.500000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03204</th>
@@ -1481,13 +1480,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000168</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>596.371893</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03214</th>
@@ -1505,13 +1504,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000157</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>422.800000</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03238</th>
@@ -1529,13 +1528,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000146</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>596.371893</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
     <tr>
       <th>RGI60-11.03207</th>
@@ -1550,16 +1549,16 @@ the sensitivity of the model to this choice.</p>
       <td>Land-terminating</td>
       <td>False</td>
       <td>...</td>
-      <td>0.000106</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>NASADEM</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>COPDEM30</td>
       <td>1</td>
-      <td>centerlines</td>
-      <td>0.000000</td>
-      <td>596.371893</td>
-      <td>2.640000e-24</td>
-      <td>0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
     </tr>
     <tr>
       <th>RGI60-11.03216</th>
@@ -1577,13 +1576,13 @@ the sensitivity of the model to this choice.</p>
       <td>0.000060</td>
       <td>0.0</td>
       <td>0.0</td>
-      <td>NASADEM</td>
+      <td>COPDEM30</td>
       <td>1</td>
       <td>centerlines</td>
       <td>0.000000</td>
       <td>596.371893</td>
       <td>2.640000e-24</td>
-      <td>0</td>
+      <td>0.0</td>
     </tr>
   </tbody>
 </table>
@@ -1591,6 +1590,118 @@ the sensitivity of the model to this choice.</p>
 </div></div></div>
 </div>
 <p>There are only 35 glaciers in the Pyrenees! That’s why the run was relatively fast.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># is there any glacier that is failing?</span>
+<span class="n">failing_glaciers</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rgi_region</th>
+      <th>rgi_subregion</th>
+      <th>name</th>
+      <th>cenlon</th>
+      <th>cenlat</th>
+      <th>rgi_area_km2</th>
+      <th>rgi_year</th>
+      <th>glacier_type</th>
+      <th>terminus_type</th>
+      <th>is_tidewater</th>
+      <th>...</th>
+      <th>vas_volume_km3</th>
+      <th>inv_volume_bsl_km3</th>
+      <th>inv_volume_bwl_km3</th>
+      <th>dem_source</th>
+      <th>n_orig_centerlines</th>
+      <th>flowline_type</th>
+      <th>perc_invalid_flowline</th>
+      <th>apparent_mb_from_any_mb_residual</th>
+      <th>inversion_glen_a</th>
+      <th>inversion_fs</th>
+    </tr>
+    <tr>
+      <th>rgi_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>RGI60-11.03207</th>
+      <td>11</td>
+      <td>11-02</td>
+      <td>Coronas</td>
+      <td>0.654112</td>
+      <td>42.632977</td>
+      <td>0.015</td>
+      <td>2011</td>
+      <td>Glacier</td>
+      <td>Land-terminating</td>
+      <td>False</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>COPDEM30</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>1 rows × 28 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if yes, remove that glacier, for the further analysis </span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="results">
 <h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
@@ -1605,7 +1716,7 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5e01896aa27f2019148b6fab8b0ff3e7408ae2f95a6661e65bc3cde7479e6480.png" src="../../_images/5e01896aa27f2019148b6fab8b0ff3e7408ae2f95a6661e65bc3cde7479e6480.png" />
+<img alt="../../_images/75b0631179d475edccaa5115f2d3751021e48fd6e05f8df995c6cacf132d6926.png" src="../../_images/75b0631179d475edccaa5115f2d3751021e48fd6e05f8df995c6cacf132d6926.png" />
 </div>
 </div>
 <p>As we can see, there is a clear relationship, but it is not perfect. Let’s fit a line to these data (the “volume-area scaling law”):</p>
@@ -1618,7 +1729,7 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 </div>
-<p>In their seminal paper, <a class="reference external" href="https://agupubs.onlinelibrary.wiley.com/doi/10.1029/97JB01696">Bahr et al. (1997)</a> describe this relationship as:</p>
+<p>In their seminal paper, <a class="reference external" href="https://doi.org/10.1029/97JB01696">Bahr et al. (1997)</a> describe this relationship as:</p>
 <div class="math notranslate nohighlight">
 \[V = \alpha S^{\gamma}\]</div>
 <p>With V the volume in km<span class="math notranslate nohighlight">\(^3\)</span>, S the area in km<span class="math notranslate nohighlight">\(^2\)</span> and <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\gamma\)</span> the scaling parameters (0.034 and 1.375, respectively). How does OGGM compare to these in the Pyrenees?</p>
@@ -1630,7 +1741,7 @@ the sensitivity of the model to this choice.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>power: 1.284
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>power: 1.281
 slope: 0.046
 </pre></div>
 </div>
@@ -1647,7 +1758,7 @@ slope: 0.046
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/e2d2bc18584c4ae55200685f3a1845fa97df5b7503103d24c4307671559416ca.png" src="../../_images/e2d2bc18584c4ae55200685f3a1845fa97df5b7503103d24c4307671559416ca.png" />
+<img alt="../../_images/9fe5908276a63abbc2a1ef1958576fc84ad0777913bac34a74e917ba079b4ee9.png" src="../../_images/9fe5908276a63abbc2a1ef1958576fc84ad0777913bac34a74e917ba079b4ee9.png" />
 </div>
 </div>
 </section>
@@ -1676,13 +1787,13 @@ slope: 0.046
 <p>And plot them:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dftot</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dftot</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Factor of Glen A (default 1)&#39;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Regional volume (km$^3$)&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/fb925b6d799efb4b577530e39cf8354f831803735843faa2d3af4c6ec3b74b47.png" src="../../_images/fb925b6d799efb4b577530e39cf8354f831803735843faa2d3af4c6ec3b74b47.png" />
+<img alt="../../_images/f21b9c416a2e3e4c9d40fdebe09a6d84f7adb80333333a5de5a423b346db2684.png" src="../../_images/f21b9c416a2e3e4c9d40fdebe09a6d84f7adb80333333a5de5a423b346db2684.png" />
 </div>
 </div>
 <p>As you can see, there is quite a difference between the solutions. In particular, close to the default value for Glen A, the regional estimates are very sensitive to small changes in A. The calibration of A is a problem that has yet to be resolved by global glacier models…</p>
@@ -1699,42 +1810,37 @@ slope: 0.046
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:49:03: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
-2026-03-05 20:49:03: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
-2026-03-05 20:49:03: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Consensus estimate optimisation with A factor: 9.628954293399921 and fs: 0
-2026-03-05 20:49:03: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Consensus estimate optimisation with A factor: 7.584273809665188 and fs: 0
-2026-03-05 20:49:03: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Consensus estimate optimisation with A factor: 7.4100273087099495 and fs: 0
-2026-03-05 20:49:03: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Consensus estimate optimisation with A factor: 7.3729771721654 and fs: 0
-2026-03-05 20:49:03: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: calibrate_inversion_from_consensus converged after 5 iterations and fs=0. The resulting Glen A factor is 7.4100273087099495.
-2026-03-05 20:49:03: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
-2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:42:04: oggm.workflow: Applying global task calibrate_inversion_from_consensus on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Consensus estimate optimisation with A factor: 0.1 and fs: 0
+2026-04-11 16:42:04: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Consensus estimate optimisation with A factor: 10.0 and fs: 0
+2026-04-11 16:42:04: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Consensus estimate optimisation with A factor: 9.739723324906626 and fs: 0
+2026-04-11 16:42:04: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2026-04-11 16:42:04: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Consensus estimate optimisation with A factor: 7.962385544907217 and fs: 0
+2026-04-11 16:42:05: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Consensus estimate optimisation with A factor: 7.922573617181682 and fs: 0
+2026-04-11 16:42:05: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: calibrate_inversion_from_consensus converged after 4 iterations and fs=0. The resulting Glen A factor is 7.922573617181682.
+2026-04-11 16:42:05: oggm.workflow: Applying global task inversion_tasks on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [prepare_for_inversion] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [mass_conservation_inversion] on 34 glaciers
+2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [get_inversion_volume] on 34 glaciers
 </pre></div>
 </div>
 </div>
@@ -1748,7 +1854,7 @@ slope: 0.046
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>vol_itmix_m3        4.859110e+07
 vol_bsl_itmix_m3    0.000000e+00
-vol_oggm_m3         4.858508e+07
+vol_oggm_m3         4.848026e+07
 dtype: float64
 </pre></div>
 </div>
@@ -1796,19 +1902,19 @@ dtype: float64
       <th>RGI60-11.03232</th>
       <td>1.422478e+07</td>
       <td>0.0</td>
-      <td>1.380812e+07</td>
+      <td>1.425048e+07</td>
     </tr>
     <tr>
       <th>RGI60-11.03222</th>
       <td>5.158277e+06</td>
       <td>0.0</td>
-      <td>7.253356e+06</td>
+      <td>7.492719e+06</td>
     </tr>
     <tr>
       <th>RGI60-11.03209</th>
       <td>5.335579e+06</td>
       <td>0.0</td>
-      <td>5.483800e+06</td>
+      <td>5.188680e+06</td>
     </tr>
   </tbody>
 </table>
@@ -1827,7 +1933,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:49:03: oggm.workflow: Execute entity tasks [distribute_thickness_per_altitude] on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:42:05: oggm.workflow: Execute entity tasks [distribute_thickness_per_altitude] on 35 glaciers
 </pre></div>
 </div>
 </div>
@@ -1850,25 +1956,38 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/5b0187d74a170581081d34ac761c28fb60ad6233ee2d0f5c5e8b588bbcb890be.png" src="../../_images/5b0187d74a170581081d34ac761c28fb60ad6233ee2d0f5c5e8b588bbcb890be.png" />
+<img alt="../../_images/bb42aaa31c150a81f2c228e709bc6079d0cd6f7ec6cca6e421ffb0e4fc83aff8.png" src="../../_images/bb42aaa31c150a81f2c228e709bc6079d0cd6f7ec6cca6e421ffb0e4fc83aff8.png" />
 </div>
 </div>
 <p>Since some people find <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> data easier to read than <code class="docutils literal notranslate"><span class="pre">netCDF</span></code>, OGGM also provides a tool to convert the variables in <code class="docutils literal notranslate"><span class="pre">gridded_data.nc</span></code> file to a <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> file:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># save the distributed ice thickness into a geotiff file</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># save the distributed ice thickness into a geotiff file</span>
 <span class="n">workflow</span><span class="o">.</span><span class="n">execute_entity_task</span><span class="p">(</span><span class="n">tasks</span><span class="o">.</span><span class="n">gridded_data_var_to_geotiff</span><span class="p">,</span> <span class="n">gdirs</span><span class="p">,</span> <span class="n">varname</span><span class="o">=</span><span class="s1">&#39;distributed_thickness&#39;</span><span class="p">)</span>
 
-<span class="c1"># The default path of the geotiff file is in the glacier directory with the name &quot;distributed_thickness.tif&quot;</span>
-<span class="c1"># Let&#39;s check if the file exists</span>
+<span class="c1"># The default path of the geotiff file is in the glacier directory with the name &quot;distributed_thickness.tif&quot;</span>
+<span class="c1"># Let&#39;s check if the file exists</span>
 <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">:</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">dir</span><span class="p">,</span> <span class="s1">&#39;distributed_thickness.tif&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">failing_glaciers</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">dir</span><span class="p">,</span> <span class="s1">&#39;distributed_thickness.tif&#39;</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-03-05 20:49:05: oggm.workflow: Execute entity tasks [gridded_data_var_to_geotiff] on 35 glaciers
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2026-04-11 16:42:06: oggm.workflow: Execute entity tasks [gridded_data_var_to_geotiff] on 35 glaciers
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">9</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="c1"># Let&#39;s check if the file exists</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">if</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">failing_glaciers</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gdir</span><span class="o">.</span><span class="n">dir</span><span class="p">,</span> <span class="s1">&#39;distributed_thickness.tif&#39;</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">9</span>         <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+<span class="ne">AssertionError</span>: 
 </pre></div>
 </div>
 </div>
@@ -1881,7 +2000,86 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/6c811f3cf114dd8b34eacd4d056433e81936238d90f1948eaff6346745ffe00d.png" src="../../_images/6c811f3cf114dd8b34eacd4d056433e81936238d90f1948eaff6346745ffe00d.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/xarray/backends/file_manager.py:219,</span> in <span class="ni">CachingFileManager._acquire_with_cache_info</span><span class="nt">(self, needs_lock)</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">219</span>     <span class="n">file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_key</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span> <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/xarray/backends/lru_cache.py:56,</span> in <span class="ni">LRUCache.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">56</span>     <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">move_to_end</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="ne">KeyError</span>: [&lt;function open at 0x7f7f83a4d440&gt;, (&#39;/tmp/OGGM/OGGM_Inversion/per_glacier/RGI60-11/RGI60-11.03/RGI60-11.03208/distributed_thickness.tif&#39;,), &#39;r&#39;, ((&#39;sharing&#39;, False),), &#39;bc184db3-24c9-4d11-b3a6-2c1091017e36&#39;]
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">CPLE_OpenFailedError</span><span class="g g-Whitespace">                      </span>Traceback (most recent call last)
+<span class="nn">File rasterio/_base.pyx:320,</span> in <span class="ni">rasterio._base.DatasetBase.__init__</span><span class="nt">()</span>
+<span class="ne">--&gt; </span><span class="mi">320</span> <span class="s1">&#39;Could not get source, probably due dynamically evaluated source code.&#39;</span>
+
+<span class="nn">File rasterio/_base.pyx:232,</span> in <span class="ni">rasterio._base.open_dataset</span><span class="nt">()</span>
+<span class="ne">--&gt; </span><span class="mi">232</span> <span class="s1">&#39;Could not get source, probably due dynamically evaluated source code.&#39;</span>
+
+<span class="nn">File rasterio/_err.pyx:359,</span> in <span class="ni">rasterio._err.exc_wrap_pointer</span><span class="nt">()</span>
+<span class="ne">--&gt; </span><span class="mi">359</span> <span class="s1">&#39;Could not get source, probably due dynamically evaluated source code.&#39;</span>
+
+<span class="ne">CPLE_OpenFailedError</span>: /tmp/OGGM/OGGM_Inversion/per_glacier/RGI60-11/RGI60-11.03/RGI60-11.03208/distributed_thickness.tif: No such file or directory
+
+<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
+
+<span class="ne">RasterioIOError</span><span class="g g-Whitespace">                           </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Open the last file with xarray&#39;s open_rasterio</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">rioxr</span><span class="o">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">();</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/rioxarray/_io.py:1140,</span> in <span class="ni">open_rasterio</span><span class="nt">(filename, parse_coordinates, chunks, cache, lock, masked, mask_and_scale, variable, group, default_name, decode_times, decode_timedelta, band_as_variable, **open_kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1138</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1139</span>         <span class="n">manager</span> <span class="o">=</span> <span class="n">URIManager</span><span class="p">(</span><span class="n">file_opener</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="n">open_kwargs</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1140</span>     <span class="n">riods</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1141</span>     <span class="n">captured_warnings</span> <span class="o">=</span> <span class="n">rio_warnings</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1143</span> <span class="c1"># raise the NotGeoreferencedWarning if applicable</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/xarray/backends/file_manager.py:201,</span> in <span class="ni">CachingFileManager.acquire</span><span class="nt">(self, needs_lock)</span>
+<span class="g g-Whitespace">    </span><span class="mi">186</span> <span class="k">def</span><span class="w"> </span><span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">needs_lock</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T_File</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">187</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Acquire a file object from the manager.</span>
+<span class="g g-Whitespace">    </span><span class="mi">188</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">189</span><span class="sd">     A new file is only opened if it has expired from the</span>
+<span class="sd">   (...)    199         An open file object, as returned by ``opener(*args, **kwargs)``.</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">201</span>     <span class="n">file</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_acquire_with_cache_info</span><span class="p">(</span><span class="n">needs_lock</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">202</span>     <span class="k">return</span> <span class="n">file</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/xarray/backends/file_manager.py:225,</span> in <span class="ni">CachingFileManager._acquire_with_cache_info</span><span class="nt">(self, needs_lock)</span>
+<span class="g g-Whitespace">    </span><span class="mi">223</span>     <span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">224</span>     <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>
+<span class="ne">--&gt; </span><span class="mi">225</span> <span class="n">file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opener</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">226</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">==</span> <span class="s2">&quot;w&quot;</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">227</span>     <span class="c1"># ensure file doesn&#39;t get overridden when opened again</span>
+<span class="g g-Whitespace">    </span><span class="mi">228</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">=</span> <span class="s2">&quot;a&quot;</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/rasterio/env.py:464,</span> in <span class="ni">ensure_env_with_credentials.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">461</span>     <span class="n">session</span> <span class="o">=</span> <span class="n">DummySession</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">463</span> <span class="k">with</span> <span class="n">env_ctor</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">session</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">464</span>     <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File /usr/local/pyenv/versions/3.13.12/lib/python3.13/site-packages/rasterio/__init__.py:367,</span> in <span class="ni">open</span><span class="nt">(fp, mode, driver, width, height, count, crs, transform, dtype, nodata, sharing, thread_safe, opener, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">364</span>     <span class="n">path</span> <span class="o">=</span> <span class="n">_parse_path</span><span class="p">(</span><span class="n">raw_dataset_path</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">366</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;r&quot;</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">367</span>     <span class="n">dataset</span> <span class="o">=</span> <span class="n">DatasetReader</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="n">driver</span><span class="p">,</span> <span class="n">sharing</span><span class="o">=</span><span class="n">sharing</span><span class="p">,</span> <span class="n">thread_safe</span><span class="o">=</span><span class="n">thread_safe</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">368</span> <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;r+&quot;</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span>     <span class="n">dataset</span> <span class="o">=</span> <span class="n">get_writer_for_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="n">driver</span><span class="p">)(</span>
+<span class="g g-Whitespace">    </span><span class="mi">370</span>         <span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">driver</span><span class="o">=</span><span class="n">driver</span><span class="p">,</span> <span class="n">sharing</span><span class="o">=</span><span class="n">sharing</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">371</span>     <span class="p">)</span>
+
+<span class="nn">File rasterio/_base.pyx:329,</span> in <span class="ni">rasterio._base.DatasetBase.__init__</span><span class="nt">()</span>
+<span class="ne">--&gt; </span><span class="mi">329</span> <span class="s1">&#39;Could not get source, probably due dynamically evaluated source code.&#39;</span>
+
+<span class="ne">RasterioIOError</span>: /tmp/OGGM/OGGM_Inversion/per_glacier/RGI60-11/RGI60-11.03/RGI60-11.03208/distributed_thickness.tif: No such file or directory
+</pre></div>
+</div>
 </div>
 </div>
 <p>In fact, <code class="docutils literal notranslate"><span class="pre">tasks.gridded_data_var_to_geotiff()</span></code> can save any variable in the <code class="docutils literal notranslate"><span class="pre">gridded_data.nc</span></code> file. The <code class="docutils literal notranslate"><span class="pre">geotiff</span></code> is named as the variable name with a <code class="docutils literal notranslate"><span class="pre">.tif</span></code> suffix. Have a try by yourself ;-)</p>
@@ -1891,15 +2089,17 @@ dtype: float64
 <p>Let’s select a group of glaciers close to each other:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.0</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3205</span><span class="p">,</span> <span class="mi">3211</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># &#39;RGI60-11.03207&#39; is failing for OGGM v1.6.3, so we only show 3208 to 3211, instead of 3205 to 3211</span>
+<span class="n">rgi_ids</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;RGI60-11.0</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3208</span><span class="p">,</span> <span class="mi">3211</span><span class="p">)]</span> 
 <span class="n">sel_gdirs</span> <span class="o">=</span> <span class="p">[</span><span class="n">gdir</span> <span class="k">for</span> <span class="n">gdir</span> <span class="ow">in</span> <span class="n">gdirs</span> <span class="k">if</span> <span class="n">gdir</span><span class="o">.</span><span class="n">rgi_id</span> <span class="ow">in</span> <span class="n">rgi_ids</span><span class="p">]</span>
 <span class="n">graphics</span><span class="o">.</span><span class="n">plot_googlemap</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">)</span>
 <span class="c1"># you might need to install motionless if it is not yet in your environment</span>
+<span class="c1"># You have to manually add an API KEY. If you run it on jupyter hub or binder, we do that for you.</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/3a85d82b384b50dc08c6c3ae877345ab94c4eec8b8bbcc7af04a4aa611436b7c.png" src="../../_images/3a85d82b384b50dc08c6c3ae877345ab94c4eec8b8bbcc7af04a4aa611436b7c.png" />
+<img alt="../../_images/6affa53d0819387cc9c2b2838a1a3696ed5bba3461e1a28c5b422a1978ba7a26.png" src="../../_images/6affa53d0819387cc9c2b2838a1a3696ed5bba3461e1a28c5b422a1978ba7a26.png" />
 </div>
 </div>
 <section id="using-oggm">
@@ -1907,24 +2107,24 @@ dtype: float64
 <p>OGGM can plot the thickness of a group of glaciers on a map:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_distributed_thickness</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_distributed_thickness</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/099423ac674fdd085b43d782cf9ac2fc5c669d7a5c09d796d37d8d6ad377b385.png" src="../../_images/099423ac674fdd085b43d782cf9ac2fc5c669d7a5c09d796d37d8d6ad377b385.png" />
+<img alt="../../_images/089460e4098885051ace356a1201e26c36a8160064ef81a2016613eada8791c3.png" src="../../_images/089460e4098885051ace356a1201e26c36a8160064ef81a2016613eada8791c3.png" />
 </div>
 </div>
-<p>This is however not always very useful because OGGM can only plot on a map as large as the local glacier map of the first glacier in the list. See <a class="reference external" href="https://github.com/OGGM/oggm/issues/1007">this issue</a> for a discussion about why. In this case, we had a large enough border, and like that all neighboring glacers are visible.</p>
+<p>This is however not always very useful because OGGM can only plot on a map as large as the local glacier map of the first glacier in the list. See <a class="reference external" href="https://github.com/OGGM/oggm/issues/1007">this issue</a> for a discussion about why. In this case, we had a large enough border, and like that all neighboring glaciers are visible.</p>
 <p>Since <a class="reference external" href="https://github.com/OGGM/oggm/pull/1508">this issue</a>, several glaciers can be plotted at once by the kwarg <code class="docutils literal notranslate"><span class="pre">extend_plot_limit=True</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_inversion</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">,</span> <span class="n">extend_plot_limit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_inversion</span><span class="p">(</span><span class="n">sel_gdirs</span><span class="p">,</span> <span class="n">extend_plot_limit</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/33d4c9c932869592e6524b0ba1ccdd0ecb84c4c0e00b42bcfcdd546ca66181cb.png" src="../../_images/33d4c9c932869592e6524b0ba1ccdd0ecb84c4c0e00b42bcfcdd546ca66181cb.png" />
+<img alt="../../_images/b0d62fadebb1a316ae07fff5cec7b2b32c0106d333cbbd4c91d335fa4cbc037e.png" src="../../_images/b0d62fadebb1a316ae07fff5cec7b2b32c0106d333cbbd4c91d335fa4cbc037e.png" />
 </div>
 </div>
 </section>
@@ -1953,7 +2153,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/bbd998a38bd2a2d922035ac188c916f315d253ecbcbccaab239a505bfad81793.png" src="../../_images/bbd998a38bd2a2d922035ac188c916f315d253ecbcbccaab239a505bfad81793.png" />
+<img alt="../../_images/37a45e593b9faa2b0c21c1b70473ae9b84024a58b29d8113f6196efd71be17e0.png" src="../../_images/37a45e593b9faa2b0c21c1b70473ae9b84024a58b29d8113f6196efd71be17e0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1985,7 +2185,7 @@ dtype: float64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/dc03a338b89d7f7b3ae29e5c85299d6dbd8de83b511b97b02e239704bce870e2.png" src="../../_images/dc03a338b89d7f7b3ae29e5c85299d6dbd8de83b511b97b02e239704bce870e2.png" />
+<img alt="../../_images/98d93bd3e0537428b2066181cd4baa3eb8ec284a2bb44e745de22bb019a52bd7.png" src="../../_images/98d93bd3e0537428b2066181cd4baa3eb8ec284a2bb44e745de22bb019a52bd7.png" />
 </div>
 </div>
 </section>
@@ -2054,14 +2254,16 @@ dtype: float64
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">Run</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-the-data">Read the data</a></li>
@@ -2101,7 +2303,7 @@ By OGGM e.V. and OGGM Contributors
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Mar 05, 2026.
+  Last updated on Apr 13, 2026.
   <br/>
 </p>
   </div>
@@ -2112,7 +2314,7 @@ By OGGM e.V. and OGGM Contributors
   <p>
 These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/blob/master/LICENSE.txt" target="_blank">BSD-3-Clause license</a>.
 <br>
-&copy; Copyright 2014-2025.
+&copy; Copyright 2014-2026 OGGM Contributors. <a href="https://community.oggm.org/legal.html" target="_blank" rel="noopener noreferrer">Legal & Privacy</a>
 </p>
 
 </div>
@@ -2127,8 +2329,8 @@ These notebooks are licensed under a <a href="https://github.com/OGGM/tutorials/
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
